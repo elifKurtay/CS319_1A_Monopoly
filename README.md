@@ -14,7 +14,7 @@ In the project we are going to implement a digital and an extended version of th
 
 ## Description of the Game
 
-Digital Monopoly will be avaliable for up to 4 people. The game will be conrolled only with a mouse. Players will advance in the game with a generated dice roll. The game will continue until all players except one, have bankrupted. The game will follow the original Monopoly’s rules and instructions (except for the “speed die rules”) which can be accessed [here](https://www.hasbro.com/common/instruct/00009.pdf). However, there will be additional rules and features.
+Digital Monopoly will be available for up to 4 people. The game will be controlled only with a mouse. Players will advance in the game with a generated dice roll. The game will continue until all players except one, have bankrupted. The game will follow the original Monopoly’s rules and instructions (except for the “speed die rules”) which can be accessed [here](https://www.hasbro.com/common/instruct/00009.pdf). However, there will be additional rules and features.
 
 **New Game Rules**
 * Each token (players’ characters) will have special skills. Each token will have its advantages and disadvantages.
