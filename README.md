@@ -2,11 +2,11 @@
 
 ## Group Members
 
-Elif Kurtay
-Atakan Dönmez
-Yusuf Ardahan Doğru
-Göktan Güdükbay
-Musa Ege Ünalan
+* Elif Kurtay
+* Atakan Dönmez
+* Yusuf Ardahan Doğru
+* Göktan Güdükbay
+* Musa Ege Ünalan
 
 ## Description of the Project
 
