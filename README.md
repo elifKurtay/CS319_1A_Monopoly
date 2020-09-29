@@ -10,7 +10,7 @@
 
 ## Description of the Project
 
-In the project we are going to implement a digital and an extended version of the classic “Monopoly” game. Our aim is to create this game using the principles of object-oriented programming. The game will be implemented in Java.
+In the project, we are going to implement a digital and an extended version of the classic “Monopoly” game. We to create this game using the principles of object-oriented programming. The game will be implemented in Java.
 
 ## Description of the Game
 
@@ -25,6 +25,6 @@ Digital Monopoly will be available for up to 4 people. The game will be controll
 
 **New Features**
 * In addition to the classic Monopoly map, there will be different maps available. Also, the players will be given a “Custom Map” choice where they can design the map destinations.
-* The digital version of Monopoly will have single player and multiplayer options. Multiplayer option can also be offline and online.
+* The digital version of Monopoly will have single-player and multiplayer options. Multiplayer option can also be offline and online.
 * The users will have the chance to decrease the game time by selecting a maximum turn limit. When this mode is selected, if the game is not finished by the original rules by the time turn limit is reached, the player with the highest score (calculated according to money and property values) will win the game.
 
