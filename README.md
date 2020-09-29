@@ -14,12 +14,17 @@ In the project we are going to implement a digital and an extended version of th
 
 ## Description of the Game
 
-Digital Monopoly will be available for up to 4 people. The game will be controlled only with a mouse. Players will advance in the game with a generated dice roll. The game will continue until all players except one, have bankrupted. The game will follow the original Monopoly’s rules and instructions (except for the “speed die rules”) which can be accessed [here](https://www.hasbro.com/common/instruct/00009.pdf). However, there will be additional rules and features.
+Digital Monopoly will be available for up to 4 people. The game will be controlled only with a mouse. Players will advance in the game with a generated dice roll. The game will continue until all players except one, have bankrupted. The game will follow the original Monopoly’s rules and instructions which can be accessed [here](https://github.com/elifKurtay/CS319_1A_Monopoly/blob/master/documents/Classic%20Monopoly%20Rules). However, there will be additional rules and features.
 
 **New Game Rules**
-* Each token (players’ characters) will have special skills. Each token will have its advantages and disadvantages.
+* Each token (players’ characters) will have special skills. Each token will have its advantages and disadvantages. For example, the "working bag" token will stay in jail for 2 turns instead of 3 but it will pay 10% more on tax payment spots. 
 * Inside “Chance” cards, there will be a “Thief” card. This card will introduce a new character/player in the game. The thief will try to catch a player by being in the same spot with another player. When the Thief catches a player, that player will get their money stolen. After stealing the Thief disappears from the game. The player who picks the Thief card can choose to use it by paying a certain amount or not to play it.
+* The players will have the choice to open a "Chance" or "Community Chest" one turn after drawing.
+* When a player is on a transport station, they can move to a different station.
+* "Free Parking" spot is changed with "Wheel of Fortune". When a player visits this spot, they will have a chance to spin the wheel of fortune which has different rewards.
 
 **New Features**
 * In addition to the classic Monopoly map, there will be different maps available. Also, the players will be given a “Custom Map” choice where they can design the map destinations.
 * The digital version of Monopoly will have single player and multiplayer options. Multiplayer option can also be offline and online.
+* The users will have the chance to decrease the game time by selecting a maximum turn limit. When this mode is selected, if the game is not finished by the original rules by the time turn limit is reached, the player with the highest score (calculated according to money and property values) will win the game.
+
