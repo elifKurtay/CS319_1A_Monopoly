@@ -10,7 +10,7 @@
 
 ## Description of the Project
 
-In the project, we are going to implement a digital and an extended version of the classic “Monopoly” game. We to create this game using the principles of object-oriented programming. The game will be implemented in Java.
+In the project, we are going to implement a digital and an extended version of the classic “Monopoly” game. We aim to create this game using the principles of object-oriented programming. The game will be implemented in Java.
 
 ## Description of the Game
 
