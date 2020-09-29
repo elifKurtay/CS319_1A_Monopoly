@@ -21,5 +21,5 @@ Digital Monopoly will be available for up to 4 people. The game will be controll
 * Inside “Chance” cards, there will be a “Thief” card. This card will introduce a new character/player in the game. The thief will try to catch a player by being in the same spot with another player. When the Thief catches a player, that player will get their money stolen. After stealing the Thief disappears from the game. The player who picks the Thief card can choose to use it by paying a certain amount or not to play it.
 
 **New Features**
-* In addition to the classic Monopoly map, there will be different maps available. Also, the player’s will be given the a “Custom Map” choice where they can design the map destinations.
+* In addition to the classic Monopoly map, there will be different maps available. Also, the players will be given a “Custom Map” choice where they can design the map destinations.
 * The digital version of Monopoly will have single player and multiplayer options. Multiplayer option can also be offline and online.
