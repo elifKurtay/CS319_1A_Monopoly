@@ -25,6 +25,7 @@ Digital Monopoly will be available for up to 4 people. The game will be controll
 
 **New Features**
 * In addition to the classic Monopoly map, there will be different maps available. Also, the players will be given a “Custom Map” choice where they can design the map destinations.
-* The digital version of Monopoly will have single-player and multiplayer options. Multiplayer option can also be offline and online.
+* The digital version of Monopoly will have single-player and multiplayer options. 
+* The game will have a loading feature. Players will have the chance to load their previous games.
 * The users will have the chance to decrease the game time by selecting a maximum turn limit. When this mode is selected, if the game is not finished by the original rules by the time turn limit is reached, the player with the highest score (calculated according to money and property values) will win the game.
 
