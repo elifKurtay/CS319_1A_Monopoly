@@ -1,0 +1,34 @@
+.button{
+    /*
+    -fx-text-fill: rgb(49, 89, 23);
+    -fx-padding: 3 6 6 6;
+    -fx-background-color:  rgb(49, 89, 23);
+     */
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-color: rgb(0, 89, 23);
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-pref-width: 120px;
+
+    /* ACTS AS MARGIN
+    -fx-padding: 5px;
+    -fx-border-insets: 5px;
+    -fx-background-insets: 5px;
+     */
+}
+
+.mainMenu {
+    -fx-background-image: url("img/MainMenu.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-padding: 50px;
+}
+
+.newGameMenu {
+    -fx-background-color: rgb(59, 171, 195);
+}
+
+.button:hover {
+    -fx-background-color: blue;
+}
