@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="NewGameMenuController"
+      stylesheets="style.css"
+      styleClass="newGameMenu"
+      prefHeight="800.0" prefWidth="450.0">
+    <VBox>
+        <Label>Players</Label>
+        <HBox>
+            <Button text="Back" onAction="#backButtonAction"/>
+            <Button text="Add Player" onAction="#addPlayerButtonAction"/>
+        </HBox>
+    </VBox>
+    <VBox>
+        <HBox>
+            <HBox>
+                <Label>Map</Label>
+                <ComboBox></ComboBox>
+            </HBox>
+            <HBox>
+                <Label>Turn Limit</Label>
+                <ComboBox></ComboBox>
+            </HBox>
+        </HBox>
+        <Label>Map Preview: {MAP_NAME}</Label>
+        <HBox>
+            <ImageView>
+                <image>
+                    <Image requestedHeight="300" requestedWidth="300" url="img/MapPreview.png"/>
+                </image>
+            </ImageView>
+            <Button text="Start" onAction="#startButtonAction"/>
+        </HBox>
+    </VBox>
+</HBox>

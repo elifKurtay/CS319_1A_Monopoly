@@ -1,8 +1,10 @@
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class NewGameMenuController {
@@ -15,10 +17,11 @@ public class NewGameMenuController {
 
     @FXML protected void startButtonAction(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GameScreen.fxml"));
+
         Parent root = loader.load();
-
+        Pane p1 = (Pane) root.lookup("#myPane");
+        p1.getChildren().add(new BoardPane());
         Scene s = new Scene(root, stage.getWidth(), stage.getHeight());
-
         stage.setScene(s);
     }
 
