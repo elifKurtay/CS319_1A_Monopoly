@@ -160,7 +160,7 @@ public class BoardPane extends Pane {
         this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.DASHED, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
         //Inserting Monopoly logo
-        Image monopolyImage = new Image(new FileInputStream("C:\\Users\\M. Goktan Gudukbay\\Desktop\\CS_319_1A\\boardImages\\monopolyLogo.png"));
+        Image monopolyImage = new Image(new FileInputStream("assets/img/boardImages/monopolyLogo.png"));
         ImageView monopolyView = new ImageView(monopolyImage);
         monopolyView.setX(65);
         monopolyView.setY(282);
@@ -173,7 +173,7 @@ public class BoardPane extends Pane {
 
 
         //Inserting Community Chest images on small rectangles
-        Image communityChestImage = new Image(new FileInputStream("C:\\Users\\M. Goktan Gudukbay\\Desktop\\CS_319_1A\\boardImages\\communityChestLogo.jpg"));
+        Image communityChestImage = new Image(new FileInputStream("assets/img/boardImages/communityChestLogo.jpg"));
 
         //First chest image
         ImageView communityView1 = new ImageView(communityChestImage);
@@ -211,7 +211,7 @@ public class BoardPane extends Pane {
 
         //Inserting question marks
         //Orange question mark
-        Image orangeQuestionImage = new Image(new FileInputStream("C:\\Users\\M. Goktan Gudukbay\\Desktop\\CS_319_1A\\boardImages\\orangeQuestionMark.png"));
+        Image orangeQuestionImage = new Image(new FileInputStream("assets/img/boardImages/orangeQuestionMark.png"));
         ImageView orangeQuestion = new ImageView(orangeQuestionImage);
         orangeQuestion.setX(605);
         orangeQuestion.setY(367);
@@ -223,7 +223,7 @@ public class BoardPane extends Pane {
         this.getChildren().add(orangeQuestion);
 
         //Pink question mark
-        Image pinkQuestionImage = new Image(new FileInputStream("C:\\Users\\M. Goktan Gudukbay\\Desktop\\CS_319_1A\\boardImages\\pinkQuestionMark.png"));
+        Image pinkQuestionImage = new Image(new FileInputStream("assets/img/boardImages/pinkQuestionMark.png"));
         ImageView pinkQuestion = new ImageView(pinkQuestionImage);
         pinkQuestion.setX(211);
         pinkQuestion.setY(605);
@@ -234,7 +234,7 @@ public class BoardPane extends Pane {
         this.getChildren().add(pinkQuestion);
 
         //Blue question mark
-        Image blueQuestionImage = new Image(new FileInputStream("C:\\Users\\M. Goktan Gudukbay\\Desktop\\CS_319_1A\\boardImages\\blueQuestionMark.jpg"));
+        Image blueQuestionImage = new Image(new FileInputStream("assets/img/boardImages/blueQuestionMark.jpg"));
         ImageView blueQuestion = new ImageView(blueQuestionImage);
         blueQuestion.setX(158);
         blueQuestion.setY(20);
@@ -246,7 +246,7 @@ public class BoardPane extends Pane {
         this.getChildren().add(blueQuestion);
 
         //Inserting train pictures
-        Image trainImage = new Image(new FileInputStream("C:\\Users\\M. Goktan Gudukbay\\Desktop\\CS_319_1A\\boardImages\\train.jpg"));
+        Image trainImage = new Image(new FileInputStream("assets/img/boardImages/train.jpg"));
         //First train image
         ImageView train1 = new ImageView(trainImage);
         train1.setX(19);
@@ -292,7 +292,7 @@ public class BoardPane extends Pane {
         this.getChildren().add(train4);
 
         //Inserting super tax image
-        Image superTaxImage = new Image(new FileInputStream("C:\\Users\\M. Goktan Gudukbay\\Desktop\\CS_319_1A\\boardImages\\superTax.jpg"));
+        Image superTaxImage = new Image(new FileInputStream("assets/img/boardImages/superTax.jpg"));
         ImageView superTax = new ImageView(superTaxImage);
         superTax.setX(600);
         superTax.setY(470);
@@ -304,7 +304,7 @@ public class BoardPane extends Pane {
         this.getChildren().add(superTax);
 
         //Inserting electric company image
-        Image electricCompanyImage = new Image(new FileInputStream("C:\\Users\\M. Goktan Gudukbay\\Desktop\\CS_319_1A\\boardImages\\electricLogo.png"));
+        Image electricCompanyImage = new Image(new FileInputStream("assets/img/boardImages/electricLogo.png"));
         ImageView electricCompany = new ImageView(electricCompanyImage);
         electricCompany.setX(20);
         electricCompany.setY(470);
@@ -316,7 +316,7 @@ public class BoardPane extends Pane {
         this.getChildren().add(electricCompany);
 
         //Inserting wheel of fortune
-        Image wheelImage = new Image(new FileInputStream("C:\\Users\\M. Goktan Gudukbay\\Desktop\\CS_319_1A\\boardImages\\wheelOfFortune.png"));
+        Image wheelImage = new Image(new FileInputStream("assets/img/boardImages/wheelOfFortune.png"));
         ImageView wheel = new ImageView(wheelImage);
         wheel.setX(3);
         wheel.setY(3);
@@ -337,7 +337,7 @@ public class BoardPane extends Pane {
         wheelOfFortuneText.setTextAlignment(TextAlignment.CENTER);
 
         //Inserting go to jail image
-        Image goJailImage = new Image(new FileInputStream("C:\\Users\\M. Goktan Gudukbay\\Desktop\\CS_319_1A\\boardImages\\goJail.jpg"));
+        Image goJailImage = new Image(new FileInputStream("assets/img/boardImages/goJail.jpg"));
         ImageView goJail = new ImageView(goJailImage);
         goJail.setX(591);
         goJail.setY(20);
@@ -349,7 +349,7 @@ public class BoardPane extends Pane {
         this.getChildren().add(goJail);
 
         //Inserting in jail image
-        Image inJailImage = new Image(new FileInputStream("C:\\Users\\M. Goktan Gudukbay\\Desktop\\CS_319_1A\\boardImages\\inJailLogo.png"));
+        Image inJailImage = new Image(new FileInputStream("assets/img/boardImages/inJailLogo.png"));
         ImageView inJail = new ImageView(inJailImage);
         inJail.setX(32);
         inJail.setY(571);
@@ -360,7 +360,7 @@ public class BoardPane extends Pane {
         this.getChildren().add(inJail);
 
         //Go Logo image
-        Image goImage = new Image(new FileInputStream("C:\\Users\\M. Goktan Gudukbay\\Desktop\\CS_319_1A\\boardImages\\GoLogo.png"));
+        Image goImage = new Image(new FileInputStream("assets/img/boardImages/GoLogo.png"));
         ImageView go = new ImageView(goImage);
         go.setX(595);
         go.setY(595);
@@ -371,7 +371,7 @@ public class BoardPane extends Pane {
         this.getChildren().add(go);
 
         //Water Works image
-        Image waterImage = new Image(new FileInputStream("C:\\Users\\M. Goktan Gudukbay\\Desktop\\CS_319_1A\\boardImages\\waterWorks.png"));
+        Image waterImage = new Image(new FileInputStream("assets/img/boardImages/waterWorks.png"));
         ImageView water = new ImageView(waterImage);
         water.setX(460);
         water.setY(20);
@@ -382,7 +382,7 @@ public class BoardPane extends Pane {
         this.getChildren().add(water);
 
         //Income tax Logo
-        Image incomeTaxImage = new Image(new FileInputStream("C:\\Users\\M. Goktan Gudukbay\\Desktop\\CS_319_1A\\boardImages\\incomeTaxLogo.png"));
+        Image incomeTaxImage = new Image(new FileInputStream("assets/img/boardImages/incomeTaxLogo.png"));
         ImageView income = new ImageView(incomeTaxImage);
         income.setX(372);
         income.setY(610);
@@ -393,7 +393,7 @@ public class BoardPane extends Pane {
         this.getChildren().add(income);
 
         //Big Chance Card Image
-        Image bigChanceImage = new Image(new FileInputStream("C:\\Users\\M. Goktan Gudukbay\\Desktop\\CS_319_1A\\boardImages\\bigChance.png"));
+        Image bigChanceImage = new Image(new FileInputStream("assets/img/boardImages/bigChance.png"));
         ImageView bigChance = new ImageView(bigChanceImage);
         bigChance.setX(370);
         bigChance.setY(398);
@@ -404,7 +404,7 @@ public class BoardPane extends Pane {
         this.getChildren().add(bigChance);
 
         //Big Community Chest Image
-        Image bigChestImage = new Image(new FileInputStream("C:\\Users\\M. Goktan Gudukbay\\Desktop\\CS_319_1A\\boardImages\\bigChest.png"));
+        Image bigChestImage = new Image(new FileInputStream("assets/img/boardImages/bigChest.png"));
         ImageView bigChest = new ImageView(bigChestImage);
         bigChest.setX(128);
         bigChest.setY(158);
