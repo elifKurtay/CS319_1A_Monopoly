@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Text?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="SettingsMenuController"
+      fx:controller="ui.SettingsMenuController"
       prefHeight="400.0" prefWidth="600.0">
     <Text>SETTINGS</Text>
     <HBox>

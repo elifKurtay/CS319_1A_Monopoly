@@ -10,7 +10,7 @@
 <?import javafx.scene.image.Image?>
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="GameScreenController"
+      fx:controller="ui.GameScreenController"
       prefHeight="400.0" prefWidth="600.0">
     <Pane
         fx:id ="myPane">
