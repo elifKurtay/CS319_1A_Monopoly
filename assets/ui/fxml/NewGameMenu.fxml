@@ -11,7 +11,7 @@
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="ui.NewGameMenuController"
-      stylesheets="../style.css"
+      stylesheets="/ui/style.css"
       styleClass="newGameMenu"
       prefHeight="800.0" prefWidth="450.0">
     <VBox>
@@ -36,7 +36,7 @@
         <HBox>
             <ImageView>
                 <image>
-                    <Image requestedHeight="300" requestedWidth="300" url="../../../assets/img/MapPreview.png"/>
+                    <Image requestedHeight="300" requestedWidth="300" url="../../img/MapPreview.png"/>
                 </image>
             </ImageView>
             <Button text="Start" onAction="#startButtonAction"/>

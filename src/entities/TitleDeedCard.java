@@ -1,11 +1,12 @@
 package entities;
 
+import card.Card;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class TitleDeedCard {
+public class TitleDeedCard extends Card {
 
     //properties
     private String propertyName;

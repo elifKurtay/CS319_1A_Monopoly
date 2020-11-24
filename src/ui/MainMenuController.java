@@ -17,7 +17,7 @@ public class MainMenuController {
     }
 
     @FXML protected void newGameButtonAction(ActionEvent event) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("NewGameMenu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("C:\\Users\\Elif\\Documents\\IntelliJ\\CS319_1A_Monopoly\\assets\\ui\\fxml\\NewGameMenu.fxml"));
         Parent root = loader.load();
         NewGameMenuController controller = loader.getController();
         controller.setStage(stage);

@@ -1,6 +1,7 @@
 package board;
 
 import entities.Player;
+import entities.Property;
 
 public abstract class Space {
     private String name;
@@ -21,4 +22,6 @@ public abstract class Space {
     public Player getLatestPlayerOnSpace() {
         return latestPlayer;
     }
+
+    public Property getAssociatedProperty() {return null;};
 }

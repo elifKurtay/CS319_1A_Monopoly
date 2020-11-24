@@ -11,6 +11,10 @@ public class Card {
         this.cardEvent = cardEvent;
     }
 
+    public Card() {
+
+    }
+
     public void open() {
         //?
     }

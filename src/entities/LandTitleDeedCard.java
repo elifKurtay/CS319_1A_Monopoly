@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class LandTitleDeedCard {
+public class LandTitleDeedCard extends TitleDeedCard{
 
     //properties
     private int propertyGroup;

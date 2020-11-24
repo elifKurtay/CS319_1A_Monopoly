@@ -1,4 +1,5 @@
 package board;
+
 import card.Card;
 import entities.Player;
 import org.json.JSONArray;

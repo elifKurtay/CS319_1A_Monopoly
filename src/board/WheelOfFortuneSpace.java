@@ -10,6 +10,7 @@ public class WheelOfFortuneSpace extends Space {
         else if (random < 25) {
             // Lose building on a property if possible
         }
+        /*
         else if (random < 50) {
             // Lose some amount of money
             getLatestPlayerOnSpace().setMoney(getMoney() - 200 * Math.random());
@@ -26,6 +27,6 @@ public class WheelOfFortuneSpace extends Space {
         }
         else {
             // Gain property
-        }
+        } */
     }
 }

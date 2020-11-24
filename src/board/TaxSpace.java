@@ -15,9 +15,9 @@ public class TaxSpace extends Space {
             type = TaxType.INCOME;
         }
     }
-
+/*
     public boolean payTax(int amount) {
         return getLatestPlayerOnSpace().payBank(amount);
     }
-
+*/
 }

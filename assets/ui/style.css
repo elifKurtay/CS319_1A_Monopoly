@@ -19,7 +19,7 @@
 }
 
 .mainMenu {
-    -fx-background-image: url("img/MainMenu.png");
+    -fx-background-image: url("../img/MainMenu.png");
     -fx-background-size: cover;
     -fx-background-repeat: no-repeat;
     -fx-padding: 50px;
