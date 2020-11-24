@@ -33,7 +33,7 @@ public class MainMenuController {
     }
 
     @FXML protected void settingsButtonAction(ActionEvent event) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("SettingsMenu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/SettingsMenu.fxml"));
         Parent root = loader.load();
 
         Scene s = new Scene(root, stage.getWidth(), stage.getHeight());
