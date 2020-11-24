@@ -18,7 +18,7 @@ public class NewGameMenuController {
     }
 
     @FXML protected void startButtonAction(ActionEvent event) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("GameScreen.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameScreen.fxml"));
 
         Parent root = loader.load();
         Pane p1 = (Pane) root.lookup("#myPane");
