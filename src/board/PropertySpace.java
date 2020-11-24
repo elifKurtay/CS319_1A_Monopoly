@@ -53,7 +53,9 @@ public class PropertySpace extends Space{
     }
 
     public double calculateRent() {
-        return getLatestPlayerOnSpace().getToken().getRentPayMultiplier()
-                * (owner.getToken().getRentCollectMultiplier() * associatedProperty.calculateRent());
+        //return getLatestPlayerOnSpace().getToken().getRentPayMultiplier()
+          //      * (owner.getToken().getRentCollectMultiplier() * associatedProperty.calculateRent());
+        //diceSum is the dice sum of the player that will pay the rent
+        return getLatestPlayerOnSpace().calculateRent(owner, diceSum);
     }
 }
