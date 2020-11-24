@@ -1,0 +1,228 @@
+{
+    "spaces":[
+        {
+            "type": "GoSpace",
+            "name": "Go"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Old Kent Road",
+            "value": "60"
+        },
+        {
+            "type": "CardSpace",
+            "name": "Community Chest",
+            "cardType": "COMMUNITY_CHEST"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "White Chapel Road",
+            "value": "60"
+        },
+        {
+            "type": "TaxSpace",
+            "name": "Income Tax",
+            "taxType": "INCOME"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "TRANSPORT",
+            "name": "Kings Cross Station",
+            "value": "200"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "The Angel Islington",
+            "value": "120"
+        },
+        {
+            "type": "CardSpace",
+            "name": "Chance",
+            "cardType": "CHANCE"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Euston Road",
+            "value": "100"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Pentonville Road",
+            "value": "120"
+        },
+        {
+            "type": "JailSpace",
+            "name": "Jail"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Pall Mall",
+            "value": "140"
+        },
+        {
+            "type": "PropertySpace",
+            "name": "Electric Company",
+            "propertyType": "UTILITY",
+            "value": "140"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Whitehall",
+            "value": "140"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Northumberland Avenue",
+            "value": "140"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "TRANSPORT",
+            "name": "Marblebone Station",
+            "value": "200"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Bow Street",
+            "value": "180"
+        },
+        {
+            "type": "CardSpace",
+            "name": "Community Chest",
+            "cardType": "COMMUNITY_CHEST"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Marlborough Street",
+            "value": "180"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Vine Street",
+            "value": "200"
+        },
+        {
+            "type": "WheelOfFortuneSpace",
+            "name": "Wheel Of Fortune"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Strand",
+            "value": "220"
+        },
+        {
+            "type": "CardSpace",
+            "name": "Chance",
+            "cardType": "CHANCE"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Fleet Street",
+            "value": "220"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Trafalgar Square",
+            "value": "240"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "TRANSPORT",
+            "name": "Fenchurch St. Station",
+            "value": "200"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Liecester Square",
+            "value": "260"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Coventry Square",
+            "value": "260"
+        },
+        {
+            "type": "PropertySpace",
+            "name": "Water Works",
+            "propertyType": "UTILITY",
+            "value": "150"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Piccadilly",
+            "value": "260"
+        },
+        {
+            "type": "GoToJailSpace",
+            "name": "Go To Jail"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Regent Street",
+            "value": "300"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Oxford Street",
+            "value": "300"
+        },
+        {
+            "type": "CardSpace",
+            "name": "Community Chest",
+            "cardType": "COMMUNITY_CHEST"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Bond Street",
+            "value": "320"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "TRANSPORT",
+            "name": "Liverpool St. Station",
+            "value": "200"
+        },
+        {
+            "type": "CardSpace",
+            "name": "Chance",
+            "cardType": "CHANCE"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Park Lane",
+            "value": "350"
+        },
+        {
+            "type": "TaxSpace",
+            "name": "Luxury Tax",
+            "taxType": "LUXURY"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Mayfair",
+            "value": "400"
+        }
+    ]
+}
