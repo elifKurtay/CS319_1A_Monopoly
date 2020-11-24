@@ -10,7 +10,7 @@
 <?import javafx.scene.image.Image?>
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="ui.NewGameMenuController"
+      fx:controller="frontend.NewGameMenuController"
       stylesheets="/ui/style.css"
       styleClass="newGameMenu"
       prefHeight="800.0" prefWidth="450.0">
