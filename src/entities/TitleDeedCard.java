@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TitleDeedCard extends Card {
+public abstract class TitleDeedCard extends Card {
 
     //properties
     private String propertyName;
@@ -19,6 +19,8 @@ public class TitleDeedCard extends Card {
         this.propertyName = propertyName;
         this.mortgageValue = mortgageValue;
     }
+
+    public abstract int[] getRent();
 
     //methods
 }

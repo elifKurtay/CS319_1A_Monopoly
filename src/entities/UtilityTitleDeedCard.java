@@ -26,5 +26,8 @@ public class UtilityTitleDeedCard extends TitleDeedCard{
         diceMultipliers[1] = 10;
     }
 
+    public int[] getRent() {
+        return diceMultipliers;
+    }
     //methods
 }

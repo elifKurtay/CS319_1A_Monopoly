@@ -35,6 +35,10 @@ public class Property {
         hotel = true;
     }
 
+    public boolean hasHotel() {
+        return hotel;
+    }
+
     public void sellHouse () {
         numOfHouses--;
     }

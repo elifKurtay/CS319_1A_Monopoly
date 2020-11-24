@@ -1,6 +1,5 @@
 package board;
-import entities.Player;
-import entities.Property;
+import entities.*;
 
 public class PropertySpace extends Space{
     private enum PropertyType {
@@ -31,11 +30,12 @@ public class PropertySpace extends Space{
             this.type = PropertyType.UTILITY;
         }
     }
-/*
+
     public boolean buySpace() {
         if (owner == null) {
             // Assuming payBank returns a boolean value, true if payment has succeeded
-            if (getLatestPlayerOnSpace().payBank(value)) {
+            Player p = getLatestPlayerOnSpace();
+            if (p.payBank(value)) {
                 owner = getLatestPlayerOnSpace();
                 getLatestPlayerOnSpace().getProperties().add(associatedProperty);
                 return true;
@@ -44,18 +44,41 @@ public class PropertySpace extends Space{
         return false;
     }
 
-    public boolean payRent() {
+    public boolean payRent(int diceSum) {
         if (owner != null) {
             // Assuming the return value from payPlayer is boolean
-            return getLatestPlayerOnSpace().payPlayer(owner, calculateRent());
+            // Casting calculated rent to integer, may change later
+            return getLatestPlayerOnSpace().payPlayer(owner, (int) calculateRent(diceSum));
         }
         return false;
     }
 
-    public double calculateRent() {
-        //return getLatestPlayerOnSpace().getToken().getRentPayMultiplier()
-          //      * (owner.getToken().getRentCollectMultiplier() * associatedProperty.calculateRent());
-        //diceSum is the dice sum of the player that will pay the rent
-        return getLatestPlayerOnSpace().calculateRent(owner, diceSum);
-    } */
+    //diceSum is the dice sum of the player that will pay the rent
+    public double calculateRent(int diceSum) {
+        Player p = getLatestPlayerOnSpace();
+        int[] rents = associatedProperty.getCard().getRent();
+        int rent;
+
+        if (type == PropertyType.LAND) {
+            if (associatedProperty.hasHotel()) {
+                rent = rents[5];
+            }
+            else if (associatedProperty.getNumOfHouses() == 0) {
+                rent = rents[0];
+                if (owner.ownsAllTitlesFromSameGroup(associatedProperty)) {
+                    rent *= 2;
+                }
+            }
+            else {
+                rent = rents[associatedProperty.getNumOfHouses()];
+            }
+        }
+        else if (type == PropertyType.TRANSPORT) {
+            rent = rents[owner.getTransportPropertyCount()];
+        }
+        else { // type == PropertyType.TRANSPORT
+            rent = rents[owner.getUtilityPropertyCount()] * diceSum;
+        }
+        return rent * p.getToken().getRentPayMultiplier() * owner.getToken().getRentCollectMultiplier();
+    }
 }
