@@ -242,7 +242,7 @@ public class BoardPane extends Pane {
         blueQuestion.setFitHeight(100);
         blueQuestion.setFitWidth(50);
         blueQuestion.setPreserveRatio(true);
-        blueQuestion.setRotate(180);
+        //blueQuestion.setRotate(180);
         blueQuestion.setBlendMode(BlendMode.MULTIPLY);
         this.getChildren().add(blueQuestion);
 
@@ -273,11 +273,11 @@ public class BoardPane extends Pane {
         //Third train image
         ImageView train3 = new ImageView(trainImage);
         train3.setX(315);
-        train3.setY(20);
+        train3.setY(27);
         train3.setFitHeight(100);
         train3.setFitWidth(50);
         train3.setPreserveRatio(true);
-        train3.setRotate(180);
+        //train3.setRotate(180);
         train3.setBlendMode(BlendMode.MULTIPLY);
         this.getChildren().add(train3);
 
@@ -319,8 +319,8 @@ public class BoardPane extends Pane {
         //Inserting wheel of fortune
         Image wheelImage = new Image(new FileInputStream("assets/img/boardImages/wheelOfFortune.png"));
         ImageView wheel = new ImageView(wheelImage);
-        wheel.setX(3);
-        wheel.setY(3);
+        wheel.setX(13);
+        wheel.setY(7);
         wheel.setFitHeight(120);
         wheel.setFitWidth(80);
         wheel.setPreserveRatio(true);
@@ -332,20 +332,20 @@ public class BoardPane extends Pane {
         Text wheelOfFortuneText = new Text("Wheel of\nFortune");
         this.getChildren().add(wheelOfFortuneText);
         wheelOfFortuneText.setFont(Font.font(8));
-        wheelOfFortuneText.setX(69);
-        wheelOfFortuneText.setY(82);
-        wheelOfFortuneText.setRotate(135);
+        wheelOfFortuneText.setX(37);
+        wheelOfFortuneText.setY(90);
+        //wheelOfFortuneText.setRotate(-45);
         wheelOfFortuneText.setTextAlignment(TextAlignment.CENTER);
 
         //Inserting go to jail image
         Image goJailImage = new Image(new FileInputStream("assets/img/boardImages/goJail.jpg"));
         ImageView goJail = new ImageView(goJailImage);
-        goJail.setX(591);
+        goJail.setX(597);
         goJail.setY(20);
         goJail.setFitHeight(80);
         goJail.setFitWidth(60);
         goJail.setPreserveRatio(true);
-        goJail.setRotate(-135);
+        //goJail.setRotate(45);
         goJail.setBlendMode(BlendMode.MULTIPLY);
         this.getChildren().add(goJail);
 
@@ -374,12 +374,13 @@ public class BoardPane extends Pane {
         //Water Works image
         Image waterImage = new Image(new FileInputStream("assets/img/boardImages/waterWorks.png"));
         ImageView water = new ImageView(waterImage);
-        water.setX(460);
+        water.setX(461);
         water.setY(20);
         water.setFitHeight(65);
         water.setFitWidth(65);
         water.setPreserveRatio(true);
         water.setBlendMode(BlendMode.MULTIPLY);
+        water.setRotate(180);
         this.getChildren().add(water);
 
         //Income tax Logo

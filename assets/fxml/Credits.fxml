@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ui.CreditsController"
+            stylesheets="@style.css"
+            styleClass="credits-pane">
+    <VBox style="-fx-alignment: center;" spacing="60">
+        <Label style="-fx-alignment: center; -fx-font-size: 64px; -fx-pref-width: 600px; -fx-text-fill: red;">Credits</Label>
+        <VBox style="-fx-alignment: center" spacing="30">
+            <Label styleClass="credits-label">Elif Kurtay</Label>
+            <Label styleClass="credits-label">Atakan Dönmez </Label>
+            <Label styleClass="credits-label">Musa Ege Ünalan</Label>
+            <Label styleClass="credits-label">Yusuf Ardahan Doğru</Label>
+            <Label styleClass="credits-label">Mustafa Göktan Güdükbay</Label>
+        </VBox>
+        <Button styleClass="back-button-style" text="BACK" onAction="#backAction"/>
+    </VBox>
+</StackPane>
