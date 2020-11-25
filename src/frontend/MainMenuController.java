@@ -1,4 +1,4 @@
-package ui;
+package frontend;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -42,7 +42,14 @@ public class MainMenuController {
     }
 
     @FXML protected void creditsButtonAction(ActionEvent event) throws Exception {
-        Platform.exit();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Credits.fxml"));
+        Parent root = loader.load();
+        CreditsController controller = loader.getController();
+        controller.setStage(stage);
+        System.out.println(root);
+        Scene s = new Scene(root, stage.getWidth(), stage.getHeight());
+        System.out.println("dadsa");
+        stage.setScene(s);
     }
 
     @FXML protected void backButtonAction(ActionEvent event) {

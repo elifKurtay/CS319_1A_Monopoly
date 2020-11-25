@@ -18,6 +18,14 @@
      */
 }
 
+
+.abc {
+    -fx-alignment: center-right;
+    -fx-font-size: 32px;
+    -fx-background-color: brown;
+}
+
+
 .mainMenu {
     -fx-background-image: url("/img/MainMenu.png");
     -fx-background-size: cover;
@@ -31,4 +39,69 @@
 
 .button:hover {
     -fx-background-color: blue;
+}
+
+.moneylabel {
+    -fx-alignment: center;
+    -fx-font-size: 32px;
+    -fx-border-color:black;
+    -fx-border-style: solid;
+    -fx-background-color: #85BB65;
+    -fx-border-width: 2px;
+}
+
+.namelabel {
+    -fx-alignment: center;
+    -fx-font-size: 28px;
+    -fx-border-color: black;
+    -fx-border-style: solid;
+    -fx-border-width: 1 0 0 0;
+}
+
+.assetsButton {
+    -fx-background-color: #9BE9EE;
+    -fx-border-color:black;
+    -fx-border-style: solid;
+    -fx-border-width: 2px;
+}
+
+.imageView-style {
+    -fx-blend-mode: multiply;
+}
+
+.vbox-style {
+    -fx-border-color: black;
+    -fx-border-style: solid;
+    -fx-border-width: 0 2 0 0;
+    -fx-pref-height: 148;
+}
+
+.player-pane {
+    -fx-background-color: FF9393;
+    -fx-border-color: black;
+    -fx-border-style: solid;
+    -fx-border-width: 2px;
+    -fx-max-height: 150px;
+    -fx-max-width: 500px;
+}
+
+.credits-pane {
+    -fx-background-color: #3BABC3;
+}
+
+.credits-label {
+    -fx-alignment: center;
+    -fx-font-size: 48px;
+    -fx-pref-width: 600px;
+}
+
+.back-button-style {
+    -fx-background-color: #FEF285;
+    -fx-border-color:black;
+    -fx-border-style: solid;
+    -fx-border-width: 2px;
+    -fx-font-size: 28;
+    -fx-border-radius: 100;
+    -fx-background-radius: 100;
+    -fx-font-weight: bold;
 }
