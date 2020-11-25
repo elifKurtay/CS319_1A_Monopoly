@@ -12,6 +12,7 @@ public class Token {
     private int jailTime;
     private double taxMultiplier;
     private int salaryChange;
+    private double mortgageInterest;
     private double buildingCostMultiplier;
     private double propertyCostMultiplier;
     private double rentPayMultiplier;
@@ -20,11 +21,12 @@ public class Token {
     //constructors
     public Token() {}
 
-    public Token(String tokenName, int jailTime, double taxMultiplier, int salaryChange, double buildingCostMultiplier, double propertyCostMultiplier, double rentPayMultiplier, double rentCollectMultiplier) {
+    public Token(String tokenName, int jailTime, double taxMultiplier, int salaryChange, double mortgageInterest, double buildingCostMultiplier, double propertyCostMultiplier, double rentPayMultiplier, double rentCollectMultiplier) {
         this.tokenName = tokenName;
         this.jailTime = jailTime;
         this.taxMultiplier = taxMultiplier;
         this.salaryChange = salaryChange;
+        this.mortgageInterest = mortgageInterest;
         this.buildingCostMultiplier = buildingCostMultiplier;
         this.propertyCostMultiplier = propertyCostMultiplier;
         this.rentPayMultiplier = rentPayMultiplier;
