@@ -1,4 +1,4 @@
-package ui;
+package frontend;
 
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
