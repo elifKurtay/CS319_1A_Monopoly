@@ -1,8 +1,10 @@
 package entities;
 
+import board.GoSpace;
 import board.PropertySpace;
 import board.Space;
 import card.Card;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,11 +12,12 @@ import java.util.ArrayList;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class Player {
 
     //properties
     private String playerName;
-    private int money;
+    private int money; //default 200M ?
     private Space currentSpace;
     private boolean bankrupt;
     private ArrayList<Property> properties;
@@ -22,22 +25,22 @@ public class Player {
     private ArrayList<Card> postponedCard;
     private boolean jailed;
     private Token token;
+    private int jailedLapCount;
 
     //constructor
-    public Player() {}
+    public Player() {};
 
-    public Player(String playerName, int money, Space currentSpace, boolean bankrupt,
-                  ArrayList<Property> properties, int getOutOfJailFreeCount,
-                  ArrayList<Card> postponedCard, boolean jailed, Token token) {
+    public Player(String playerName) {
         this.playerName = playerName;
-        this.money = money;
-        this.currentSpace = currentSpace;
-        this.bankrupt = bankrupt;
-        this.properties = new ArrayList<Property>(properties);
-        this.getOutOfJailFreeCount = getOutOfJailFreeCount;
-        this.postponedCard = new ArrayList<Card>(postponedCard);
-        this.jailed = jailed;
-        this.token = token;
+        money = 200;
+        currentSpace = new GoSpace();
+        bankrupt = false;
+        properties = null;
+        getOutOfJailFreeCount = 0;
+        postponedCard = null;
+        jailed = false;
+        token = null;
+        jailedLapCount = 0;
     }
 
     //methods
@@ -160,6 +163,17 @@ public class Player {
 
     public void getOutOfJail() {
         jailed = false;
+    }
+
+    public void reset() {
+        money = 200;
+        currentSpace = new GoSpace();
+        bankrupt = false;
+        properties = null;
+        getOutOfJailFreeCount = 0;
+        postponedCard = null;
+        jailed = false;
+        token = null;
     }
 
     public ArrayList<Property> getProperties() {

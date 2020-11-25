@@ -1,10 +1,13 @@
 package entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class Token {
 
     //properties
@@ -18,19 +21,60 @@ public class Token {
     private double rentCollectMultiplier;
 
     //constructors
-    public Token() {}
+    public Token(int number) {
+        jailTime = 3;
+        taxMultiplier = 1;
+        salaryChange = 0;
+        buildingCostMultiplier = 1;
+        propertyCostMultiplier = 1;
+        rentPayMultiplier = 1;
+        rentCollectMultiplier = 1;
 
-    public Token(String tokenName, int jailTime, double taxMultiplier, int salaryChange, double buildingCostMultiplier, double propertyCostMultiplier, double rentPayMultiplier, double rentCollectMultiplier) {
-        this.tokenName = tokenName;
-        this.jailTime = jailTime;
-        this.taxMultiplier = taxMultiplier;
-        this.salaryChange = salaryChange;
-        this.buildingCostMultiplier = buildingCostMultiplier;
-        this.propertyCostMultiplier = propertyCostMultiplier;
-        this.rentPayMultiplier = rentPayMultiplier;
-        this.rentCollectMultiplier = rentCollectMultiplier;
+        if(number == 1) {
+            tokenName = "Thimble";
+            taxMultiplier = 0.8;
+            rentCollectMultiplier = 0.8;
+        } else if (number == 2) {
+            tokenName = "Wheelbarrow";
+            buildingCostMultiplier = 0.5;
+            salaryChange = -50;
+        } else if (number == 3) {
+            tokenName = "Boot";
+            propertyCostMultiplier = 0.8;
+            salaryChange = -100;
+        } else if (number == 4) {
+            tokenName = "Horse";
+            rentCollectMultiplier = 1.3;
+            propertyCostMultiplier = 1.1;
+        } else if (number == 5) {
+            tokenName = "Racecar";
+            salaryChange = 200;
+            jailTime = 4;
+        } else if( number == 6) {
+            tokenName = "Iron";
+            buildingCostMultiplier = 0.8;
+            rentPayMultiplier = 1.2;
+        } else if( number == 7 ) {
+            tokenName = "Top Hat";
+            jailTime = 2;
+            taxMultiplier = 1.2;
+        } else {
+            tokenName = "Battleship";
+            rentPayMultiplier = 0.7;
+            buildingCostMultiplier = 1.5;
+        }
     }
 
+    public Token() {
+        tokenName = "no-name";
+        jailTime = 3;
+        taxMultiplier = 1;
+        salaryChange = 0;
+        buildingCostMultiplier = 1;
+        propertyCostMultiplier = 1;
+        rentPayMultiplier = 1;
+        rentCollectMultiplier = 1;
+    }
 
     //methods
 }
