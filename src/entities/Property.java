@@ -14,6 +14,7 @@ public class Property {
     private TitleDeedCard card;
     //new variable, it did not exist in the class diagram
     private int value;
+    private Player owner;
 
     //constructors
     public Property(){}
@@ -31,7 +32,7 @@ public class Property {
         if (numOfHouses != 4) {
             if (owner.getMoney() >= ((LandTitleDeedCard) card).getHouseCost() * owner.getToken().getBuildingCostMultiplier()) {
                 numOfHouses++;
-                owner.setMoney(owner.getMoney() - ((LandTitleDeedCard) card).getHouseCost() * owner.getToken().getBuildingCostMultiplier());
+                owner.setMoney((int) (owner.getMoney() - ((LandTitleDeedCard) card).getHouseCost() * owner.getToken().getBuildingCostMultiplier()));
                 return true;
             }
             return false;
@@ -43,7 +44,7 @@ public class Property {
         if (!hotel && numOfHouses == 4) {
             if (owner.getMoney() >= ((LandTitleDeedCard) card).getHotelCost() * owner.getToken().getBuildingCostMultiplier()) {
                 hotel = true;
-                owner.setMoney(owner.getMoney() - ((LandTitleDeedCard) card).getHotelCost() * owner.getToken().getBuildingCostMultiplier());
+                owner.setMoney((int) (owner.getMoney() - ((LandTitleDeedCard) card).getHotelCost() * owner.getToken().getBuildingCostMultiplier()));
                 return true;
             }
             return false;
@@ -58,7 +59,7 @@ public class Property {
     public boolean sellHouse () {
         if (numOfHouses > 0) {
             numOfHouses--;
-            owner.setMoney(owner.getMoney() + (((LandTitleDeedCard) card).getHouseCost() * owner.getToken().getBuildingCostMultiplier()) / 2);
+            owner.setMoney((int) (owner.getMoney() + (((LandTitleDeedCard) card).getHouseCost() * owner.getToken().getBuildingCostMultiplier()) / 2));
             return true;
         }
         return false;
@@ -67,7 +68,7 @@ public class Property {
     public boolean sellHotel() {
         if (hotel) {
             hotel = false;
-            owner.setMoney(owner.getMoney() + (((LandTitleDeedCard) card).getHotelCost() * owner.getToken().getBuildingCostMultiplier()) / 2);
+            owner.setMoney((int) (owner.getMoney() + (((LandTitleDeedCard) card).getHotelCost() * owner.getToken().getBuildingCostMultiplier()) / 2));
             return true;
         }
         return false;

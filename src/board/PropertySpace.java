@@ -6,14 +6,11 @@ public class PropertySpace extends Space{
         LAND, TRANSPORT, UTILITY
     }
 
-    private Player owner;
     private int value;
     private Property associatedProperty;
     private PropertyType type;
 
     public PropertySpace(String name, String propertyType, int value) {
-
-        owner = null;
         // Need to associate PropertySpaces with Properties at instantiation
         associatedProperty = null;
 
@@ -32,11 +29,11 @@ public class PropertySpace extends Space{
     }
 
     public boolean buySpace() {
-        if (owner == null) {
+        if (associatedProperty.getOwner() == null) {
             // Assuming payBank returns a boolean value, true if payment has succeeded
             Player p = getLatestPlayerOnSpace();
             if (p.payBank(value)) {
-                owner = getLatestPlayerOnSpace();
+                associatedProperty.setOwner(getLatestPlayerOnSpace());
                 getLatestPlayerOnSpace().getProperties().add(associatedProperty);
                 return true;
             }
@@ -45,10 +42,10 @@ public class PropertySpace extends Space{
     }
 
     public boolean payRent(int diceSum) {
-        if (owner != null) {
+        if (associatedProperty.getOwner() != null) {
             // Assuming the return value from payPlayer is boolean
             // Casting calculated rent to integer, may change later
-            return getLatestPlayerOnSpace().payPlayer(owner, (int) calculateRent(diceSum));
+            return getLatestPlayerOnSpace().payPlayer(associatedProperty.getOwner(), (int) calculateRent(diceSum));
         }
         return false;
     }
@@ -56,6 +53,7 @@ public class PropertySpace extends Space{
     //diceSum is the dice sum of the player that will pay the rent
     public double calculateRent(int diceSum) {
         Player p = getLatestPlayerOnSpace();
+        Player owner = associatedProperty.getOwner();
         int[] rents = associatedProperty.getCard().getRent();
         int rent;
 
