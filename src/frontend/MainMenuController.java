@@ -1,4 +1,4 @@
-package frontend;
+package ui;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -17,7 +17,7 @@ public class MainMenuController {
     }
 
     @FXML protected void newGameButtonAction(ActionEvent event) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("ui/fxml/NewGameMenu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/NewGameMenu.fxml"));
         Parent root = loader.load();
         NewGameMenuController controller = loader.getController();
         controller.setStage(stage);
@@ -33,7 +33,7 @@ public class MainMenuController {
     }
 
     @FXML protected void settingsButtonAction(ActionEvent event) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("SettingsMenu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/SettingsMenu.fxml"));
         Parent root = loader.load();
 
         Scene s = new Scene(root, stage.getWidth(), stage.getHeight());
