@@ -48,12 +48,4 @@ public class PropertySpace extends Space{
         return false;
     }
 
-    public boolean payRent() {
-        if (owner != null) {
-            // Assuming the return value from payPlayer is boolean
-            //return super.getLatestPlayer().payPlayer(owner);
-        }
-        return false;
-    }
-
 }

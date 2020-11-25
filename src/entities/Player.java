@@ -1,12 +1,15 @@
 package entities;
 
 import board.GoSpace;
-import board.PropertySpace;
 import board.Space;
-import card.*;
+import card.Card;
+import card.LandTitleDeedCard;
+import card.TransportTitleDeedCard;
+import card.UtilityTitleDeedCard;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -71,55 +74,38 @@ public class Player {
         }
     }
 
-    public boolean payPlayer(Player receiver, int diceSum){
-        int amount = calculateRent(receiver, diceSum);
+    public void payPlayer(@NotNull Player receiver, int[] dice){
+        int amount = calculateRent(receiver, dice[0] + dice[1]);
         receiver.setMoney(receiver.getMoney() + amount);
-        this.setMoney(money - amount);
-        return true;
+        money = money - amount;
+        System.out.println("Your rent amount: " + amount);
+    }
+
+    public void payPlayer(@NotNull Player receiver, int amount){
+        receiver.setMoney(receiver.getMoney() + amount);
+        money = money - amount;
     }
 
     public int calculateRent(Player receiver, int diceSum) {
         int rent = 0;
-        if (currentSpace instanceof PropertySpace) {
-            Property p = currentSpace.getAssociatedProperty();
-            if (p.getCard() instanceof TransportTitleDeedCard) {
-                int[] rentArray = ((TransportTitleDeedCard) p.getCard()).getRent();
-                if (p.getNumOfHouses() == 0)
-                    rent = rentArray[0];
-                else if (p.getNumOfHouses() == 1)
-                    rent = rentArray[1];
-                else if (p.getNumOfHouses() == 2)
-                    rent = rentArray[2];
-                else
-                    rent = rentArray[3];
+        Property p = currentSpace.getAssociatedProperty();
+        if (p.getCard() instanceof TransportTitleDeedCard) {
+            rent = ((TransportTitleDeedCard) p.getCard()).getRent( numberOfTitlesFromSameGroup(p) - 1 );
+        } else {
+            boolean ownsAllTitlesFromSameGroup = ownsAllTitlesFromSameGroup(receiver, p);
+            if (p.getCard() instanceof LandTitleDeedCard) {
+                rent = ((LandTitleDeedCard) p.getCard()).getRent(p);
+                if ( p.getNumOfHouses() == 0 && ownsAllTitlesFromSameGroup)
+                    rent *= 2;
             } else {
-                boolean ownsAllTitlesFromSameGroup = ownsAllTitlesFromSameGroup(receiver, p);
-                if (p.getCard() instanceof LandTitleDeedCard) {
-                    int[] rentArray = ((LandTitleDeedCard) p.getCard()).getRent();
-                    if (p.getNumOfHouses() == 0)
-                        rent = rentArray[0];
-                    else if (p.getNumOfHouses() == 1)
-                        rent = rentArray[1];
-                    else if (p.getNumOfHouses() == 2)
-                        rent = rentArray[2];
-                    else if (p.getNumOfHouses() == 3)
-                        rent = rentArray[3];
-                    else if (p.getNumOfHouses() == 4)
-                        rent = rentArray[4];
-                    else if (p.isHotel())
-                        rent = rentArray[5];
-                    if (ownsAllTitlesFromSameGroup)
-                        rent *= 2;
-                } else {
-                    int[] diceMultipliers = ((UtilityTitleDeedCard) p.getCard()).getDiceMultipliers();
-                    if (ownsAllTitlesFromSameGroup)
-                        rent = diceMultipliers[1] * diceSum;
-                    else
-                        rent = diceMultipliers[0] * diceSum;
-                }
+                int[] diceMultipliers = ((UtilityTitleDeedCard) p.getCard()).getDiceMultipliers();
+                if (ownsAllTitlesFromSameGroup)
+                    rent = diceMultipliers[1] * diceSum;
+                else
+                    rent = diceMultipliers[0] * diceSum;
             }
         }
-        return (int) Math.round(rent * token.getRentPayMultiplier() * token.getRentPayMultiplier());
+        return (int) Math.round(rent * token.getRentPayMultiplier() * receiver.getToken().getRentCollectMultiplier());
     }
 
     public static boolean ownsAllTitlesFromSameGroup( Player player, Property propertyToCheck) {
@@ -145,6 +131,46 @@ public class Player {
             }
         }
         return maxNoOfAvailableCardsFromSameGroup == 0;
+    }
+
+    public ArrayList<Property> getAllTitlesFromSameGroup( Property propertyToCheck) {
+        ArrayList<Property> tiles = new ArrayList<Property>();
+        if (propertyToCheck.getCard() instanceof LandTitleDeedCard) {
+            int propertyGroup = ((LandTitleDeedCard) propertyToCheck.getCard()).getPropertyGroup();
+            for (Property p : properties) {
+                if (p.getCard() instanceof LandTitleDeedCard) {
+                    if (((LandTitleDeedCard) p.getCard()).getPropertyGroup() == propertyGroup)
+                        tiles.add(p);
+                }
+            }
+        } else if (propertyToCheck.getCard() instanceof UtilityTitleDeedCard) {
+            for (Property p : properties) {
+                if (p.getCard() instanceof UtilityTitleDeedCard)
+                    tiles.add(p);;
+            }
+        }
+        return tiles;
+    }
+
+    public int numberOfTitlesFromSameGroup( Property propertyToCheck) {
+        int number = 0;
+        int propertyGroup = 0;
+        if (propertyToCheck.getCard() instanceof LandTitleDeedCard)
+            propertyGroup = ((LandTitleDeedCard) propertyToCheck.getCard()).getPropertyGroup();
+
+        for (Property p : properties) {
+            if (propertyToCheck.getCard() instanceof LandTitleDeedCard
+                    && p.getCard() instanceof LandTitleDeedCard &&
+                    ((LandTitleDeedCard) p.getCard()).getPropertyGroup() == propertyGroup )
+                    number++;
+            else if(propertyToCheck.getCard() instanceof UtilityTitleDeedCard
+                    && p.getCard() instanceof UtilityTitleDeedCard)
+                number++;
+            else if(propertyToCheck.getCard() instanceof TransportTitleDeedCard
+                    && p.getCard() instanceof TransportTitleDeedCard)
+                number++;
+        }
+        return number;
     }
 
     //what should happen if there is not enough money

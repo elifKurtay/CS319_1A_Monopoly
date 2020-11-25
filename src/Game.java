@@ -3,6 +3,7 @@ import board.*;
 import card.Card;
 import card.LandTitleDeedCard;
 import entities.Player;
+import entities.Property;
 import entities.Token;
 import event.CardEventHandler;
 
@@ -17,22 +18,22 @@ public class Game {
     private final int LAP = 4;
     private final Board board;
     private final CardEventHandler eventHandler;
-    private final int turnLimit; //given -1 if game mod is survival
+    private final int lapLimit; //given -1 if game mod is survival
+    private final int playerCount;
 
-    private int playerCount;
     private Player[] players;
     private Player currentPlayer;
 
-    private int turnCount;
+    private int lapCount;
     private Bank bank;
 
     public Game(int playerCount, String[] playerNames, int turnLimit, File map ) {
         this.playerCount = playerCount;
-        this.turnLimit = turnLimit;
+        this.lapLimit = turnLimit;
         bank = new Bank();
         board = new Board(map);
         eventHandler = new CardEventHandler();
-        turnCount = 0;
+        lapCount = 0;
 
         players = new Player[LAP];
         for(int i = 0; i < LAP; i++) {
@@ -46,21 +47,21 @@ public class Game {
     public Game(Game loadedGame) {
         this.playerCount = loadedGame.playerCount;
         this.players = loadedGame.players;
-        this.turnCount = loadedGame.turnCount;
-        this.turnLimit = loadedGame.turnLimit;
+        this.lapCount = loadedGame.lapCount;
+        this.lapLimit = loadedGame.lapLimit;
         this.bank = loadedGame.bank;
         this.board = loadedGame.board;
         this.eventHandler = loadedGame.eventHandler;
+        this.currentPlayer = loadedGame.currentPlayer;
     }
 
     void gameLoop() {
         int[] dice;
         int doublesCount = 0;
         Scanner scan = new Scanner(System.in);
-        int choice = 0;
 
         while( ! isGameEnd() ) {
-            if(turnCount == 0)
+            if(lapCount == 0)
                 initializingLap();
             for(int i = 0; i < LAP &&  !isGameEnd(); i++) {
                 currentPlayer = players[i];
@@ -130,11 +131,12 @@ public class Game {
                 }
 
                 //turn decisions
-                turnDecisions(scan, i, space);
+                turnDecisions(scan, space);
             }
-            turnCount++;
+            lapCount++;
         }
         endGame();
+        System.out.println("Game Over!");
     }
 
     private void cameToProperty(int[] dice, Scanner scan, Space space) {
@@ -161,7 +163,7 @@ public class Game {
             System.out.println(space.getName() + " belongs to " + ((PropertySpace) space).getOwner());
         } else { //owned by another player
             //pay rent
-            currentPlayer.payPlayer(((PropertySpace) space).getOwner(), dice[0] + dice[1]);
+            currentPlayer.payPlayer(((PropertySpace) space).getOwner(), dice);
             System.out.println("You paid rent to " + ((PropertySpace) space).getOwner());
         }
     }
@@ -213,7 +215,7 @@ public class Game {
         }
     }
 
-    private void turnDecisions(Scanner scan, int i, Space space) {
+    private void turnDecisions(Scanner scan, Space space) {
         int choice;
         do {
             System.out.println("Select choice: ");
@@ -224,33 +226,60 @@ public class Game {
                 System.out.println("Select player: ");
                 int player = scan.nextInt();
                 Player selectedPlayer = players[player];
-                bank.startTrade(players[i], selectedPlayer);
+                bank.startTrade(currentPlayer, selectedPlayer);
             }//trade
             else if (choice == 2) {
-                if(space.getAssociatedProperty().getCard() instanceof LandTitleDeedCard &&
-                        ownsAllTitlesFromSameGroup(currentPlayer, space.getAssociatedProperty())
-                ) {
-                    System.out.println("Would you like to build on your property? ");
-                }
-                //show suitable properties
-                System.out.println("Select property: ");
-                int prop = scan.nextInt();
-                players[i].getProperties().get(prop).buildHouse();
+                build(scan, space);
             }//build
             else if (choice == 3) {
                 //show suitable properties
                 System.out.println("Select property: ");
                 int prop = scan.nextInt();
-                players[i].getProperties().get(prop).mortgage();
+                currentPlayer.getProperties().get(prop).mortgage();
             } //mortgage
             else if (choice == 4) {
                 //show suitable properties
                 System.out.println("Select property: ");
                 int prop = scan.nextInt();
-                players[i].getProperties().get(prop).liftMortgage();
+                currentPlayer.getProperties().get(prop).liftMortgage();
             } //redeem
 
         } while (choice != 5); //finish turn
+    }
+
+    private void build(Scanner scan, Space space) {
+        if(space.getAssociatedProperty().getCard() instanceof LandTitleDeedCard &&
+                ownsAllTitlesFromSameGroup(currentPlayer, space.getAssociatedProperty()) ) {
+            System.out.println("Would you like to build on your property? (1-yes, 0-no)");
+            int prop = scan.nextInt();
+            if(prop == 1) {
+                //show suitable properties
+                ArrayList<Property> options = currentPlayer.getAllTitlesFromSameGroup(space.getAssociatedProperty());
+                for(int i = 0; i < options.size(); i++)
+                    System.out.println(i + ": " + options.get(i).getCard().getPropertyName());
+                System.out.println("Select property: ");
+                prop = scan.nextInt();
+                boolean canBuild = true;
+                for(int i = 0; i < options.size(); i++) {
+                    if( i != prop && options.get(prop).getNumOfHouses() - options.get(i).getNumOfHouses() >= 1)
+                        canBuild = false;
+                }
+                if(canBuild) {
+                    options.get(prop).buildHouse();
+                    int amount;
+                    if(options.get(prop).isHotel())
+                        amount = ((LandTitleDeedCard)options.get(prop).getCard()).getHouseCost();
+                    else
+                        amount = ((LandTitleDeedCard)options.get(prop).getCard()).getHotelCost();
+                    currentPlayer.payBank((int)(amount * currentPlayer.getToken().getBuildingCostMultiplier()));
+                    System.out.println("You upgraded your property.");
+                } else {
+                    System.out.println("You cannot build on this property before " +
+                            "increasing the houses of the other properties.");
+                }
+            }
+        } else
+            System.out.println("Sorry, you have no property to build on. ");
     }
 
     //input from UI
@@ -294,7 +323,7 @@ public class Game {
             if(p.isBankrupt() )
                 count++;
         }
-        return (count > 2) || (turnCount == turnLimit);
+        return (count > 2) || (lapCount == lapLimit);
     }
 
     int[] rollDice() {
@@ -330,7 +359,7 @@ public class Game {
 
     //input from UI
     void restartGame() {
-        turnCount = 0;
+        lapCount = 0;
         bank = new Bank();
         for ( Player p : players ) {
             p.reset();
