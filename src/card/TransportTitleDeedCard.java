@@ -1,7 +1,10 @@
 package card;
 
-import static java.lang.Math.pow;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class TransportTitleDeedCard extends TitleDeedCard{
     private int[] rent;
     private final int BASE_RENT = 25;
@@ -16,14 +19,6 @@ public class TransportTitleDeedCard extends TitleDeedCard{
 
     public TransportTitleDeedCard(String propertyName, int mortgageValue, int[] rent){
         super(propertyName, mortgageValue);
-        this.rent = rent;
-    }
-
-    public int[] getRent() {
-        return rent;
-    }
-
-    public void setRent(int[] rent) {
         this.rent = rent;
     }
 }

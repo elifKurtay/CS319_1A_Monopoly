@@ -1,5 +1,10 @@
 package card;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class UtilityTitleDeedCard extends TitleDeedCard{
 
     private int[] diceMultipliers;
@@ -14,11 +19,4 @@ public class UtilityTitleDeedCard extends TitleDeedCard{
         this.diceMultipliers = diceMultipliers;
     }
 
-    public int[] getDiceMultipliers() {
-        return diceMultipliers;
-    }
-
-    public void setDiceMultipliers(int[] diceMultipliers) {
-        this.diceMultipliers = diceMultipliers;
-    }
 }

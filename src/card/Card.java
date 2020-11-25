@@ -1,15 +1,18 @@
 package card;
 
 import event.CardEvent;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
+@AllArgsConstructor
 public class Card {
     private String cardText;
     private CardEvent cardEvent;
-
-    public Card(String cardText, CardEvent cardEvent){
-        this.cardText = cardText;
-        this.cardEvent = cardEvent;
-    }
+    private boolean getOutOfJailFree;
+    private boolean thief;
 
     public Card() {
 
@@ -19,19 +22,4 @@ public class Card {
         //?
     }
 
-    public String getCardText() {
-        return cardText;
-    }
-
-    public void setCardText(String cardText) {
-        this.cardText = cardText;
-    }
-
-    public CardEvent getCardEvent() {
-        return cardEvent;
-    }
-
-    public void setCardEvent(CardEvent cardEvent) {
-        this.cardEvent = cardEvent;
-    }
 }

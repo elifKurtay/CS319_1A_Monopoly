@@ -2,10 +2,14 @@ package bank;
 
 import entities.Player;
 import entities.Property;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+@Getter
+@Setter
 public class Bank {
     private ArrayList<Property> unownedProperties;
 
@@ -42,4 +46,10 @@ public class Bank {
         onGoingAuction = null;
     }
 
+    public boolean removeFromUnownedProperties(Property property) {
+        if(! unownedProperties.contains(property))
+            return false;
+        unownedProperties.remove( property);
+        return true;
+    }
 }

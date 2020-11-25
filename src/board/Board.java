@@ -63,7 +63,23 @@ public class Board {
         }
     }
 
+    public Space getSpace(int index) {return spaces[index];}
+
     public void deployThief(Player target) {
         thief = new Thief(target);
+    }
+
+    public Card drawCard(CardSpace.CardType type) {
+        Card drawn;
+        if(type == CardSpace.CardType.CHANCE) {
+            drawn = chanceCards.get(0);
+            chanceCards.remove(0);
+            chanceCards.add(drawn);
+        } else {
+            drawn = communityChestCards.get(0);
+            communityChestCards.remove(0);
+            communityChestCards.add(drawn);
+        }
+        return drawn;
     }
 }

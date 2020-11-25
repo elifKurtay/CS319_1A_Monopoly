@@ -3,7 +3,7 @@ package entities;
 import board.GoSpace;
 import board.PropertySpace;
 import board.Space;
-import card.Card;
+import card.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,10 +44,6 @@ public class Player {
     }
 
     //methods
-    public void move(Space space){
-        currentSpace = space;
-    }
-
     public int getNetWorth(){
         int sumOfUnmortgagedProperty = 0;
         int sumOfMortgageValues = 0;
@@ -75,9 +71,11 @@ public class Player {
         }
     }
 
-    public void payPlayer(Player receiver, int amount){
-        receiver.setMoney(amount);
+    public boolean payPlayer(Player receiver, int diceSum){
+        int amount = calculateRent(receiver, diceSum);
+        receiver.setMoney(receiver.getMoney() + amount);
         this.setMoney(money - amount);
+        return true;
     }
 
     public int calculateRent(Player receiver, int diceSum) {
@@ -124,7 +122,7 @@ public class Player {
         return (int) Math.round(rent * token.getRentPayMultiplier() * token.getRentPayMultiplier());
     }
 
-    public boolean ownsAllTitlesFromSameGroup(Player player, Property propertyToCheck) {
+    public static boolean ownsAllTitlesFromSameGroup( Player player, Property propertyToCheck) {
         int maxNoOfAvailableCardsFromSameGroup = 0;
         if (propertyToCheck.getCard() instanceof LandTitleDeedCard) {
             int propertyGroup = ((LandTitleDeedCard) propertyToCheck.getCard()).getPropertyGroup();
@@ -146,23 +144,20 @@ public class Player {
                     maxNoOfAvailableCardsFromSameGroup--;
             }
         }
-        if (maxNoOfAvailableCardsFromSameGroup != 0)
-            return false;
-        else
-            return true;
+        return maxNoOfAvailableCardsFromSameGroup == 0;
     }
 
     //what should happen if there is not enough money
-    public void payBank(int amount) {
+    public boolean payBank(int amount) {
         money = money - amount;
+        return true;
     }
 
-    public void goToJail() {
-        jailed = true;
-    }
-
-    public void getOutOfJail() {
-        jailed = false;
+    public boolean addProperty(Property property) {
+        if(properties.contains(property))
+            return false;
+        properties.add(property);
+        return true;
     }
 
     public void reset() {

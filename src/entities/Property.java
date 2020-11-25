@@ -1,10 +1,13 @@
 package entities;
 
+import card.TitleDeedCard;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class Property {
 
     //properties
@@ -14,17 +17,12 @@ public class Property {
     private TitleDeedCard card;
     //new variable, it did not exist in the class diagram
     private int value;
+    private int[] rents;
 
     //constructors
     public Property(){}
 
-    public Property(boolean mortgaged, int numOfHouses, boolean hotel, TitleDeedCard card, int value) {
-        this.mortgaged = mortgaged;
-        this.numOfHouses = numOfHouses;
-        this.hotel = hotel;
-        this.card = card;
-        this.value = value;
-    }
+
 
     //methods
     public void buildHouse() {

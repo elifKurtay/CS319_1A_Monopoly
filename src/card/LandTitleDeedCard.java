@@ -1,5 +1,10 @@
 package card;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class LandTitleDeedCard extends TitleDeedCard{
     private int propertyGroup;
     private int[] rent;
@@ -23,35 +28,4 @@ public class LandTitleDeedCard extends TitleDeedCard{
         this.hotelCost = hotelCost;
     }
 
-    public int getPropertyGroup() {
-        return propertyGroup;
-    }
-
-    public void setPropertyGroup(int propertyGroup) {
-        this.propertyGroup = propertyGroup;
-    }
-
-    public int[] getRent() {
-        return rent;
-    }
-
-    public void setRent(int[] rent) {
-        this.rent = rent;
-    }
-
-    public int getHouseCost() {
-        return houseCost;
-    }
-
-    public void setHouseCost(int houseCost) {
-        this.houseCost = houseCost;
-    }
-
-    public int getHotelCost() {
-        return hotelCost;
-    }
-
-    public void setHotelCost(int hotelCost) {
-        this.hotelCost = hotelCost;
-    }
 }
