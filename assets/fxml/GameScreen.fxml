@@ -14,9 +14,7 @@
         prefHeight="400.0" prefWidth="600.0" spacing="50"
         fx:controller="frontend.GameScreenController"
         >
-<Pane
-        fx:id ="myPane">
-</Pane>
+<fx:include source="Board.fxml" fx:id="dynamicBoard"></fx:include>
 <VBox spacing="20">
     <HBox>
         <Label>Turn {TURN_COUNT}</Label>

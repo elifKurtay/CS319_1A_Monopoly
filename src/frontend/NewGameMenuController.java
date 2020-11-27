@@ -1,5 +1,6 @@
 package frontend;
 
+import board.Board;
 import entities.Player;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -58,10 +59,13 @@ public class NewGameMenuController {
 
     @FXML protected void startButtonAction(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameScreen.fxml"));
-
         Parent root = loader.load();
-        Pane p1 = (Pane) root.lookup("#myPane");
-        p1.getChildren().add(new BoardPane());
+        GameScreenController controller = loader.getController();
+
+        File myMap = (new File("./assets/maps/" + mapCombo.getValue()));
+
+        controller.setDynamicBoard(new Board(myMap));
+
         Scene s = new Scene(root, stage.getWidth(), stage.getHeight());
         stage.setScene(s);
     }
