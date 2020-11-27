@@ -16,6 +16,8 @@
       prefHeight="800.0" prefWidth="450.0">
     <VBox>
         <Label>Players</Label>
+        <VBox fx:id="playerList">
+        </VBox>
         <HBox>
             <Button text="Back" onAction="#backButtonAction"/>
             <Button text="Add Player" onAction="#addPlayerButtonAction"/>
