@@ -30,7 +30,7 @@
             </HBox>
             <HBox>
                 <Label>Turn Limit</Label>
-                <ComboBox></ComboBox>
+                <ComboBox fx:id="turnLimitCombo"></ComboBox>
             </HBox>
         </HBox>
         <Label>Map Preview: {MAP_NAME}</Label>

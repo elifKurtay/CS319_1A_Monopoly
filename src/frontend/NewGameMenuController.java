@@ -28,6 +28,8 @@ public class NewGameMenuController {
     private VBox playerList;
     @FXML
     private ComboBox<String> mapCombo;
+    @FXML
+    private ComboBox<Integer> turnLimitCombo;
 
     public void initialize() {
         players = new String[PLAYER_COUNT];
@@ -46,6 +48,8 @@ public class NewGameMenuController {
             }
         }
         mapCombo.getSelectionModel().select(mapCombo.getItems().get(0));
+
+        turnLimitCombo.getItems().addAll(-1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50);
     }
 
     public void setStage(Stage stage) {
