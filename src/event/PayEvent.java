@@ -1,8 +1,14 @@
 package event;
 
 import entities.Player;
-
 import java.util.ArrayList;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
 
 public class PayEvent extends CardEvent{
     private boolean toBank;

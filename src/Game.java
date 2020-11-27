@@ -5,7 +5,10 @@ import card.LandTitleDeedCard;
 import entities.Player;
 import entities.Property;
 import entities.Token;
-import event.CardEventHandler;
+import event.AdvanceEvent;
+import event.CollectEvent;
+import event.GoToJailEvent;
+import event.PayEvent;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -17,7 +20,6 @@ public class Game {
 
     private final int LAP = 4;
     private final Board board;
-    private final CardEventHandler eventHandler;
     private final int lapLimit; //given -1 if game mod is survival
     private final int playerCount;
 
@@ -32,7 +34,6 @@ public class Game {
         this.lapLimit = turnLimit;
         bank = new Bank();
         board = new Board(map);
-        eventHandler = new CardEventHandler();
         lapCount = 0;
 
         players = new Player[LAP];
@@ -51,7 +52,6 @@ public class Game {
         this.lapLimit = loadedGame.lapLimit;
         this.bank = loadedGame.bank;
         this.board = loadedGame.board;
-        this.eventHandler = loadedGame.eventHandler;
         this.currentPlayer = loadedGame.currentPlayer;
     }
 
@@ -198,20 +198,71 @@ public class Game {
 
         if(choice == 1) {
             System.out.println(card.getCardText());
-            card.open(); //?
-            if(card.isGetOutOfJailFree()) {
-                //should this card also go to postponedCards list?
-                currentPlayer.setGetOutOfJailFreeCount(currentPlayer.getGetOutOfJailFreeCount() + 1 );
-            } else if( card.isThief() ) {
-                Player target = players[(int) (Math.random() * 4)];
-                board.deployThief(target);
-            } else {
-                eventHandler.setEvent( card.getCardEvent()); //?
-            }
+            openCard(card);
         } else {
             ArrayList<Card> cards = currentPlayer.getPostponedCard();
             cards.add(card);
             currentPlayer.setPostponedCard( cards );
+        }
+    }
+
+    //need to be implemented in GUI
+    public void openPostponedCard(Card card){
+        if(currentPlayer.getPostponedCard().contains(card)) {
+            openCard(card);
+            ArrayList<Card> postponedCards = currentPlayer.getPostponedCard();
+            postponedCards.remove(card);
+            currentPlayer.setPostponedCard(postponedCards);
+        }
+    }
+
+    private void openCard(Card card){
+        System.out.println(card.getCardText());
+        if(card.isAdvance()){
+            AdvanceEvent event = (AdvanceEvent) card.getCardEvent();
+            int currentPos = currentPlayer.getCurrentSpace().getIndex();
+            currentPlayer.setCurrentSpace(event.getTargetSpace());
+            if(event.getTargetSpace().getIndex() <= currentPos && event.isCanCollectSalary()){
+                currentPlayer.setMoney( currentPlayer.getMoney() + 20
+                        + currentPlayer.getToken().getSalaryChange());
+            }
+        } else if(card.isCollect()){
+            CollectEvent event = (CollectEvent) card.getCardEvent();
+            if(event.isFromBank()){
+                currentPlayer.setMoney( currentPlayer.getMoney() + event.getAmount());
+            }
+            else {
+                for (int i = 0; i < 4; i++) {
+                    if (!players[i].getPlayerName().equals(currentPlayer.getPlayerName())){
+                        players[i].payPlayer(currentPlayer, event.getAmount());
+                    }
+                }
+            }
+        } else if(card.isGoToJail()){
+            GoToJailEvent event = (GoToJailEvent) card.getCardEvent();
+            //scanner???
+            //sendToJail(scan, currentPlayer);
+            if (event.isCanCollectSalary() && currentPlayer.getCurrentSpace().getIndex() >= 10){
+                currentPlayer.setMoney( currentPlayer.getMoney() + 20
+                        + currentPlayer.getToken().getSalaryChange());
+            }
+        } else if(card.isPay()) {
+            PayEvent event = (PayEvent) card.getCardEvent();
+            if (event.isToBank()){
+                currentPlayer.setMoney(currentPlayer.getMoney() - event.getAmount());
+            }
+            else{
+                for (int i = 0; i < 4; i++) {
+                    if (!players[i].getPlayerName().equals(currentPlayer.getPlayerName())){
+                        currentPlayer.payPlayer(players[i], event.getAmount());
+                    }
+                }
+            }
+        } else if(card.isGetOutOfJailFree()) {
+            currentPlayer.setGetOutOfJailFreeCount(currentPlayer.getGetOutOfJailFreeCount() + 1 );
+        } else if(card.isThief() ) {
+            Player target = players[(int) (Math.random() * 4)];
+            board.deployThief(target);
         }
     }
 
