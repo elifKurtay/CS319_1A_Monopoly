@@ -15,8 +15,7 @@
       styleClass="newGameMenu"
       prefHeight="800.0" prefWidth="450.0">
     <VBox>
-        <Label>Players</Label>
-        <VBox fx:id="playerList">
+        <VBox fx:id="playerList" spacing="20">
         </VBox>
         <HBox>
             <Button text="Back" onAction="#backButtonAction"/>
@@ -27,7 +26,7 @@
         <HBox>
             <HBox>
                 <Label>Map</Label>
-                <ComboBox></ComboBox>
+                <ComboBox fx:id="mapCombo"></ComboBox>
             </HBox>
             <HBox>
                 <Label>Turn Limit</Label>

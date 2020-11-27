@@ -106,6 +106,10 @@
     -fx-font-weight: bold;
 }
 
-.playerPane {
+.playerBox {
     -fx-background-color: white;
+    -fx-min-width: 250px;
+    -fx-min-height: 50px;
+    -fx-max-width: 250px;
+    -fx-spacing: 150px;
 }
