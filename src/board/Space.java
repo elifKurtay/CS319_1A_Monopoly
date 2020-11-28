@@ -11,6 +11,4 @@ public abstract class Space {
     private String name;
     private Player latestPlayer;
     private int index;
-
-    public Property getAssociatedProperty() {return null;}; //?
 }

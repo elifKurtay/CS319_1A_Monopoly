@@ -2,8 +2,8 @@ package board;
 
 public class WheelOfFortuneSpace extends Space {
 
-    public int spinWheel() {
-        int random = (int) (Math.random() * 100);
+    public void spinWheel() {
+        //int random = (int) (Math.random() * 100);
         /*
         if (random < 10) {
             // Lose property
@@ -28,6 +28,6 @@ public class WheelOfFortuneSpace extends Space {
         else {
             // Gain property
         } */
-        return random;
+        //return random;
     }
 }

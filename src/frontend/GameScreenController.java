@@ -107,11 +107,15 @@ public class GameScreenController {
     public int chooseToken(String name) {
         ChoiceDialog<String> dialog = new ChoiceDialog<>();
         dialog.setHeaderText(name + " is choosing token");
-        dialog.getItems().addAll("Battleship", "Boot", "Horse", "Iron",
-                "Race Car", "Thimble", "Top Hat", "Wheel Barrow");
+        dialog.getItems().addAll( "Thimble", "Wheel Barrow", "Boot", "Horse", "Race Car",
+                "Iron", "Top Hat", "Battleship");
         dialog.showAndWait();
 
         return dialog.getItems().indexOf(dialog.getResult()) + 1;
+    }
+
+    public void drawToken(String tokenName,int index) {
+        dynamicBoardController.drawToken(tokenName, index);
     }
 
     public void showMessage(String message) {
@@ -141,5 +145,17 @@ public class GameScreenController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Finish Turn");
         alert.showAndWait();
+    }
+
+    public boolean postponeCard() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText("Do you want to open the card now?");
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Open Now");
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("Postpone");
+        alert.showAndWait();
+        if (alert.getResult() == ButtonType.CANCEL) {
+            return true;
+        }
+        return false;
     }
 }

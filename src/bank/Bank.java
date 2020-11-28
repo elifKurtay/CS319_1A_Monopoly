@@ -18,7 +18,6 @@ public class Bank {
 
     public Bank() {
         unownedProperties = new ArrayList<>();
-
     }
 
     public void payPlayer(@NotNull Player player, int amount) {

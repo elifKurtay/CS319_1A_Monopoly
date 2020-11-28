@@ -106,6 +106,7 @@ public class Board {
                 }
             }
 
+            chanceCards = new ArrayList<>();
             JSONObject cardsJSON = jsonMap.getJSONObject("cards");
             JSONArray chanceCardsJSON = cardsJSON.getJSONArray("chanceCards");
             for (int i = 0; i < chanceCardsJSON.length(); i++) {
@@ -117,13 +118,29 @@ public class Board {
                         String targetSpace = cardEvent.getString("targetSpace");
                         for (Space s : spaces) {
                             if (targetSpace.equals(s.getName())) {
-                                //e = new AdvanceEvent();
-                                //chanceCards.add(new Card())
+                                e = new AdvanceEvent(s, 1 == cardEvent.getInt("canCollectSalary"));
+                                chanceCards.add(new Card(card.getString("cardText"), e));
                             }
                         }
                 }
             }
-            JSONArray communityChestCards = cardsJSON.getJSONArray("communityChestCards");
+            communityChestCards = new ArrayList<>();
+            JSONArray communityChestCardsJSON = cardsJSON.getJSONArray("communityChestCards");
+            for (int i = 0; i < communityChestCardsJSON.length(); i++) {
+                JSONObject card = communityChestCardsJSON.getJSONObject(i);
+                JSONObject cardEvent = card.getJSONObject("cardEvent");
+                CardEvent e = null;
+                switch (cardEvent.getString("type")) {
+                    case "ADVANCE":
+                        String targetSpace = cardEvent.getString("targetSpace");
+                        for (Space s : spaces) {
+                            if (targetSpace.equals(s.getName())) {
+                                e = new AdvanceEvent(s, 1 == cardEvent.getInt("canCollectSalary"));
+                                communityChestCards.add(new Card(card.getString("cardText"), e));
+                            }
+                        }
+                }
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

@@ -14,7 +14,7 @@
         prefHeight="400.0" prefWidth="600.0" spacing="50"
         fx:controller="frontend.GameScreenController"
         >
-<fx:include source="Board.fxml" fx:id="dynamicBoard"></fx:include>
+<fx:include source="DynamicBoard.fxml" fx:id="dynamicBoard"></fx:include>
 <VBox spacing="20">
     <HBox>
         <Label>Turn {TURN_COUNT}</Label>
@@ -31,7 +31,7 @@
                 <VBox styleClass="vbox-style">
                     <ImageView styleClass="imageView-style">
                         <image>
-                            <Image fx:id="piece1" requestedHeight="100" requestedWidth="120" url="/img/pieces/horse.png"/>
+                            <Image fx:id="piece1" requestedHeight="100" requestedWidth="120" url="/img/pieces/normal/horse.png"/>
                         </image>
                     </ImageView>
                     <Label fx:id="name1" styleClass="namelabel">Player1</Label>

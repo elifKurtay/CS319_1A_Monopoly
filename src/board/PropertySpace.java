@@ -12,7 +12,6 @@ public class PropertySpace extends Space{
     }
 
     private Player owner;
-    private int value;
     private Property associatedProperty;
     private PropertyType type;
 
@@ -33,18 +32,6 @@ public class PropertySpace extends Space{
         else {
             this.type = PropertyType.UTILITY;
         }
-    }
-
-    public boolean buySpace() {
-        if (owner == null) {
-            // Assuming payBank returns a boolean value, true if payment has succeeded
-            if (super.getLatestPlayer().payBank(value)) {
-                owner = super.getLatestPlayer();
-                super.getLatestPlayer().getProperties().add(associatedProperty);
-                return true;
-            }
-        }
-        return false;
     }
 
 }
