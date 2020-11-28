@@ -10,9 +10,11 @@ public class TaxSpace extends Space {
     public TaxSpace(String taxType) {
         if (taxType.equals("LUXURY")) {
             type = TaxType.LUXURY;
+            setName("Luxury Tax");
         }
         else {
             type = TaxType.INCOME;
+            setName("Income Tax");
         }
     }
 

@@ -1,7 +1,12 @@
 package board;
 
-import card.Card;
+import card.*;
 import entities.Player;
+import entities.Property;
+import event.AdvanceEvent;
+import event.CardEvent;
+import lombok.Getter;
+import lombok.Setter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -10,8 +15,11 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+@Getter
+@Setter
 public class Board {
     private Space spaces[];
+    private String propertyGroupColors[];
     private ArrayList<Card> chanceCards;
     private ArrayList<Card> communityChestCards;
     private Thief thief;
@@ -21,8 +29,8 @@ public class Board {
         // Maybe also read the cards from a file and instantiate them here
         chanceCards = null;
         communityChestCards = null;
+        propertyGroupColors = null;
         thief = null;
-
         try {
             Scanner scan = new Scanner(map);
             // Using \Z as the delimiter matches to the end of file except a newline at end
@@ -30,34 +38,92 @@ public class Board {
 
             // Create a json object containing the map and then access the spaces
             JSONObject jsonMap = new JSONObject(json);
+            int propertyGroupCount = jsonMap.getInt("propertyGroupCount");
+            System.out.println("Prop group count: " + propertyGroupCount);
+            propertyGroupColors = new String[propertyGroupCount];
+            JSONArray colorsJson = jsonMap.getJSONArray("propertyGroupColors");
+            for (int i = 0; i < colorsJson.length(); i++) {
+                propertyGroupColors[i] = colorsJson.getString(i);
+            }
+
             JSONArray mapSpaces = jsonMap.getJSONArray("spaces");
 
             for (int i = 0; i < mapSpaces.length(); i++) {
                 JSONObject currentSpace =  mapSpaces.getJSONObject(i);
                 switch (currentSpace.getString("type")) {
                     case "PropertySpace":
-                        spaces[i] = new PropertySpace(currentSpace.getString("name"),
-                            currentSpace.getString("propertyType"), Integer.parseInt(currentSpace.getString("value")));
+                        TitleDeedCard card = null;
+                        Property p = null;
+                        JSONObject titleDeedCard = currentSpace.getJSONObject("titleDeedCard");
+                        switch (currentSpace.getString("propertyType")) {
+                            case "LAND":
+                                JSONArray rentsJson = titleDeedCard.getJSONArray("rents");
+                                int[] rents = new int[6];
+                                for (int j = 0; j < rentsJson.length(); j++) {
+                                    rents[j] = rentsJson.getInt(j);
+                                }
+                                card = new LandTitleDeedCard(currentSpace.getString("name"), titleDeedCard.getInt("mortgageValue"),
+                                        currentSpace.getInt("propertyGroup"), rents, titleDeedCard.getInt("houseCost"), titleDeedCard.getInt("hotelCost"));
+                                break;
+                            case "UTILITY":
+                                JSONArray multipliersJson = titleDeedCard.getJSONArray("multipliers");
+                                int[] multipliers = new int[2];
+                                for (int j = 0; j < multipliersJson.length(); j++) {
+                                    multipliers[j] = multipliersJson.getInt(j);
+                                }
+                                card = new UtilityTitleDeedCard(currentSpace.getString("name"), titleDeedCard.getInt("mortgageValue"), multipliers);
+                                break;
+                            case "TRANSPORT":
+                                card = new TransportTitleDeedCard(currentSpace.getString("name"), titleDeedCard.getInt("mortgageValue"));
+                                break;
+                        }
+                        p = new Property(card, currentSpace.getInt("value"));
+                        spaces[i] = new PropertySpace(currentSpace.getString("name"), currentSpace.getString("propertyType"), p);
+
                         break;
                     case "CardSpace":
                         spaces[i] = new CardSpace(currentSpace.getString("cardType"));
                         break;
                     case "TaxSpace":
                         spaces[i] = new TaxSpace(currentSpace.getString("taxType"));
+                        break;
                     case "GoSpace":
                         spaces[i] = new GoSpace();
+                        spaces[i].setName("Go");
                         break;
                     case "JailSpace":
                         spaces[i] = new JailSpace();
+                        spaces[i].setName("Jail");
                         break;
                     case "WheelOfFortuneSpace":
                         spaces[i] = new WheelOfFortuneSpace();
+                        spaces[i].setName("Wheel of Fortune");
                         break;
                     case "GoToJailSpace":
                         spaces[i] = new GoToJailSpace();
+                        spaces[i].setName("Go to Jail");
                         break;
                 }
             }
+
+            JSONObject cardsJSON = jsonMap.getJSONObject("cards");
+            JSONArray chanceCardsJSON = cardsJSON.getJSONArray("chanceCards");
+            for (int i = 0; i < chanceCardsJSON.length(); i++) {
+                JSONObject card = chanceCardsJSON.getJSONObject(i);
+                JSONObject cardEvent = card.getJSONObject("cardEvent");
+                CardEvent e = null;
+                switch (cardEvent.getString("type")) {
+                    case "ADVANCE":
+                        String targetSpace = cardEvent.getString("targetSpace");
+                        for (Space s : spaces) {
+                            if (targetSpace.equals(s.getName())) {
+                                //e = new AdvanceEvent();
+                                //chanceCards.add(new Card())
+                            }
+                        }
+                }
+            }
+            JSONArray communityChestCards = cardsJSON.getJSONArray("communityChestCards");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

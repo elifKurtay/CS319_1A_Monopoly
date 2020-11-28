@@ -1,6 +1,8 @@
 package frontend;
 
+import board.Board;
 import entities.Player;
+import game.Game;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -50,6 +52,7 @@ public class NewGameMenuController {
         mapCombo.getSelectionModel().select(mapCombo.getItems().get(0));
 
         turnLimitCombo.getItems().addAll(-1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50);
+        turnLimitCombo.getSelectionModel().select(turnLimitCombo.getItems().get(0));
     }
 
     public void setStage(Stage stage) {
@@ -58,12 +61,16 @@ public class NewGameMenuController {
 
     @FXML protected void startButtonAction(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameScreen.fxml"));
-
         Parent root = loader.load();
-        Pane p1 = (Pane) root.lookup("#myPane");
-        p1.getChildren().add(new BoardPane());
+        //Game controller = loader.getController();
+        GameScreenController controller = loader.getController();
+        File map = (new File("./assets/maps/" + mapCombo.getValue()));
+
+        //controller.startGame(map, currentHumanPlayers, players, turnLimitCombo.getValue());
         Scene s = new Scene(root, stage.getWidth(), stage.getHeight());
         stage.setScene(s);
+        Game game = new Game(map, currentHumanPlayers, players, turnLimitCombo.getValue(), controller);
+        game.startGame();
     }
 
     @FXML protected void backButtonAction(ActionEvent event) {

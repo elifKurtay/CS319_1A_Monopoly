@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PropertySpace extends Space{
-    private enum PropertyType {
+    public enum PropertyType {
         LAND, TRANSPORT, UTILITY
     }
 
@@ -16,14 +16,13 @@ public class PropertySpace extends Space{
     private Property associatedProperty;
     private PropertyType type;
 
-    public PropertySpace(String name, String propertyType, int value) {
+    public PropertySpace(String name, String propertyType, Property associatedProperty) {
 
         owner = null;
         // Need to associate PropertySpaces with Properties at instantiation
-        associatedProperty = null;
+        this.associatedProperty = associatedProperty;
 
         setName(name);
-        this.value = value;
 
         if (propertyType.equals("LAND")) {
             this.type = PropertyType.LAND;
