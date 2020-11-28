@@ -31,7 +31,7 @@ public class Player {
     private int jailedLapCount;
 
     //constructor
-    public Player() {};
+    public Player() {}
 
     public Player(String playerName) {
         this.playerName = playerName;
@@ -65,13 +65,6 @@ public class Player {
         }
         int netWorth = money + sumOfUnmortgagedProperty + sumOfMortgageValues + sumOfBuildings;
         return netWorth;
-    }
-
-    public void openPostponedCard(Card card){
-        if(postponedCard.contains(card)) {
-            card.open();
-            postponedCard.remove(card);
-        }
     }
 
     public void payPlayer(@NotNull Player receiver, int[] dice){
@@ -146,7 +139,7 @@ public class Player {
         } else if (propertyToCheck.getCard() instanceof UtilityTitleDeedCard) {
             for (Property p : properties) {
                 if (p.getCard() instanceof UtilityTitleDeedCard)
-                    tiles.add(p);;
+                    tiles.add(p);
             }
         }
         return tiles;
