@@ -1,0 +1,79 @@
+/*
+@font-face {
+    -fx-font-family: 'Open Sans', sans-serif;
+    src: url("/fonts/OpenSans-Regular.ttf");
+}
+ */
+
+Label {
+    -fx-font-family: 'Open Sans', sans-serif;
+    -fx-font-size: 12px;
+    -fx-font-weight: bolder;
+}
+
+#css_middle {
+    -fx-background-color: rgb(128,128,128);
+    -fx-background-image: url("/img/boardImages/boardBackground.png");
+    /* 9 * height of a hspace( or width of a vspace) */
+    -fx-min-height: 720px;
+}
+
+
+#leftBoard #rightBoard #topBoard #bottomBoard {
+    -fx-border-style: solid;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+}
+
+.colorside {
+    -fx-min-width: 20px;
+    -fx-min-height: 80px;
+    -fx-border-style: solid;
+    -fx-border-color: black;
+    -fx-border-width: 0 0 0 1px;
+}
+
+.colortop {
+    -fx-min-width: 100px;
+    -fx-min-height: 20px;
+    -fx-border-style: solid;
+    -fx-border-color: black;
+    -fx-border-width: 0 0 1px 0;
+}
+
+
+.hspace {
+    -fx-min-width: 120px;
+    -fx-max-width: 120px;
+    -fx-min-height: 80px;
+    -fx-max-height: 80px;
+
+    -fx-background-color: #d8fbf5;
+
+    -fx-border-style: solid;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+}
+
+.vspace {
+    -fx-min-width: 80px;
+    -fx-max-width: 80px;
+    -fx-min-height: 120px;
+    -fx-max-height: 120px;
+
+    -fx-background-color: #d8fbf5;
+
+    -fx-border-style: solid;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+}
+
+.corner {
+    -fx-min-width: 120px;
+    -fx-min-height: 120px;
+    -fx-background-color: #d8fbf5;
+
+    -fx-border-style: solid;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+}

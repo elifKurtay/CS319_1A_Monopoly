@@ -1,4 +1,15 @@
 {
+    "propertyGroupCount": 8,
+    "propertyGroupColors" : [
+        "955500",
+        "5feef8",
+        "dd20b3",
+        "ff7f08",
+        "fa0909",
+        "f5fa09",
+        "40ba21",
+        "27397b"
+    ],
     "spaces":[
         {
             "type": "GoSpace",
@@ -8,7 +19,14 @@
             "type": "PropertySpace",
             "propertyType": "LAND",
             "name": "Old Kent Road",
-            "value": "60"
+            "value": "60",
+            "propertyGroup": 0,
+            "titleDeedCard": {
+                "rents": [2, 10, 30, 90, 160, 250],
+                "houseCost": 50,
+                "hotelCost": 50,
+                "mortgageValue": 30
+            }
         },
         {
             "type": "CardSpace",
@@ -19,7 +37,14 @@
             "type": "PropertySpace",
             "propertyType": "LAND",
             "name": "White Chapel Road",
-            "value": "60"
+            "value": "60",
+            "propertyGroup": 0,
+            "titleDeedCard": {
+                "rents": [4, 20, 60, 180, 320, 450],
+                "houseCost": 50,
+                "hotelCost": 50,
+                "mortgageValue": 30
+            }
         },
         {
             "type": "TaxSpace",
@@ -30,13 +55,23 @@
             "type": "PropertySpace",
             "propertyType": "TRANSPORT",
             "name": "Kings Cross Station",
-            "value": "200"
+            "value": "200",
+            "titleDeedCard": {
+                "mortgageValue": 100
+            }
         },
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
             "name": "The Angel Islington",
-            "value": "120"
+            "value": "100",
+            "propertyGroup": 1,
+            "titleDeedCard": {
+                "rents": [6, 30, 90, 270, 400, 550],
+                "houseCost": 50,
+                "hotelCost": 50,
+                "mortgageValue": 50
+            }
         },
         {
             "type": "CardSpace",
@@ -47,13 +82,27 @@
             "type": "PropertySpace",
             "propertyType": "LAND",
             "name": "Euston Road",
-            "value": "100"
+            "value": "100",
+            "propertyGroup": 1,
+            "titleDeedCard": {
+                "rents": [6, 30, 90, 270, 400, 550],
+                "houseCost": 50,
+                "hotelCost": 50,
+                "mortgageValue": 50
+            }
         },
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
             "name": "Pentonville Road",
-            "value": "120"
+            "value": "120",
+            "propertyGroup": 1,
+            "titleDeedCard": {
+                "rents": [8, 40, 100, 300, 450, 600],
+                "houseCost": 50,
+                "hotelCost": 50,
+                "mortgageValue": 60
+            }
         },
         {
             "type": "JailSpace",
@@ -63,37 +112,72 @@
             "type": "PropertySpace",
             "propertyType": "LAND",
             "name": "Pall Mall",
-            "value": "140"
+            "value": "140",
+            "propertyGroup": 2,
+            "titleDeedCard": {
+                "rents": [10, 50, 150, 450, 625, 750],
+                "houseCost": 100,
+                "hotelCost": 100,
+                "mortgageValue": 70
+            }
         },
         {
             "type": "PropertySpace",
             "name": "Electric Company",
             "propertyType": "UTILITY",
-            "value": "140"
+            "value": "150",
+            "titleDeedCard": {
+                "multipliers": [4, 10],
+                "mortgageValue": 75
+            }
         },
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
             "name": "Whitehall",
-            "value": "140"
+            "value": "140",
+            "propertyGroup": 2,
+            "titleDeedCard": {
+                "rents": [10, 50, 150, 450, 625, 750],
+                "houseCost": 100,
+                "hotelCost": 100,
+                "mortgageValue": 70
+            }
         },
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
             "name": "Northumberland Avenue",
-            "value": "140"
+            "value": "140",
+            "propertyGroup": 2,
+            "titleDeedCard": {
+                "rents": [12, 60, 180, 500, 700, 900],
+                "houseCost": 100,
+                "hotelCost": 100,
+                "mortgageValue": 80
+            }
         },
         {
             "type": "PropertySpace",
             "propertyType": "TRANSPORT",
             "name": "Marblebone Station",
-            "value": "200"
+            "value": "200",
+            "titleDeedCard": {
+                "mortgageValue": 100
+            }
         },
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
             "name": "Bow Street",
-            "value": "180"
+            "value": "180",
+            "propertyGroup": 3,
+            "titleDeedCard": {
+                "rents": [14, 70, 200, 550, 750, 950],
+                "houseCost": 100,
+                "hotelCost": 100,
+                "mortgageValue": 90
+            }
         },
         {
             "type": "CardSpace",
@@ -104,13 +188,27 @@
             "type": "PropertySpace",
             "propertyType": "LAND",
             "name": "Marlborough Street",
-            "value": "180"
+            "value": "180",
+            "propertyGroup": 3,
+            "titleDeedCard": {
+                "rents": [14, 70, 200, 550, 750, 950],
+                "houseCost": 100,
+                "hotelCost": 100,
+                "mortgageValue": 90
+            }
         },
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
             "name": "Vine Street",
-            "value": "200"
+            "value": "200",
+            "propertyGroup": 3,
+            "titleDeedCard": {
+                "rents": [16, 80, 220, 600, 800, 1000],
+                "houseCost": 100,
+                "hotelCost": 100,
+                "mortgageValue": 100
+            }
         },
         {
             "type": "WheelOfFortuneSpace",
@@ -120,7 +218,14 @@
             "type": "PropertySpace",
             "propertyType": "LAND",
             "name": "Strand",
-            "value": "220"
+            "value": "220",
+            "propertyGroup": 4,
+            "titleDeedCard": {
+                "rents": [18, 90, 250, 700, 875, 1050],
+                "houseCost": 150,
+                "hotelCost": 150,
+                "mortgageValue": 110
+            }
         },
         {
             "type": "CardSpace",
@@ -131,43 +236,85 @@
             "type": "PropertySpace",
             "propertyType": "LAND",
             "name": "Fleet Street",
-            "value": "220"
+            "value": "220",
+            "propertyGroup": 4,
+            "titleDeedCard": {
+                "rents": [18, 90, 250, 700, 875, 1050],
+                "houseCost": 150,
+                "hotelCost": 150,
+                "mortgageValue": 110
+            }
         },
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
             "name": "Trafalgar Square",
-            "value": "240"
+            "value": "240",
+            "propertyGroup": 4,
+            "titleDeedCard": {
+                "rents": [20, 100, 300, 750, 925, 1100],
+                "houseCost": 150,
+                "hotelCost": 150,
+                "mortgageValue": 120
+            }
         },
         {
             "type": "PropertySpace",
             "propertyType": "TRANSPORT",
             "name": "Fenchurch St. Station",
-            "value": "200"
+            "value": "200",
+            "titleDeedCard": {
+                "mortgageValue": 100
+            }
         },
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
             "name": "Liecester Square",
-            "value": "260"
+            "value": "260",
+            "propertyGroup": 5,
+            "titleDeedCard": {
+                "rents": [22, 110, 330, 800, 975, 1150],
+                "houseCost": 150,
+                "hotelCost": 150,
+                "mortgageValue": 130
+            }
         },
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
             "name": "Coventry Square",
-            "value": "260"
+            "value": "260",
+            "propertyGroup": 5,
+            "titleDeedCard": {
+                "rents": [22, 110, 330, 800, 975, 1150],
+                "houseCost": 150,
+                "hotelCost": 150,
+                "mortgageValue": 130
+            }
         },
         {
             "type": "PropertySpace",
             "name": "Water Works",
             "propertyType": "UTILITY",
-            "value": "150"
+            "value": "150",
+            "titleDeedCard" : {
+                "multipliers": [4, 10],
+                "mortgageValue": 75
+            }
         },
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
             "name": "Piccadilly",
-            "value": "260"
+            "value": "260",
+            "propertyGroup": 5,
+            "titleDeedCard": {
+                "rents": [24, 120, 360, 850, 1025, 1200],
+                "houseCost": 150,
+                "hotelCost": 150,
+                "mortgageValue": 140
+            }
         },
         {
             "type": "GoToJailSpace",
@@ -177,13 +324,27 @@
             "type": "PropertySpace",
             "propertyType": "LAND",
             "name": "Regent Street",
-            "value": "300"
+            "value": "300",
+            "propertyGroup": 6,
+            "titleDeedCard": {
+                "rents": [26, 130, 390, 900, 1100, 1275],
+                "houseCost": 200,
+                "hotelCost": 200,
+                "mortgageValue": 150
+            }
         },
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
             "name": "Oxford Street",
-            "value": "300"
+            "value": "300",
+            "propertyGroup": 6,
+            "titleDeedCard": {
+                "rents": [26, 130, 390, 900, 1100, 1275],
+                "houseCost": 200,
+                "hotelCost": 200,
+                "mortgageValue": 150
+            }
         },
         {
             "type": "CardSpace",
@@ -194,13 +355,23 @@
             "type": "PropertySpace",
             "propertyType": "LAND",
             "name": "Bond Street",
-            "value": "320"
+            "value": "320",
+            "propertyGroup": 6,
+            "titleDeedCard": {
+                "rents": [28, 150, 450, 1000, 1200, 1400],
+                "houseCost": 200,
+                "hotelCost": 200,
+                "mortgageValue": 160
+            }
         },
         {
             "type": "PropertySpace",
             "propertyType": "TRANSPORT",
             "name": "Liverpool St. Station",
-            "value": "200"
+            "value": "200",
+            "titleDeedCard": {
+                "mortgageValue": 100
+            }
         },
         {
             "type": "CardSpace",
@@ -211,7 +382,14 @@
             "type": "PropertySpace",
             "propertyType": "LAND",
             "name": "Park Lane",
-            "value": "350"
+            "value": "350",
+            "propertyGroup": 7,
+            "titleDeedCard": {
+                "rents": [35, 175, 500, 1100, 1300, 1500],
+                "houseCost": 200,
+                "hotelCost": 200,
+                "mortgageValue": 175
+            }
         },
         {
             "type": "TaxSpace",
@@ -222,7 +400,46 @@
             "type": "PropertySpace",
             "propertyType": "LAND",
             "name": "Mayfair",
-            "value": "400"
+            "value": "400",
+            "propertyGroup": 7,
+            "titleDeedCard": {
+                "rents": [50, 200, 600, 1400, 1700, 2000],
+                "houseCost": 200,
+                "hotelCost": 200,
+                "mortgageValue": 200
+            }
         }
-    ]
+    ],
+    "cards":{
+        "chanceCards": [
+            {
+                "cardEvent": {
+                    "type": "ADVANCE",
+                    "targetSpace": "Go",
+                    "canCollectSalary": 1
+                },
+                "cardText": "Advance to \"Go\" (Collect M200)"
+            },
+            {
+                "cardEvent": {
+                    "type": "ADVANCE",
+                    "targetSpace": "Pall Mall",
+                    "canCollectSalary": 1
+                },
+                "cardText": "Advance to Pall Mall, if you pass Go, collect M200"
+            },
+            {
+                "cardEvent": {
+                    "type": "ADVANCE",
+                    "targetSpace": "Trafalgar Square",
+                    "canCollectSalary": 1
+                },
+                "cardText": "Advance to Trafalgar Square, if you pass Go, collect M200"
+            }
+
+        ],
+        "communityChestCards": [
+
+        ]
+    }
 }

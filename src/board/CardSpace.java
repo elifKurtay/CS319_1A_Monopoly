@@ -15,18 +15,12 @@ public class CardSpace extends Space {
     public CardSpace(String cardType) {
         if (cardType.equals("CHANCE")) {
             type = CardType.CHANCE;
+            setName("Chance");
         }
         else {
             type = CardType.COMMUNITY_CHEST;
+            setName("Community Chest");
         }
-
-    }
-
-    public void drawCardAndOpen() {
-        //Need a reference to board to access the card arraylists
-    }
-
-    public void drawCardAndPostpone() {
 
     }
 }
