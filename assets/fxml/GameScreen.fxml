@@ -25,7 +25,7 @@
             <Button text="Exit" onAction="#exitButtonAction"/>
         </HBox>
     </HBox>
-    <VBox spacing="30">
+    <VBox spacing="30" fx:id="playerBoxes">
         <Pane styleClass="player-pane">
             <HBox spacing="40" alignment="CENTER">
                 <VBox styleClass="vbox-style">
@@ -34,51 +34,9 @@
                             <Image fx:id="piece1" requestedHeight="100" requestedWidth="120" url="/img/pieces/horse.png"/>
                         </image>
                     </ImageView>
-                    <Label fx:id="name1" styleClass="namelabel" prefHeight="45" prefWidth="120">Player1</Label>
+                    <Label fx:id="name1" styleClass="namelabel">Player1</Label>
                 </VBox>
                 <Label fx:id="money1" styleClass="moneylabel" prefHeight="70" prefWidth="150">$1000</Label>
-                <Button styleClass="assetsButton" text="Assets" onAction="#player1ButtonAction"/>
-            </HBox>
-        </Pane>
-        <Pane styleClass="player-pane">
-            <HBox spacing="40" alignment="CENTER">
-                <VBox styleClass="vbox-style">
-                    <ImageView styleClass="imageView-style">
-                        <image>
-                            <Image fx:id="piece2" requestedHeight="100" requestedWidth="120" url="/img/pieces/horse.png"/>
-                        </image>
-                    </ImageView>
-                    <Label fx:id="name2" styleClass="namelabel" prefHeight="45" prefWidth="120">Player2</Label>
-                </VBox>
-                <Label fx:id="money2" styleClass="moneylabel" prefHeight="70" prefWidth="150">$1000</Label>
-                <Button styleClass="assetsButton" text="Assets" onAction="#player1ButtonAction"/>
-            </HBox>
-        </Pane>
-        <Pane styleClass="player-pane">
-            <HBox spacing="40" alignment="CENTER">
-                <VBox styleClass="vbox-style">
-                    <ImageView styleClass="imageView-style">
-                        <image>
-                            <Image fx:id="piece3" requestedHeight="100" requestedWidth="120" url="/img/pieces/horse.png"/>
-                        </image>
-                    </ImageView>
-                    <Label fx:id="name3" styleClass="namelabel" prefHeight="45" prefWidth="120">Player3</Label>
-                </VBox>
-                <Label fx:id="money3" styleClass="moneylabel" prefHeight="70" prefWidth="150">$1000</Label>
-                <Button styleClass="assetsButton" text="Assets" onAction="#player1ButtonAction"/>
-            </HBox>
-        </Pane>
-        <Pane styleClass="player-pane">
-            <HBox spacing="40" alignment="CENTER">
-                <VBox styleClass="vbox-style">
-                    <ImageView styleClass="imageView-style">
-                        <image>
-                            <Image fx:id="piece4" requestedHeight="100" requestedWidth="120" url="/img/pieces/horse.png"/>
-                        </image>
-                    </ImageView>
-                    <Label fx:id="name4" styleClass="namelabel" prefHeight="45" prefWidth="120">Player4</Label>
-                </VBox>
-                <Label fx:id="money4" styleClass="moneylabel" prefHeight="70" prefWidth="150">$1000</Label>
                 <Button styleClass="assetsButton" text="Assets" onAction="#player1ButtonAction"/>
             </HBox>
         </Pane>

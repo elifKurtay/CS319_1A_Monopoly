@@ -25,7 +25,7 @@ public class Player {
     private boolean bankrupt;
     private ArrayList<Property> properties;
     private int getOutOfJailFreeCount;
-    private ArrayList<Card> postponedCard;
+    private ArrayList<Card> postponedCards;
     private boolean jailed;
     private Token token;
     private int jailedLapCount;
@@ -38,9 +38,9 @@ public class Player {
         money = 200;
         currentSpace = new GoSpace();
         bankrupt = false;
-        properties = null;
+        properties = new ArrayList<>();
         getOutOfJailFreeCount = 0;
-        postponedCard = null;
+        postponedCards = new ArrayList<>();
         jailed = false;
         token = null;
         jailedLapCount = 0;
@@ -68,9 +68,9 @@ public class Player {
     }
 
     public void openPostponedCard(Card card){
-        if(postponedCard.contains(card)) {
+        if(postponedCards.contains(card)) {
             card.open();
-            postponedCard.remove(card);
+            postponedCards.remove(card);
         }
     }
 
@@ -192,7 +192,7 @@ public class Player {
         bankrupt = false;
         properties = null;
         getOutOfJailFreeCount = 0;
-        postponedCard = null;
+        postponedCards = null;
         jailed = false;
         token = null;
     }
