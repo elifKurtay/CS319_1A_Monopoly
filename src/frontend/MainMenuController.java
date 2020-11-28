@@ -1,4 +1,4 @@
-package ui;
+package frontend;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -17,7 +17,7 @@ public class MainMenuController {
     }
 
     @FXML protected void newGameButtonAction(ActionEvent event) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("C:\\Users\\Elif\\Documents\\IntelliJ\\CS319_1A_Monopoly\\assets\\ui\\fxml\\NewGameMenu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/NewGameMenu.fxml"));
         Parent root = loader.load();
         NewGameMenuController controller = loader.getController();
         controller.setStage(stage);
@@ -33,7 +33,7 @@ public class MainMenuController {
     }
 
     @FXML protected void settingsButtonAction(ActionEvent event) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("SettingsMenu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/SettingsMenu.fxml"));
         Parent root = loader.load();
 
         Scene s = new Scene(root, stage.getWidth(), stage.getHeight());
@@ -42,7 +42,14 @@ public class MainMenuController {
     }
 
     @FXML protected void creditsButtonAction(ActionEvent event) throws Exception {
-        Platform.exit();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Credits.fxml"));
+        Parent root = loader.load();
+        CreditsController controller = loader.getController();
+        controller.setStage(stage);
+        System.out.println(root);
+        Scene s = new Scene(root, stage.getWidth(), stage.getHeight());
+        System.out.println("dadsa");
+        stage.setScene(s);
     }
 
     @FXML protected void backButtonAction(ActionEvent event) {

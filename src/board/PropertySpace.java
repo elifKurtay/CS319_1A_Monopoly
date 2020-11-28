@@ -1,7 +1,11 @@
 package board;
 import entities.Player;
 import entities.Property;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class PropertySpace extends Space{
     private enum PropertyType {
         LAND, TRANSPORT, UTILITY
@@ -31,31 +35,17 @@ public class PropertySpace extends Space{
             this.type = PropertyType.UTILITY;
         }
     }
-/*
+
     public boolean buySpace() {
         if (owner == null) {
             // Assuming payBank returns a boolean value, true if payment has succeeded
-            if (getLatestPlayerOnSpace().payBank(value)) {
-                owner = getLatestPlayerOnSpace();
-                getLatestPlayerOnSpace().getProperties().add(associatedProperty);
+            if (super.getLatestPlayer().payBank(value)) {
+                owner = super.getLatestPlayer();
+                super.getLatestPlayer().getProperties().add(associatedProperty);
                 return true;
             }
         }
         return false;
     }
 
-    public boolean payRent() {
-        if (owner != null) {
-            // Assuming the return value from payPlayer is boolean
-            return getLatestPlayerOnSpace().payPlayer(owner, calculateRent());
-        }
-        return false;
-    }
-
-    public double calculateRent() {
-        //return getLatestPlayerOnSpace().getToken().getRentPayMultiplier()
-          //      * (owner.getToken().getRentCollectMultiplier() * associatedProperty.calculateRent());
-        //diceSum is the dice sum of the player that will pay the rent
-        return getLatestPlayerOnSpace().calculateRent(owner, diceSum);
-    } */
 }

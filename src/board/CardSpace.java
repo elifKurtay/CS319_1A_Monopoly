@@ -1,7 +1,12 @@
 package board;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class CardSpace extends Space {
-    private enum CardType {
+    public enum CardType {
         CHANCE, COMMUNITY_CHEST
     }
 

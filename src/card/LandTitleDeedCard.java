@@ -1,15 +1,22 @@
 package card;
 
+import entities.Property;
+import lombok.Getter;
+import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
+
+@Getter
+@Setter
 public class LandTitleDeedCard extends TitleDeedCard{
     private int propertyGroup;
-    private int[] rent;
+    private int[] rents;
     private int houseCost;
     private int hotelCost;
 
     public LandTitleDeedCard(String propertyName, int mortgageValue) {
         super(propertyName, mortgageValue);
         propertyGroup = -1; //undefined
-        rent = new int[6];
+        rents = new int[6];
         houseCost = -1;
         hotelCost = -1;
     }
@@ -18,40 +25,16 @@ public class LandTitleDeedCard extends TitleDeedCard{
                              int houseCost, int hotelCost){
         super(propertyName, mortgageValue);
         this.propertyGroup = propertyGroup;
-        this.rent = rent;
+        this.rents = rent;
         this.houseCost = houseCost;
         this.hotelCost = hotelCost;
     }
 
-    public int getPropertyGroup() {
-        return propertyGroup;
+    public int getRent( @NotNull Property property) {
+        if(property.isHotel())
+            return rents[5];
+        return rents[property.getNumOfHouses()];
     }
 
-    public void setPropertyGroup(int propertyGroup) {
-        this.propertyGroup = propertyGroup;
-    }
 
-    public int[] getRent() {
-        return rent;
-    }
-
-    public void setRent(int[] rent) {
-        this.rent = rent;
-    }
-
-    public int getHouseCost() {
-        return houseCost;
-    }
-
-    public void setHouseCost(int houseCost) {
-        this.houseCost = houseCost;
-    }
-
-    public int getHotelCost() {
-        return hotelCost;
-    }
-
-    public void setHotelCost(int hotelCost) {
-        this.hotelCost = hotelCost;
-    }
 }
