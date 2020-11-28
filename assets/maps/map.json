@@ -409,5 +409,37 @@
                 "mortgageValue": 200
             }
         }
-    ]
+    ],
+    "cards":{
+        "chanceCards": [
+            {
+                "cardEvent": {
+                    "type": "ADVANCE",
+                    "targetSpace": "Go",
+                    "canCollectSalary": 1
+                },
+                "cardText": "Advance to \"Go\" (Collect M200)"
+            },
+            {
+                "cardEvent": {
+                    "type": "ADVANCE",
+                    "targetSpace": "Pall Mall",
+                    "canCollectSalary": 1
+                },
+                "cardText": "Advance to Pall Mall, if you pass Go, collect M200"
+            },
+            {
+                "cardEvent": {
+                    "type": "ADVANCE",
+                    "targetSpace": "Trafalgar Square",
+                    "canCollectSalary": 1
+                },
+                "cardText": "Advance to Trafalgar Square, if you pass Go, collect M200"
+            }
+
+        ],
+        "communityChestCards": [
+
+        ]
+    }
 }

@@ -23,12 +23,4 @@ public class CardSpace extends Space {
         }
 
     }
-
-    public void drawCardAndOpen() {
-        //Need a reference to board to access the card arraylists
-    }
-
-    public void drawCardAndPostpone() {
-
-    }
 }

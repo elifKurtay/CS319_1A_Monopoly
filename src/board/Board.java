@@ -3,6 +3,8 @@ package board;
 import card.*;
 import entities.Player;
 import entities.Property;
+import event.AdvanceEvent;
+import event.CardEvent;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONArray;
@@ -26,8 +28,8 @@ public class Board {
         spaces = new Space[40];
         // Maybe also read the cards from a file and instantiate them here
         chanceCards = null;
-        propertyGroupColors = null;
         communityChestCards = null;
+        propertyGroupColors = null;
         thief = null;
         try {
             Scanner scan = new Scanner(map);
@@ -103,6 +105,25 @@ public class Board {
                         break;
                 }
             }
+
+            JSONObject cardsJSON = jsonMap.getJSONObject("cards");
+            JSONArray chanceCardsJSON = cardsJSON.getJSONArray("chanceCards");
+            for (int i = 0; i < chanceCardsJSON.length(); i++) {
+                JSONObject card = chanceCardsJSON.getJSONObject(i);
+                JSONObject cardEvent = card.getJSONObject("cardEvent");
+                CardEvent e = null;
+                switch (cardEvent.getString("type")) {
+                    case "ADVANCE":
+                        String targetSpace = cardEvent.getString("targetSpace");
+                        for (Space s : spaces) {
+                            if (targetSpace.equals(s.getName())) {
+                                e = new AdvanceEvent();
+                                //chanceCards.add(new Card())
+                            }
+                        }
+                }
+            }
+            JSONArray communityChestCards = cardsJSON.getJSONArray("communityChestCards");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
