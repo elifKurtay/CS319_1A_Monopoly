@@ -117,7 +117,7 @@ public class Board {
                         String targetSpace = cardEvent.getString("targetSpace");
                         for (Space s : spaces) {
                             if (targetSpace.equals(s.getName())) {
-                                e = new AdvanceEvent();
+                                //e = new AdvanceEvent();
                                 //chanceCards.add(new Card())
                             }
                         }

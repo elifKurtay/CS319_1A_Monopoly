@@ -232,11 +232,11 @@ public class Game {
 
     //need to be implemented in GUI
     public void openPostponedCard(Card card){
-        if(currentPlayer.getPostponedCard().contains(card)) {
+        if(currentPlayer.getPostponedCards().contains(card)) {
             openCard(card);
-            ArrayList<Card> postponedCards = currentPlayer.getPostponedCard();
+            ArrayList<Card> postponedCards = currentPlayer.getPostponedCards();
             postponedCards.remove(card);
-            currentPlayer.setPostponedCard(postponedCards);
+            currentPlayer.setPostponedCards(postponedCards);
         }
     }
 
