@@ -77,7 +77,7 @@ public class GameScreenController {
     }
 
     @FXML
-    public void player1ButtonAction(ActionEvent actionEvent) {
+    public void playerAssetsButtonAction(ActionEvent actionEvent) {
     }
 
     public int[] rollDice(String name) {

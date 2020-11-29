@@ -31,13 +31,13 @@
                 <VBox styleClass="vbox-style">
                     <ImageView styleClass="imageView-style">
                         <image>
-                            <Image fx:id="piece1" requestedHeight="100" requestedWidth="120" url="/img/pieces/normal/horse.png"/>
+                            <Image fx:id="piece1" requestedHeight="100" requestedWidth="120" url="/img/token/normal/horse.png"/>
                         </image>
                     </ImageView>
                     <Label fx:id="name1" styleClass="namelabel">Player1</Label>
                 </VBox>
                 <Label fx:id="money1" styleClass="moneylabel" prefHeight="70" prefWidth="150">$1000</Label>
-                <Button styleClass="assetsButton" text="Assets" onAction="#player1ButtonAction"/>
+                <Button styleClass="assetsButton" text="Assets" onAction="#playerAssetsButtonAction"/>
             </HBox>
         </Pane>
     </VBox>

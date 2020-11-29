@@ -78,30 +78,26 @@ public class Board {
                                 break;
                         }
                         p = new Property(card, currentSpace.getInt("value"));
-                        spaces[i] = new PropertySpace(currentSpace.getString("name"), currentSpace.getString("propertyType"), p);
+                        spaces[i] = new PropertySpace(currentSpace.getString("name"), i, currentSpace.getString("propertyType"), p);
 
                         break;
                     case "CardSpace":
-                        spaces[i] = new CardSpace(currentSpace.getString("cardType"));
+                        spaces[i] = new CardSpace(currentSpace.getString("cardType"), i);
                         break;
                     case "TaxSpace":
-                        spaces[i] = new TaxSpace(currentSpace.getString("taxType"));
+                        spaces[i] = new TaxSpace(currentSpace.getString("taxType"), i);
                         break;
                     case "GoSpace":
-                        spaces[i] = new GoSpace();
-                        spaces[i].setName("Go");
+                        spaces[i] = new GoSpace(i);
                         break;
                     case "JailSpace":
-                        spaces[i] = new JailSpace();
-                        spaces[i].setName("Jail");
+                        spaces[i] = new JailSpace(i);
                         break;
                     case "WheelOfFortuneSpace":
-                        spaces[i] = new WheelOfFortuneSpace();
-                        spaces[i].setName("Wheel of Fortune");
+                        spaces[i] = new WheelOfFortuneSpace(i);
                         break;
                     case "GoToJailSpace":
-                        spaces[i] = new GoToJailSpace();
-                        spaces[i].setName("Go to Jail");
+                        spaces[i] = new GoToJailSpace(i);
                         break;
                 }
             }

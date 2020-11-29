@@ -16,7 +16,7 @@ public class MainMenuController {
         this.stage = stage;
     }
 
-    @FXML protected void newGameButtonAction(ActionEvent event) throws Exception {
+    @FXML private void newGameButtonAction(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/NewGameMenu.fxml"));
         Parent root = loader.load();
         NewGameMenuController controller = loader.getController();
@@ -28,11 +28,11 @@ public class MainMenuController {
     }
 
 
-    @FXML protected void loadGameButtonAction(ActionEvent event) throws Exception {
+    @FXML private void loadGameButtonAction(ActionEvent event) throws Exception {
 
     }
 
-    @FXML protected void settingsButtonAction(ActionEvent event) throws Exception {
+    @FXML private void settingsButtonAction(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/SettingsMenu.fxml"));
         Parent root = loader.load();
 
@@ -41,7 +41,7 @@ public class MainMenuController {
         stage.setScene(s);
     }
 
-    @FXML protected void creditsButtonAction(ActionEvent event) throws Exception {
+    @FXML private void creditsButtonAction(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Credits.fxml"));
         Parent root = loader.load();
         CreditsController controller = loader.getController();
@@ -52,7 +52,7 @@ public class MainMenuController {
         stage.setScene(s);
     }
 
-    @FXML protected void backButtonAction(ActionEvent event) {
+    @FXML private void quitButtonAction(ActionEvent event) {
         Platform.exit();
     }
 

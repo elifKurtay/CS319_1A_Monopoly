@@ -12,7 +12,8 @@ public class CardSpace extends Space {
 
     private CardType type;
 
-    public CardSpace(String cardType) {
+    public CardSpace(String cardType, int index) {
+        super(null, index);
         if (cardType.equals("CHANCE")) {
             type = CardType.CHANCE;
             setName("Chance");

@@ -119,6 +119,7 @@ public class Game {
 
                 Space space = board.getSpace( boardIndex );
                 currentPlayer.setCurrentSpace( space );
+                space.setLatestPlayer(currentPlayer);
 
                 controller.drawToken(players[i].getToken().getTokenName(), boardIndex);
 
@@ -386,6 +387,9 @@ public class Game {
     }
 
     private void initializingLap() {
+        for (int i = 0; i < LAP; i++) {
+            players[i].setCurrentSpace(board.getSpace(0));
+        }
         int[] dice;
         int[] diceSums = new int[LAP];
         for(int i = 0; i < LAP; i++) {

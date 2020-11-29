@@ -15,13 +15,13 @@ public class PropertySpace extends Space{
     private Property associatedProperty;
     private PropertyType type;
 
-    public PropertySpace(String name, String propertyType, Property associatedProperty) {
+    public PropertySpace(String name, int index, String propertyType, Property associatedProperty) {
+        super(name, index);
 
         owner = null;
         // Need to associate PropertySpaces with Properties at instantiation
         this.associatedProperty = associatedProperty;
 
-        setName(name);
 
         if (propertyType.equals("LAND")) {
             this.type = PropertyType.LAND;

@@ -37,7 +37,7 @@ public class Player {
     public Player(String playerName) {
         this.playerName = playerName;
         money = 200;
-        currentSpace = new GoSpace();
+        currentSpace = null;
         bankrupt = false;
         properties = new ArrayList<>();
         getOutOfJailFreeCount = 0;
@@ -183,7 +183,7 @@ public class Player {
 
     public void reset() {
         money = 200;
-        currentSpace = new GoSpace();
+        currentSpace = null;
         bankrupt = false;
         properties = null;
         getOutOfJailFreeCount = 0;

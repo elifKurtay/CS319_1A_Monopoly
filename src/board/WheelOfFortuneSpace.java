@@ -2,6 +2,10 @@ package board;
 
 public class WheelOfFortuneSpace extends Space {
 
+    public WheelOfFortuneSpace(int index) {
+        super("Wheel of Fortune", index);
+    }
+
     public void spinWheel() {
         //int random = (int) (Math.random() * 100);
         /*

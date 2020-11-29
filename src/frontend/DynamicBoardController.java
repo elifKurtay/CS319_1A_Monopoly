@@ -2,29 +2,13 @@ package frontend;
 
 import board.*;
 import card.LandTitleDeedCard;
-import card.TitleDeedCard;
-import card.TransportTitleDeedCard;
-import card.UtilityTitleDeedCard;
-import entities.Property;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 public class DynamicBoardController {
     @FXML
@@ -146,7 +130,7 @@ public class DynamicBoardController {
 
     public void drawToken(String tokenName, int index) {
         tokenName = tokenName.toLowerCase().replaceAll(" ","");
-        Image token = new Image("img/pieces/cropped/" + tokenName + ".png");
+        Image token = new Image("img/token/cropped/" + tokenName + ".png");
         ImageView iv = new ImageView(token);
         iv.setFitHeight(30);
         iv.setFitWidth(30);
@@ -169,14 +153,14 @@ public class DynamicBoardController {
             tokenBox = (HBox) ((BorderPane) topLeftBoard.getChildren().get(0)).lookup("#tokenBox");
         }
         else if (index < 30) {
-            tokenBox = (HBox) ((BorderPane) topBoard.getChildren().get(20+index)).lookup("#tokenBox");
+            tokenBox = (HBox) ((BorderPane) topBoard.getChildren().get(index-20)).lookup("#tokenBox");
         }
         else if (index == 30) {
             tokenBox = (HBox) ((BorderPane) topRightBoard.getChildren().get(0)).lookup("#tokenBox");
         }
         // index < 39
         else {
-            tokenBox = (HBox) ((BorderPane) rightBoard.getChildren().get(30+index)).lookup("#tokenBox");
+            tokenBox = (HBox) ((BorderPane) rightBoard.getChildren().get(index-30)).lookup("#tokenBox");
         }
 
         tokenBox.getChildren().add(iv);
