@@ -36,7 +36,7 @@ public class Player {
 
     public Player(String playerName) {
         this.playerName = playerName;
-        money = 200;
+        money = 1500;
         currentSpace = null;
         bankrupt = false;
         properties = new ArrayList<>();
@@ -68,11 +68,12 @@ public class Player {
         return netWorth;
     }
 
-    public void payRent(@NotNull Player receiver, int[] dice){
+    public int payRent(@NotNull Player receiver, int[] dice){
         int amount = calculateRent(receiver, dice[0] + dice[1]);
         receiver.setMoney(receiver.getMoney() + amount);
         money = money - amount;
         System.out.println("Your rent amount: " + amount);
+        return amount;
     }
 
     public void payPlayer(@NotNull Player receiver, int amount){

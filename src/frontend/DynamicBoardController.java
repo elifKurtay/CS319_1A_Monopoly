@@ -15,7 +15,14 @@ public class DynamicBoardController {
     private AnchorPane dynamicBoard;
     @FXML
     private Pane bottomBoard, rightBoard, leftBoard, topBoard, bottomLeftBoard, bottomRightBoard, topLeftBoard, topRightBoard;
+
+    private ImageView[] tokenImages;
     //public void setDynamicBoard(Space[] spaces, String[] colors) {
+
+    public void initialize() {
+        tokenImages = new ImageView[4];
+    }
+
     public void setDynamicBoard(Board gameBoard) {
 
         // Need to reverse the non-corner spaces on the left and bottom parts of the map,
@@ -128,40 +135,82 @@ public class DynamicBoardController {
 
     }
 
-    public void drawToken(String tokenName, int index) {
+    public void setTokenImage(int playerNo, String tokenName) {
         tokenName = tokenName.toLowerCase().replaceAll(" ","");
         Image token = new Image("img/token/cropped/" + tokenName + ".png");
         ImageView iv = new ImageView(token);
         iv.setFitHeight(30);
         iv.setFitWidth(30);
 
+        tokenImages[playerNo] = iv;
+    }
+
+    public void drawToken(int playerNo, int oldIndex, int newIndex) {
+        ImageView iv = tokenImages[playerNo];
+
         HBox tokenBox = null;
-        if (index == 0) {
-            //((VBox)((BorderPane) bottomBoard.getChildren().get(8-index)).getCenter()).getChildren();
+        if (oldIndex == -1) {
             tokenBox = (HBox) ((BorderPane) bottomRightBoard.getChildren().get(0)).lookup("#tokenBox");
         }
-        else if (index < 10) {
-            tokenBox = (HBox) ((BorderPane) bottomBoard.getChildren().get(9-index)).lookup("#tokenBox");
-        }
-        else if (index == 10) {
-            tokenBox = (HBox) ((BorderPane) bottomLeftBoard.getChildren().get(0)).lookup("#tokenBox");
-        }
-        else if (index < 20) {
-            tokenBox = (HBox) ((BorderPane) leftBoard.getChildren().get(19-index)).lookup("#tokenBox");
-        }
-        else if (index == 20) {
-            tokenBox = (HBox) ((BorderPane) topLeftBoard.getChildren().get(0)).lookup("#tokenBox");
-        }
-        else if (index < 30) {
-            tokenBox = (HBox) ((BorderPane) topBoard.getChildren().get(index-20)).lookup("#tokenBox");
-        }
-        else if (index == 30) {
-            tokenBox = (HBox) ((BorderPane) topRightBoard.getChildren().get(0)).lookup("#tokenBox");
-        }
-        // index < 39
         else {
-            tokenBox = (HBox) ((BorderPane) rightBoard.getChildren().get(index-30)).lookup("#tokenBox");
+            //remove old token
+            if (oldIndex == 0) {
+                //((VBox)((BorderPane) bottomBoard.getChildren().get(8-index)).getCenter()).getChildren();
+                tokenBox = (HBox) ((BorderPane) bottomRightBoard.getChildren().get(0)).lookup("#tokenBox");
+            }
+            else if (oldIndex < 10) {
+                tokenBox = (HBox) ((BorderPane) bottomBoard.getChildren().get(9-oldIndex)).lookup("#tokenBox");
+            }
+            else if (oldIndex == 10) {
+                tokenBox = (HBox) ((BorderPane) bottomLeftBoard.getChildren().get(0)).lookup("#tokenBox");
+            }
+            else if (oldIndex < 20) {
+                tokenBox = (HBox) ((BorderPane) leftBoard.getChildren().get(19-oldIndex)).lookup("#tokenBox");
+            }
+            else if (oldIndex == 20) {
+                tokenBox = (HBox) ((BorderPane) topLeftBoard.getChildren().get(0)).lookup("#tokenBox");
+            }
+            else if (oldIndex < 30) {
+                tokenBox = (HBox) ((BorderPane) topBoard.getChildren().get(oldIndex-21)).lookup("#tokenBox");
+            }
+            else if (oldIndex == 30) {
+                tokenBox = (HBox) ((BorderPane) topRightBoard.getChildren().get(0)).lookup("#tokenBox");
+            }
+            // index < 39
+            else {
+                tokenBox = (HBox) ((BorderPane) rightBoard.getChildren().get(oldIndex-31)).lookup("#tokenBox");
+            }
+            tokenBox.getChildren().remove(iv);
+
+            if (newIndex == 0) {
+                //((VBox)((BorderPane) bottomBoard.getChildren().get(8-index)).getCenter()).getChildren();
+                tokenBox = (HBox) ((BorderPane) bottomRightBoard.getChildren().get(0)).lookup("#tokenBox");
+            }
+            else if (newIndex < 10) {
+                tokenBox = (HBox) ((BorderPane) bottomBoard.getChildren().get(9-newIndex)).lookup("#tokenBox");
+            }
+            else if (newIndex == 10) {
+                tokenBox = (HBox) ((BorderPane) bottomLeftBoard.getChildren().get(0)).lookup("#tokenBox");
+            }
+            else if (newIndex < 20) {
+                tokenBox = (HBox) ((BorderPane) leftBoard.getChildren().get(19-newIndex)).lookup("#tokenBox");
+            }
+            else if (newIndex == 20) {
+                tokenBox = (HBox) ((BorderPane) topLeftBoard.getChildren().get(0)).lookup("#tokenBox");
+            }
+            else if (newIndex < 30) {
+                tokenBox = (HBox) ((BorderPane) topBoard.getChildren().get(newIndex-21)).lookup("#tokenBox");
+            }
+            else if (newIndex == 30) {
+                tokenBox = (HBox) ((BorderPane) topRightBoard.getChildren().get(0)).lookup("#tokenBox");
+            }
+            // index < 39
+            else {
+                tokenBox = (HBox) ((BorderPane) rightBoard.getChildren().get(newIndex-31)).lookup("#tokenBox");
+            }
+
         }
+
 
         tokenBox.getChildren().add(iv);
     }

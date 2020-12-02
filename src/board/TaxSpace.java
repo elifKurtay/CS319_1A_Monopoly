@@ -21,9 +21,9 @@ public class TaxSpace extends Space {
 
     public int getTax() {
         if(type == TaxType.INCOME)
-            return 10;
+            return 100;
         else
-            return 20;
+            return 200;
     }
 
 }

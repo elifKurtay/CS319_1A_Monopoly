@@ -80,9 +80,11 @@ public class Game {
                 //calculating next player
                 if (dice[0] == dice[1]) {
                     doublesCount++;
+                    /*
                     if (i != 0) {
                         i--;
                     }
+                     */
                 } else
                     doublesCount = 0;
 
@@ -103,17 +105,19 @@ public class Game {
                 else if( currentPlayer.isJailed() &&
                         currentPlayer.getJailedLapCount() >= currentPlayer.getToken().getJailTime() ) {
                     currentPlayer.setJailed(false);
-                    currentPlayer.setMoney(currentPlayer.getMoney() - 5);
+                    currentPlayer.setMoney(currentPlayer.getMoney() - 50);
                     controller.showMessage("You are released from jail and have lost 5 money!");
                 }
 
+                int oldIndex = currentPlayer.getCurrentSpace().getIndex();
                 //move on board
                 int boardIndex = currentPlayer.getCurrentSpace().getIndex() + dice[0] + dice[1];
                 if(boardIndex >= 40) { //passed Go space
-                    currentPlayer.setMoney( currentPlayer.getMoney() + 20
+                    currentPlayer.setMoney( currentPlayer.getMoney() + 200
                             + currentPlayer.getToken().getSalaryChange()); //salary 20?
                     boardIndex = boardIndex % 40;
                     //System.out.println("Your salary is paid!");
+                    controller.drawPlayerBoxes(players);
                     controller.showMessage("Your salary is paid!");
                 }
 
@@ -121,10 +125,11 @@ public class Game {
                 currentPlayer.setCurrentSpace( space );
                 space.setLatestPlayer(currentPlayer);
 
-                controller.drawToken(players[i].getToken().getTokenName(), boardIndex);
+                controller.drawToken(i, oldIndex, boardIndex);
 
+                // Salary is paid twice
                 if(space instanceof GoSpace) {
-                    currentPlayer.setMoney( currentPlayer.getMoney() + 20
+                    currentPlayer.setMoney( currentPlayer.getMoney() + 200
                             + currentPlayer.getToken().getSalaryChange()); //salary 20?
                     //System.out.println("Your salary is paid!");
                     controller.showMessage("Your salary is paid!");
@@ -136,6 +141,7 @@ public class Game {
 //                    if (sendToJail(scan, currentPlayer)) {
                     sendToJail(currentPlayer);
                     //System.out.println("You are sent to jail!");
+                    controller.drawToken(i, boardIndex, 10);
                     controller.showMessage("You are sent to jail!");
                     continue;
                 //}
@@ -147,6 +153,7 @@ public class Game {
                             * currentPlayer.getToken().getTaxMultiplier());
                     currentPlayer.payBank( payment);
                     //System.out.println("You paid " + payment + "M for tax.");
+                    controller.drawPlayerBoxes(players);
                     controller.showMessage("You paid " + payment + "M for tax.");
                 } else if(space instanceof WheelOfFortuneSpace) {
                     //int gain = ((WheelOfFortuneSpace) space).spinWheel();
@@ -162,6 +169,9 @@ public class Game {
                     System.out.println("Such space does not exist.");
                 }
 
+                if (doublesCount > 0) {
+                    i--;
+                }
                 //turn decisions
                 //turnDecisions(scan, space);
                 controller.finishTurn();
@@ -193,6 +203,7 @@ public class Game {
                 currentPlayer.payBank((int) (p.getAssociatedProperty().getValue()
                         * currentPlayer.getToken().getPropertyCostMultiplier() ));
                 ((PropertySpace) space).setOwner(currentPlayer);
+                controller.drawPlayerBoxes(players);
             } else {
                 bank.startAuction(p.getAssociatedProperty());
             }
@@ -200,8 +211,11 @@ public class Game {
             System.out.println(space.getName() + " belongs to " + ((PropertySpace) space).getOwner());
         } else { //owned by another player
             //pay rent
-            currentPlayer.payRent(((PropertySpace) space).getOwner(), dice);
+            int rentAmount = currentPlayer.payRent(((PropertySpace) space).getOwner(), dice);
             System.out.println("You paid rent to " + ((PropertySpace) space).getOwner());
+            controller.drawPlayerBoxes(players);
+            controller.showMessage("You paid M" + rentAmount + " rent to "
+                    +  ((PropertySpace) space).getOwner().getPlayerName() + ".");
         }
     }
 
@@ -263,13 +277,23 @@ public class Game {
 
     private void openCard(Card card){
         System.out.println(card.getCardText());
+        controller.showMessage(card.getCardText());
         if(card.isAdvance()){
             AdvanceEvent event = (AdvanceEvent) card.getCardEvent();
             int currentPos = currentPlayer.getCurrentSpace().getIndex();
+            int currentPlayerIndex = -1;
+            for (int i = 0; i < LAP; i++) {
+                if (currentPlayer == players[i]) {
+                    currentPlayerIndex = i;
+                }
+            }
+            controller.drawToken(currentPlayerIndex, currentPos, event.getTargetSpace().getIndex());
             currentPlayer.setCurrentSpace(event.getTargetSpace());
             if(event.getTargetSpace().getIndex() <= currentPos && event.isCanCollectSalary()){
-                currentPlayer.setMoney( currentPlayer.getMoney() + 20
+                currentPlayer.setMoney( currentPlayer.getMoney() + 200
                         + currentPlayer.getToken().getSalaryChange());
+                controller.drawPlayerBoxes(players);
+                controller.showMessage("Your salary is paid");
             }
         } else if(card.isCollect()){
             CollectEvent event = (CollectEvent) card.getCardEvent();
@@ -288,7 +312,7 @@ public class Game {
             //scanner???
             //sendToJail(scan, currentPlayer);
             if (event.isCanCollectSalary() && currentPlayer.getCurrentSpace().getIndex() >= 10){
-                currentPlayer.setMoney( currentPlayer.getMoney() + 20
+                currentPlayer.setMoney( currentPlayer.getMoney() + 200
                         + currentPlayer.getToken().getSalaryChange());
             }
         } else if(card.isPay()) {
@@ -417,9 +441,11 @@ public class Game {
         for(int i = 0; i < LAP; i++) {
             //players[i].setToken(new Token((int) (Math.random() * 8 + 1))); //when player clicks the button
             players[i].setToken(new Token(controller.chooseToken(players[i].getPlayerName())));
-            controller.drawToken(players[i].getToken().getTokenName(), 0);
+            controller.setTokenImage(i, players[i].getToken().getTokenName());
+            controller.drawToken(i, -1, 0);
             //change player turn
         }
+        controller.drawPlayerBoxes(players);
     }
 
     private boolean isGameEnd() {
