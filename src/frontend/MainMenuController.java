@@ -6,14 +6,33 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+
+import java.io.File;
+import javafx.util.Duration;
 
 public class MainMenuController {
 
     private Stage stage;
+    static MediaPlayer mediaPlayer;
 
     public void setStage(Stage stage) {
         this.stage = stage;
+        String path = "assets\\music\\music.mp3";
+        Media media = new Media(new File(path).toURI().toString());
+
+        mediaPlayer = new MediaPlayer(media);
+
+        mediaPlayer.setOnEndOfMedia(new Runnable() {
+            public void run() {
+                mediaPlayer.seek(Duration.ZERO);
+            }
+        });
+
+        //by setting this property to true, the audio will be played
+        mediaPlayer.setAutoPlay(true);
     }
 
     @FXML private void newGameButtonAction(ActionEvent event) throws Exception {
