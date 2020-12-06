@@ -2,10 +2,7 @@ package frontend;
 
 import board.Board;
 import board.PropertySpace;
-import board.Space;
 import entities.Player;
-import entities.Property;
-import game.Game;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,9 +16,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
 
-import javax.swing.*;
-import java.io.File;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.IntStream;
 
 public class GameScreenController {
     @FXML
@@ -87,18 +84,21 @@ public class GameScreenController {
     public void playerAssetsButtonAction(ActionEvent actionEvent) {
     }
 
-    public int[] rollDice(String name) {
+    public int[] rollDice(String name, boolean digital) {
         int[] dice = new int[2];
+        Alert alert;
+        System.out.println("turn of " + name);
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText(name + " is rolling");
-        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Roll");
-        alert.initStyle(StageStyle.UNDECORATED);
-        alert.initModality(Modality.APPLICATION_MODAL);
-        alert.setX(420);
-        alert.setY(420);
-        alert.showAndWait();
-
+        if(!digital) {
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText(name + " is rolling");
+            ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Roll");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setX(420);
+            alert.setY(420);
+            alert.showAndWait();
+        }
         dice[0] = (int) (Math.random() * 6 + 1);
         dice[1] = (int) (Math.random() * 6 + 1);
 
@@ -114,23 +114,57 @@ public class GameScreenController {
             alert.setHeaderText(name + " has rolled: " + dice[0] + " " + dice[1]);
         }
         System.out.println(alert.getX() + " " + alert.getY());
+
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Continue");
         alert.showAndWait();
         return dice;
     }
 
-    public int chooseToken(String name) {
+    private ArrayList<String> tokens = new ArrayList<>();
+    private final String[] tokenNames = {"thimble", "wheel barrow", "boot", "horse", "race car",
+            "iron", "top Hat", "battleship"};
+    private boolean first = true;
+
+    public int chooseToken(String name, boolean digital) {
+        if(first) {
+            tokens.addAll(Arrays.asList(tokenNames));
+            first = false;
+        }
+        String chosen;
+
+        if(digital) {
+            chosen = tokens.get(0);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setX(420);
+            alert.setY(420);
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setHeaderText(name + " has chosen: " + chosen);
+            alert.showAndWait();
+            try {
+                Thread.sleep(1000);
+                alert.close();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            tokens.remove(chosen);
+            return IntStream.range(0, tokenNames.length).filter(i -> tokenNames[i].equals(chosen))
+                    .findFirst().orElse(-1) + 1;
+        }
         ChoiceDialog<String> dialog = new ChoiceDialog<>();
         dialog.initStyle(StageStyle.UNDECORATED);
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.setHeaderText(name + " is choosing token");
-        dialog.getItems().addAll( "thimble", "wheel barrow", "boot", "horse", "race car",
-                "iron", "top Hat", "battleship");
+        dialog.getItems().addAll(tokens);
         dialog.setX(420);
         dialog.setY(420);
         dialog.showAndWait();
 
-        return dialog.getItems().indexOf(dialog.getResult()) + 1;
+        chosen = dialog.getResult();
+        tokens.remove(chosen);
+        return IntStream.range(0, tokenNames.length).filter(i -> tokenNames[i].equals(chosen))
+                .findFirst().orElse(-1) + 1;
     }
 
     public void drawToken(int playerNo,int oldIndex, int newIndex) {
@@ -210,7 +244,7 @@ public class GameScreenController {
             vb.getStyleClass().add("vbox-style");
 
             String tokenName = player.getToken().getTokenName();
-            tokenName.toLowerCase().replaceAll(" ","");
+            tokenName = tokenName.toLowerCase().replaceAll(" ","");
             Image token = new Image("img/token/normal/" + tokenName + ".png");
             ImageView iv = new ImageView(token);
             iv.setFitHeight(100);

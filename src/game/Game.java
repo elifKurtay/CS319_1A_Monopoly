@@ -13,7 +13,6 @@ import event.CollectEvent;
 import event.GoToJailEvent;
 import event.PayEvent;
 import frontend.GameScreenController;
-import javafx.scene.control.Alert;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -67,20 +66,21 @@ public class Game {
     void gameLoop() {
         int[] dice;
         int doublesCount = 0;
-
+        boolean digitalPlayer = false;
         while( ! isGameEnd() ) {
             if(lapCount == 0)
                 initializingLap();
             for(int i = 0; i < LAP &&  !isGameEnd(); i++) {
                 currentPlayer = players[i];
+                digitalPlayer = currentPlayer instanceof DigitalPlayer;
                 //dice = rollDice();
-                dice = controller.rollDice(players[i].getPlayerName());
+                dice = controller.rollDice(currentPlayer.getPlayerName(),digitalPlayer);
                 //System.out.println(currentPlayer.getPlayerName() + " rolled: " + dice[0] + " - " + dice[1]);
 
                 //calculating next player
                 if (dice[0] == dice[1]) {
                     doublesCount++;
-                    /*
+                    /* why?
                     if (i != 0) {
                         i--;
                     }
@@ -416,12 +416,16 @@ public class Game {
         }
         int[] dice;
         int[] diceSums = new int[LAP];
+        boolean digital;
         for(int i = 0; i < LAP; i++) {
             //dice = rollDice(); //when player clicks the button
-            dice = controller.rollDice(players[i].getPlayerName());
+            digital = ( players[i] instanceof DigitalPlayer);
+            System.out.println(players[i] + " is computer: " + digital);
+            dice = controller.rollDice(players[i].getPlayerName(), digital);
             diceSums[i] = dice[0] + dice[1];
             //change player turn
         }
+        //calculate player turn order
         Player[] order = new Player[LAP];
         int player = 0;
         int max = 0;
@@ -437,10 +441,12 @@ public class Game {
             diceSums[player] = 0;
         }
         players = order;
+
         //token choose
         for(int i = 0; i < LAP; i++) {
-            //players[i].setToken(new Token((int) (Math.random() * 8 + 1))); //when player clicks the button
-            players[i].setToken(new Token(controller.chooseToken(players[i].getPlayerName())));
+            players[i].setToken(new Token(controller.chooseToken(players[i].getPlayerName(),
+                        players[i] instanceof DigitalPlayer)));
+
             controller.setTokenImage(i, players[i].getToken().getTokenName());
             controller.drawToken(i, -1, 0);
             //change player turn
