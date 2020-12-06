@@ -12,17 +12,16 @@ public class PropertySpace extends Space{
     }
 
     private Player owner;
-    private int value;
     private Property associatedProperty;
     private PropertyType type;
 
-    public PropertySpace(String name, String propertyType, Property associatedProperty) {
+    public PropertySpace(String name, int index, String propertyType, Property associatedProperty) {
+        super(name, index);
 
         owner = null;
         // Need to associate PropertySpaces with Properties at instantiation
         this.associatedProperty = associatedProperty;
 
-        setName(name);
 
         if (propertyType.equals("LAND")) {
             this.type = PropertyType.LAND;
@@ -33,18 +32,6 @@ public class PropertySpace extends Space{
         else {
             this.type = PropertyType.UTILITY;
         }
-    }
-
-    public boolean buySpace() {
-        if (owner == null) {
-            // Assuming payBank returns a boolean value, true if payment has succeeded
-            if (super.getLatestPlayer().payBank(value)) {
-                owner = super.getLatestPlayer();
-                super.getLatestPlayer().getProperties().add(associatedProperty);
-                return true;
-            }
-        }
-        return false;
     }
 
 }

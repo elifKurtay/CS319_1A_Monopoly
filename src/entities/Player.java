@@ -1,6 +1,7 @@
 package entities;
 
 import board.GoSpace;
+import board.PropertySpace;
 import board.Space;
 import card.Card;
 import card.LandTitleDeedCard;
@@ -35,8 +36,8 @@ public class Player {
 
     public Player(String playerName) {
         this.playerName = playerName;
-        money = 200;
-        currentSpace = new GoSpace();
+        money = 1500;
+        currentSpace = null;
         bankrupt = false;
         properties = new ArrayList<>();
         getOutOfJailFreeCount = 0;
@@ -67,11 +68,12 @@ public class Player {
         return netWorth;
     }
 
-    public void payPlayer(@NotNull Player receiver, int[] dice){
+    public int payRent(@NotNull Player receiver, int[] dice){
         int amount = calculateRent(receiver, dice[0] + dice[1]);
         receiver.setMoney(receiver.getMoney() + amount);
         money = money - amount;
         System.out.println("Your rent amount: " + amount);
+        return amount;
     }
 
     public void payPlayer(@NotNull Player receiver, int amount){
@@ -79,11 +81,11 @@ public class Player {
         money = money - amount;
     }
 
-    public int calculateRent(Player receiver, int diceSum) {
+    private int calculateRent(Player receiver, int diceSum) {
         int rent = 0;
-        Property p = currentSpace.getAssociatedProperty();
+        Property p = ((PropertySpace) currentSpace).getAssociatedProperty();
         if (p.getCard() instanceof TransportTitleDeedCard) {
-            rent = ((TransportTitleDeedCard) p.getCard()).getRent( numberOfTitlesFromSameGroup(p) - 1 );
+            rent = ((TransportTitleDeedCard) p.getCard()).getRent( receiver.numberOfTitlesFromSameGroup(p) - 1 );
         } else {
             boolean ownsAllTitlesFromSameGroup = ownsAllTitlesFromSameGroup(receiver, p);
             if (p.getCard() instanceof LandTitleDeedCard) {
@@ -127,25 +129,26 @@ public class Player {
     }
 
     public ArrayList<Property> getAllTitlesFromSameGroup( Property propertyToCheck) {
-        ArrayList<Property> tiles = new ArrayList<Property>();
+        ArrayList<Property> titles = new ArrayList<Property>();
         if (propertyToCheck.getCard() instanceof LandTitleDeedCard) {
             int propertyGroup = ((LandTitleDeedCard) propertyToCheck.getCard()).getPropertyGroup();
             for (Property p : properties) {
                 if (p.getCard() instanceof LandTitleDeedCard) {
                     if (((LandTitleDeedCard) p.getCard()).getPropertyGroup() == propertyGroup)
-                        tiles.add(p);
+                        titles.add(p);
                 }
             }
+            // Is this second part really needed, where is it used?
         } else if (propertyToCheck.getCard() instanceof UtilityTitleDeedCard) {
             for (Property p : properties) {
                 if (p.getCard() instanceof UtilityTitleDeedCard)
-                    tiles.add(p);
+                    titles.add(p);
             }
         }
-        return tiles;
+        return titles;
     }
 
-    public int numberOfTitlesFromSameGroup( Property propertyToCheck) {
+    private int numberOfTitlesFromSameGroup( Property propertyToCheck) {
         int number = 0;
         int propertyGroup = 0;
         if (propertyToCheck.getCard() instanceof LandTitleDeedCard)
@@ -181,7 +184,7 @@ public class Player {
 
     public void reset() {
         money = 200;
-        currentSpace = new GoSpace();
+        currentSpace = null;
         bankrupt = false;
         properties = null;
         getOutOfJailFreeCount = 0;

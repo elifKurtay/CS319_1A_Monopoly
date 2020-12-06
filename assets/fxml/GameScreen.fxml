@@ -14,7 +14,7 @@
         prefHeight="400.0" prefWidth="600.0" spacing="50"
         fx:controller="frontend.GameScreenController"
         >
-<fx:include source="Board.fxml" fx:id="dynamicBoard"></fx:include>
+<fx:include source="DynamicBoard.fxml" fx:id="dynamicBoard"></fx:include>
 <VBox spacing="20">
     <HBox>
         <Label>Turn {TURN_COUNT}</Label>
@@ -26,20 +26,7 @@
         </HBox>
     </HBox>
     <VBox spacing="30" fx:id="playerBoxes">
-        <Pane styleClass="player-pane">
-            <HBox spacing="40" alignment="CENTER">
-                <VBox styleClass="vbox-style">
-                    <ImageView styleClass="imageView-style">
-                        <image>
-                            <Image fx:id="piece1" requestedHeight="100" requestedWidth="120" url="/img/pieces/horse.png"/>
-                        </image>
-                    </ImageView>
-                    <Label fx:id="name1" styleClass="namelabel">Player1</Label>
-                </VBox>
-                <Label fx:id="money1" styleClass="moneylabel" prefHeight="70" prefWidth="150">$1000</Label>
-                <Button styleClass="assetsButton" text="Assets" onAction="#player1ButtonAction"/>
-            </HBox>
-        </Pane>
+
     </VBox>
     <HBox>
         <Button text="Trade" onAction="#tradeButtonAction"/>

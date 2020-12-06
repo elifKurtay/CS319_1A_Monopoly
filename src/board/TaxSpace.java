@@ -7,7 +7,8 @@ public class TaxSpace extends Space {
 
     private TaxType type;
 
-    public TaxSpace(String taxType) {
+    public TaxSpace(String taxType, int index) {
+        super(null, index);
         if (taxType.equals("LUXURY")) {
             type = TaxType.LUXURY;
             setName("Luxury Tax");
@@ -20,9 +21,9 @@ public class TaxSpace extends Space {
 
     public int getTax() {
         if(type == TaxType.INCOME)
-            return 10;
+            return 100;
         else
-            return 20;
+            return 200;
     }
 
 }

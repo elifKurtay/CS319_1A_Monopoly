@@ -19,6 +19,7 @@ public class Token {
     private double propertyCostMultiplier;
     private double rentPayMultiplier;
     private double rentCollectMultiplier;
+    private double mortgageInterest;
 
     //constructors
     public Token(int number) {
@@ -47,7 +48,7 @@ public class Token {
             rentCollectMultiplier = 1.3;
             propertyCostMultiplier = 1.1;
         } else if (number == 5) {
-            tokenName = "Racecar";
+            tokenName = "Race Car";
             salaryChange = 200;
             jailTime = 4;
         } else if( number == 6) {

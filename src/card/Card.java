@@ -32,47 +32,23 @@ public class Card {
     public  Card(String cardText, CardEvent cardEvent){
         this.cardText = cardText;
         this.cardEvent = cardEvent;
+        advance = false;
+        collect = false;
+        goToJail = false;
+        pay = false;
+        getOutOfJailFree = false;
+        thief = false;
         if(this.cardEvent instanceof AdvanceEvent){
             advance = true;
-            collect = false;
-            goToJail = false;
-            pay = false;
-            getOutOfJailFree = false;
-            thief = false;
         } else if (this.cardEvent instanceof CollectEvent){
-            advance = false;
             collect = true;
-            goToJail = false;
-            pay = false;
-            getOutOfJailFree = false;
-            thief = false;
         } else if (this.cardEvent instanceof GoToJailEvent){
-            advance = false;
-            collect = false;
             goToJail = true;
-            pay = false;
-            getOutOfJailFree = false;
-            thief = false;
         } else if (this.cardEvent instanceof PayEvent){
-            advance = false;
-            collect = false;
-            goToJail = false;
             pay = true;
-            getOutOfJailFree = false;
-            thief = false;
         } else if (this.cardEvent instanceof ReceiveGetOutOfJailEvent){
-            advance = false;
-            collect = false;
-            goToJail = false;
-            pay = false;
             getOutOfJailFree = true;
-            thief = false;
         } else if (this.cardEvent instanceof ThiefEvent){
-            advance = false;
-            collect = false;
-            goToJail = false;
-            pay = false;
-            getOutOfJailFree = false;
             thief = true;
         }
     }

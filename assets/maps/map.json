@@ -439,7 +439,14 @@
 
         ],
         "communityChestCards": [
-
+            {
+                "cardEvent": {
+                    "type": "ADVANCE",
+                    "targetSpace": "Go",
+                    "canCollectSalary": 1
+                },
+                "cardText": "Advance to \"Go\" (Collect M200)"
+            }
         ]
     }
 }

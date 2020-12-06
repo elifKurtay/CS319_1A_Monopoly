@@ -55,7 +55,7 @@ public class NewGameMenuController {
         turnLimitCombo.getSelectionModel().select(turnLimitCombo.getItems().get(0));
     }
 
-    public void setStage(Stage stage) {
+    protected void setStage(Stage stage) {
         this.stage = stage;
     }
 

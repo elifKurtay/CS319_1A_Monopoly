@@ -17,9 +17,9 @@ public class TransportTitleDeedCard extends TitleDeedCard{
         }
     }
 
-    public TransportTitleDeedCard(String propertyName, int mortgageValue, int[] rent){
+    public TransportTitleDeedCard(String propertyName, int mortgageValue, int[] rents) {
         super(propertyName, mortgageValue);
-        this.rents = rent;
+        this.rents = rents;
     }
 
     public int getRent(int index) {
