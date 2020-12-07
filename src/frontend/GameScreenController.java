@@ -6,7 +6,10 @@ import entities.Player;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.util.ArrayList;
@@ -27,8 +31,15 @@ public class GameScreenController {
     @FXML
     private DynamicBoardController dynamicBoardController;
 
+    private Stage stage;
+
+
     public void initialize() {
 
+    }
+
+    public void setStage(Stage stage){
+        this.stage = stage;
     }
 
     public void setMap(Board board) {
@@ -46,8 +57,14 @@ public class GameScreenController {
     }
 
     @FXML
-    protected void settingsButtonAction(ActionEvent event) {
-        Platform.exit();
+    protected void settingsButtonAction(ActionEvent event) throws Exception{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/SettingsMenu.fxml"));
+        Parent root = loader.load();
+        SettingsMenuController controller = loader.getController();
+        controller.setStage(stage);
+        controller.setPreviousScene(stage.getScene());
+        Scene s = new Scene(root, stage.getWidth(), stage.getHeight());
+        stage.setScene(s);
     }
 
     @FXML

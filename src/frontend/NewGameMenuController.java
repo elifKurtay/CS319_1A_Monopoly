@@ -20,9 +20,8 @@ import javafx.stage.StageStyle;
 
 import java.io.File;
 
-public class NewGameMenuController {
+public class NewGameMenuController extends MenuController {
     private static final int PLAYER_COUNT = 4;
-    private Stage stage;
     private String[] players;
     private int currentHumanPlayers;
 
@@ -55,27 +54,24 @@ public class NewGameMenuController {
         turnLimitCombo.getSelectionModel().select(turnLimitCombo.getItems().get(0));
     }
 
-    protected void setStage(Stage stage) {
-        this.stage = stage;
-    }
 
     @FXML protected void startButtonAction(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameScreen.fxml"));
         Parent root = loader.load();
         //Game controller = loader.getController();
         GameScreenController controller = loader.getController();
+        controller.setStage(getStage());
+
         File map = (new File("./assets/maps/" + mapCombo.getValue()));
 
         //controller.startGame(map, currentHumanPlayers, players, turnLimitCombo.getValue());
-        Scene s = new Scene(root, stage.getWidth(), stage.getHeight());
-        stage.setScene(s);
+        Scene s = new Scene(root, getStage().getWidth(), getStage().getHeight());
+        getStage().setScene(s);
         Game game = new Game(map, currentHumanPlayers, players, turnLimitCombo.getValue(), controller);
         game.startGame();
     }
 
-    @FXML protected void backButtonAction(ActionEvent event) {
 
-    }
 
     @FXML protected void addPlayerButtonAction(ActionEvent event) {
         // check if there are already the max amount of players allowed
@@ -84,7 +80,7 @@ public class NewGameMenuController {
             td.setHeaderText("Please enter the player name");
             td.initStyle(StageStyle.UNDECORATED);
             td.initModality(Modality.APPLICATION_MODAL);
-            td.initOwner(stage);
+            td.initOwner(getStage());
             td.showAndWait();
 
             // if the user presses cancel on the dialog, getResult() returns null
@@ -100,7 +96,7 @@ public class NewGameMenuController {
             Alert alert = new Alert(Alert.AlertType.ERROR,"Cannot add more than 4 players");
             alert.initStyle(StageStyle.UNDECORATED);
             alert.initModality(Modality.APPLICATION_MODAL);
-            alert.initOwner(stage);
+            alert.initOwner(getStage());
             alert.showAndWait();
         }
     }

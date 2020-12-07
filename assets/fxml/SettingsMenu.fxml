@@ -10,15 +10,19 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="frontend.SettingsMenuController"
-      prefHeight="400.0" prefWidth="600.0">
-    <Text>SETTINGS</Text>
-    <HBox>
-        <Label>Music</Label>
-        <Slider></Slider>
+      prefHeight="400.0" prefWidth="600.0"
+      style="-fx-alignment: center; -fx-background-color: #3BABC3" spacing="140"
+      stylesheets="@style.css">
+    <Label style="-fx-alignment: center; -fx-font-size: 64px; -fx-pref-width: 600px; -fx-text-fill: red;" >SETTINGS</Label>
+    <HBox style="-fx-alignment: center" spacing="50">
+        <VBox style="-fx-alignment: center; -fx-spacing: 34">
+            <Label style = "-fx-font-size: 36; -fx-alignment: center;" >MUSIC</Label>
+            <Label style = "-fx-font-size: 36; -fx-alignment: center;" >GAME SOUND</Label>
+        </VBox>
+        <VBox style="-fx-alignment: center; -fx-spacing: 50">
+            <Slider fx:id="musicSlider" onMouseReleased="#changeVolume" value="Infinity" style="-fx-pref-width: 250; -fx-max-height: 75; -fx-show-tick-labels: true; -fx-show-tick-marks: true"/>
+            <Slider fx:id="gameSoundSlider" value="Infinity" style="-fx-pref-width: 250; -fx-max-height: 75; -fx-show-tick-labels: true; -fx-show-tick-marks: true"/>
+        </VBox>
     </HBox>
-    <HBox>
-        <Label>Game Sound</Label>
-        <Slider></Slider>
-    </HBox>
-    <Button text="Back" onAction="#backButtonAction"/>
+    <Button styleClass="back-button-style" text="BACK" onAction="#backButtonAction"/>
 </VBox>
