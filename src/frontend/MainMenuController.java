@@ -16,14 +16,13 @@ import javafx.util.Duration;
 public class MainMenuController {
 
     private Stage stage;
-    static MediaPlayer mediaPlayer;
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
+    public void initialize(){
         String path = "assets\\music\\music.mp3";
         Media media = new Media(new File(path).toURI().toString());
 
-        mediaPlayer = new MediaPlayer(media);
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setVolume(0.5);
 
         mediaPlayer.setOnEndOfMedia(new Runnable() {
             public void run() {
@@ -33,6 +32,11 @@ public class MainMenuController {
 
         //by setting this property to true, the audio will be played
         mediaPlayer.setAutoPlay(true);
+        SettingsMenuController.setMyMedia(mediaPlayer);
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
     @FXML private void newGameButtonAction(ActionEvent event) throws Exception {
@@ -40,7 +44,7 @@ public class MainMenuController {
         Parent root = loader.load();
         NewGameMenuController controller = loader.getController();
         controller.setStage(stage);
-
+        controller.setPreviousScene(stage.getScene());
         Scene s = new Scene(root, stage.getWidth(), stage.getHeight());
 
         stage.setScene(s);
@@ -54,9 +58,10 @@ public class MainMenuController {
     @FXML private void settingsButtonAction(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/SettingsMenu.fxml"));
         Parent root = loader.load();
-
+        SettingsMenuController controller = loader.getController();
+        controller.setStage(stage);
+        controller.setPreviousScene(stage.getScene());
         Scene s = new Scene(root, stage.getWidth(), stage.getHeight());
-
         stage.setScene(s);
     }
 
@@ -65,9 +70,8 @@ public class MainMenuController {
         Parent root = loader.load();
         CreditsController controller = loader.getController();
         controller.setStage(stage);
-        System.out.println(root);
+        controller.setPreviousScene(stage.getScene());
         Scene s = new Scene(root, stage.getWidth(), stage.getHeight());
-        System.out.println("dadsa");
         stage.setScene(s);
     }
 

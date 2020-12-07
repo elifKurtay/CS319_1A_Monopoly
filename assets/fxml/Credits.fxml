@@ -20,6 +20,6 @@
             <Label styleClass="credits-label">Yusuf Ardahan Doğru</Label>
             <Label styleClass="credits-label">Mustafa Göktan Güdükbay</Label>
         </VBox>
-        <Button styleClass="back-button-style" text="BACK" onAction="#backAction"/>
+        <Button styleClass="back-button-style" text="BACK" onAction="#backButtonAction"/>
     </VBox>
 </StackPane>
