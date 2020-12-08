@@ -136,7 +136,6 @@ public class DynamicBoardController {
     }
 
     public void setTokenImage(int playerNo, String tokenName) {
-        tokenName = tokenName.toLowerCase().replaceAll(" ","");
         Image token = new Image("img/token/cropped/" + tokenName + ".png");
         ImageView iv = new ImageView(token);
         iv.setFitHeight(30);

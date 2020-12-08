@@ -183,7 +183,7 @@ public class Player {
     }
 
     public void reset() {
-        money = 200;
+        money = 1500;
         currentSpace = null;
         bankrupt = false;
         properties = null;

@@ -70,6 +70,7 @@ public class NewGameMenuController {
         Scene s = new Scene(root, stage.getWidth(), stage.getHeight());
         stage.setScene(s);
         Game game = new Game(map, currentHumanPlayers, players, turnLimitCombo.getValue(), controller);
+        controller.setGame(game);
         game.startGame();
     }
 

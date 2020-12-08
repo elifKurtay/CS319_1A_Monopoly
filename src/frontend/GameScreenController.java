@@ -1,8 +1,11 @@
 package frontend;
 
+import bank.Bank;
+import bank.Trade;
 import board.Board;
 import board.PropertySpace;
 import entities.Player;
+import game.Game;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +18,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +28,9 @@ import java.util.stream.IntStream;
 public class GameScreenController {
     @FXML
     private VBox playerBoxes;
+    @Getter
+    @Setter
+    private Game game;
 
     @FXML
     private DynamicBoardController dynamicBoardController;
@@ -33,6 +41,10 @@ public class GameScreenController {
 
     public void setMap(Board board) {
         dynamicBoardController.setDynamicBoard(board);
+    }
+
+    public void resetMap(Board board) {
+
     }
 
     @FXML
@@ -52,7 +64,7 @@ public class GameScreenController {
 
     @FXML
     protected void restartButtonAction(ActionEvent event) {
-        Platform.exit();
+        game.restartGame();
     }
 
     @FXML
@@ -62,7 +74,14 @@ public class GameScreenController {
 
     @FXML
     protected void tradeButtonAction(ActionEvent event) {
-        Platform.exit();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("NEW TRADE");
+        alert.showAndWait();
+        /*Bank bank = game.getBank();
+        Trade t = bank.startTrade();
+
+        bank.finishTrade();
+         */
     }
 
     @FXML
@@ -82,6 +101,9 @@ public class GameScreenController {
 
     @FXML
     public void playerAssetsButtonAction(ActionEvent actionEvent) {
+        String buttonID = ((Button) actionEvent.getSource()).getId();
+        int playerNo = Character.getNumericValue(buttonID.charAt(buttonID.length() - 1));
+        System.out.println("Player " + playerNo + " GOOJC count: " + game.getPlayers()[playerNo].getGetOutOfJailFreeCount());
     }
 
     public int[] rollDice(String name, boolean digital) {
@@ -121,8 +143,8 @@ public class GameScreenController {
     }
 
     private ArrayList<String> tokens = new ArrayList<>();
-    private final String[] tokenNames = {"thimble", "wheel barrow", "boot", "horse", "race car",
-            "iron", "top Hat", "battleship"};
+    private final String[] tokenNames = {"Thimble", "Wheel Barrow", "Boot", "Horse", "Race Car",
+            "Iron", "Top Hat", "Battleship"};
     private boolean first = true;
 
     public int chooseToken(String name, boolean digital) {
@@ -260,7 +282,9 @@ public class GameScreenController {
             money.setPrefWidth(150);
 
             Button assetsButton = new Button("Assets");
+            assetsButton.setId("playerAssets" + i);
             assetsButton.getStyleClass().add("assetsButton");
+            assetsButton.setOnAction(this::playerAssetsButtonAction);
 
             hb.getChildren().addAll(vb, money, assetsButton);
             playerPane.getChildren().add(hb);

@@ -32,35 +32,35 @@ public class Token {
         rentCollectMultiplier = 1;
 
         if(number == 1) {
-            tokenName = "Thimble";
+            tokenName = "thimble";
             taxMultiplier = 0.8;
             rentCollectMultiplier = 0.8;
         } else if (number == 2) {
-            tokenName = "Wheelbarrow";
+            tokenName = "wheelbarrow";
             buildingCostMultiplier = 0.5;
             salaryChange = -50;
         } else if (number == 3) {
-            tokenName = "Boot";
+            tokenName = "boot";
             propertyCostMultiplier = 0.8;
             salaryChange = -100;
         } else if (number == 4) {
-            tokenName = "Horse";
+            tokenName = "horse";
             rentCollectMultiplier = 1.3;
             propertyCostMultiplier = 1.1;
         } else if (number == 5) {
-            tokenName = "Race Car";
+            tokenName = "racecar";
             salaryChange = 200;
             jailTime = 4;
         } else if( number == 6) {
-            tokenName = "Iron";
+            tokenName = "iron";
             buildingCostMultiplier = 0.8;
             rentPayMultiplier = 1.2;
         } else if( number == 7 ) {
-            tokenName = "Top Hat";
+            tokenName = "tophat";
             jailTime = 2;
             taxMultiplier = 1.2;
         } else {
-            tokenName = "Battleship";
+            tokenName = "battleship";
             rentPayMultiplier = 0.7;
             buildingCostMultiplier = 1.5;
         }

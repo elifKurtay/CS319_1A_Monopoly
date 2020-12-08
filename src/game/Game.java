@@ -13,6 +13,8 @@ import event.CollectEvent;
 import event.GoToJailEvent;
 import event.PayEvent;
 import frontend.GameScreenController;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,11 +29,11 @@ public class Game {
     private final int lapLimit; //given -1 if game mod is survival
     private final int playerCount;
 
-    private Player[] players;
-    private Player currentPlayer;
+    @Getter @Setter private Player[] players;
+    @Getter @Setter private Player currentPlayer;
 
     private int lapCount;
-    private Bank bank;
+    @Getter @Setter private Bank bank;
 
     private GameScreenController controller;
 
@@ -505,6 +507,7 @@ public class Game {
         for ( Player p : players ) {
             p.reset();
         }
+        gameLoop();
     }
 
     //input from UI
