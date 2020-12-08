@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
@@ -28,6 +29,8 @@ import javafx.stage.StageStyle;
 
 import javax.swing.*;
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 public class GameScreenController {
@@ -66,10 +69,12 @@ public class GameScreenController {
         jailEffect.setVolume(0.5);
         SettingsMenuController.setJailEffect(jailEffect);
 
+        AudioClip a = new AudioClip(Paths.get("assets/music/diceSound.mp3").toUri().toString());
+        a.play();
         path = "assets\\music\\diceSound.mp3";
         media = new Media(new File(path).toURI().toString());
         MediaPlayer diceEffect = new MediaPlayer(media);
-        diceEffect.setVolume(1);
+        diceEffect.setVolume(0.5);
         SettingsMenuController.setDiceEffect(diceEffect);
     }
 
@@ -137,7 +142,7 @@ public class GameScreenController {
     }
 
     public int[] rollDice(String name) {
-        SettingsMenuController.spinEffect.setAutoPlay(true);
+        SettingsMenuController.diceEffect.setAutoPlay(true);
 
         int[] dice = new int[2];
 
