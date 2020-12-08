@@ -3,6 +3,7 @@ package frontend;
 import board.Board;
 import board.PropertySpace;
 import board.Space;
+import com.sun.xml.internal.ws.api.config.management.policy.ManagementAssertion;
 import entities.Player;
 import entities.Property;
 import game.Game;
@@ -19,6 +20,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -37,8 +40,37 @@ public class GameScreenController {
     private Stage stage;
 
 
-    public void initialize() {
 
+    public void initialize() {
+        String path = "assets\\music\\moveSound.mp3";
+        Media media = new Media(new File(path).toURI().toString());
+        MediaPlayer moveEffect = new MediaPlayer(media);
+        moveEffect.setVolume(0.5);
+        SettingsMenuController.setMoveEffect(moveEffect);
+
+        path = "assets\\music\\cashSound.mp3";
+        media = new Media(new File(path).toURI().toString());
+        MediaPlayer cashEffect = new MediaPlayer(media);
+        cashEffect.setVolume(0.5);
+        SettingsMenuController.setCashEffect(cashEffect);
+
+        path = "assets\\music\\wheelSound.mp3";
+        media = new Media(new File(path).toURI().toString());
+        MediaPlayer spinEffect = new MediaPlayer(media);
+        spinEffect.setVolume(0.5);
+        SettingsMenuController.setSpinEffect(spinEffect);
+
+        path = "assets\\music\\policeSound.mp3";
+        media = new Media(new File(path).toURI().toString());
+        MediaPlayer jailEffect = new MediaPlayer(media);
+        jailEffect.setVolume(0.5);
+        SettingsMenuController.setJailEffect(jailEffect);
+
+        path = "assets\\music\\diceSound.mp3";
+        media = new Media(new File(path).toURI().toString());
+        MediaPlayer diceEffect = new MediaPlayer(media);
+        diceEffect.setVolume(1);
+        SettingsMenuController.setDiceEffect(diceEffect);
     }
 
     public void setStage(Stage stage){
@@ -105,6 +137,8 @@ public class GameScreenController {
     }
 
     public int[] rollDice(String name) {
+        SettingsMenuController.spinEffect.setAutoPlay(true);
+
         int[] dice = new int[2];
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
