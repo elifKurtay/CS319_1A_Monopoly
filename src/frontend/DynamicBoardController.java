@@ -18,7 +18,6 @@ public class DynamicBoardController {
     private Pane bottomBoard, rightBoard, leftBoard, topBoard, bottomLeftBoard, bottomRightBoard, topLeftBoard, topRightBoard;
 
     private ImageView[] tokenImages;
-    //public void setDynamicBoard(Space[] spaces, String[] colors) {
 
     public void initialize() {
         tokenImages = new ImageView[4];
@@ -26,7 +25,7 @@ public class DynamicBoardController {
 
     public void setDynamicBoard(Board gameBoard) {
 
-        // Need to reverse the non-corner spaces on the left and bottom parts of the map,
+        // Need to reverse the non-corner spaces on the left and bottom sides of the map,
         // because the index 0 corresponds to the lower right space of the map
         // and the insertion to GUI elements happen from left to right or top to bottom
         // so the ordering of the spaces will be wrong
@@ -61,12 +60,9 @@ public class DynamicBoardController {
 
             if (spaces[i] instanceof PropertySpace) {
                 PropertySpace currentSpace = (PropertySpace) spaces[i];
-                Label price = new Label("M"+Integer.toString(currentSpace.getAssociatedProperty().getValue()));
+                Label price = new Label("M" + currentSpace.getAssociatedProperty().getValue());
 
                 vb.getChildren().addAll(propertyName, price);
-                //VBox vb = new VBox(propertyName, price);
-                //vb.setAlignment(Pos.CENTER);
-                //spacePane.setCenter(vb);
 
                 if (currentSpace.getType() == PropertySpace.PropertyType.LAND) {
                     Pane colorPane = new Pane();
@@ -77,7 +73,7 @@ public class DynamicBoardController {
                         colorPane.getStyleClass().add("colortop");
                         spacePane.setTop(colorPane);
                     }
-                    else if (i < 21) {
+                    else if (i < 20) {
                         colorPane.getStyleClass().add("colorside");
                         spacePane.setRight(colorPane);
                     }
@@ -92,7 +88,6 @@ public class DynamicBoardController {
                 }
             }
             else {
-                //spacePane.setCenter(propertyName);
                 vb.getChildren().add(propertyName);
             }
             HBox tokenBox = new HBox();

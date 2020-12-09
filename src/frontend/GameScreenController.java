@@ -4,6 +4,9 @@ import bank.Bank;
 import bank.Trade;
 import board.Board;
 import board.PropertySpace;
+import card.LandTitleDeedCard;
+import card.TitleDeedCard;
+import card.TransportTitleDeedCard;
 import entities.Player;
 import game.Game;
 import javafx.application.Platform;
@@ -103,7 +106,41 @@ public class GameScreenController {
     public void playerAssetsButtonAction(ActionEvent actionEvent) {
         String buttonID = ((Button) actionEvent.getSource()).getId();
         int playerNo = Character.getNumericValue(buttonID.charAt(buttonID.length() - 1));
-        System.out.println("Player " + playerNo + " GOOJC count: " + game.getPlayers()[playerNo].getGetOutOfJailFreeCount());
+        Player player = game.getPlayers()[playerNo];
+        //System.out.println("Player " + playerNo + " GOOJC count: " + player.getGetOutOfJailFreeCount());
+        Alert assetsDialog = new Alert(Alert.AlertType.INFORMATION);
+        HBox hb = new HBox();
+        assetsDialog.getDialogPane().setContent(hb);
+        for (int i = 0; i < player.getProperties().size(); i++) {
+            //hb.getChildren().add(new Label(player.getProperties().get(i).getCard().getPropertyName()));
+            hb.getChildren().add(buildTitleDeedCard(player.getProperties().get(i).getCard()));
+            //setContent(new Label(player.getProperties().get(i).getCard().getPropertyName()));
+        }
+        assetsDialog.showAndWait();
+    }
+
+    public VBox buildTitleDeedCard(TitleDeedCard card) {
+        VBox vb = new VBox();
+        if (card instanceof LandTitleDeedCard) {
+            LandTitleDeedCard c = (LandTitleDeedCard) card;
+            vb.getChildren().add(new Label("Title Deed Card"));
+            vb.getChildren().add(new Label(c.getPropertyName()));
+            vb.setAlignment(Pos.CENTER);
+
+            //for ()
+        }
+        else if (card instanceof TransportTitleDeedCard) {
+            TransportTitleDeedCard c = (TransportTitleDeedCard) card;
+            vb.getChildren().add(new Label("Title Deed Card"));
+            vb.getChildren().add(new Label(c.getPropertyName()));
+            vb.setAlignment(Pos.CENTER);
+
+        }
+        else {
+
+        }
+        vb.getStyleClass().add("titleCard");
+        return vb;
     }
 
     public int[] rollDice(String name, boolean digital) {
@@ -135,7 +172,6 @@ public class GameScreenController {
         else {
             alert.setHeaderText(name + " has rolled: " + dice[0] + " " + dice[1]);
         }
-        System.out.println(alert.getX() + " " + alert.getY());
 
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Continue");
         alert.showAndWait();
@@ -278,8 +314,7 @@ public class GameScreenController {
 
             Label money = new Label("M" + Integer.toString(player.getMoney()));
             money.getStyleClass().add("moneylabel");
-            money.setPrefHeight(70);
-            money.setPrefWidth(150);
+            money.setPrefSize(150, 70);
 
             Button assetsButton = new Button("Assets");
             assetsButton.setId("playerAssets" + i);

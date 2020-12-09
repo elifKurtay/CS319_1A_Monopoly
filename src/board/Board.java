@@ -18,8 +18,8 @@ import java.util.Scanner;
 @Getter
 @Setter
 public class Board {
-    private Space spaces[];
-    private String propertyGroupColors[];
+    private Space[] spaces;
+    private String[] propertyGroupColors;
     private ArrayList<Card> chanceCards;
     private ArrayList<Card> communityChestCards;
     private Thief thief;
