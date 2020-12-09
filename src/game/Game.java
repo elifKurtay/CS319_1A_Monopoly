@@ -75,30 +75,19 @@ public class Game {
             for(int i = 0; i < LAP &&  !isGameEnd(); i++) {
                 currentPlayer = players[i];
                 digitalPlayer = currentPlayer instanceof DigitalPlayer;
-                //dice = rollDice();
                 dice = controller.rollDice(currentPlayer.getPlayerName(),digitalPlayer);
-                //System.out.println(currentPlayer.getPlayerName() + " rolled: " + dice[0] + " - " + dice[1]);
 
                 //calculating next player
                 if (dice[0] == dice[1]) {
                     doublesCount++;
-                    /* why?
-                    if (i != 0) {
-                        i--;
-                    }
-                     */
                 } else
                     doublesCount = 0;
 
                 //checking jail conditions
                 if (!currentPlayer.isJailed() && dice[0] == dice[1] && doublesCount == 3){
-                    //if (sendToJail(scan, currentPlayer)) {
-                    //if (sendToJail(currentPlayer)) {
                     sendToJail(currentPlayer);
-                //System.out.println("You are sent to jail!");
                     controller.showMessage("You are sent to jail!");
                     continue;
-                    //}
                 }
                 else if(currentPlayer.isJailed() && dice[0] == dice[1]){
                     currentPlayer.setJailed(false);
@@ -116,9 +105,8 @@ public class Game {
                 int boardIndex = currentPlayer.getCurrentSpace().getIndex() + dice[0] + dice[1];
                 if(boardIndex >= 40) { //passed Go space
                     currentPlayer.setMoney( currentPlayer.getMoney() + 200
-                            + currentPlayer.getToken().getSalaryChange()); //salary 20?
+                            + currentPlayer.getToken().getSalaryChange());
                     boardIndex = boardIndex % 40;
-                    //System.out.println("Your salary is paid!");
                     controller.drawPlayerBoxes(players);
                     controller.showMessage("Your salary is paid!");
                 }
@@ -129,53 +117,40 @@ public class Game {
 
                 controller.drawToken(i, oldIndex, boardIndex);
 
-                // Salary is paid twice
+                // Salary is paid twice if it is paid on GoSpace too
+                /*
                 if(space instanceof GoSpace) {
                     currentPlayer.setMoney( currentPlayer.getMoney() + 200
-                            + currentPlayer.getToken().getSalaryChange()); //salary 20?
-                    //System.out.println("Your salary is paid!");
+                            + currentPlayer.getToken().getSalaryChange());
                     controller.showMessage("Your salary is paid!");
-                } else if( space instanceof CardSpace) {
+                } else */
+                if( space instanceof CardSpace) {
                     System.out.println("Draw a card!");
-                    //drawCard(scan, currentPlayer, (CardSpace) space);
                     drawCard(currentPlayer, (CardSpace) space);
                 } else if( space instanceof GoToJailSpace) {
-//                    if (sendToJail(scan, currentPlayer)) {
                     sendToJail(currentPlayer);
-                    //System.out.println("You are sent to jail!");
                     controller.drawToken(i, boardIndex, 10);
                     controller.showMessage("You are sent to jail!");
                     continue;
-                //}
                 } else if( space instanceof JailSpace ) {
-                    //System.out.println("You are a visitor in jail.");
                     controller.showMessage("You are visiting jail");
                 } else if( space instanceof TaxSpace) {
                     int payment = (int) (((TaxSpace) space).getTax()
                             * currentPlayer.getToken().getTaxMultiplier());
                     currentPlayer.payBank( payment);
-                    //System.out.println("You paid " + payment + "M for tax.");
                     controller.drawPlayerBoxes(players);
                     controller.showMessage("You paid " + payment + "M for tax.");
                 } else if(space instanceof WheelOfFortuneSpace) {
-                    //int gain = ((WheelOfFortuneSpace) space).spinWheel();
-                    //currentPlayer.setMoney(currentPlayer.getMoney() + gain);
-                    //System.out.println("You won " + gain + "M!");
-                    //controller.showMessage("You won " + gain + "M!");
                     ((WheelOfFortuneSpace) space).spinWheel();
                 } else if(space instanceof PropertySpace){
-                    //cameToProperty(dice, scan, space);
                     cameToProperty(dice, space);
-                } else {
-                    //?
-                    System.out.println("Such space does not exist.");
                 }
 
+                // if doubles count is greater than 0 the same player can play another round
                 if (doublesCount > 0) {
                     i--;
                 }
-                //turn decisions
-                //turnDecisions(scan, space);
+
                 controller.finishTurn();
             }
             lapCount++;
@@ -184,22 +159,13 @@ public class Game {
         System.out.println("Game Over!");
     }
 
-//    private void cameToProperty(int[] dice, Scanner scan, Space space) {
     private void cameToProperty(int[] dice, Space space) {
-        int choice;
         PropertySpace p = (PropertySpace) space;
         if(currentPlayer == p.getOwner()) { //own property
-            //System.out.println("This is your own property.");
             controller.showMessage("This is your own property.");
             //can build on if they choose so
         } else if (p.getOwner() == null ) { //owned by bank
             //buy or auction
-            //System.out.println("This property is not owned.\n" +
-            //        "Would you like to buy this property for " + ((PropertySpace) space).getValue() +
-            //        "M, or auction?\n(0-buy, 1-auction)"); //should we add a neither option ?
-            //choice = scan.nextInt();
-            //scan.nextLine();
-            //if(choice == 0) {
             if (controller.buyProperty((PropertySpace) space)) {
                 currentPlayer.addProperty(p.getAssociatedProperty());
                 currentPlayer.payBank((int) (p.getAssociatedProperty().getValue()
@@ -221,48 +187,19 @@ public class Game {
         }
     }
 
-    //private boolean sendToJail(Scanner scan, Player player) {
     private void sendToJail(Player player) {
-        //int choice;
-/*
-        if(player.getGetOutOfJailFreeCount() > 0 ) {
-            System.out.println("Do you want to use your GOOJF card? (1-yes, 0-no) ");
-            choice = scan.nextInt();
-            scan.nextLine();
-            if(choice == 1) {
-                player.setGetOutOfJailFreeCount(player.getGetOutOfJailFreeCount() - 1);
-            } else {
-                player.setJailed(true);
-                player.setCurrentSpace(board.getSpace(10));
-                return true;
-            }
-        } else {
-*/
             player.setJailed(true);
             player.setCurrentSpace(board.getSpace(10));
-            /*
-            return true;
-        }
-        return false;
-        */
     }
 
-    //private void drawCard(Scanner scan, Player player, CardSpace space) {
     private void drawCard(Player player, CardSpace space) {
-        int choice;
         Card card = board.drawCard(space.getType());
-        //System.out.println("Do you want to open it now or postpone?");
-        //choice = scan.nextInt();
-        //scan.nextLine();
-
-        //if(choice == 1) {
 
         if(controller.postponeCard()) {
             ArrayList<Card> cards = player.getPostponedCards();
             cards.add(card);
             player.setPostponedCards( cards );
         } else {
-            //System.out.println(card.getCardText());
             openCard(card);
         }
     }
@@ -336,41 +273,6 @@ public class Game {
             board.deployThief(target);
         }
     }
-
-    /*
-    private void turnDecisions(Scanner scan, Space space) {
-        int choice;
-        do {
-            System.out.println("Select choice: ");
-            choice = scan.nextInt();
-            scan.nextLine();
-
-            if (choice == 1) {
-                // Trade
-                System.out.println("Select player: ");
-                int player = scan.nextInt();
-                Player selectedPlayer = players[player];
-                bank.startTrade(currentPlayer, selectedPlayer);
-            }//trade
-            else if (choice == 2) {
-                build();
-            }//build
-            else if (choice == 3) {
-                //show suitable properties
-                System.out.println("Select property: ");
-                int prop = scan.nextInt();
-                currentPlayer.getProperties().get(prop).mortgage();
-            } //mortgage
-            else if (choice == 4) {
-                //show suitable properties
-                System.out.println("Select property: ");
-                int prop = scan.nextInt();
-                currentPlayer.getProperties().get(prop).liftMortgage();
-            } //redeem
-
-        } while (choice != 5); //finish turn
-    }
-    */
 
     private void build(Scanner scan, PropertySpace space) {
         if(space.getAssociatedProperty().getCard() instanceof LandTitleDeedCard &&
