@@ -1,8 +1,7 @@
 package board;
 
 import card.*;
-import entities.Player;
-import entities.Property;
+import entities.*;
 import event.AdvanceEvent;
 import event.CardEvent;
 import lombok.Getter;
@@ -40,11 +39,22 @@ public class Board {
             JSONObject jsonMap = new JSONObject(json);
             int propertyGroupCount = jsonMap.getInt("propertyGroupCount");
             System.out.println("Prop group count: " + propertyGroupCount);
-            propertyGroupColors = new String[propertyGroupCount];
+
+
+            int[] numberOfPropertiesInGroups = new int[propertyGroupCount];
+            JSONArray numberOfPropertiesInGroupsJson = jsonMap.getJSONArray("numberOfPropertiesInGroups");
+            for (int i = 0; i < numberOfPropertiesInGroupsJson.length(); i++) {
+                numberOfPropertiesInGroups[i] = numberOfPropertiesInGroupsJson.getInt(i);
+            }
+            Property.setNumberOfPropertiesInGroups(numberOfPropertiesInGroups);
+
+            // transport and utility properties don't have colors so we subtract 2
+            propertyGroupColors = new String[propertyGroupCount - 2];
             JSONArray colorsJson = jsonMap.getJSONArray("propertyGroupColors");
             for (int i = 0; i < colorsJson.length(); i++) {
                 propertyGroupColors[i] = colorsJson.getString(i);
             }
+
 
             JSONArray mapSpaces = jsonMap.getJSONArray("spaces");
 
@@ -52,7 +62,6 @@ public class Board {
                 JSONObject currentSpace =  mapSpaces.getJSONObject(i);
                 switch (currentSpace.getString("type")) {
                     case "PropertySpace":
-                        TitleDeedCard card = null;
                         Property p = null;
                         JSONObject titleDeedCard = currentSpace.getJSONObject("titleDeedCard");
                         switch (currentSpace.getString("propertyType")) {
@@ -62,8 +71,8 @@ public class Board {
                                 for (int j = 0; j < rentsJson.length(); j++) {
                                     rents[j] = rentsJson.getInt(j);
                                 }
-                                card = new LandTitleDeedCard(currentSpace.getString("name"), titleDeedCard.getInt("mortgageValue"),
-                                        currentSpace.getInt("propertyGroup"), rents, titleDeedCard.getInt("houseCost"), titleDeedCard.getInt("hotelCost"));
+                                p = new LandProperty(currentSpace.getString("name"), currentSpace.getInt("value"), titleDeedCard.getInt("mortgageValue"),
+                                        rents, currentSpace.getInt("propertyGroup"), titleDeedCard.getInt("houseCost"), titleDeedCard.getInt("hotelCost"));
                                 break;
                             case "UTILITY":
                                 JSONArray multipliersJson = titleDeedCard.getJSONArray("multipliers");
@@ -71,15 +80,21 @@ public class Board {
                                 for (int j = 0; j < multipliersJson.length(); j++) {
                                     multipliers[j] = multipliersJson.getInt(j);
                                 }
-                                card = new UtilityTitleDeedCard(currentSpace.getString("name"), titleDeedCard.getInt("mortgageValue"), multipliers);
+                                // PROPERTY GROUP EKLENCEK
+                                p = new UtilityProperty(currentSpace.getString("name"), currentSpace.getInt("value"), titleDeedCard.getInt("mortgageValue"), multipliers, currentSpace.getInt("propertyGroup"));
+
                                 break;
                             case "TRANSPORT":
-                                card = new TransportTitleDeedCard(currentSpace.getString("name"), titleDeedCard.getInt("mortgageValue"));
+                                JSONArray transportRentsJson = titleDeedCard.getJSONArray("rents");
+                                int[] transportRents = new int[4];
+                                for (int j = 0; j < transportRentsJson.length(); j++) {
+                                    transportRents[j] = transportRentsJson.getInt(j);
+                                }
+                                //PROPERTY GROUP
+                                p = new TransportProperty(currentSpace.getString("name"), currentSpace.getInt("value"), titleDeedCard.getInt("mortgageValue"), transportRents, currentSpace.getInt("propertyGroup"));
                                 break;
                         }
-                        p = new Property(card, currentSpace.getInt("value"));
                         spaces[i] = new PropertySpace(currentSpace.getString("name"), i, currentSpace.getString("propertyType"), p);
-
                         break;
                     case "CardSpace":
                         spaces[i] = new CardSpace(currentSpace.getString("cardType"), i);

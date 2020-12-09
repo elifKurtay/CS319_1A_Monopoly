@@ -3,7 +3,6 @@ package game;
 import bank.Bank;
 import board.*;
 import card.Card;
-import card.LandTitleDeedCard;
 import entities.DigitalPlayer;
 import entities.Player;
 import entities.Property;
@@ -18,9 +17,6 @@ import lombok.Setter;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Scanner;
-
-import static entities.Player.ownsAllTitlesFromSameGroup;
 
 public class Game {
 
@@ -77,6 +73,7 @@ public class Game {
                 digitalPlayer = currentPlayer instanceof DigitalPlayer;
                 dice = controller.rollDice(currentPlayer.getPlayerName(),digitalPlayer);
 
+                currentPlayer.setCurrentDiceSum(dice[0] + dice[1]);
                 //calculating next player
                 if (dice[0] == dice[1]) {
                     doublesCount++;
@@ -161,29 +158,30 @@ public class Game {
 
     private void cameToProperty(int[] dice, Space space) {
         PropertySpace p = (PropertySpace) space;
-        if(currentPlayer == p.getOwner()) { //own property
+        if(currentPlayer == p.getAssociatedProperty().getOwner()) { //own property
             controller.showMessage("This is your own property.");
             //can build on if they choose so
-        } else if (p.getOwner() == null ) { //owned by bank
+        } else if (p.getAssociatedProperty().getOwner() == null ) { //owned by bank
             //buy or auction
             if (controller.buyProperty((PropertySpace) space)) {
                 currentPlayer.addProperty(p.getAssociatedProperty());
                 currentPlayer.payBank((int) (p.getAssociatedProperty().getValue()
                         * currentPlayer.getToken().getPropertyCostMultiplier() ));
-                ((PropertySpace) space).setOwner(currentPlayer);
+                ((PropertySpace) space).getAssociatedProperty().setOwner(currentPlayer);
                 controller.drawPlayerBoxes(players);
             } else {
                 bank.startAuction(p.getAssociatedProperty());
             }
             bank.removeFromUnownedProperties(p.getAssociatedProperty());
-            System.out.println(space.getName() + " belongs to " + ((PropertySpace) space).getOwner());
+            System.out.println(space.getName() + " belongs to " + ((PropertySpace) space).getAssociatedProperty().getOwner());
         } else { //owned by another player
             //pay rent
-            int rentAmount = currentPlayer.payRent(((PropertySpace) space).getOwner(), dice);
-            System.out.println("You paid rent to " + ((PropertySpace) space).getOwner());
+            //int rentAmount = currentPlayer.payRent(((PropertySpace) space).getOwner(), dice);
+            int rentAmount = ((PropertySpace) space).calculateRent(currentPlayer);
+            currentPlayer.payPlayer(((PropertySpace) space).getAssociatedProperty().getOwner(), rentAmount);
             controller.drawPlayerBoxes(players);
             controller.showMessage("You paid M" + rentAmount + " rent to "
-                    +  ((PropertySpace) space).getOwner().getPlayerName() + ".");
+                    +  ((PropertySpace) space).getAssociatedProperty().getOwner().getPlayerName() + ".");
         }
     }
 
@@ -274,6 +272,7 @@ public class Game {
         }
     }
 
+    /*
     private void build(Scanner scan, PropertySpace space) {
         if(space.getAssociatedProperty().getCard() instanceof LandTitleDeedCard &&
                 ownsAllTitlesFromSameGroup(currentPlayer, space.getAssociatedProperty()) ) {
@@ -308,6 +307,7 @@ public class Game {
         } else
             System.out.println("Sorry, you have no property to build on. ");
     }
+     */
 
     //input from UI
     private boolean finishTurn() {

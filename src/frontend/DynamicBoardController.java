@@ -1,7 +1,6 @@
 package frontend;
 
 import board.*;
-import card.LandTitleDeedCard;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -68,7 +67,7 @@ public class DynamicBoardController {
                     Pane colorPane = new Pane();
                     // Get the color specified for this property group, read from the json file
                     colorPane.setStyle("-fx-background-color: #"
-                            + colors[((LandTitleDeedCard) (currentSpace.getAssociatedProperty().getCard())).getPropertyGroup()]);
+                            + colors[currentSpace.getAssociatedProperty().getPropertyGroup()]);
                     if (i < 10) {
                         colorPane.getStyleClass().add("colortop");
                         spacePane.setTop(colorPane);

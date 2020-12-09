@@ -11,14 +11,14 @@ public class PropertySpace extends Space{
         LAND, TRANSPORT, UTILITY
     }
 
-    private Player owner;
+    //private Player owner;
     private Property associatedProperty;
     private PropertyType type;
 
     public PropertySpace(String name, int index, String propertyType, Property associatedProperty) {
         super(name, index);
 
-        owner = null;
+        //owner = null;
         // Need to associate PropertySpaces with Properties at instantiation
         this.associatedProperty = associatedProperty;
 
@@ -34,4 +34,8 @@ public class PropertySpace extends Space{
         }
     }
 
+
+    public int calculateRent(Player payingPlayer) {
+        return associatedProperty.getRent(payingPlayer);
+    }
 }

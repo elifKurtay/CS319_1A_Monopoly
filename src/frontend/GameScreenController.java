@@ -4,9 +4,6 @@ import bank.Bank;
 import bank.Trade;
 import board.Board;
 import board.PropertySpace;
-import card.LandTitleDeedCard;
-import card.TitleDeedCard;
-import card.TransportTitleDeedCard;
 import entities.Player;
 import game.Game;
 import javafx.application.Platform;
@@ -113,12 +110,13 @@ public class GameScreenController {
         assetsDialog.getDialogPane().setContent(hb);
         for (int i = 0; i < player.getProperties().size(); i++) {
             //hb.getChildren().add(new Label(player.getProperties().get(i).getCard().getPropertyName()));
-            hb.getChildren().add(buildTitleDeedCard(player.getProperties().get(i).getCard()));
+            //hb.getChildren().add(buildTitleDeedCard(player.getProperties().get(i).getCard()));
             //setContent(new Label(player.getProperties().get(i).getCard().getPropertyName()));
         }
         assetsDialog.showAndWait();
     }
 
+    /*
     public VBox buildTitleDeedCard(TitleDeedCard card) {
         VBox vb = new VBox();
         if (card instanceof LandTitleDeedCard) {
@@ -142,6 +140,7 @@ public class GameScreenController {
         vb.getStyleClass().add("titleCard");
         return vb;
     }
+     */
 
     public int[] rollDice(String name, boolean digital) {
         int[] dice = new int[2];
