@@ -3,6 +3,8 @@ package frontend;
 import board.Board;
 import board.PropertySpace;
 import entities.Player;
+import entities.Property;
+import game.Game;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +21,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +31,9 @@ import java.util.stream.IntStream;
 public class GameScreenController {
     @FXML
     private VBox playerBoxes;
+    @Getter
+    @Setter
+    private Game game;
 
     @FXML
     private DynamicBoardController dynamicBoardController;
@@ -46,6 +53,11 @@ public class GameScreenController {
         dynamicBoardController.setDynamicBoard(board);
     }
 
+    public void resetMap(Board board) {
+
+    }
+
+    // UNUSED ???
     @FXML
     protected void backButtonAction(ActionEvent event) {
 
@@ -69,7 +81,7 @@ public class GameScreenController {
 
     @FXML
     protected void restartButtonAction(ActionEvent event) {
-        Platform.exit();
+        game.restartGame();
     }
 
     @FXML
@@ -79,7 +91,16 @@ public class GameScreenController {
 
     @FXML
     protected void tradeButtonAction(ActionEvent event) {
-        Platform.exit();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("NEW TRADE");
+        alert.showAndWait();
+
+        /*
+        Bank bank = game.getBank();
+        // Player targetPlayer = Playerları listele seçtir
+        Trade t = bank.startTrade(targetPlayer);
+        bank.finishTrade();
+         */
     }
 
     @FXML
@@ -99,6 +120,32 @@ public class GameScreenController {
 
     @FXML
     public void playerAssetsButtonAction(ActionEvent actionEvent) {
+        String buttonID = ((Button) actionEvent.getSource()).getId();
+        int playerNo = Character.getNumericValue(buttonID.charAt(buttonID.length() - 1));
+        Player player = game.getPlayers()[playerNo];
+        //System.out.println("Player " + playerNo + " GOOJC count: " + player.getGetOutOfJailFreeCount());
+        Alert assetsDialog = new Alert(Alert.AlertType.INFORMATION);
+        HBox hb = new HBox();
+        assetsDialog.getDialogPane().setContent(hb);
+        for (int i = 0; i < player.getProperties().size(); i++) {
+            //hb.getChildren().add(new Label(player.getProperties().get(i).getPropertyName()));
+            VBox vb = buildTitleDeedCard(player.getProperties().get(i));
+            System.out.println("Style: " + vb.getStyle());
+            hb.getChildren().add(vb);
+            //hb.setContent(new Label(player.getProperties().get(i).getCard().getPropertyName()));
+        }
+        assetsDialog.showAndWait();
+    }
+
+    public VBox buildTitleDeedCard(Property p) {
+        VBox vb = new VBox();
+        vb.getChildren().add(new Label("Title Deed Card"));
+        vb.getChildren().add(new Label(p.getPropertyName()));
+        vb.setAlignment(Pos.CENTER);
+        vb.getStyleClass().clear();
+        vb.getStyleClass().add("titleCard");
+        vb.getStylesheets().add("fxml/board.css");
+        return vb;
     }
 
     public int[] rollDice(String name, boolean digital) {
@@ -130,7 +177,6 @@ public class GameScreenController {
         else {
             alert.setHeaderText(name + " has rolled: " + dice[0] + " " + dice[1]);
         }
-        System.out.println(alert.getX() + " " + alert.getY());
 
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Continue");
         alert.showAndWait();
@@ -138,8 +184,8 @@ public class GameScreenController {
     }
 
     private ArrayList<String> tokens = new ArrayList<>();
-    private final String[] tokenNames = {"thimble", "wheel barrow", "boot", "horse", "race car",
-            "iron", "top Hat", "battleship"};
+    private final String[] tokenNames = {"Thimble", "Wheel Barrow", "Boot", "Horse", "Race Car",
+            "Iron", "Top Hat", "Battleship"};
     private boolean first = true;
 
     public int chooseToken(String name, boolean digital) {
@@ -273,11 +319,12 @@ public class GameScreenController {
 
             Label money = new Label("M" + Integer.toString(player.getMoney()));
             money.getStyleClass().add("moneylabel");
-            money.setPrefHeight(70);
-            money.setPrefWidth(150);
+            money.setPrefSize(150, 70);
 
             Button assetsButton = new Button("Assets");
+            assetsButton.setId("playerAssets" + i);
             assetsButton.getStyleClass().add("assetsButton");
+            assetsButton.setOnAction(this::playerAssetsButtonAction);
 
             hb.getChildren().addAll(vb, money, assetsButton);
             playerPane.getChildren().add(hb);

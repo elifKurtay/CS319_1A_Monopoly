@@ -68,6 +68,7 @@ public class NewGameMenuController extends MenuController {
         Scene s = new Scene(root, getStage().getWidth(), getStage().getHeight());
         getStage().setScene(s);
         Game game = new Game(map, currentHumanPlayers, players, turnLimitCombo.getValue(), controller);
+        controller.setGame(game);
         game.startGame();
     }
 

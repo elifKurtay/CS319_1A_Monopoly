@@ -1,6 +1,5 @@
 package entities;
 
-import card.TitleDeedCard;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,39 +7,32 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Property {
-
+public abstract class Property {
     //properties
-    private boolean mortgaged;
-    private int numOfHouses;
-    private boolean hotel;
-    private TitleDeedCard card;
+    private String propertyName;
+    private int mortgageValue;
     private int value;
+    protected boolean mortgaged;
+    protected Player owner;
+    protected int[] rents;
+    protected int propertyGroup;
+    protected static int[] numberOfPropertiesInGroups;
 
     //constructors
-    public Property(TitleDeedCard card, int value){
-        this.card = card;
+    public Property(String propertyName, int value, int mortgageValue, int[] rents, int propertyGroup){
+        this.propertyName = propertyName;
         this.value = value;
-        hotel = false;
-        numOfHouses = 0;
+        this.mortgageValue = mortgageValue;
+        this.rents = new int[rents.length];
+        for (int i = 0; i < rents.length; i++) {
+            this.rents[i] = rents[i];
+        }
+        this.propertyGroup = propertyGroup;
+        owner = null;
         mortgaged = false;
     }
 
-
     //methods
-    public void buildHouse() {
-        numOfHouses++;
-        if(numOfHouses == 5)
-            hotel = true;
-    }
-
-    //do we have sell? is this to be used in mortgaging?
-    public void sellHouse () {
-        if(hotel)
-            hotel = false;
-        numOfHouses--;
-    }
-
     public void mortgage () {
         mortgaged = true;
     }
@@ -48,5 +40,24 @@ public class Property {
     public void liftMortgage () {
         mortgaged = false;
     }
+
+    public int getWorth() {
+        if (mortgaged) {
+            return mortgageValue;
+        }
+        else {
+            return value;
+        }
+    }
+
+    public abstract int getRent(Player playerToPay);
+
+    public static void setNumberOfPropertiesInGroups(int[] numberOfPropertiesInGroups) {
+        Property.numberOfPropertiesInGroups = new int[numberOfPropertiesInGroups.length];
+        for (int i = 0; i <numberOfPropertiesInGroups.length; i++) {
+            Property.numberOfPropertiesInGroups[i] = numberOfPropertiesInGroups[i];
+        }
+    }
+
 }
 

@@ -1,5 +1,6 @@
 {
-    "propertyGroupCount": 8,
+    "propertyGroupCount": 10,
+    "numberOfPropertiesInGroups": [2,3,3,3,3,3,3,2,4,2],
     "propertyGroupColors" : [
         "955500",
         "5feef8",
@@ -56,7 +57,9 @@
             "propertyType": "TRANSPORT",
             "name": "Kings Cross Station",
             "value": "200",
+            "propertyGroup": 8,
             "titleDeedCard": {
+                "rents": [25, 50, 100, 200],
                 "mortgageValue": 100
             }
         },
@@ -125,6 +128,7 @@
             "type": "PropertySpace",
             "name": "Electric Company",
             "propertyType": "UTILITY",
+            "propertyGroup": 9,
             "value": "150",
             "titleDeedCard": {
                 "multipliers": [4, 10],
@@ -162,7 +166,9 @@
             "propertyType": "TRANSPORT",
             "name": "Marblebone Station",
             "value": "200",
+            "propertyGroup": 8,
             "titleDeedCard": {
+                "rents": [25, 50, 100, 200],
                 "mortgageValue": 100
             }
         },
@@ -263,7 +269,9 @@
             "propertyType": "TRANSPORT",
             "name": "Fenchurch St. Station",
             "value": "200",
+            "propertyGroup": 8,
             "titleDeedCard": {
+                "rents": [25, 50, 100, 200],
                 "mortgageValue": 100
             }
         },
@@ -297,6 +305,7 @@
             "type": "PropertySpace",
             "name": "Water Works",
             "propertyType": "UTILITY",
+            "propertyGroup": 9,
             "value": "150",
             "titleDeedCard" : {
                 "multipliers": [4, 10],
@@ -369,7 +378,9 @@
             "propertyType": "TRANSPORT",
             "name": "Liverpool St. Station",
             "value": "200",
+            "propertyGroup": 8,
             "titleDeedCard": {
+                "rents": [25, 50, 100, 200],
                 "mortgageValue": 100
             }
         },
@@ -435,6 +446,108 @@
                     "canCollectSalary": 1
                 },
                 "cardText": "Advance to Trafalgar Square, if you pass Go, collect M200"
+            },
+            {
+                "cardEvent": {
+                    "type": "ADVANCE_TO_NEAREST",
+                    "spaceType": "UTILITY",
+                    "canCollectSalary": 1
+                },
+                "cardText": "Advance token to nearest Utility. If unowned, you may buy it from the Bank. If owned, throw dice and pay owner a total 10 (ten) times the amount thrown."
+            },
+            {
+                "cardEvent": {
+                    "type": "ADVANCE_TO_NEAREST",
+                    "spaceType": "TRANSPORT",
+                    "canCollectSalary": 1
+                },
+                "cardText": "Advance token to the nearest transport station and pay owner twice the rental to which he/she is otherwise entitled. If Railroad is unowned, you may buy it from the Bank."
+            },
+            {
+                "cardEvent": {
+                    "type": "ADVANCE",
+                    "targetSpace": "Mayfair",
+                    "canCollectSalary": 1
+                },
+                "cardText": "Take a walk on the board walk. Advance token to Mayfair"
+            },
+            {
+                "cardEvent": {
+                    "type": "ADVANCE",
+                    "targetSpace": "King's Cross Station",
+                    "canCollectSalary": 1
+                },
+                "cardText": "Take a ride to King’s Cross Station. If you pass Go, collect M200."
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "BANK",
+                    "amount": 50
+                },
+                "cardText": "Take a ride to King’s Cross Station. If you pass Go, collect M200."
+            },
+            {
+                "cardEvent": {
+                    "type": "RECEIVE_GET_OUT_OF_JAIL_CARD"
+                },
+                "cardText": "Get out of Jail Free. This card may be kept until needed, or traded/sold."
+            },
+            {
+                "cardEvent": {
+                    "type": "ADVANCE_SPACES",
+                    "targetSpace": -3,
+                    "canCollectSalary": 1
+                },
+                "cardText": "Go Back Three Spaces."
+            },
+            {
+                "cardEvent": {
+                    "type": "GO_TO_JAIL",
+                    "targetSpace": "Jail",
+                    "canCollectSalary": 0
+                },
+                "cardText": "Go to Jail. Go directly to Jail. Do not pass GO, do not collect M200."
+            },
+            {
+                "cardEvent": {
+                    "type": "PAY_PER_BUILDING",
+                    "to": "BANK",
+                    "amount": [25, 100]
+                },
+                "cardText": "Make general repairs on all your property: For each house pay M25, For each hotel pay M100."
+            },
+            {
+                "cardEvent": {
+                    "type": "PAY",
+                    "to": "BANK",
+                    "amount": 15
+                },
+                "cardText": "Pay poor tax of M15 "
+            },
+            {
+                "cardEvent": {
+                    "type": "PAY",
+                    "to": "EACH",
+                    "amount": 50
+                },
+                "cardText": "You have been elected Chairman of the Board. Pay each player M50"
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "BANK",
+                    "amount": 150
+                },
+                "cardText": "Your building and loan matures. Collect M150"
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "BANK",
+                    "amount": 100
+                },
+                "cardText": "You have won a crossword competition. Collect M100"
             }
 
         ],
@@ -446,6 +559,132 @@
                     "canCollectSalary": 1
                 },
                 "cardText": "Advance to \"Go\" (Collect M200)"
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "BANK",
+                    "amount": 200
+                },
+                "cardText": "Bank error in your favor. Collect M200."
+            },
+            {
+                "cardEvent": {
+                    "type": "PAY",
+                    "to": "BANK",
+                    "amount": 50
+                },
+                "cardText": "Doctor's fees. Pay M50."
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "BANK",
+                    "amount": 50
+                },
+                "cardText": "From sale of stock you get M50."
+            },
+            {
+                "cardEvent": {
+                    "type": "RECEIVE_GET_OUT_OF_JAIL_CARD"
+                },
+                "cardText": "Get out of Jail Free. This card may be kept until needed, or traded/sold."
+            },
+            {
+                "cardEvent": {
+                    "type": "GO_TO_JAIL",
+                    "targetSpace": "Jail",
+                    "canCollectSalary": 0
+                },
+                "cardText": "Go to Jail. Go directly to Jail. Do not pass GO, do not collect M200."
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "EACH",
+                    "amount": 50
+                },
+                "cardText": "Grand Opera Night. Collect $50 from every player for opening night seats."
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "BANK",
+                    "amount": 100
+                },
+                "cardText": "Holiday Fund matures. Receive M100."
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "BANK",
+                    "amount": 20
+                },
+                "cardText": "Income tax refund. Collect M20."
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "EACH",
+                    "amount": 10
+                },
+                "cardText": "It is your birthday. Collect M10 from every player."
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "BANK",
+                    "amount": 100
+                },
+                "cardText": "Life insurance matures – Collect M100"
+            },
+            {
+                "cardEvent": {
+                    "type": "PAY",
+                    "to": "BANK",
+                    "amount": 50
+                },
+                "cardText": "Hospital Fees. Pay M50."
+            },
+            {
+                "cardEvent": {
+                    "type": "PAY",
+                    "to": "BANK",
+                    "amount": 50
+                },
+                "cardText": "School fees. Pay M50."
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "BANK",
+                    "amount": 25
+                },
+                "cardText": "Receive M25 consultancy fee."
+            },
+            {
+                "cardEvent": {
+                    "type": "PAY_PER_BUILDING",
+                    "to": "BANK",
+                    "amount": [40, 115]
+                },
+                "cardText": "You are assessed for street repairs: Pay M40 per house and M115 per hotel you own."
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "BANK",
+                    "amount": 10
+                },
+                "cardText": "You have won second prize in a beauty contest. Collect M10."
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "BANK",
+                    "amount": 10
+                },
+                "cardText": "You inherit M100."
             }
         ]
     }

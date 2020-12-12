@@ -1,5 +1,11 @@
 package event;
 
-public class ReceiveGetOutOfJailEvent extends CardEvent{
+import board.Board;
+import entities.Player;
 
+public class ReceiveGetOutOfJailEvent extends CardEvent{
+    @Override
+    public void handleEvent(Player affectedPlayer, Player[] players, Board board) {
+        affectedPlayer.setGetOutOfJailFreeCount(affectedPlayer.getGetOutOfJailFreeCount() + 1);
+    }
 }
