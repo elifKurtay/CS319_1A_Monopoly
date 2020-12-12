@@ -2,11 +2,13 @@ package bank;
 
 import entities.Player;
 import entities.Property;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class Auction {
+@Getter
+public class Auction extends Observable{
     private final Property auctionedProperty;
 
     private int highestBid;
@@ -15,6 +17,7 @@ public class Auction {
     public Auction(@NotNull Property auctionedProperty) {
         this.auctionedProperty = auctionedProperty;
 
+        this.setState(1);
         highestBid = 0;
         highestBidder = null;
     }
@@ -30,13 +33,7 @@ public class Auction {
         if(highestBid == 0)
             return false;
 
-        //add property to highest bidder
-        ArrayList<Property> properties = highestBidder.getProperties();
-        properties.add(auctionedProperty);
-        highestBidder.setProperties(properties);
-
-        //get payment from highest bidder
-        highestBidder.setMoney( highestBidder.getMoney() - highestBid);
+        setState(0);
         return true;
     }
 }

@@ -1,5 +1,7 @@
 package game;
 
+import bank.Auction;
+import bank.Observer;
 import board.*;
 import card.Card;
 import entities.DigitalPlayer;
@@ -17,7 +19,7 @@ import lombok.Setter;
 import java.io.File;
 import java.util.ArrayList;
 
-public class Game {
+public class Game extends Observer {
 
     private static final int LAP = 4;
     private final Board board;
@@ -37,6 +39,7 @@ public class Game {
         board = new Board(map);
         lapCount = 0;
 
+        observable = null;
         this.controller = controller;
 
         players = new Player[LAP];
@@ -165,8 +168,9 @@ public class Game {
                 space.getAssociatedProperty().setOwner(currentPlayer);
                 controller.drawPlayerBoxes(players);
             } else {
-                //bank.startAuction(space.getAssociatedProperty());
                 // START AUCTION FOR PROPERTY
+                observable = new Auction(space.getAssociatedProperty());
+                observable.attach(this);
             }
             System.out.println(space.getName() + " belongs to " + space.getAssociatedProperty().getOwner());
         } else { //owned by another player
@@ -425,5 +429,21 @@ public class Game {
     public boolean saveGame() {
         //save to database
         return true;
+    }
+
+    @Override
+    public void update() {
+        if(observable.getState() == 0) {
+            Player highestBidder = ((Auction) observable).getHighestBidder();
+            //add property to highest bidder
+            ArrayList<Property> properties = highestBidder.getProperties();
+            properties.add(((Auction) observable).getAuctionedProperty());
+            highestBidder.setProperties(properties);
+
+            //get payment from highest bidder
+            highestBidder.setMoney(highestBidder.getMoney() - ((Auction) observable).getHighestBid());
+        }
+        else
+            System.err.println("Auction started");
     }
 }
