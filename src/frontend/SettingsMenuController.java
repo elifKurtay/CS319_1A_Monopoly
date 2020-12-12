@@ -23,33 +23,22 @@ public class SettingsMenuController extends MenuController {
     @FXML
     private Slider musicSlider;
 
-    static MediaPlayer mediaPlayer;
-    @Setter
-    static MediaPlayer moveEffect;
-    @Setter
-    static MediaPlayer cashEffect;
-    @Setter
-    static MediaPlayer spinEffect;
-    @Setter
-    static MediaPlayer jailEffect;
-    @Setter
-    static MediaPlayer diceEffect;
-
+    private Audio obj =  Audio.getInstance();
 
     public void initialize(){
-        musicSlider.setValue(mediaPlayer.getVolume()*100);
+        musicSlider.setValue(50);
         gameSoundSlider.setValue(50);
-
-
     }
 
     @FXML
-    private void changeVolume(){
-        mediaPlayer.setVolume(musicSlider.getValue()/100);
+    private void changeGameMusicVolume(){
+        obj.setVolumeOfGameMusic(musicSlider.getValue()/100);
     }
 
-    static protected void setMyMedia(MediaPlayer mp){
-        mediaPlayer = mp;
+    @FXML
+    private void changeGameSoundVolume(){
+        obj.setVolumeOfGameSound(gameSoundSlider.getValue()/100);
     }
+
 
 }

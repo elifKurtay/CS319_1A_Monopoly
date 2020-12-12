@@ -20,8 +20,8 @@
             <Label style = "-fx-font-size: 36; -fx-alignment: center;" >GAME SOUND</Label>
         </VBox>
         <VBox style="-fx-alignment: center; -fx-spacing: 50">
-            <Slider fx:id="musicSlider" onMouseReleased="#changeVolume" value="Infinity" style="-fx-pref-width: 250; -fx-max-height: 75; -fx-show-tick-labels: true; -fx-show-tick-marks: true"/>
-            <Slider fx:id="gameSoundSlider" value="Infinity" style="-fx-pref-width: 250; -fx-max-height: 75; -fx-show-tick-labels: true; -fx-show-tick-marks: true"/>
+            <Slider fx:id="musicSlider" onMouseReleased="#changeGameMusicVolume" value="Infinity" style="-fx-pref-width: 250; -fx-max-height: 75; -fx-show-tick-labels: true; -fx-show-tick-marks: true"/>
+            <Slider fx:id="gameSoundSlider" onMouseReleased="#changeGameSoundVolume" value="Infinity" style="-fx-pref-width: 250; -fx-max-height: 75; -fx-show-tick-labels: true; -fx-show-tick-marks: true"/>
         </VBox>
     </HBox>
     <Button styleClass="back-button-style" text="BACK" onAction="#backButtonAction"/>

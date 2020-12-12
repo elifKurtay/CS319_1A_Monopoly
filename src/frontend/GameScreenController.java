@@ -42,40 +42,11 @@ public class GameScreenController {
 
     private Stage stage;
 
+    private Audio obj = Audio.getInstance();
 
 
     public void initialize() {
-        String path = "assets\\music\\moveSound.mp3";
-        Media media = new Media(new File(path).toURI().toString());
-        MediaPlayer moveEffect = new MediaPlayer(media);
-        moveEffect.setVolume(0.5);
-        SettingsMenuController.setMoveEffect(moveEffect);
 
-        path = "assets\\music\\cashSound.mp3";
-        media = new Media(new File(path).toURI().toString());
-        MediaPlayer cashEffect = new MediaPlayer(media);
-        cashEffect.setVolume(0.5);
-        SettingsMenuController.setCashEffect(cashEffect);
-
-        path = "assets\\music\\wheelSound.mp3";
-        media = new Media(new File(path).toURI().toString());
-        MediaPlayer spinEffect = new MediaPlayer(media);
-        spinEffect.setVolume(0.5);
-        SettingsMenuController.setSpinEffect(spinEffect);
-
-        path = "assets\\music\\policeSound.mp3";
-        media = new Media(new File(path).toURI().toString());
-        MediaPlayer jailEffect = new MediaPlayer(media);
-        jailEffect.setVolume(0.5);
-        SettingsMenuController.setJailEffect(jailEffect);
-
-        AudioClip a = new AudioClip(Paths.get("assets/music/diceSound.mp3").toUri().toString());
-        a.play();
-        path = "assets\\music\\diceSound.mp3";
-        media = new Media(new File(path).toURI().toString());
-        MediaPlayer diceEffect = new MediaPlayer(media);
-        diceEffect.setVolume(0.5);
-        SettingsMenuController.setDiceEffect(diceEffect);
     }
 
     public void setStage(Stage stage){
@@ -142,8 +113,7 @@ public class GameScreenController {
     }
 
     public int[] rollDice(String name) {
-        SettingsMenuController.diceEffect.setAutoPlay(true);
-
+        obj.playPoliceSound();
         int[] dice = new int[2];
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
