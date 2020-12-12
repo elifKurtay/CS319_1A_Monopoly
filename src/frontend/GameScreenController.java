@@ -1,10 +1,9 @@
 package frontend;
 
-import bank.Bank;
-import bank.Trade;
 import board.Board;
 import board.PropertySpace;
 import entities.Player;
+import entities.Property;
 import game.Game;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -47,6 +46,7 @@ public class GameScreenController {
 
     }
 
+    // UNUSED ???
     @FXML
     protected void backButtonAction(ActionEvent event) {
 
@@ -77,9 +77,11 @@ public class GameScreenController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("NEW TRADE");
         alert.showAndWait();
-        /*Bank bank = game.getBank();
-        Trade t = bank.startTrade();
 
+        /*
+        Bank bank = game.getBank();
+        // Player targetPlayer = Playerları listele seçtir
+        Trade t = bank.startTrade(targetPlayer);
         bank.finishTrade();
          */
     }
@@ -109,38 +111,25 @@ public class GameScreenController {
         HBox hb = new HBox();
         assetsDialog.getDialogPane().setContent(hb);
         for (int i = 0; i < player.getProperties().size(); i++) {
-            //hb.getChildren().add(new Label(player.getProperties().get(i).getCard().getPropertyName()));
-            //hb.getChildren().add(buildTitleDeedCard(player.getProperties().get(i).getCard()));
-            //setContent(new Label(player.getProperties().get(i).getCard().getPropertyName()));
+            //hb.getChildren().add(new Label(player.getProperties().get(i).getPropertyName()));
+            VBox vb = buildTitleDeedCard(player.getProperties().get(i));
+            System.out.println("Style: " + vb.getStyle());
+            hb.getChildren().add(vb);
+            //hb.setContent(new Label(player.getProperties().get(i).getCard().getPropertyName()));
         }
         assetsDialog.showAndWait();
     }
 
-    /*
-    public VBox buildTitleDeedCard(TitleDeedCard card) {
+    public VBox buildTitleDeedCard(Property p) {
         VBox vb = new VBox();
-        if (card instanceof LandTitleDeedCard) {
-            LandTitleDeedCard c = (LandTitleDeedCard) card;
-            vb.getChildren().add(new Label("Title Deed Card"));
-            vb.getChildren().add(new Label(c.getPropertyName()));
-            vb.setAlignment(Pos.CENTER);
-
-            //for ()
-        }
-        else if (card instanceof TransportTitleDeedCard) {
-            TransportTitleDeedCard c = (TransportTitleDeedCard) card;
-            vb.getChildren().add(new Label("Title Deed Card"));
-            vb.getChildren().add(new Label(c.getPropertyName()));
-            vb.setAlignment(Pos.CENTER);
-
-        }
-        else {
-
-        }
+        vb.getChildren().add(new Label("Title Deed Card"));
+        vb.getChildren().add(new Label(p.getPropertyName()));
+        vb.setAlignment(Pos.CENTER);
+        vb.getStyleClass().clear();
         vb.getStyleClass().add("titleCard");
+        vb.getStylesheets().add("fxml/board.css");
         return vb;
     }
-     */
 
     public int[] rollDice(String name, boolean digital) {
         int[] dice = new int[2];

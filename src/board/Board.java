@@ -63,6 +63,7 @@ public class Board {
                 switch (currentSpace.getString("type")) {
                     case "PropertySpace":
                         Property p = null;
+                        PropertySpace.PropertyType type = null;
                         JSONObject titleDeedCard = currentSpace.getJSONObject("titleDeedCard");
                         switch (currentSpace.getString("propertyType")) {
                             case "LAND":
@@ -73,6 +74,7 @@ public class Board {
                                 }
                                 p = new LandProperty(currentSpace.getString("name"), currentSpace.getInt("value"), titleDeedCard.getInt("mortgageValue"),
                                         rents, currentSpace.getInt("propertyGroup"), titleDeedCard.getInt("houseCost"), titleDeedCard.getInt("hotelCost"));
+                                type = PropertySpace.PropertyType.LAND;
                                 break;
                             case "UTILITY":
                                 JSONArray multipliersJson = titleDeedCard.getJSONArray("multipliers");
@@ -80,9 +82,8 @@ public class Board {
                                 for (int j = 0; j < multipliersJson.length(); j++) {
                                     multipliers[j] = multipliersJson.getInt(j);
                                 }
-                                // PROPERTY GROUP EKLENCEK
                                 p = new UtilityProperty(currentSpace.getString("name"), currentSpace.getInt("value"), titleDeedCard.getInt("mortgageValue"), multipliers, currentSpace.getInt("propertyGroup"));
-
+                                type = PropertySpace.PropertyType.UTILITY;
                                 break;
                             case "TRANSPORT":
                                 JSONArray transportRentsJson = titleDeedCard.getJSONArray("rents");
@@ -90,11 +91,11 @@ public class Board {
                                 for (int j = 0; j < transportRentsJson.length(); j++) {
                                     transportRents[j] = transportRentsJson.getInt(j);
                                 }
-                                //PROPERTY GROUP
                                 p = new TransportProperty(currentSpace.getString("name"), currentSpace.getInt("value"), titleDeedCard.getInt("mortgageValue"), transportRents, currentSpace.getInt("propertyGroup"));
+                                type = PropertySpace.PropertyType.TRANSPORT;
                                 break;
                         }
-                        spaces[i] = new PropertySpace(currentSpace.getString("name"), i, currentSpace.getString("propertyType"), p);
+                        spaces[i] = new PropertySpace(currentSpace.getString("name"), i, type, p);
                         break;
                     case "CardSpace":
                         spaces[i] = new CardSpace(currentSpace.getString("cardType"), i);
@@ -150,6 +151,8 @@ public class Board {
                                 communityChestCards.add(new Card(card.getString("cardText"), e));
                             }
                         }
+                    case "COLLECT":
+                        int amount = cardEvent.getInt("amount");
                 }
             }
         } catch (FileNotFoundException e) {

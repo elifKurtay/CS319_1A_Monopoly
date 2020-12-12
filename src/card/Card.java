@@ -29,7 +29,7 @@ public class Card {
         thief = false;
     }
 
-    public  Card(String cardText, CardEvent cardEvent){
+    public Card(String cardText, CardEvent cardEvent){
         this.cardText = cardText;
         this.cardEvent = cardEvent;
         advance = false;

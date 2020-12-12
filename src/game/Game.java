@@ -1,6 +1,5 @@
 package game;
 
-import bank.Bank;
 import board.*;
 import card.Card;
 import entities.DigitalPlayer;
@@ -29,14 +28,12 @@ public class Game {
     @Getter @Setter private Player currentPlayer;
 
     private int lapCount;
-    @Getter @Setter private Bank bank;
 
     private GameScreenController controller;
 
     public Game(File map, int playerCount, String[] playerNames, int turnLimit, GameScreenController controller) {
         this.playerCount = playerCount;
         this.lapLimit = turnLimit;
-        bank = new Bank();
         board = new Board(map);
         lapCount = 0;
 
@@ -56,7 +53,6 @@ public class Game {
         this.players = loadedGame.players;
         this.lapCount = loadedGame.lapCount;
         this.lapLimit = loadedGame.lapLimit;
-        this.bank = loadedGame.bank;
         this.board = loadedGame.board;
         this.currentPlayer = loadedGame.currentPlayer;
     }
@@ -71,7 +67,7 @@ public class Game {
             for(int i = 0; i < LAP &&  !isGameEnd(); i++) {
                 currentPlayer = players[i];
                 digitalPlayer = currentPlayer instanceof DigitalPlayer;
-                dice = controller.rollDice(currentPlayer.getPlayerName(),digitalPlayer);
+                dice = controller.rollDice(currentPlayer.getPlayerName(), digitalPlayer);
 
                 currentPlayer.setCurrentDiceSum(dice[0] + dice[1]);
                 //calculating next player
@@ -140,7 +136,7 @@ public class Game {
                 } else if(space instanceof WheelOfFortuneSpace) {
                     ((WheelOfFortuneSpace) space).spinWheel();
                 } else if(space instanceof PropertySpace){
-                    cameToProperty(dice, space);
+                    cameToProperty((PropertySpace) space);
                 }
 
                 // if doubles count is greater than 0 the same player can play another round
@@ -156,50 +152,64 @@ public class Game {
         System.out.println("Game Over!");
     }
 
-    private void cameToProperty(int[] dice, Space space) {
-        PropertySpace p = (PropertySpace) space;
-        if(currentPlayer == p.getAssociatedProperty().getOwner()) { //own property
+    private void cameToProperty(PropertySpace space) {
+        if(currentPlayer == space.getAssociatedProperty().getOwner()) { //own property
             controller.showMessage("This is your own property.");
             //can build on if they choose so
-        } else if (p.getAssociatedProperty().getOwner() == null ) { //owned by bank
+        } else if (space.getAssociatedProperty().getOwner() == null ) { //owned by bank
             //buy or auction
-            if (controller.buyProperty((PropertySpace) space)) {
-                currentPlayer.addProperty(p.getAssociatedProperty());
-                currentPlayer.payBank((int) (p.getAssociatedProperty().getValue()
+            if (controller.buyProperty(space)) {
+                currentPlayer.addProperty(space.getAssociatedProperty());
+                currentPlayer.payBank((int) (space.getAssociatedProperty().getValue()
                         * currentPlayer.getToken().getPropertyCostMultiplier() ));
-                ((PropertySpace) space).getAssociatedProperty().setOwner(currentPlayer);
+                space.getAssociatedProperty().setOwner(currentPlayer);
                 controller.drawPlayerBoxes(players);
             } else {
-                bank.startAuction(p.getAssociatedProperty());
+                //bank.startAuction(space.getAssociatedProperty());
+                // START AUCTION FOR PROPERTY
             }
-            bank.removeFromUnownedProperties(p.getAssociatedProperty());
-            System.out.println(space.getName() + " belongs to " + ((PropertySpace) space).getAssociatedProperty().getOwner());
+            System.out.println(space.getName() + " belongs to " + space.getAssociatedProperty().getOwner());
         } else { //owned by another player
             //pay rent
             //int rentAmount = currentPlayer.payRent(((PropertySpace) space).getOwner(), dice);
-            int rentAmount = ((PropertySpace) space).calculateRent(currentPlayer);
-            currentPlayer.payPlayer(((PropertySpace) space).getAssociatedProperty().getOwner(), rentAmount);
+            int rentAmount = space.calculateRent(currentPlayer);
+            currentPlayer.payPlayer(space.getAssociatedProperty().getOwner(), rentAmount);
             controller.drawPlayerBoxes(players);
             controller.showMessage("You paid M" + rentAmount + " rent to "
-                    +  ((PropertySpace) space).getAssociatedProperty().getOwner().getPlayerName() + ".");
+                    +  space.getAssociatedProperty().getOwner().getPlayerName() + ".");
         }
     }
 
     private void sendToJail(Player player) {
-            player.setJailed(true);
-            player.setCurrentSpace(board.getSpace(10));
+        player.setJailed(true);
+        player.setCurrentSpace(board.getSpace(10));
     }
 
+    // Could ask player in game loop controller.postponeCard() and draw card
     private void drawCard(Player player, CardSpace space) {
         Card card = board.drawCard(space.getType());
 
-        if(controller.postponeCard()) {
-            ArrayList<Card> cards = player.getPostponedCards();
-            cards.add(card);
-            player.setPostponedCards( cards );
-        } else {
-            openCard(card);
+        /*
+        if (player instanceof DigitalPlayer) {
+            if(((DigitalPlayer) player).decidePostponeCard()) {
+                ArrayList<Card> cards = player.getPostponedCards();
+                cards.add(card);
+                player.setPostponedCards( cards );
+            } else {
+                openCard(card);
+            }
         }
+        */
+        //else {
+            if(controller.postponeCard()) {
+                ArrayList<Card> cards = player.getPostponedCards();
+                cards.add(card);
+                player.setPostponedCards( cards );
+            } else {
+                openCard(card);
+            }
+        //}
+
     }
 
     //need to be implemented in GUI
@@ -405,7 +415,6 @@ public class Game {
     //input from UI
     public void restartGame() {
         lapCount = 0;
-        bank = new Bank();
         for ( Player p : players ) {
             p.reset();
         }

@@ -16,7 +16,7 @@ public class Player {
 
     //properties
     private String playerName;
-    private int money; //default 200M ?
+    private int money;
     private Space currentSpace;
     private boolean bankrupt;
     private ArrayList<Property> properties;
@@ -46,7 +46,7 @@ public class Player {
 
     //methods
     public int getNetWorth(){
-        int netWorth = 0;
+        int netWorth = money;
         for(Property property: properties){
             netWorth += property.getWorth();
         }
