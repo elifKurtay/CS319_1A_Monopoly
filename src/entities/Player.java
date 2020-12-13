@@ -28,8 +28,6 @@ public class Player {
     private int currentDiceSum;
 
     //constructor
-    public Player() {}
-
     public Player(String playerName) {
         this.playerName = playerName;
         money = 1500;
@@ -68,7 +66,7 @@ public class Player {
         money = money - amount;
     }
 
-    public ArrayList<Property> getAllTitlesFromSameGroup( Property propertyToCheck) {
+    public ArrayList<Property> getAllPropertiesFromSameGroup( Property propertyToCheck) {
         ArrayList<Property> titles = new ArrayList<>();
 
         int group = propertyToCheck.getPropertyGroup();
@@ -80,7 +78,7 @@ public class Player {
         return titles;
     }
 
-    public int numberOfTitlesFromSameGroup( Property propertyToCheck) {
+    public int numberOfPropertiesFromSameGroup( Property propertyToCheck) {
         int[] propertyGroupCounts = new int[10];
         for (Property p : properties) {
             propertyGroupCounts[p.getPropertyGroup()] += 1;
@@ -89,11 +87,13 @@ public class Player {
         return propertyGroupCounts[propertyToCheck.getPropertyGroup()];
     }
 
+    /*
     //what should happen if there is not enough money
     public boolean payBank(int amount) {
         money = money - amount;
         return true;
     }
+     */
 
     public boolean addProperty(Property property) {
         if(properties.contains(property))

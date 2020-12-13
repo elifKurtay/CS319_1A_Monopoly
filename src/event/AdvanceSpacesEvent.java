@@ -10,13 +10,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class AdvanceEvent extends CardEvent{
-    private Space targetSpace;
+public class AdvanceSpacesEvent extends CardEvent {
+    private int moveAmount;
     private boolean canCollectSalary;
 
     @Override
     public void handleEvent(Player affectedPlayer, Player[] players, Board board) {
-        if (targetSpace.getIndex() < affectedPlayer.getCurrentSpace().getIndex() && canCollectSalary) {
+        Space targetSpace = board.getSpaces()[(affectedPlayer.getCurrentSpace().getIndex() + moveAmount + 40) % 40];
+        if (affectedPlayer.getCurrentSpace().getIndex() + moveAmount >= 40 && canCollectSalary) {
             affectedPlayer.setMoney(affectedPlayer.getMoney() + 200 + affectedPlayer.getToken().getSalaryChange());
         }
         affectedPlayer.setCurrentSpace(targetSpace);

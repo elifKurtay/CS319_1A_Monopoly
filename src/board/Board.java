@@ -2,8 +2,7 @@ package board;
 
 import card.*;
 import entities.*;
-import event.AdvanceEvent;
-import event.CardEvent;
+import event.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONArray;
@@ -130,11 +129,47 @@ public class Board {
                         String targetSpace = cardEvent.getString("targetSpace");
                         for (Space s : spaces) {
                             if (targetSpace.equals(s.getName())) {
-                                e = new AdvanceEvent(s, 1 == cardEvent.getInt("canCollectSalary"));
-                                chanceCards.add(new Card(card.getString("cardText"), e));
+                                e = new AdvanceEvent(s, cardEvent.getBoolean("canCollectSalary"));
+                                break;
                             }
                         }
+                        break;
+                    case "ADVANCE_SPACES":
+                        e = new AdvanceSpacesEvent(cardEvent.getInt("moveAmount"), cardEvent.getBoolean("canCollectSalary"));
+                        break;
+                    // NOT GONNA IMPLEMENT IT NOW
+                    /*case "ADVANCE_TO_NEAREST":
+                        e = new AdvanceToNearestEvent(cardEvent.getString("spaceType"), cardEvent.getBoolean("canCollectSalary"));
+                        break;
+                     */
+                    case "COLLECT":
+                        e = new CollectEvent(cardEvent.getString("from"), cardEvent.getInt("amount"));
+                        break;
+                    case "PAY":
+                        e = new PayEvent(cardEvent.getString("to"), cardEvent.getInt("amount"));
+                        break;
+                    case "RECEIVE_GET_OUT_OF_JAIL_CARD":
+                        e = new ReceiveGetOutOfJailEvent();
+                        break;
+                    case "GO_TO_JAIL":
+                        targetSpace = cardEvent.getString("targetSpace");
+                        for (Space s : spaces) {
+                            if (targetSpace.equals(s.getName())) {
+                                e = new GoToJailEvent(s, cardEvent.getBoolean("canCollectSalary"));
+                                break;
+                            }
+                        }
+                        break;
+                    case "PAY_PER_BUILDING":
+                        JSONArray amountJSON = cardEvent.getJSONArray("amount");
+                        int[] amount = new int[amountJSON.length()];
+                        for (int j = 0; j < amountJSON.length(); j++) {
+                            amount[j] = amountJSON.getInt(j);
+                        }
+                        e = new PayPerBuildingEvent(cardEvent.getString("to"), amount);
+                        break;
                 }
+                chanceCards.add(new Card(card.getString("cardText"), e));
             }
             communityChestCards = new ArrayList<>();
             JSONArray communityChestCardsJSON = cardsJSON.getJSONArray("communityChestCards");
@@ -147,13 +182,42 @@ public class Board {
                         String targetSpace = cardEvent.getString("targetSpace");
                         for (Space s : spaces) {
                             if (targetSpace.equals(s.getName())) {
-                                e = new AdvanceEvent(s, 1 == cardEvent.getInt("canCollectSalary"));
-                                communityChestCards.add(new Card(card.getString("cardText"), e));
+                                e = new AdvanceEvent(s, cardEvent.getBoolean("canCollectSalary"));
+                                break;
                             }
                         }
+                        break;
+                    case "ADVANCE_SPACES":
+                        e = new AdvanceSpacesEvent(cardEvent.getInt("moveAmount"), cardEvent.getBoolean("canCollectSalary"));
+                        break;
                     case "COLLECT":
-                        int amount = cardEvent.getInt("amount");
+                        e = new CollectEvent(cardEvent.getString("from"), cardEvent.getInt("amount"));
+                        break;
+                    case "PAY":
+                        e = new PayEvent(cardEvent.getString("to"), cardEvent.getInt("amount"));
+                        break;
+                    case "RECEIVE_GET_OUT_OF_JAIL_CARD":
+                        e = new ReceiveGetOutOfJailEvent();
+                        break;
+                    case "GO_TO_JAIL":
+                        targetSpace = cardEvent.getString("targetSpace");
+                        for (Space s : spaces) {
+                            if (targetSpace.equals(s.getName())) {
+                                e = new GoToJailEvent(s, cardEvent.getBoolean("canCollectSalary"));
+                                break;
+                            }
+                        }
+                        break;
+                    case "PAY_PER_BUILDING":
+                        JSONArray amountJSON = cardEvent.getJSONArray("amount");
+                        int[] amount = new int[amountJSON.length()];
+                        for (int j = 0; j < amountJSON.length(); j++) {
+                            amount[j] = amountJSON.getInt(j);
+                        }
+                        e = new PayPerBuildingEvent(cardEvent.getString("to"), amount);
+                        break;
                 }
+                communityChestCards.add(new Card(card.getString("cardText"), e));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

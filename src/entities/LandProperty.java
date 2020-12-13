@@ -1,8 +1,12 @@
 package entities;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class LandProperty extends Property {
     private int numOfHouses;
-    private boolean hotel;
     private int houseCost;
     private int hotelCost;
 
@@ -10,13 +14,12 @@ public class LandProperty extends Property {
         super(propertyName, value, mortgageValue, rents, propertyGroup);
         this.houseCost = houseCost;
         this.hotelCost = hotelCost;
-        hotel = false;
         numOfHouses = 0;
     }
 
     @Override
     public int getWorth() {
-        if (hotel) {
+        if (numOfHouses == 5) {
             return super.getWorth() + houseCost * 4 + hotelCost;
         }
         else {
@@ -24,35 +27,20 @@ public class LandProperty extends Property {
         }
     }
 
-    @Override
-    public void mortgage() {
-        mortgaged = true;
-        if (hotel) {
-            owner.setMoney(owner.getMoney() + numOfHouses * 4 + hotelCost);
-        }
-        else {
-            owner.setMoney(owner.getMoney() + numOfHouses * houseCost);
-        }
-        numOfHouses = 0;
-        hotel = false;
-    }
-
     public void buildHouse() {
-        numOfHouses++;
-        if(numOfHouses == 5)
-            hotel = true;
+        if (numOfHouses <= 5) {
+            numOfHouses++;
+        }
     }
 
     //do we have sell? is this to be used in mortgaging?
     public void sellHouse () {
-        if(hotel)
-            hotel = false;
         numOfHouses--;
     }
 
     @Override
     public int getRent(Player playerToPay) {
-        int numberOfTitlesFromSameGroup = owner.numberOfTitlesFromSameGroup(this);
+        int numberOfTitlesFromSameGroup = owner.numberOfPropertiesFromSameGroup(this);
         int rent;
         if (numOfHouses == 0 && numberOfTitlesFromSameGroup == numberOfPropertiesInGroups[propertyGroup]) {
             rent = rents[0] * 2;

@@ -8,7 +8,7 @@ public class TransportProperty extends Property {
 
     @Override
     public int getRent(Player playerToPay) {
-        int numberOfTitlesFromSameGroup = owner.numberOfTitlesFromSameGroup(this);
+        int numberOfTitlesFromSameGroup = owner.numberOfPropertiesFromSameGroup(this);
         int rent = rents[numberOfTitlesFromSameGroup - 1];
         return (int) (rent * playerToPay.getToken().getRentPayMultiplier() * owner.getToken().getRentCollectMultiplier());
     }

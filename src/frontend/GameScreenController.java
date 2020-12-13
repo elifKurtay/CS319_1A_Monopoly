@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-public class GameScreenController {
+public class GameScreenController{
     @FXML
     private VBox playerBoxes;
     @Getter
