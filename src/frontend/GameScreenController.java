@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-public class GameScreenController implements Observer{
+public class GameScreenController implements Observer {
     @FXML
     private VBox playerBoxes;
     @Getter

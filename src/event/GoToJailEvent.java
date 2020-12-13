@@ -18,7 +18,7 @@ public class GoToJailEvent extends CardEvent{
     public void handleEvent(Player affectedPlayer, Player[] players, Board board) {
         // Current fixed implementation for salary 200, can change for a constant read from map
         if (targetSpace.getIndex() < affectedPlayer.getCurrentSpace().getIndex() && canCollectSalary) {
-            affectedPlayer.setMoney(affectedPlayer.getMoney() + 200 * affectedPlayer.getToken().getSalaryChange());
+            affectedPlayer.setMoney(affectedPlayer.getMoney() + 200 + affectedPlayer.getToken().getSalaryChange());
         }
         affectedPlayer.setJailed(true);
         affectedPlayer.setCurrentSpace(targetSpace);

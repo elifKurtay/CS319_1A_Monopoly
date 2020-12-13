@@ -18,7 +18,7 @@ public class AdvanceSpacesEvent extends CardEvent {
     public void handleEvent(Player affectedPlayer, Player[] players, Board board) {
         Space targetSpace = board.getSpaces()[(affectedPlayer.getCurrentSpace().getIndex() + moveAmount + 40) % 40];
         if (affectedPlayer.getCurrentSpace().getIndex() + moveAmount >= 40 && canCollectSalary) {
-            affectedPlayer.setMoney(affectedPlayer.getMoney() + 200 * affectedPlayer.getToken().getSalaryChange());
+            affectedPlayer.setMoney(affectedPlayer.getMoney() + 200 + affectedPlayer.getToken().getSalaryChange());
         }
         affectedPlayer.setCurrentSpace(targetSpace);
     }
