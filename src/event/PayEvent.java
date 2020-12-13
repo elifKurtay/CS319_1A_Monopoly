@@ -12,12 +12,21 @@ import lombok.Setter;
 @AllArgsConstructor
 
 public class PayEvent extends CardEvent{
-    private boolean toBank;
-    private ArrayList<Player> receivers;
+    private String to;
     private int amount;
 
     @Override
     public void handleEvent(Player affectedPlayer, Player[] players, Board board) {
-
+        if (to.equals("BANK")) {
+            affectedPlayer.setMoney(affectedPlayer.getMoney() - amount);
+        }
+        else if (to.equals("PLAYERS")) {
+            for (Player p : players) {
+                if (p != affectedPlayer) {
+                    p.setMoney(p.getMoney() + amount);
+                }
+            }
+            affectedPlayer.setMoney(affectedPlayer.getMoney() - 3 * amount);
+        }
     }
 }

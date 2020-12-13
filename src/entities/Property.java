@@ -16,7 +16,7 @@ public abstract class Property {
     protected Player owner;
     protected int[] rents;
     protected int propertyGroup;
-    protected static int[] numberOfPropertiesInGroups;
+    @Getter protected static int[] numberOfPropertiesInGroups;
 
     //constructors
     public Property(String propertyName, int value, int mortgageValue, int[] rents, int propertyGroup){

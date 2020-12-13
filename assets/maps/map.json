@@ -427,7 +427,7 @@
                 "cardEvent": {
                     "type": "ADVANCE",
                     "targetSpace": "Go",
-                    "canCollectSalary": 1
+                    "canCollectSalary": true
                 },
                 "cardText": "Advance to \"Go\" (Collect M200)"
             },
@@ -435,7 +435,7 @@
                 "cardEvent": {
                     "type": "ADVANCE",
                     "targetSpace": "Pall Mall",
-                    "canCollectSalary": 1
+                    "canCollectSalary": true
                 },
                 "cardText": "Advance to Pall Mall, if you pass Go, collect M200"
             },
@@ -443,31 +443,15 @@
                 "cardEvent": {
                     "type": "ADVANCE",
                     "targetSpace": "Trafalgar Square",
-                    "canCollectSalary": 1
+                    "canCollectSalary": true
                 },
                 "cardText": "Advance to Trafalgar Square, if you pass Go, collect M200"
             },
             {
                 "cardEvent": {
-                    "type": "ADVANCE_TO_NEAREST",
-                    "spaceType": "UTILITY",
-                    "canCollectSalary": 1
-                },
-                "cardText": "Advance token to nearest Utility. If unowned, you may buy it from the Bank. If owned, throw dice and pay owner a total 10 (ten) times the amount thrown."
-            },
-            {
-                "cardEvent": {
-                    "type": "ADVANCE_TO_NEAREST",
-                    "spaceType": "TRANSPORT",
-                    "canCollectSalary": 1
-                },
-                "cardText": "Advance token to the nearest transport station and pay owner twice the rental to which he/she is otherwise entitled. If Railroad is unowned, you may buy it from the Bank."
-            },
-            {
-                "cardEvent": {
                     "type": "ADVANCE",
                     "targetSpace": "Mayfair",
-                    "canCollectSalary": 1
+                    "canCollectSalary": true
                 },
                 "cardText": "Take a walk on the board walk. Advance token to Mayfair"
             },
@@ -475,7 +459,7 @@
                 "cardEvent": {
                     "type": "ADVANCE",
                     "targetSpace": "King's Cross Station",
-                    "canCollectSalary": 1
+                    "canCollectSalary": true
                 },
                 "cardText": "Take a ride to King’s Cross Station. If you pass Go, collect M200."
             },
@@ -496,8 +480,8 @@
             {
                 "cardEvent": {
                     "type": "ADVANCE_SPACES",
-                    "targetSpace": -3,
-                    "canCollectSalary": 1
+                    "moveAmount": -3,
+                    "canCollectSalary": true
                 },
                 "cardText": "Go Back Three Spaces."
             },
@@ -505,7 +489,7 @@
                 "cardEvent": {
                     "type": "GO_TO_JAIL",
                     "targetSpace": "Jail",
-                    "canCollectSalary": 0
+                    "canCollectSalary": false
                 },
                 "cardText": "Go to Jail. Go directly to Jail. Do not pass GO, do not collect M200."
             },
@@ -528,7 +512,7 @@
             {
                 "cardEvent": {
                     "type": "PAY",
-                    "to": "EACH",
+                    "to": "PLAYERS",
                     "amount": 50
                 },
                 "cardText": "You have been elected Chairman of the Board. Pay each player M50"
@@ -556,7 +540,7 @@
                 "cardEvent": {
                     "type": "ADVANCE",
                     "targetSpace": "Go",
-                    "canCollectSalary": 1
+                    "canCollectSalary": true
                 },
                 "cardText": "Advance to \"Go\" (Collect M200)"
             },
@@ -594,14 +578,14 @@
                 "cardEvent": {
                     "type": "GO_TO_JAIL",
                     "targetSpace": "Jail",
-                    "canCollectSalary": 0
+                    "canCollectSalary": false
                 },
                 "cardText": "Go to Jail. Go directly to Jail. Do not pass GO, do not collect M200."
             },
             {
                 "cardEvent": {
                     "type": "COLLECT",
-                    "from": "EACH",
+                    "from": "PLAYERS",
                     "amount": 50
                 },
                 "cardText": "Grand Opera Night. Collect $50 from every player for opening night seats."
@@ -625,7 +609,7 @@
             {
                 "cardEvent": {
                     "type": "COLLECT",
-                    "from": "EACH",
+                    "from": "PLAYERS",
                     "amount": 10
                 },
                 "cardText": "It is your birthday. Collect M10 from every player."

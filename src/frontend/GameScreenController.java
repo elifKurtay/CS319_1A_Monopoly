@@ -2,6 +2,7 @@ package frontend;
 
 import board.Board;
 import board.PropertySpace;
+import entities.Observable;
 import entities.Player;
 import entities.Property;
 import game.Game;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-public class GameScreenController {
+public class GameScreenController implements Observer{
     @FXML
     private VBox playerBoxes;
     @Getter
@@ -33,6 +34,12 @@ public class GameScreenController {
 
     @FXML
     private DynamicBoardController dynamicBoardController;
+
+    @Override
+    public void update(Observable o) {
+        Player p = (Player) o;
+        System.out.println(p.getPlayerName() + " observed " + p.getCurrentDiceSum());
+    }
 
     public void initialize() {
 

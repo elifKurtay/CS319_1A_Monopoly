@@ -17,7 +17,7 @@ public class AdvanceEvent extends CardEvent{
     @Override
     public void handleEvent(Player affectedPlayer, Player[] players, Board board) {
         if (targetSpace.getIndex() < affectedPlayer.getCurrentSpace().getIndex() && canCollectSalary) {
-            affectedPlayer.setMoney(affectedPlayer.getMoney() + 200);
+            affectedPlayer.setMoney(affectedPlayer.getMoney() + 200 * affectedPlayer.getToken().getSalaryChange());
         }
         affectedPlayer.setCurrentSpace(targetSpace);
     }

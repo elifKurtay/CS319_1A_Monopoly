@@ -6,10 +6,7 @@ import entities.DigitalPlayer;
 import entities.Player;
 import entities.Property;
 import entities.Token;
-import event.AdvanceEvent;
-import event.CollectEvent;
-import event.GoToJailEvent;
-import event.PayEvent;
+import event.*;
 import frontend.GameScreenController;
 import lombok.Getter;
 import lombok.Setter;
@@ -76,6 +73,8 @@ public class Game {
                 } else
                     doublesCount = 0;
 
+                currentPlayer.notifyObservers();
+
                 //checking jail conditions
                 if (!currentPlayer.isJailed() && dice[0] == dice[1] && doublesCount == 3){
                     sendToJail(currentPlayer);
@@ -130,7 +129,7 @@ public class Game {
                 } else if( space instanceof TaxSpace) {
                     int payment = (int) (((TaxSpace) space).getTax()
                             * currentPlayer.getToken().getTaxMultiplier());
-                    currentPlayer.payBank( payment);
+                    currentPlayer.setMoney(currentPlayer.getMoney() - payment);
                     controller.drawPlayerBoxes(players);
                     controller.showMessage("You paid " + payment + "M for tax.");
                 } else if(space instanceof WheelOfFortuneSpace) {
@@ -160,7 +159,7 @@ public class Game {
             //buy or auction
             if (controller.buyProperty(space)) {
                 currentPlayer.addProperty(space.getAssociatedProperty());
-                currentPlayer.payBank((int) (space.getAssociatedProperty().getValue()
+                currentPlayer.setMoney(currentPlayer.getMoney() - (int) (space.getAssociatedProperty().getValue()
                         * currentPlayer.getToken().getPropertyCostMultiplier() ));
                 space.getAssociatedProperty().setOwner(currentPlayer);
                 controller.drawPlayerBoxes(players);
@@ -225,6 +224,9 @@ public class Game {
     private void openCard(Card card){
         System.out.println(card.getCardText());
         controller.showMessage(card.getCardText());
+        CardEvent ce = card.getCardEvent();
+        ce.handleEvent(currentPlayer, players, board);
+        /*controller.showMessage(card.getCardText());
         if(card.isAdvance()){
             AdvanceEvent event = (AdvanceEvent) card.getCardEvent();
             int currentPos = currentPlayer.getCurrentSpace().getIndex();
@@ -279,7 +281,7 @@ public class Game {
         } else if(card.isThief() ) {
             Player target = players[(int) (Math.random() * 4)];
             board.deployThief(target);
-        }
+        }*/
     }
 
     /*
@@ -327,6 +329,7 @@ public class Game {
     private void initializingLap() {
         for (int i = 0; i < LAP; i++) {
             players[i].setCurrentSpace(board.getSpace(0));
+            players[i].add(controller);
         }
         int[] dice;
         int[] diceSums = new int[LAP];
