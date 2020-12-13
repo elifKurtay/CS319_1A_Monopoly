@@ -16,23 +16,10 @@ import javafx.util.Duration;
 public class MainMenuController {
 
     private Stage stage;
+    private Audio obj = Audio.getInstance();
 
     public void initialize(){
-        String path = "assets\\music\\music.mp3";
-        Media media = new Media(new File(path).toURI().toString());
-
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setVolume(0.5);
-
-        mediaPlayer.setOnEndOfMedia(new Runnable() {
-            public void run() {
-                mediaPlayer.seek(Duration.ZERO);
-            }
-        });
-
-        //by setting this property to true, the audio will be played
-        mediaPlayer.setAutoPlay(true);
-        SettingsMenuController.setMyMedia(mediaPlayer);
+        obj.playGameMusic();
     }
 
     public void setStage(Stage stage) {

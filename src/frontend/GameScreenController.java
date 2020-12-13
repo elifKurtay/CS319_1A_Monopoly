@@ -2,6 +2,7 @@ package frontend;
 
 import board.Board;
 import board.PropertySpace;
+import board.Space;
 import entities.Player;
 import entities.Property;
 import game.Game;
@@ -18,6 +19,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -27,8 +31,13 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.IntStream;
+import javax.swing.*;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Optional;
 
-public class GameScreenController{
+public class GameScreenController {
     @FXML
     private VBox playerBoxes;
     @Getter
@@ -39,6 +48,8 @@ public class GameScreenController{
     private DynamicBoardController dynamicBoardController;
 
     private Stage stage;
+
+    private Audio obj = Audio.getInstance();
 
 
     public void initialize() {
@@ -81,7 +92,7 @@ public class GameScreenController{
 
     @FXML
     protected void restartButtonAction(ActionEvent event) {
-        game.restartGame();
+        Platform.exit();
     }
 
     @FXML
@@ -149,6 +160,8 @@ public class GameScreenController{
     }
 
     public int[] rollDice(String name, boolean digital) {
+    public int[] rollDice(String name) {
+        obj.playPoliceSound();
         int[] dice = new int[2];
         Alert alert;
         System.out.println("turn of " + name);
