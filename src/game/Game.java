@@ -73,8 +73,6 @@ public class Game {
                 } else
                     doublesCount = 0;
 
-                currentPlayer.notifyObservers();
-
                 //checking jail conditions
                 if (!currentPlayer.isJailed() && dice[0] == dice[1] && doublesCount == 3){
                     sendToJail(currentPlayer);
@@ -329,7 +327,6 @@ public class Game {
     private void initializingLap() {
         for (int i = 0; i < LAP; i++) {
             players[i].setCurrentSpace(board.getSpace(0));
-            players[i].add(controller);
         }
         int[] dice;
         int[] diceSums = new int[LAP];

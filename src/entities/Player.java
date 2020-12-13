@@ -2,7 +2,6 @@ package entities;
 
 import board.Space;
 import card.Card;
-import frontend.Observer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Player implements Observable {
+public class Player {
 
     //properties
     private String playerName;
@@ -28,20 +27,6 @@ public class Player implements Observable {
     private int jailedLapCount;
     private int currentDiceSum;
 
-    private ArrayList<Observer> observersList;
-
-    @Override
-    public void add(Observer o) {
-        observersList.add(o);
-    }
-
-    @Override
-    public void notifyObservers() {
-        for (Observer o: observersList) {
-            o.update(this);
-        }
-    }
-
     //constructor
     public Player(String playerName) {
         this.playerName = playerName;
@@ -55,7 +40,6 @@ public class Player implements Observable {
         token = null;
         jailedLapCount = 0;
         currentDiceSum = 0;
-        observersList = new ArrayList<>();
     }
 
     //methods
