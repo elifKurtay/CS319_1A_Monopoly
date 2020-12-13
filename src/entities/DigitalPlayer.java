@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class DigitalPlayer extends Player{
 
-    private PlayStrategy strategy;
+    //private PlayStrategy strategy;
 
     public DigitalPlayer(String name) {
         super(name);

@@ -160,7 +160,6 @@ public class GameScreenController {
     }
 
     public int[] rollDice(String name, boolean digital) {
-    public int[] rollDice(String name) {
         obj.playPoliceSound();
         int[] dice = new int[2];
         Alert alert;
