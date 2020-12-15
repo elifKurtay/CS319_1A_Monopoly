@@ -276,7 +276,7 @@ public class GameScreenController {
         return false;
     }
 
-    public void finishTurn() {
+    public void finishTurn(Boolean digital) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.NONE);

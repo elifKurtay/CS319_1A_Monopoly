@@ -3,8 +3,8 @@ package game;
 import board.*;
 import card.Card;
 import entities.DigitalPlayer;
+import entities.EasyStrategy;
 import entities.Player;
-import entities.Property;
 import entities.Token;
 import event.*;
 import frontend.GameScreenController;
@@ -89,6 +89,7 @@ public class Game {
                     currentPlayer.setMoney(currentPlayer.getMoney() - 50);
                     controller.showMessage("You are released from jail and have lost 5 money!");
                 }
+                //else if only in jail, ask to use GOOJF card OR PAY?
 
                 int oldIndex = currentPlayer.getCurrentSpace().getIndex();
                 //move on board
@@ -140,8 +141,16 @@ public class Game {
                 if (doublesCount > 0) {
                     i--;
                 }
+                if(currentPlayer instanceof DigitalPlayer) {
+                    if(((DigitalPlayer) currentPlayer).decideOnTradeAction()) {
+                        System.out.println("START TRADE");
+                    }
+                    if(((DigitalPlayer) currentPlayer).decideOnBuildAction()) {
+                        System.out.println("DO BUILD");
+                    }
 
-                controller.finishTurn();
+                }
+                controller.finishTurn(currentPlayer instanceof DigitalPlayer);
             }
             lapCount++;
         }
@@ -155,7 +164,16 @@ public class Game {
             //can build on if they choose so
         } else if (space.getAssociatedProperty().getOwner() == null ) { //owned by bank
             //buy or auction
-            if (controller.buyProperty(space)) {
+            if(currentPlayer instanceof DigitalPlayer)
+                if( ((DigitalPlayer) currentPlayer).decideOnBuy(space.getAssociatedProperty()) ) {
+                    //controller let others know of the buying action
+                    System.out.println("Computer bought the property.");
+                }
+                else {
+                    System.out.println("START AUCTION");
+                    //int startingBid = ((DigitalPlayer) currentPlayer).startAuction(space.getAssociatedProperty());
+                }
+            else if (controller.buyProperty(space)) {
                 currentPlayer.addProperty(space.getAssociatedProperty());
                 currentPlayer.setMoney(currentPlayer.getMoney() - (int) (space.getAssociatedProperty().getValue()
                         * currentPlayer.getToken().getPropertyCostMultiplier() ));
@@ -198,7 +216,11 @@ public class Game {
         }
         */
         //else {
-            if(controller.postponeCard()) {
+            if(player instanceof DigitalPlayer) {
+                //always open cards?
+                card.getCardEvent().handleEvent(player, players, board);
+            }
+            else if(  controller.postponeCard()) {
                 ArrayList<Card> cards = player.getPostponedCards();
                 cards.add(card);
                 player.setPostponedCards( cards );
@@ -385,7 +407,7 @@ public class Game {
     }
 
     private Player createDigitalPlayer(String name) {
-        return new DigitalPlayer(name);
+        return new DigitalPlayer(name, new EasyStrategy());
     }
 
     public void startGame() {
