@@ -61,8 +61,7 @@ public class Game {
             }
 
         this.lapCount = lapCount;
-
-
+        this.controller = controller;
     }
 
     public Game(Game loadedGame) {

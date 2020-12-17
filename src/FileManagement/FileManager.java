@@ -2,21 +2,14 @@ package FileManagement;
 
 
 import board.Board;
-import card.Card;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import entities.DigitalPlayer;
-import entities.LandProperty;
 import entities.Player;
-import entities.Property;
 import frontend.GameScreenController;
 import game.Game;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FileManager {
@@ -91,7 +84,7 @@ public class FileManager {
         }
     }
 
-    public Game loadGame(String folderName) throws Exception{
+    public Game loadGame(String folderName, GameScreenController controller) throws Exception{
         Game g = null;
         try {
             int lapLimit, playerCount, lapCount;
@@ -155,11 +148,9 @@ public class FileManager {
             fileIn = new FileInputStream(folderName + "\\board.ser");
             in = new ObjectInputStream(fileIn);
             Board board = (Board) in.readObject();
-            System.out.println(board.getSpaces()[5].getIndex());
-
-
-            GameScreenController controller = new GameScreenController();
             controller.setMap(board);
+
+
             Player[] players = new Player[4];
             players[0] = p1;
             players[1] = p2;

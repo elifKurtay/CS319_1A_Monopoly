@@ -3,6 +3,9 @@ package frontend;
 import FileManagement.FileManager;
 import game.Game;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -78,8 +81,15 @@ public class LoadGameMenuController extends MenuController {
         public void action() throws Exception{
 
             String folderName = "savedGames\\" + player1 + "_" + player2 + "_" + player3 + "_" + player4 + "_" + date + " " + time;
-            Game g = fileManager.loadGame(folderName);
-            System.out.println(g.getCurrentPlayer().getPlayerName());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameScreen.fxml"));
+            Parent root = loader.load();
+            GameScreenController controller = loader.getController();
+            controller.setStage(LoadGameMenuController.this.getStage());
+            Scene s = new Scene(root, getStage().getWidth(), getStage().getHeight());
+            getStage().setScene(s);
+            Game g = fileManager.loadGame(folderName, controller);
+            controller.setGame(g);
+            g.startGame();
         }
     }
 }
