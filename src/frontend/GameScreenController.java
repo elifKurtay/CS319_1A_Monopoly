@@ -96,8 +96,8 @@ public class GameScreenController {
     }
 
     @FXML
-    protected void saveButtonAction(ActionEvent event) {
-        Platform.exit();
+    protected void saveButtonAction(ActionEvent event) throws Exception{
+        game.saveGame();
     }
 
     @FXML

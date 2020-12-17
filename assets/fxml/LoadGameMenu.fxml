@@ -7,9 +7,24 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.text.Text?>
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="frontend.LoadGameMenuController"
-      prefHeight="400.0" prefWidth="600.0">
-    <Text>LOAD GAME</Text>
-</VBox>
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="frontend.LoadGameMenuController"
+           stylesheets="@style.css"
+           styleClass="credits-pane">
+    <VBox style="-fx-alignment: center;">
+        <Label style="-fx-alignment: center; -fx-font-size: 64px; -fx-pref-width: 600px; -fx-text-fill: red;">LOAD GAME</Label>
+        <TableView fx:id="loadTable" layoutX="35.0" layoutY="28.0" prefHeight="200.0" prefWidth="227.0">
+            <columns>
+                <TableColumn prefWidth="110.0" text="Game Number" fx:id="noColumn"/>
+                <TableColumn prefWidth="220.0" text="Date" fx:id="dateColumn"/>
+                <TableColumn prefWidth="220.0" text="Time" fx:id="timeColumn"/>
+                <TableColumn prefWidth="220.0" text="Player 1" fx:id="player1"/>
+                <TableColumn prefWidth="220.0" text="Player 2" fx:id="player2"/>
+                <TableColumn prefWidth="220.0" text="Player 3" fx:id="player3"/>
+                <TableColumn prefWidth="220.0" text="Player 4" fx:id="player4"/>
+            </columns>
+        </TableView>
+        <Button styleClass="back-button-style" text="BACK" onAction="#backButtonAction"/>
+    </VBox>
+</StackPane>

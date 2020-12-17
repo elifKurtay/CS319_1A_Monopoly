@@ -1,5 +1,6 @@
 package game;
 
+import FileManagement.FileManager;
 import board.*;
 import card.Card;
 import entities.DigitalPlayer;
@@ -16,15 +17,16 @@ import java.util.ArrayList;
 
 public class Game {
 
-    private static final int LAP = 4;
-    private final Board board;
-    private final int lapLimit; //given -1 if game mod is survival
-    private final int playerCount;
+    private FileManager fileManager = FileManager.getInstance();
+    @Getter private static final int LAP = 4;
+    @Getter private final Board board;
+    @Getter private final int lapLimit; //given -1 if game mod is survival
+    @Getter private final int playerCount;
 
     @Getter @Setter private Player[] players;
     @Getter @Setter private Player currentPlayer;
 
-    private int lapCount;
+    @Getter private int lapCount;
 
     private GameScreenController controller;
 
@@ -43,6 +45,24 @@ public class Game {
             else
                 players[i] = createDigitalPlayer("Computer " + i);
         }
+    }
+
+    //for loading the game, to be called by the file manager
+    public Game(Board board, Player[] players, int lapLimit, int playerCount, String currentPlayer, int lapCount,
+                GameScreenController controller){
+        this.board = board;
+        this.players = players;
+        this.lapLimit = lapLimit;
+        this.playerCount = playerCount;
+        for(Player p: players)
+            if(p.getPlayerName().equals(currentPlayer)){
+                this.currentPlayer = p;
+                break;
+            }
+
+        this.lapCount = lapCount;
+
+
     }
 
     public Game(Game loadedGame) {
@@ -444,8 +464,7 @@ public class Game {
     }
 
     //input from UI
-    public boolean saveGame() {
-        //save to database
-        return true;
+    public boolean saveGame() throws Exception{
+        return fileManager.saveGame(this);
     }
 }

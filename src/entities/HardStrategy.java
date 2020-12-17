@@ -1,8 +1,9 @@
 package entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class HardStrategy implements PlayStrategy{
+public class HardStrategy implements PlayStrategy , Serializable {
     @Override
     public boolean shouldBuy(Property property, int money,
                              ArrayList<Property> properties) {

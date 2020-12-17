@@ -10,12 +10,13 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 @Getter
 @Setter
-public class Board {
+public class Board implements Serializable {
     private Space[] spaces;
     private String[] propertyGroupColors;
     private ArrayList<Card> chanceCards;

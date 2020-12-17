@@ -5,9 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
-public class Card {
+public class Card implements Serializable {
     private String cardText;
     private CardEvent cardEvent;
 

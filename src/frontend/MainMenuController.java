@@ -39,7 +39,13 @@ public class MainMenuController {
 
 
     @FXML private void loadGameButtonAction(ActionEvent event) throws Exception {
-
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LoadGameMenu.fxml"));
+        Parent root = loader.load();
+        LoadGameMenuController controller = loader.getController();
+        controller.setStage(stage);
+        controller.setPreviousScene(stage.getScene());
+        Scene s = new Scene(root, stage.getWidth(), stage.getHeight());
+        stage.setScene(s);
     }
 
     @FXML private void settingsButtonAction(ActionEvent event) throws Exception {

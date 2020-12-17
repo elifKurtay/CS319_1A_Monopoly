@@ -7,12 +7,13 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 @Getter
 @Setter
 @AllArgsConstructor
-public class Player {
+public class Player implements Serializable {
 
     //properties
     private String playerName;

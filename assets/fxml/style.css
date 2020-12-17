@@ -115,3 +115,14 @@
     -fx-max-width: 250px;
     -fx-spacing: 150px;
 }
+
+.loadTable {
+    -fx-background-color: E9E9E9;
+}
+.table-row-cell:empty {
+    -fx-background-color: transparent;
+}
+
+.table-column{
+    -fx-alignment: center;
+}
