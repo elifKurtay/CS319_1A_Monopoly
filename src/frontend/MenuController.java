@@ -16,6 +16,10 @@ public abstract class MenuController {
 
     @FXML
     public void backButtonAction(ActionEvent actionEvent) throws Exception{
+        double height = getStage().getHeight();
+        double width = getStage().getWidth();
         stage.setScene(previousScene);
+        stage.setHeight(height);
+        stage.setWidth(width);
     }
 }
