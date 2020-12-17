@@ -12,8 +12,8 @@
            fx:controller="frontend.LoadGameMenuController"
            stylesheets="@style.css"
            styleClass="credits-pane">
-    <VBox style="-fx-alignment: center;">
-        <Label style="-fx-alignment: center; -fx-font-size: 64px; -fx-pref-width: 600px; -fx-text-fill: red;">LOAD GAME</Label>
+    <VBox style="-fx-alignment: center; -fx-spacing: 50">
+        <Label style="-fx-alignment: top-center; -fx-font-size: 64px; -fx-pref-width: 600px; -fx-text-fill: red;">LOAD GAME</Label>
         <TableView fx:id="loadTable" layoutX="35.0" layoutY="28.0" prefHeight="200.0" prefWidth="227.0">
             <columns>
                 <TableColumn prefWidth="110.0" text="Game Number" fx:id="noColumn"/>

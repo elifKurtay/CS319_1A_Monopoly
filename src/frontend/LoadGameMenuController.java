@@ -1,5 +1,7 @@
 package frontend;
 
+import FileManagement.FileManager;
+import game.Game;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -15,6 +17,7 @@ public class LoadGameMenuController extends MenuController {
 
     @FXML private TableView loadTable;
     @FXML private TableColumn noColumn, dateColumn, timeColumn, player1, player2, player3, player4;
+    private FileManager fileManager = FileManager.getInstance();
 
     public void initialize() {
         //find all files in savedGames directory
@@ -42,9 +45,8 @@ public class LoadGameMenuController extends MenuController {
         String[] info;
         SaveData s;
 
-
         for(int i = 0; i < fileNames.size(); i++){
-            info = fileNames.get(0).split("_");
+            info = fileNames.get(i).split("_");
             s = new SaveData(i, info[4].split(" ")[0], info[4].split(" ")[1],
                     info[0], info[1], info[2], info[3]);
             loadTable.getItems().add(s);
@@ -57,7 +59,13 @@ public class LoadGameMenuController extends MenuController {
 
         public SaveData(int gameNo, String date, String time, String player1, String player2, String player3, String player4) {
             this.gameNo = new Button("" + gameNo);
-            this.gameNo.setOnAction(event -> {action();});
+            this.gameNo.setOnAction(event -> {
+                try {
+                    action();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
             this.gameNo.setStyle("-fx-background-color: FFE55C");
             this.date = date;
             this.time = time;
@@ -67,11 +75,11 @@ public class LoadGameMenuController extends MenuController {
             this.player4 = player4;
         }
 
-        public void action(){
-            System.out.println("sajndkjndasnjkdasljkndsaljkndasljkljkdas");
+        public void action() throws Exception{
+
+            String folderName = "savedGames\\" + player1 + "_" + player2 + "_" + player3 + "_" + player4 + "_" + date + " " + time;
+            Game g = fileManager.loadGame(folderName);
+            System.out.println(g.getCurrentPlayer().getPlayerName());
         }
-
-
     }
-
 }

@@ -61,6 +61,7 @@ public class GameScreenController {
     }
 
     public void setMap(Board board) {
+        System.out.println(board);
         dynamicBoardController.setDynamicBoard(board);
     }
 

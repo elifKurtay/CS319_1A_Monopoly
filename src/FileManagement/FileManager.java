@@ -98,14 +98,17 @@ public class FileManager {
             String currentPlayerName, otherGameInformation;
             boolean p1Dig, p2Dig, p3Dig, p4Dig;
             otherGameInformation = "";
-            File myObj = new File(folderName + "otherGameInformation.ser");
+            System.out.println(folderName + "\\otherGameInformation.ser");
+            File myObj = new File(folderName + "\\other_game_info.txt");
             Scanner scanner = new Scanner(myObj);
             while (scanner.hasNextLine())
                 otherGameInformation += scanner.nextLine();
 
             scanner.close();
 
-            String[] sArray = otherGameInformation.split("|");
+            System.out.println(otherGameInformation);
+            String[] sArray = otherGameInformation.split("\\|");
+            System.out.println(sArray[0]);
             lapLimit = Integer.parseInt(sArray[0]);
             playerCount = Integer.parseInt(sArray[1]);
             currentPlayerName = sArray[2];
@@ -152,6 +155,7 @@ public class FileManager {
             fileIn = new FileInputStream(folderName + "\\board.ser");
             in = new ObjectInputStream(fileIn);
             Board board = (Board) in.readObject();
+            System.out.println(board.getSpaces()[5].getIndex());
 
 
             GameScreenController controller = new GameScreenController();
