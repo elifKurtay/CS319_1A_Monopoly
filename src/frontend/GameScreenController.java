@@ -1,5 +1,6 @@
 package frontend;
 
+import bank.Auction;
 import bank.Trade;
 import board.Board;
 import board.PropertySpace;
@@ -59,7 +60,7 @@ public class GameScreenController {
 
     }
 
-    public void setStage(Stage stage){
+    public void setStage(Stage stage) {
         this.stage = stage;
     }
 
@@ -83,7 +84,7 @@ public class GameScreenController {
     }
 
     @FXML
-    protected void settingsButtonAction(ActionEvent event) throws Exception{
+    protected void settingsButtonAction(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/SettingsMenu.fxml"));
         Parent root = loader.load();
         SettingsMenuController controller = loader.getController();
@@ -99,7 +100,7 @@ public class GameScreenController {
     }
 
     @FXML
-    protected void saveButtonAction(ActionEvent event) throws Exception{
+    protected void saveButtonAction(ActionEvent event) throws Exception {
         game.saveGame();
     }
 
@@ -168,7 +169,7 @@ public class GameScreenController {
 
         alert.showAndWait();
 
-        trade.offer(offeredProperties, 0 ,0);
+        trade.offer(offeredProperties, 0, 0);
         trade.want(wantedProperties, 0, 0);
 
         String message = playerToTrade + ", do you accept the offer?\n You Get: \n";
@@ -212,19 +213,16 @@ public class GameScreenController {
                     LandProperty propertyToBuild = (LandProperty) dialog.getResult();
                     if (propertyToBuild.getNumOfHouses() == 5) {
                         showMessage("Cannot build more buildings on this property!");
-                    }
-                    else if (!propertyToBuild.canBuild()) {
+                    } else if (!propertyToBuild.canBuild()) {
                         showMessage("You must build evenly between properties," +
                                 "build on other properties in the same group before building here!");
-                    }
-                    else {
+                    } else {
                         String message;
                         double cost = 1 * currentPlayer.getToken().getBuildingCostMultiplier();
                         if (propertyToBuild.getNumOfHouses() == 4) {
                             message = "Do you want to build a hotel for " + propertyToBuild.getHotelCost() + " on " + propertyToBuild.getPropertyName() + "?";
                             cost *= propertyToBuild.getHotelCost();
-                        }
-                        else {
+                        } else {
                             message = "Do you want to build a house for " + propertyToBuild.getHotelCost() + " on " + propertyToBuild.getPropertyName() + "?";
                             cost *= propertyToBuild.getHouseCost();
                         }
@@ -236,16 +234,13 @@ public class GameScreenController {
                             dynamicBoardController.drawHouse(propertyToBuild.getAssociatedPropertySpace().getIndex(), propertyToBuild.getNumOfHouses());
                         }
                     }
-                }
-                else {
+                } else {
                     showMessage("Cannot build, you don't own all properties from this group!");
                 }
-            }
-            else {
+            } else {
                 showMessage("Cannot build, you don't own this property");
             }
-        }
-        else {
+        } else {
             showMessage("Cannot build here, isn't a land property");
         }
     }
@@ -298,43 +293,42 @@ public class GameScreenController {
             int dice1 = scan.nextInt();
             int dice2 = scan.nextInt();
             return new int[]{dice1, dice2};
-        }
-        else {
-        obj.playPoliceSound();
-        int[] dice = new int[2];
-        Alert alert;
-        System.out.println("turn of " + name);
+        } else {
+            obj.playPoliceSound();
+            int[] dice = new int[2];
+            Alert alert;
+            System.out.println("turn of " + name);
 
-        if(!digital) {
+            if (!digital) {
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText(name + " is rolling");
+                ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Roll");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.initModality(Modality.APPLICATION_MODAL);
+                alert.initOwner(stage);
+                alert.setX(420);
+                alert.setY(420);
+                alert.showAndWait();
+            }
+            dice[0] = (int) (Math.random() * 6 + 1);
+            dice[1] = (int) (Math.random() * 6 + 1);
+
             alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText(name + " is rolling");
-            ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Roll");
+            alert.setX(420);
+            alert.setY(420);
             alert.initStyle(StageStyle.UNDECORATED);
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.initOwner(stage);
-            alert.setX(420);
-            alert.setY(420);
+            if (dice[0] == dice[1]) {
+                alert.setHeaderText(name + " has rolled double: " + dice[0] + " " + dice[1]);
+            } else {
+                alert.setHeaderText(name + " has rolled: " + dice[0] + " " + dice[1]);
+            }
+
+            ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Continue");
             alert.showAndWait();
+            return dice;
         }
-        dice[0] = (int) (Math.random() * 6 + 1);
-        dice[1] = (int) (Math.random() * 6 + 1);
-
-        alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setX(420);
-        alert.setY(420);
-        alert.initStyle(StageStyle.UNDECORATED);
-        alert.initModality(Modality.APPLICATION_MODAL);
-        alert.initOwner(stage);
-        if (dice[0] == dice[1]) {
-            alert.setHeaderText(name + " has rolled double: " + dice[0] + " " + dice[1]);
-        }
-        else {
-            alert.setHeaderText(name + " has rolled: " + dice[0] + " " + dice[1]);
-        }
-
-        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Continue");
-        alert.showAndWait();
-        return dice;}
     }
 
     private ArrayList<String> tokens = new ArrayList<>();
@@ -343,13 +337,13 @@ public class GameScreenController {
     private boolean first = true;
 
     public int chooseToken(String name, boolean digital) {
-        if(first) {
+        if (first) {
             tokens.addAll(Arrays.asList(tokenNames));
             first = false;
         }
         String chosen;
 
-        if(digital) {
+        if (digital) {
             chosen = tokens.get(0);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setX(420);
@@ -385,7 +379,7 @@ public class GameScreenController {
                 .findFirst().orElse(-1) + 1;
     }
 
-    public void drawToken(int playerNo,int oldIndex, int newIndex) {
+    public void drawToken(int playerNo, int oldIndex, int newIndex) {
         dynamicBoardController.drawToken(playerNo, oldIndex, newIndex);
     }
 
@@ -407,7 +401,7 @@ public class GameScreenController {
         alert.initOwner(stage);
         alert.setHeaderText(property.getName() + " is unowned");
         int value = property.getAssociatedProperty().getValue();
-        alert.setContentText("Do you want to buy it for M" + value +"? Otherwise it will be auctioned");
+        alert.setContentText("Do you want to buy it for M" + value + "? Otherwise it will be auctioned");
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Yes");
         ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No");
 
@@ -480,7 +474,7 @@ public class GameScreenController {
             vb.getStyleClass().add("vbox-style");
 
             String tokenName = player.getToken().getTokenName();
-            tokenName = tokenName.toLowerCase().replaceAll(" ","");
+            tokenName = tokenName.toLowerCase().replaceAll(" ", "");
             Image token = new Image("img/token/normal/" + tokenName + ".png");
             ImageView iv = new ImageView(token);
             iv.setFitHeight(100);
@@ -505,5 +499,182 @@ public class GameScreenController {
             playerBoxes.getChildren().add(playerPane);
 
         }
+    }
+
+    public void startAuction() {
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(stage);
+        alert.setHeaderText("Auction");
+
+        GridPane gp = new GridPane();
+        alert.getDialogPane().setContent(gp);
+
+        Player[] players = game.getPlayers();
+        Auction auc = (Auction) (game.getObservable());
+        System.out.println("Auction for: " + auc.getAuctionedProperty().getPropertyName());
+
+        HBox hb = new HBox();
+        hb.setAlignment(Pos.CENTER);
+        VBox vb = buildTitleDeedCard(auc.getAuctionedProperty());
+        hb.getChildren().add(vb);
+
+        gp.add(hb, 0, 0);
+
+        Button[] bids = new Button[4];
+        Button[] folds = new Button[4];
+        for (int i = 0; i < 4; i++) {
+            bids[i] = new Button(" Bid ");
+            folds[i] = new Button(" Fold ");
+        }
+        //For player 0
+        Label label0 = new Label(players[0].getPlayerName());
+        TextField tf0 = new TextField();
+
+
+        bids[0].setOnAction((ActionEvent e) -> {
+            int bid = Integer.parseInt(tf0.getText());
+            auc.bid(players[0], bid, 0);
+            for (int i = 0; i < 4; i++) {
+                bids[i].setDisable(true);
+                folds[i].setDisable(true);
+            }
+            bids[1].setDisable(false);
+            folds[1].setDisable(false);
+        });
+
+        folds[0].setOnAction((ActionEvent e) -> {
+            auc.fold(players[0], 0);
+            if (auc.getState() == 0) {
+                alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
+                alert.close();
+                System.out.println("Auction closed");
+            }
+            for (int i = 0; i < 4; i++) {
+                bids[i].setDisable(true);
+                folds[i].setDisable(true);
+            }
+            bids[1].setDisable(false);
+            folds[1].setDisable(false);
+        });
+
+        HBox hBox0 = new HBox(4);
+        hBox0.getChildren().addAll(label0, tf0, bids[0], folds[0]);
+        gp.add(hBox0, 0, 1);
+
+        //For player 1
+        Label label1 = new Label(players[1].getPlayerName());
+        TextField tf1 = new TextField();
+
+        bids[1].setOnAction((ActionEvent e) -> {
+            int bid = Integer.parseInt(tf1.getText());
+            auc.bid(players[1], bid, 1);
+            for (int i = 0; i < 4; i++) {
+                bids[i].setDisable(true);
+                folds[i].setDisable(true);
+            }
+            bids[2].setDisable(false);
+            folds[2].setDisable(false);
+        });
+
+        folds[1].setOnAction((ActionEvent e) -> {
+            auc.fold(players[1], 1);
+            if (auc.getState() == 0) {
+                alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
+                alert.close();
+                System.out.println("Auction closed");
+            }
+            for (int i = 0; i < 4; i++) {
+                bids[i].setDisable(true);
+                folds[i].setDisable(true);
+            }
+            bids[2].setDisable(false);
+            folds[2].setDisable(false);
+        });
+
+        HBox hBox1 = new HBox(4);
+        hBox1.getChildren().addAll(label1, tf1, bids[1], folds[1]);
+        gp.add(hBox1, 0, 2);
+
+        //For player 2
+        Label label2 = new Label(players[2].getPlayerName());
+        TextField tf2 = new TextField();
+
+        bids[2].setOnAction((ActionEvent e) -> {
+            int bid = Integer.parseInt(tf2.getText());
+            auc.bid(players[2], bid, 2);
+            for (int i = 0; i < 4; i++) {
+                bids[i].setDisable(true);
+                folds[i].setDisable(true);
+            }
+            bids[3].setDisable(false);
+            folds[3].setDisable(false);
+        });
+
+        folds[2].setOnAction((ActionEvent e) -> {
+            auc.fold(players[2], 2);
+            if (auc.getState() == 0) {
+                alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
+                alert.close();
+                System.out.println("Auction closed");
+            }
+            for (int i = 0; i < 4; i++) {
+                bids[i].setDisable(true);
+                folds[i].setDisable(true);
+            }
+            bids[3].setDisable(false);
+            folds[3].setDisable(false);
+        });
+
+        HBox hBox2 = new HBox(4);
+        hBox2.getChildren().addAll(label2, tf2, bids[2], folds[2]);
+        gp.add(hBox2, 0, 3);
+
+        //For player 3
+        Label label3 = new Label(players[3].getPlayerName());
+        TextField tf3 = new TextField();
+
+        bids[3].setOnAction((ActionEvent e) -> {
+            int bid = Integer.parseInt(tf3.getText());
+            auc.bid(players[3], bid, 3);
+            for (int i = 0; i < 4; i++) {
+                bids[i].setDisable(true);
+                folds[i].setDisable(true);
+            }
+            bids[0].setDisable(false);
+            folds[0].setDisable(false);
+        });
+
+        folds[3].setOnAction((ActionEvent e) -> {
+            auc.fold(players[3], 3);
+            if (auc.getState() == 0) {
+                alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
+                alert.close();
+                System.out.println("Auction closed");
+            }
+            for (int i = 0; i < 4; i++) {
+                bids[i].setDisable(true);
+                folds[i].setDisable(true);
+            }
+            bids[0].setDisable(false);
+            folds[0].setDisable(false);
+        });
+
+        HBox hBox3 = new HBox(4);
+        hBox3.getChildren().addAll(label3, tf3, bids[3], folds[3]);
+        gp.add(hBox3, 0, 4);
+
+        for (int i = 1; i < 4; i++) {
+            bids[i].setDisable(true);
+            folds[i].setDisable(true);
+        }
+
+        alert.setX(400);
+        alert.setY(400);
+        gp.setHgap(30);
+        gp.setVgap(30);
+        ((Stage) alert.getDialogPane().getScene().getWindow()).setAlwaysOnTop(true);
+        alert.show();
     }
 }

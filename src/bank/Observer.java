@@ -1,6 +1,8 @@
 package bank;
 
+import lombok.Getter;
+
 public abstract class Observer {
-    protected Observable observable;
+    @Getter protected Observable observable;
     public abstract void update();
 }

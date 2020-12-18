@@ -214,6 +214,7 @@ public class Game extends Observer {
                 // START AUCTION FOR PROPERTY
                 observable = new Auction(space.getAssociatedProperty());
                 observable.attach(this);
+                controller.startAuction();
             }
             System.out.println(space.getName() + " belongs to " + space.getAssociatedProperty().getOwner());
         } else { //owned by another player
