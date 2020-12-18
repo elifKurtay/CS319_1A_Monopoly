@@ -1,5 +1,6 @@
 package entities;
 
+import bank.Trade;
 import board.PropertySpace;
 import lombok.Getter;
 import lombok.Setter;
@@ -176,8 +177,8 @@ public class DigitalPlayer extends Player{
         return -1;
     }
 
-    public boolean getTradeAnswer(Player player, int[] proposal) {
-        return true;
+    public boolean getTradeAnswer(Trade trade) {
+        return strategy.getTradeAnswer(trade, this, 1.0);
     }
 
     private boolean hasMortgagedProperty() {

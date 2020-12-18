@@ -1,5 +1,7 @@
 package entities;
 
+import bank.Trade;
+
 import java.util.ArrayList;
 
 public interface PlayStrategy {
@@ -12,4 +14,5 @@ public interface PlayStrategy {
     public int getMortgageLimit();
     public int getRedeemLimit();
     public int getPoorLimit();
+    public boolean getTradeAnswer(Trade trade, DigitalPlayer player, double decoratorOffset);
 }

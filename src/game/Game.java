@@ -27,7 +27,7 @@ public class Game extends Observer {
 
     @Getter private int lapCount;
 
-    private GameScreenController controller;
+    private final GameScreenController controller;
 
     public Game(File map, int playerCount, String[] playerNames, int turnLimit, GameScreenController controller) {
         this.playerCount = playerCount;
@@ -39,12 +39,11 @@ public class Game extends Observer {
         this.controller = controller;
 
         players = new Player[LAP];
-        for(int i = 0; i < LAP; i++) {
-            if (i < playerCount)
-                players[i] = new Player(playerNames[i]);
-            else
-                players[i] = createDigitalPlayer("Computer " + i);
+        for(int i = 0; i < playerCount; i++) {
+            players[i] = new Player(playerNames[i]);
         }
+        if(playerCount < LAP)
+            createDigitalPlayers(playerCount);
     }
 
     //for loading the game, to be called by the file manager
@@ -89,6 +88,7 @@ public class Game extends Observer {
                 initializingLap();
 
             lapCount++;
+            controller.labelUpdate(lapCount);
             for(int i = 0; i < LAP &&  !isGameEnd(); i++) {
                 if(!loadedGame){
                     i += playerCount;
@@ -177,12 +177,7 @@ public class Game extends Observer {
                             int[] tradeProposal = ((DigitalPlayer) currentPlayer).getTradeProposal();
                             //sent trade to controller?
                         }
-                        if (currentPlayer.getCurrentSpace() instanceof PropertySpace &&
-                                currentPlayer.getProperties().contains(((PropertySpace) currentPlayer.getCurrentSpace()).getAssociatedProperty())
-                                && ((DigitalPlayer) currentPlayer).decideOnBuildAction()) {
-                            System.out.println("DO BUILD");
-                            ((DigitalPlayer) currentPlayer).doBuild();
-                        }
+
                     }
 
                     if (dice[0] == dice[1]) {
@@ -215,15 +210,24 @@ public class Game extends Observer {
         if(currentPlayer == space.getAssociatedProperty().getOwner()) { //own property
             controller.showMessage("This is your own property.");
             //can build on if they choose so
+            if (currentPlayer instanceof DigitalPlayer && ((DigitalPlayer) currentPlayer).decideOnBuildAction()) {
+                System.out.println("COMPUTER DOES BUILD");
+                controller.showMessage(currentPlayer.getPlayerName() + " build on top of their property. ");
+                ((DigitalPlayer) currentPlayer).doBuild();
+            }
         } else if (space.getAssociatedProperty().getOwner() == null ) { //owned by bank
             //buy or auction
             if(currentPlayer instanceof DigitalPlayer)
                 if( ((DigitalPlayer) currentPlayer).decideOnBuy(space.getAssociatedProperty()) ) {
                     //controller let others know of the buying action
                     System.out.println("Computer bought the property.");
+                    controller.showMessage(currentPlayer.getPlayerName() + " bought the property: "
+                            + space.getAssociatedProperty().getPropertyName());
                 }
                 else {
                     System.out.println("START AUCTION");
+                    controller.showMessage(currentPlayer.getPlayerName() + " started an auction for the property: "
+                            + space.getAssociatedProperty().getPropertyName());
                     //int startingBid = ((DigitalPlayer) currentPlayer).startAuction(space.getAssociatedProperty());
                 }
             else if (controller.buyProperty(space)) {
@@ -260,8 +264,17 @@ public class Game extends Observer {
         Card card = board.drawCard(space.getType());
 
         if(player instanceof DigitalPlayer) {
-            //always open cards?
-            card.getCardEvent().handleEvent(player, players, board);
+            controller.openCard(player.getPlayerName() + " opened a card!\n" + card.getCardText());
+            CardEvent ce = card.getCardEvent();
+            int oldIndex = currentPlayer.getCurrentSpace().getIndex();
+            ce.handleEvent(currentPlayer, players, board);
+            int i = 0;
+            for (; i < 4; i++) {
+                if (players[i] == currentPlayer) {
+                    break;
+                }
+            }
+            controller.drawToken(i, oldIndex, currentPlayer.getCurrentSpace().getIndex());
         }
         else if(  controller.postponeCard()) {
             ArrayList<Card> cards = player.getPostponedCards();
@@ -448,15 +461,16 @@ public class Game extends Observer {
         return (count > 2) || (lapCount == lapLimit);
     }
 
-    private int[] rollDice() {
-        int[] dice = new int[2];
-        dice[0] = (int) (Math.random() * 6 + 1);
-        dice[1] = (int) (Math.random() * 6 + 1);
-        return dice;
-    }
+    private void createDigitalPlayers(int playerCount) {
+        String[] names = {"John AI","Beatrice AI", "Mike AI", "Ada AI"};
+        PlayStrategy[] strategies = {new StingyDecorator( new EasyStrategy()),
+                new StingyDecorator( new MediumStrategy()), new StingyDecorator( new HardStrategy()),
+                new GenerousDecorator(new EasyStrategy()), new GenerousDecorator( new MediumStrategy()),
+                new GenerousDecorator( new HardStrategy()), new RiskyDecorator( new EasyStrategy()),
+                new RiskyDecorator(new MediumStrategy()), new RiskyDecorator( new HardStrategy()) };
 
-    private Player createDigitalPlayer(String name) {
-        return new DigitalPlayer(name, new StingyDecorator(new EasyStrategy()));
+        for(int i = playerCount; i < LAP; i++)
+            players[i] = new DigitalPlayer(names[i], strategies[(int) (Math.random() * 9)]);
     }
 
     public void startGame() {

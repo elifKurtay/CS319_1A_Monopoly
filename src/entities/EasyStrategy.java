@@ -1,5 +1,7 @@
 package entities;
 
+import bank.Trade;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -84,16 +86,28 @@ public class EasyStrategy implements PlayStrategy, Serializable{
     /* how to make these not constant ? */
     @Override
     public int getMortgageLimit() {
-        return 10;
+        return 50;
     }
 
     @Override
     public int getRedeemLimit() {
-        return 100;
+        return 300;
     }
 
     @Override
     public int getPoorLimit() {
-        return 80;
+        return 200;
+    }
+
+    @Override
+    public boolean getTradeAnswer(Trade trade, DigitalPlayer player, double decoratorOffset) {
+        int gain = 0, loss = 0;
+        for(Property p: trade.getOfferedProperties())
+            gain += p.getWorth();
+        for(Property p: trade.getWantedProperties())
+            loss += p.getWorth();
+        gain += trade.getOfferedMoney() + trade.getOfferedGOOJC() * 10;
+        loss += trade.getWantedMoney() + trade.getWantedGOOJC() * 10;
+        return gain >= loss * decoratorOffset;
     }
 }

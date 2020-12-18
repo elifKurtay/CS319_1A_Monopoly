@@ -1,5 +1,7 @@
 package entities;
 
+import bank.Trade;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -142,16 +144,38 @@ public class HardStrategy implements PlayStrategy , Serializable {
 
     @Override
     public int getMortgageLimit() {
-        return 60;
+        return 100;
     }
 
     @Override
     public int getRedeemLimit() {
-        return 150;
+        return 400;
     }
 
     @Override
     public int getPoorLimit() {
-        return 100;
+        return 500;
+    }
+
+    @Override
+    public boolean getTradeAnswer(Trade trade, DigitalPlayer player, double decoratorOffset) {
+        int gain = 0, loss = 0;
+        for(Property p: trade.getOfferedProperties()) {
+            gain += p.getWorth();
+            if(player.numberOfPropertiesFromSameGroup(p) > 1)
+                gain += p.getWorth() * 2;
+        }
+        for(Property p: trade.getWantedProperties()) {
+            loss += p.getWorth();
+            if(p instanceof UtilityProperty)
+                loss += p.getWorth() * 1.5;
+            else if(player.numberOfPropertiesFromSameGroup(p) > 1)
+                loss += p.getWorth() * 2;
+        }
+
+        gain += trade.getOfferedMoney() + trade.getOfferedGOOJC() * 5;
+        loss += trade.getWantedMoney() + trade.getWantedGOOJC() * 5;
+
+        return gain >= loss * decoratorOffset;
     }
 }

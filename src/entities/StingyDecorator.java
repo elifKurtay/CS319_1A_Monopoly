@@ -1,5 +1,7 @@
 package entities;
 
+import bank.Trade;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -61,5 +63,10 @@ public class StingyDecorator implements PlayStrategy, Serializable {
     @Override
     public int getPoorLimit() {
         return (int) (strategy.getPoorLimit() * HIGHER);
+    }
+
+    @Override
+    public boolean getTradeAnswer(Trade trade, DigitalPlayer player, double decoratorOffset) {
+        return strategy.getTradeAnswer(trade, player, HIGHER);
     }
 }

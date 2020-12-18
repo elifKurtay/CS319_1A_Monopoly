@@ -2,9 +2,11 @@ package bank;
 
 import entities.Player;
 import entities.Property;
+import lombok.Getter;
 
 import java.util.ArrayList;
 
+@Getter
 public class Trade {
     private final Player offerer;
     private final Player target;

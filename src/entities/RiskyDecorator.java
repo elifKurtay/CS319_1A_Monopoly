@@ -1,5 +1,7 @@
 package entities;
 
+import bank.Trade;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -67,5 +69,10 @@ public class RiskyDecorator implements PlayStrategy, Serializable {
     @Override
     public int getPoorLimit() {
         return (int) (strategy.getPoorLimit() * randomMultiplier());
+    }
+
+    @Override
+    public boolean getTradeAnswer(Trade trade, DigitalPlayer player, double decoratorOffset) {
+        return strategy.getTradeAnswer(trade, player, randomMultiplier());
     }
 }

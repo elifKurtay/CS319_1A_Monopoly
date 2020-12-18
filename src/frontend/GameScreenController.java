@@ -3,7 +3,6 @@ package frontend;
 import bank.Trade;
 import board.Board;
 import board.PropertySpace;
-import board.Space;
 import entities.LandProperty;
 import entities.Player;
 import entities.Property;
@@ -24,21 +23,16 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
 import java.util.stream.IntStream;
-import javax.swing.*;
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class GameScreenController {
     @FXML
@@ -49,6 +43,10 @@ public class GameScreenController {
 
     @FXML
     private DynamicBoardController dynamicBoardController;
+
+
+    @FXML
+    private Label turn_count;
 
     private Stage stage;
 
@@ -279,6 +277,11 @@ public class GameScreenController {
         assetsDialog.showAndWait();
     }
 
+    @FXML
+    public void labelUpdate( int lapCount) {
+        turn_count.setText("Turn Count: " + lapCount + " ");
+    }
+
     public VBox buildTitleDeedCard(Property p) {
         VBox vb = new VBox();
         vb.getChildren().add(new Label("Title Deed Card"));
@@ -461,6 +464,18 @@ public class GameScreenController {
             return true;
         }
         return false;
+    }
+
+    //used when digital players open a card
+    public void openCard(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(message);
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(stage);
+        alert.setX(420);
+        alert.setY(420);
+        alert.showAndWait();
     }
 
     public void setTokenImage(int playerNo, String tokenName) {
