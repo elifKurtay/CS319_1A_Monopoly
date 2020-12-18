@@ -8,6 +8,7 @@ import entities.DigitalPlayer;
 import entities.EasyStrategy;
 import entities.Player;
 import entities.Token;
+import entities.Property;
 import event.*;
 import frontend.GameScreenController;
 import lombok.Getter;
