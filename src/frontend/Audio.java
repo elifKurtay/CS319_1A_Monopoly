@@ -23,7 +23,7 @@ public class Audio {
         Media media = new Media(new File(path).toURI().toString());
 
         gameMusic = new MediaPlayer(media);
-        gameMusic.setVolume(0.5);
+        gameMusic.setVolume(0);
 
         gameMusic.setOnEndOfMedia(new Runnable() {
             public void run() {

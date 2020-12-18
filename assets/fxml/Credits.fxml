@@ -12,7 +12,7 @@
             stylesheets="@style.css"
             styleClass="credits-pane">
     <VBox style="-fx-alignment: center;" spacing="60">
-        <Label style="-fx-alignment: center; -fx-font-size: 64px; -fx-pref-width: 600px; -fx-text-fill: red;">Credits</Label>
+        <Label style="-fx-alignment: center; -fx-font-size: 64px; -fx-pref-width: 600px; -fx-text-fill: red;">CREDITS</Label>
         <VBox style="-fx-alignment: center" spacing="30">
             <Label styleClass="credits-label">Elif Kurtay</Label>
             <Label styleClass="credits-label">Atakan Dönmez </Label>

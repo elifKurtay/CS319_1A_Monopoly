@@ -5,10 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @AllArgsConstructor
-public abstract class Property {
+public abstract class Property implements Serializable {
     //properties
     private String propertyName;
     private int mortgageValue;

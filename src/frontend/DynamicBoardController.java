@@ -23,6 +23,8 @@ public class DynamicBoardController {
     }
 
     public void setDynamicBoard(Board gameBoard) {
+        System.out.println(gameBoard);
+
 
         // Need to reverse the non-corner spaces on the left and bottom sides of the map,
         // because the index 0 corresponds to the lower right space of the map
