@@ -166,4 +166,21 @@ public class FileManager {
             return g;
         }
     }
+
+    public void log(Exception e) throws Exception{
+        try{
+            System.out.println("MErhabaababda");
+            StringWriter sw = new StringWriter();
+            e.printStackTrace(new PrintWriter(sw));
+            String exceptionAsString = sw.toString();
+            new File("Exceptions").mkdir();
+
+            FileWriter exceptionWriter = new FileWriter("Exceptions\\" + e.getClass().getCanonicalName() + ".txt");
+            exceptionWriter.write(exceptionAsString);
+            exceptionWriter.close();
+        }
+        catch (Exception exception) {
+
+        }
+    }
 }

@@ -421,6 +421,18 @@ public class GameScreenController {
         return false;
     }
 
+    public int showGif(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(stage);
+
+        Image image = new Image("assets\\img\\gifFiles\\wheelOfFortune.gif");
+        ImageView view = new ImageView(image);
+
+        return 0;
+    }
+
     private boolean twoChoiceDialog(String message, String ok, String cancel) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initStyle(StageStyle.UNDECORATED);

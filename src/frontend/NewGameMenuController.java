@@ -1,5 +1,6 @@
 package frontend;
 
+import FileManagement.FileManager;
 import board.Board;
 import entities.Player;
 import game.Game;
@@ -56,20 +57,25 @@ public class NewGameMenuController extends MenuController {
 
 
     @FXML protected void startButtonAction(ActionEvent event) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameScreen.fxml"));
-        Parent root = loader.load();
-        //Game controller = loader.getController();
-        GameScreenController controller = loader.getController();
-        controller.setStage(getStage());
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameScreen.fxml"));
+            Parent root = loader.load();
+            //Game controller = loader.getController();
+            GameScreenController controller = loader.getController();
+            controller.setStage(getStage());
 
-        File map = (new File("./assets/maps/" + mapCombo.getValue()));
+            File map = (new File("./assets/maps/" + mapCombo.getValue()));
 
-        //controller.startGame(map, currentHumanPlayers, players, turnLimitCombo.getValue());
-        Scene s = new Scene(root, getStage().getWidth(), getStage().getHeight());
-        getStage().setScene(s);
-        Game game = new Game(map, currentHumanPlayers, players, turnLimitCombo.getValue(), controller);
-        controller.setGame(game);
-        game.startGame();
+            //controller.startGame(map, currentHumanPlayers, players, turnLimitCombo.getValue());
+            Scene s = new Scene(root, getStage().getWidth(), getStage().getHeight());
+            getStage().setScene(s);
+            Game game = new Game(map, currentHumanPlayers, players, turnLimitCombo.getValue(), controller);
+            controller.setGame(game);
+            game.startGame();
+        }
+        catch (Exception e){
+            FileManager.getInstance().log(e);
+        }
     }
 
 
