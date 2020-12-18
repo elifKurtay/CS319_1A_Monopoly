@@ -73,7 +73,8 @@ public class Game {
         this.currentPlayer = loadedGame.currentPlayer;
     }
 
-    void gameLoop() {
+    void gameLoop(int playerCount) {
+        boolean loadedGame = false;
         int[] dice;
         int doublesCount = 0;
         boolean digitalPlayer = false;
@@ -81,93 +82,97 @@ public class Game {
             if(lapCount == 0)
                 initializingLap();
             for(int i = 0; i < LAP &&  !isGameEnd(); i++) {
-                currentPlayer = players[i];
-                digitalPlayer = currentPlayer instanceof DigitalPlayer;
-                dice = controller.rollDice(currentPlayer.getPlayerName(), digitalPlayer);
-
-                currentPlayer.setCurrentDiceSum(dice[0] + dice[1]);
-                //calculating next player
-                if (dice[0] == dice[1]) {
-                    doublesCount++;
-                } else
-                    doublesCount = 0;
-
-                //checking jail conditions
-                if (!currentPlayer.isJailed() && dice[0] == dice[1] && doublesCount == 3){
-                    sendToJail(currentPlayer);
-                    controller.showMessage("You are sent to jail!");
-                    continue;
+                if(!loadedGame){
+                    i += playerCount;
+                    loadedGame = true;
                 }
-                else if(currentPlayer.isJailed() && dice[0] == dice[1]){
-                    currentPlayer.setJailed(false);
-                    controller.showMessage("You are released from jail!");
-                }
-                else if( currentPlayer.isJailed() &&
-                        currentPlayer.getJailedLapCount() >= currentPlayer.getToken().getJailTime() ) {
-                    currentPlayer.setJailed(false);
-                    currentPlayer.setMoney(currentPlayer.getMoney() - 50);
-                    controller.showMessage("You are released from jail and have lost 5 money!");
-                }
-                //else if only in jail, ask to use GOOJF card OR PAY?
+                else {
+                    currentPlayer = players[i];
+                    digitalPlayer = currentPlayer instanceof DigitalPlayer;
+                    dice = controller.rollDice(currentPlayer.getPlayerName(), digitalPlayer);
 
-                int oldIndex = currentPlayer.getCurrentSpace().getIndex();
-                //move on board
-                int boardIndex = currentPlayer.getCurrentSpace().getIndex() + dice[0] + dice[1];
-                if(boardIndex >= 40) { //passed Go space
-                    currentPlayer.setMoney( currentPlayer.getMoney() + 200
-                            + currentPlayer.getToken().getSalaryChange());
-                    boardIndex = boardIndex % 40;
-                    controller.drawPlayerBoxes(players);
-                    controller.showMessage("Your salary is paid!");
-                }
+                    currentPlayer.setCurrentDiceSum(dice[0] + dice[1]);
+                    //calculating next player
+                    if (dice[0] == dice[1]) {
+                        doublesCount++;
+                    } else
+                        doublesCount = 0;
 
-                Space space = board.getSpace( boardIndex );
-                currentPlayer.setCurrentSpace( space );
-                space.setLatestPlayer(currentPlayer);
+                    //checking jail conditions
+                    if (!currentPlayer.isJailed() && dice[0] == dice[1] && doublesCount == 3) {
+                        sendToJail(currentPlayer);
+                        controller.showMessage("You are sent to jail!");
+                        continue;
+                    } else if (currentPlayer.isJailed() && dice[0] == dice[1]) {
+                        currentPlayer.setJailed(false);
+                        controller.showMessage("You are released from jail!");
+                    } else if (currentPlayer.isJailed() &&
+                            currentPlayer.getJailedLapCount() >= currentPlayer.getToken().getJailTime()) {
+                        currentPlayer.setJailed(false);
+                        currentPlayer.setMoney(currentPlayer.getMoney() - 50);
+                        controller.showMessage("You are released from jail and have lost 5 money!");
+                    }
+                    //else if only in jail, ask to use GOOJF card OR PAY?
 
-                controller.drawToken(i, oldIndex, boardIndex);
+                    int oldIndex = currentPlayer.getCurrentSpace().getIndex();
+                    //move on board
+                    int boardIndex = currentPlayer.getCurrentSpace().getIndex() + dice[0] + dice[1];
+                    if (boardIndex >= 40) { //passed Go space
+                        currentPlayer.setMoney(currentPlayer.getMoney() + 200
+                                + currentPlayer.getToken().getSalaryChange());
+                        boardIndex = boardIndex % 40;
+                        controller.drawPlayerBoxes(players);
+                        controller.showMessage("Your salary is paid!");
+                    }
 
-                // Salary is paid twice if it is paid on GoSpace too
+                    Space space = board.getSpace(boardIndex);
+                    currentPlayer.setCurrentSpace(space);
+                    space.setLatestPlayer(currentPlayer);
+
+                    controller.drawToken(i, oldIndex, boardIndex);
+
+                    // Salary is paid twice if it is paid on GoSpace too
                 /*
                 if(space instanceof GoSpace) {
                     currentPlayer.setMoney( currentPlayer.getMoney() + 200
                             + currentPlayer.getToken().getSalaryChange());
                     controller.showMessage("Your salary is paid!");
                 } else */
-                if( space instanceof CardSpace) {
-                    System.out.println("Draw a card!");
-                    drawCard(currentPlayer, (CardSpace) space);
-                } else if( space instanceof GoToJailSpace) {
-                    sendToJail(currentPlayer);
-                    controller.drawToken(i, boardIndex, 10);
-                    controller.showMessage("You are sent to jail!");
-                    continue;
-                } else if( space instanceof JailSpace ) {
-                    controller.showMessage("You are visiting jail");
-                } else if( space instanceof TaxSpace) {
-                    int payment = (int) (((TaxSpace) space).getTax()
-                            * currentPlayer.getToken().getTaxMultiplier());
-                    currentPlayer.setMoney(currentPlayer.getMoney() - payment);
-                    controller.drawPlayerBoxes(players);
-                    controller.showMessage("You paid " + payment + "M for tax.");
-                } else if(space instanceof WheelOfFortuneSpace) {
-                    ((WheelOfFortuneSpace) space).spinWheel();
-                } else if(space instanceof PropertySpace){
-                    cameToProperty((PropertySpace) space);
-                }
-
-                // if doubles count is greater than 0 the same player can play another round
-                if (doublesCount > 0) {
-                    i--;
-                }
-                if(currentPlayer instanceof DigitalPlayer) {
-                    if(((DigitalPlayer) currentPlayer).decideOnTradeAction()) {
-                        System.out.println("START TRADE");
-                    }
-                    if(((DigitalPlayer) currentPlayer).decideOnBuildAction()) {
-                        System.out.println("DO BUILD");
+                    if (space instanceof CardSpace) {
+                        System.out.println("Draw a card!");
+                        drawCard(currentPlayer, (CardSpace) space);
+                    } else if (space instanceof GoToJailSpace) {
+                        sendToJail(currentPlayer);
+                        controller.drawToken(i, boardIndex, 10);
+                        controller.showMessage("You are sent to jail!");
+                        continue;
+                    } else if (space instanceof JailSpace) {
+                        controller.showMessage("You are visiting jail");
+                    } else if (space instanceof TaxSpace) {
+                        int payment = (int) (((TaxSpace) space).getTax()
+                                * currentPlayer.getToken().getTaxMultiplier());
+                        currentPlayer.setMoney(currentPlayer.getMoney() - payment);
+                        controller.drawPlayerBoxes(players);
+                        controller.showMessage("You paid " + payment + "M for tax.");
+                    } else if (space instanceof WheelOfFortuneSpace) {
+                        ((WheelOfFortuneSpace) space).spinWheel();
+                    } else if (space instanceof PropertySpace) {
+                        cameToProperty((PropertySpace) space);
                     }
 
+                    // if doubles count is greater than 0 the same player can play another round
+                    if (doublesCount > 0) {
+                        i--;
+                    }
+                    if (currentPlayer instanceof DigitalPlayer) {
+                        if (((DigitalPlayer) currentPlayer).decideOnTradeAction()) {
+                            System.out.println("START TRADE");
+                        }
+                        if (((DigitalPlayer) currentPlayer).decideOnBuildAction()) {
+                            System.out.println("DO BUILD");
+                        }
+
+                    }
                 }
                 controller.finishTurn(currentPlayer instanceof DigitalPlayer);
             }
@@ -431,7 +436,7 @@ public class Game {
 
     public void startGame() {
         controller.setMap(board);
-        gameLoop();
+        gameLoop(0);
     }
 
     public void continueGame() {
@@ -441,7 +446,12 @@ public class Game {
             controller.setTokenImage(i, players[i].getToken().getTokenName());
             controller.drawToken(i, players[i].getCurrentSpace().getIndex(), players[i].getCurrentSpace().getIndex());
         }
-        gameLoop();
+        int playerTurn = 0;
+        for(int i = 0; i < players.length; i++){
+            if(players[i].getPlayerName().equals(currentPlayer.getPlayerName()))
+                playerTurn = i;
+        }
+        gameLoop(playerTurn);
     }
 
     public void endGame() {
@@ -468,7 +478,7 @@ public class Game {
         for ( Player p : players ) {
             p.reset();
         }
-        gameLoop();
+        //gameLoop();
     }
 
     //input from UI
