@@ -69,6 +69,8 @@ public class FileManager {
             for(int i = 0; i < 4; i++)
                 if(game.getPlayers()[i] instanceof DigitalPlayer)
                     otherGameInfo += "|true";
+                else
+                    otherGameInfo += "|false";
             FileWriter gameInfoWriter = new FileWriter(folderName + "\\other_game_info.txt");
             gameInfoWriter.write(otherGameInfo);
             gameInfoWriter.close();
@@ -140,7 +142,7 @@ public class FileManager {
 
             fileIn = new FileInputStream(folderName + "\\p4.ser");
             in = new ObjectInputStream(fileIn);
-            if(p1Dig)
+            if(p4Dig)
                 p4 = (DigitalPlayer) in.readObject();
             else
                 p4 = (Player) in.readObject();
@@ -148,8 +150,6 @@ public class FileManager {
             fileIn = new FileInputStream(folderName + "\\board.ser");
             in = new ObjectInputStream(fileIn);
             Board board = (Board) in.readObject();
-            controller.setMap(board);
-
 
             Player[] players = new Player[4];
             players[0] = p1;
@@ -158,10 +158,6 @@ public class FileManager {
             players[3] = p4;
 
             g = new Game(board, players, lapLimit, playerCount, currentPlayerName, lapCount, controller);
-
-
-
-
             in.close();
             fileIn.close();
             return g;

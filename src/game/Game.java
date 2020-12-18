@@ -434,6 +434,10 @@ public class Game {
         gameLoop();
     }
 
+    public void continueGame() {
+        gameLoop();
+    }
+
 
     public void endGame() {
         int money = players[0].getMoney();
