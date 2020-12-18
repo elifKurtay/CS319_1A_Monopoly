@@ -164,17 +164,19 @@ public class Game extends Observer {
                         cameToProperty((PropertySpace) space);
                     }
 
-                    // if doubles count is greater than 0 the same player can play another round
-                    if (doublesCount > 0) {
-                        i--;
+                // if doubles count is greater than 0 the same player can play another round
+                if (doublesCount > 0) {
+                    i--;
+                }
+                if(currentPlayer instanceof DigitalPlayer) {
+                    Player tradePlayer = ((DigitalPlayer) currentPlayer).decideOnTradeAction(players);
+                    if(tradePlayer != null) {
+                        System.out.println("START TRADE");
+                        int[] tradeProposal = ((DigitalPlayer) currentPlayer).getTradeProposal();
                     }
-                    if (currentPlayer instanceof DigitalPlayer) {
-                        if (((DigitalPlayer) currentPlayer).decideOnTradeAction()) {
-                            System.out.println("START TRADE");
-                        }
-                        if (((DigitalPlayer) currentPlayer).decideOnBuildAction()) {
-                            System.out.println("DO BUILD");
-                        }
+                    if(((DigitalPlayer) currentPlayer).decideOnBuildAction()) {
+                        System.out.println("DO BUILD");
+                    }
 
                     }
                 }
@@ -208,6 +210,7 @@ public class Game extends Observer {
                 space.getAssociatedProperty().setOwner(currentPlayer);
                 controller.drawPlayerBoxes(players);
             } else {
+                //bank.startAuction(space.getAssociatedProperty());
                 // START AUCTION FOR PROPERTY
                 observable = new Auction(space.getAssociatedProperty());
                 observable.attach(this);

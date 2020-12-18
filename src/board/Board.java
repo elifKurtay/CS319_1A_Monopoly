@@ -1,6 +1,6 @@
 package board;
 
-import card.*;
+import card.Card;
 import entities.*;
 import event.*;
 import lombok.Getter;

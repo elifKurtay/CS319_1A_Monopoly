@@ -3,46 +3,97 @@ package entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class EasyStrategy implements PlayStrategy, Serializable {
+public class EasyStrategy implements PlayStrategy, Serializable{
+    private final int MULTIPLIER = 3;
+
     @Override
     public boolean shouldBuy(Property property, int money,
                              ArrayList<Property> properties) {
-        return false;
+        //just looks at money amount
+        return property.getValue() * MULTIPLIER < money;
     }
 
     @Override
-    public int getBid(Property property, int highestBid, int money, int poorLimit, ArrayList<Property> properties) {
-        return 0;
+    public int getBid(Property property, int highestBid, int money, int poorLimit, DigitalPlayer player) {
+        //only looks at money
+        if(highestBid < property.getValue() && money > (highestBid + 20) * MULTIPLIER)
+            return highestBid + 20; //increment bid a fixed amount
+        return -1; //fold
     }
 
     @Override
-    public int doMortgage(ArrayList<Property> properties) {
-
-        return 0;
+    public Property doMortgage(DigitalPlayer player) {
+        int highestValue = 0;
+        int index = 0, i = 0;
+        ArrayList<Property> properties = player.getProperties();
+        for( Property p : properties) {
+            if(p.getMortgageValue() > highestValue) {
+                highestValue = p.getMortgageValue();
+                index = i;
+            }
+            i++;
+        }
+        return properties.get(index);
     }
 
     @Override
-    public void doRedeem(ArrayList<Property> properties) {
-
+    public Property doRedeem(DigitalPlayer player) {
+        int lowestValue = 0;
+        int index = 0, i = 0;
+        ArrayList<Property> properties = player.getProperties();
+        for( Property p : properties) {
+            if(p.isMortgaged() && p.getValue() * 1.1 < lowestValue) {
+                lowestValue = p.getMortgageValue();
+                index = i;
+            }
+            i++;
+        }
+        return properties.get(index);
     }
 
     @Override
-    public void doTrade() {
-
+    public int[] doTrade(int tradeType, Player tradePlayer, DigitalPlayer currentPlayer) {
+        int[] proposal = {-1, 0, 0, -1, 0 , 0};
+        // 1 -> needs GOOJF card from other players
+        if(tradeType == 1 && tradePlayer.getGetOutOfJailFreeCount() > 0) {
+            //requests
+            proposal[5] = 1; // 1 goofj card
+            //offered
+            proposal[1] = 5; // 5k offered
+        }
+        // 2 -> needs money, has lots of property
+        else if (tradeType == 2 ) {
+            Property offeredProperty = doMortgage(currentPlayer);
+            // request money with profit
+            proposal[4] = offeredProperty.getWorth() + 10;
+            //offered property
+            proposal[0] = currentPlayer.getProperties().indexOf(offeredProperty);
+        }
+        // 3 -> wants property
+        else if(tradeType == 3 ) {
+            for(Property p: tradePlayer.getProperties()){
+                if(currentPlayer.numberOfPropertiesFromSameGroup(p) > 1
+                        && tradePlayer.numberOfPropertiesFromSameGroup(p) == 1)
+                    proposal[3] = tradePlayer.getProperties().indexOf(p);
+            }
+            proposal[1] = tradePlayer.getProperties().get(proposal[3]).getWorth() + 30;
+        }
+        return proposal;
     }
 
+    /* how to make these not constant ? */
     @Override
     public int getMortgageLimit() {
-        return 0;
+        return 10;
     }
 
     @Override
     public int getRedeemLimit() {
-        return 0;
+        return 100;
     }
 
     @Override
     public int getPoorLimit() {
-        return 0;
+        return 80;
     }
 }

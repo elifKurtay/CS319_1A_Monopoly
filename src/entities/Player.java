@@ -40,7 +40,7 @@ public class Player implements Serializable {
         jailed = false;
         token = null;
         jailedLapCount = 0;
-        currentDiceSum = 0;
+        currentDiceSum = 0; //what?
     }
 
     //methods
