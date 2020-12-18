@@ -100,6 +100,12 @@ public class DigitalPlayer extends Player{
         return false;
     }
 
+    public void doBuild(){
+        ArrayList<Property> properties = getAllPropertiesFromSameGroup(((PropertySpace) getCurrentSpace()).getAssociatedProperty());
+        for( Property p : properties)
+            ((LandProperty) p).buildHouse();
+    }
+
     public boolean decideOnBuy( Property property ) {
         if (strategy.shouldBuy(property, getMoney(), getAllPropertiesFromSameGroup(property))) {
             this.addProperty(property);
@@ -168,6 +174,10 @@ public class DigitalPlayer extends Player{
                     }
             }
         return -1;
+    }
+
+    public boolean getTradeAnswer(Player player, int[] proposal) {
+        return true;
     }
 
     private boolean hasMortgagedProperty() {

@@ -1,7 +1,11 @@
 package board;
 
 import entities.Player;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Thief {
     private Player target;
     private Space currentSpace;
@@ -12,6 +16,7 @@ public class Thief {
     public Thief(Player target) {
         this.target = target;
         lapCount = 0;
+        currentSpace = null;
     }
 
     public void steal() {
