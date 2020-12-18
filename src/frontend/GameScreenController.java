@@ -501,6 +501,8 @@ public class GameScreenController {
         }
     }
 
+    //TODO -Take players out of the game
+    //TODO-Give error when non-integer bid
     public void startAuction() {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.initStyle(StageStyle.UNDECORATED);
@@ -670,11 +672,10 @@ public class GameScreenController {
             folds[i].setDisable(true);
         }
 
-        alert.setX(400);
-        alert.setY(400);
+        alert.setX(300);
+        alert.setY(300);
         gp.setHgap(30);
         gp.setVgap(30);
-        ((Stage) alert.getDialogPane().getScene().getWindow()).setAlwaysOnTop(true);
-        alert.show();
+        alert.showAndWait();
     }
 }
