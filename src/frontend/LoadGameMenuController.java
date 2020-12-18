@@ -30,29 +30,31 @@ public class LoadGameMenuController extends MenuController {
         //file Names
         ArrayList<String> fileNames = new ArrayList<String>();
 
-        for (int i = 0; i < listOfFiles.length; i++) {
-            fileNames.add(listOfFiles[i].getName());
-            System.out.print(listOfFiles[i].getName());
-        }
+        if(listOfFiles != null) {
+            for (int i = 0; i < listOfFiles.length; i++) {
+                fileNames.add(listOfFiles[i].getName());
+                System.out.print(listOfFiles[i].getName());
+            }
 
-        noColumn.setCellValueFactory(new PropertyValueFactory<>("gameNo"));
-        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
-        player1.setCellValueFactory(new PropertyValueFactory<>("player1"));
-        player2.setCellValueFactory(new PropertyValueFactory<>("player2"));
-        player3.setCellValueFactory(new PropertyValueFactory<>("player3"));
-        player4.setCellValueFactory(new PropertyValueFactory<>("player4"));
+            noColumn.setCellValueFactory(new PropertyValueFactory<>("gameNo"));
+            dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+            timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+            player1.setCellValueFactory(new PropertyValueFactory<>("player1"));
+            player2.setCellValueFactory(new PropertyValueFactory<>("player2"));
+            player3.setCellValueFactory(new PropertyValueFactory<>("player3"));
+            player4.setCellValueFactory(new PropertyValueFactory<>("player4"));
 
 
-        //table input
-        String[] info;
-        SaveData s;
+            //table input
+            String[] info;
+            SaveData s;
 
-        for(int i = 0; i < fileNames.size(); i++){
-            info = fileNames.get(i).split("_");
-            s = new SaveData(i, info[4].split(" ")[0], info[4].split(" ")[1],
-                    info[0], info[1], info[2], info[3]);
-            loadTable.getItems().add(s);
+            for (int i = 0; i < fileNames.size(); i++) {
+                info = fileNames.get(i).split("_");
+                s = new SaveData(i, info[4].split(" ")[0], info[4].split(" ")[1],
+                        info[0], info[1], info[2], info[3]);
+                loadTable.getItems().add(s);
+            }
         }
     }
 
