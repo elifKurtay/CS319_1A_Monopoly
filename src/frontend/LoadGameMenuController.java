@@ -89,7 +89,7 @@ public class LoadGameMenuController extends MenuController {
             getStage().setScene(s);
             Game g = fileManager.loadGame(folderName, controller);
             controller.setGame(g);
-            g.startGame();
+            g.continueGame();
         }
     }
 }

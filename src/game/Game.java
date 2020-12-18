@@ -435,9 +435,14 @@ public class Game {
     }
 
     public void continueGame() {
+        controller.setMap(board);
+        controller.drawPlayerBoxes(players);
+        for(int i = 0; i < LAP; i++) {
+            controller.setTokenImage(i, players[i].getToken().getTokenName());
+            controller.drawToken(i, players[i].getCurrentSpace().getIndex(), players[i].getCurrentSpace().getIndex());
+        }
         gameLoop();
     }
-
 
     public void endGame() {
         int money = players[0].getMoney();
