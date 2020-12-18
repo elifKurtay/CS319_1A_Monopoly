@@ -87,6 +87,9 @@ public class Player {
         return propertyGroupCounts[propertyToCheck.getPropertyGroup()];
     }
 
+    public boolean ownsAllPropertiesFromSameGroup(Property propertyToCheck) {
+        return numberOfPropertiesFromSameGroup(propertyToCheck) == Property.numberOfPropertiesInGroups[propertyToCheck.getPropertyGroup()];
+    }
     /*
     //what should happen if there is not enough money
     public boolean payBank(int amount) {
@@ -115,6 +118,11 @@ public class Player {
 
     public ArrayList<Property> getProperties() {
         return properties;
+    }
+
+    @Override
+    public String toString() {
+        return playerName;
     }
 }
 

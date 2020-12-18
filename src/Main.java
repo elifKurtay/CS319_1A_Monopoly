@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -17,6 +18,7 @@ public class Main extends Application {
 
         Scene s = new Scene(root,800, 450);
 
+        primaryStage.setOnCloseRequest(event -> Platform.exit());
         primaryStage.setScene(s);
         primaryStage.show();
     }

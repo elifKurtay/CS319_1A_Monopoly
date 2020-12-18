@@ -55,7 +55,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "TRANSPORT",
-            "name": "Kings Cross Station",
+            "name": "King's Cross Station",
             "value": "200",
             "propertyGroup": 8,
             "titleDeedCard": {
@@ -588,7 +588,7 @@
                     "from": "PLAYERS",
                     "amount": 50
                 },
-                "cardText": "Grand Opera Night. Collect $50 from every player for opening night seats."
+                "cardText": "Grand Opera Night. Collect M50 from every player for opening night seats."
             },
             {
                 "cardEvent": {

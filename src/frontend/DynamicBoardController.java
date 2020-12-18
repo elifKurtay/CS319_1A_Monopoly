@@ -68,6 +68,7 @@ public class DynamicBoardController {
                     // Get the color specified for this property group, read from the json file
                     colorPane.setStyle("-fx-background-color: #"
                             + colors[currentSpace.getAssociatedProperty().getPropertyGroup()]);
+                    colorPane.setId("colorPane");
                     if (i < 10) {
                         colorPane.getStyleClass().add("colortop");
                         spacePane.setTop(colorPane);
@@ -145,44 +146,60 @@ public class DynamicBoardController {
         // oldIndex can only be -1 when the token hasn't been drawn on the board
         if (oldIndex == -1) {
             // draw the token on the "go space"
-           getTokenBox(0).getChildren().add(iv);
+           //getTokenBox(0).getChildren().add(iv);
+           ((HBox) getSpaceBox(0).lookup("#tokenBox")).getChildren().add(iv);
         }
         else {
             // remove the token from the old index before drawing it at the new index
-            getTokenBox(oldIndex).getChildren().remove(iv);
+            //getTokenBox(oldIndex).getChildren().remove(iv);
+            ((HBox) getSpaceBox(oldIndex).lookup("#tokenBox")).getChildren().remove(iv);
 
             // draw the token at the new index
-            getTokenBox(newIndex).getChildren().add(iv);
+            //getTokenBox(newIndex).getChildren().add(iv);
+            ((HBox) getSpaceBox(newIndex).lookup("#tokenBox")).getChildren().add(iv);
+        }
+    }
+
+    public void drawHouse(int index, int numOfHouses) {
+        ((Pane) getSpaceBox(index).lookup("#colorPane")).getChildren().clear();
+        if (numOfHouses == 5) {
+            ((Pane) getSpaceBox(index).lookup("#colorPane")).getChildren().add(new Label("HOTEL"));
+        }
+        else {
+            for (int i = 0; i < numOfHouses; i++) {
+                ((Pane) getSpaceBox(index).lookup("#colorPane")).getChildren().add(new Label("HOUSE"));
+            }
         }
     }
 
     // returns the tokenBox for the space with given index
-    private HBox getTokenBox(int index) {
+    private Node getSpaceBox(int index) {
         Pane[] corners = {bottomRightBoard, bottomLeftBoard, topLeftBoard, topRightBoard};
         Pane[] sides = {bottomBoard, leftBoard, topBoard, rightBoard};
 
-        Node tokenBoxNode;
+        Node spaceBoxNode;
 
         // if the index is a corner
         if (index % 10 == 0) {
-            tokenBoxNode = corners[index/10].getChildren().get(0);
+            spaceBoxNode = corners[index/10].getChildren().get(0);
         }
         // if the index is on the sides
         else {
             if (index < 10) {
-                tokenBoxNode = sides[index/10].getChildren().get(9 - index);
+                spaceBoxNode = sides[index/10].getChildren().get(9 - index);
             }
             else if (index < 20) {
-                tokenBoxNode = sides[index/10].getChildren().get(19 - index);
+                spaceBoxNode = sides[index/10].getChildren().get(19 - index);
             }
             else if (index < 30) {
-                tokenBoxNode = sides[index/10].getChildren().get(index - 21);
+                spaceBoxNode = sides[index/10].getChildren().get(index - 21);
             }
             else {
-                tokenBoxNode = sides[index/10].getChildren().get(index - 31);
+                spaceBoxNode = sides[index/10].getChildren().get(index - 31);
             }
         }
 
-        return (HBox) tokenBoxNode.lookup("#tokenBox");
+        return spaceBoxNode;
     }
+
 }

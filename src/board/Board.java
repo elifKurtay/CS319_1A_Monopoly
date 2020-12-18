@@ -95,6 +95,7 @@ public class Board {
                                 break;
                         }
                         spaces[i] = new PropertySpace(currentSpace.getString("name"), i, type, p);
+                        p.setAssociatedPropertySpace((PropertySpace) spaces[i]);
                         break;
                     case "CardSpace":
                         spaces[i] = new CardSpace(currentSpace.getString("cardType"), i);

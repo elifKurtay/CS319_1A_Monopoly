@@ -1,5 +1,6 @@
 package entities;
 
+import board.PropertySpace;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +17,7 @@ public abstract class Property {
     protected Player owner;
     protected int[] rents;
     protected int propertyGroup;
+    private PropertySpace associatedPropertySpace;
     @Getter protected static int[] numberOfPropertiesInGroups;
 
     //constructors
@@ -59,5 +61,8 @@ public abstract class Property {
         }
     }
 
+    public String toString() {
+        return propertyName;
+    }
 }
 

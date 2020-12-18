@@ -32,13 +32,13 @@ public class Trade {
         accepted = false;
     }
 
-    void offer( ArrayList<Property> properties, int money, int goojc) {
+    public void offer( ArrayList<Property> properties, int money, int goojc) {
         this.offeredGOOJC = goojc;
         this.offeredMoney = money;
         this.offeredProperties = properties;
     }
 
-    void want( ArrayList<Property> properties, int money, int goojc) {
+    public void want( ArrayList<Property> properties, int money, int goojc) {
         this.wantedGOOJC = goojc;
         this.wantedMoney = money;
         this.wantedProperties = properties;
@@ -47,11 +47,11 @@ public class Trade {
     //UI functions
     void sendOffer() {} //?
 
-    void acceptOffer() {
-        accepted = true;
+    public void acceptOffer(boolean accepted) {
+        this.accepted = accepted;
     }
 
-    boolean closeTrade() {
+    public boolean closeTrade() {
         if(!accepted)
             return false;
 

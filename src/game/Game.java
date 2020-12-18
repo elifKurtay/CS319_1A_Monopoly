@@ -245,7 +245,15 @@ public class Game {
         System.out.println(card.getCardText());
         controller.showMessage(card.getCardText());
         CardEvent ce = card.getCardEvent();
+        int oldIndex = currentPlayer.getCurrentSpace().getIndex();
         ce.handleEvent(currentPlayer, players, board);
+        int i = 0;
+        for (; i < 4; i++) {
+            if (players[i] == currentPlayer) {
+                break;
+            }
+        }
+        controller.drawToken(i, oldIndex, currentPlayer.getCurrentSpace().getIndex());
         /*controller.showMessage(card.getCardText());
         if(card.isAdvance()){
             AdvanceEvent event = (AdvanceEvent) card.getCardEvent();
