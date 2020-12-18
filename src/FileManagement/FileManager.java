@@ -4,6 +4,7 @@ package FileManagement;
 import board.Board;
 import entities.DigitalPlayer;
 import entities.Player;
+import entities.Property;
 import frontend.GameScreenController;
 import game.Game;
 
@@ -63,7 +64,7 @@ public class FileManager {
             out.writeObject(game.getBoard());
 
             //other game information
-            //written in the form: lapLimit|playerCount|currentPlayerName|lapCount|Player1ISdigital|Player2ISdigital|Player3ISdigital|Player4ISdigital
+            //written in the form: lapLimit|playerCount|currentPlayerName|lapCount|Player1ISdigital|Player2ISdigital|Player3ISdigital|Player4ISdigital|groupArray
             String otherGameInfo = "" + game.getLapLimit() + "|" + game.getPlayerCount() + "|" +
                     game.getCurrentPlayer().getPlayerName() + "|" + game.getLapCount();
             for(int i = 0; i < 4; i++)
@@ -71,6 +72,12 @@ public class FileManager {
                     otherGameInfo += "|true";
                 else
                     otherGameInfo += "|false";
+
+            int[] noOfPropertiesInGroups = Property.numberOfPropertiesInGroups;
+            for(int i = 0; i < noOfPropertiesInGroups.length; i++){
+                otherGameInfo += "|" + noOfPropertiesInGroups[i];
+            }
+
             FileWriter gameInfoWriter = new FileWriter(folderName + "\\other_game_info.txt");
             gameInfoWriter.write(otherGameInfo);
             gameInfoWriter.close();
@@ -112,6 +119,12 @@ public class FileManager {
             p2Dig = Boolean.parseBoolean(sArray[5]);
             p3Dig = Boolean.parseBoolean(sArray[6]);
             p4Dig = Boolean.parseBoolean(sArray[7]);
+
+            int[] arr = new int[sArray.length - 8];
+            for(int i = 8; i < sArray.length; i++)
+                arr[i-8] = Integer.parseInt(sArray[i]);
+
+            Property.setNumberOfPropertiesInGroups(arr);
 
             FileInputStream fileIn;
             ObjectInputStream in;
@@ -169,18 +182,17 @@ public class FileManager {
 
     public void log(Exception e) throws Exception{
         try{
-            System.out.println("MErhabaababda");
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             String exceptionAsString = sw.toString();
             new File("Exceptions").mkdir();
 
-            FileWriter exceptionWriter = new FileWriter("Exceptions\\" + e.getClass().getCanonicalName() + ".txt");
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH.mm");
+            FileWriter exceptionWriter = new FileWriter("Exceptions\\" + e.getClass().getCanonicalName() +
+                    dtf.format(LocalDateTime.now()) + ".txt");
             exceptionWriter.write(exceptionAsString);
             exceptionWriter.close();
         }
-        catch (Exception exception) {
-
-        }
+        catch (Exception exception) {}
     }
 }

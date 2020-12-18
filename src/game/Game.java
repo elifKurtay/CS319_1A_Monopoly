@@ -143,6 +143,7 @@ public class Game extends Observer {
                     controller.showMessage("Your salary is paid!");
                 } else */
                     if (space instanceof CardSpace) {
+                        //controller.spinWheelOfFortune(((WheelOfFortuneSpace) space).spinWheel());
                         System.out.println("Draw a card!");
                         drawCard(currentPlayer, (CardSpace) space);
                     } else if (space instanceof GoToJailSpace) {
@@ -159,7 +160,7 @@ public class Game extends Observer {
                         controller.drawPlayerBoxes(players);
                         controller.showMessage("You paid " + payment + "M for tax.");
                     } else if (space instanceof WheelOfFortuneSpace) {
-                        ((WheelOfFortuneSpace) space).spinWheel();
+                        controller.spinWheelOfFortune(((WheelOfFortuneSpace) space).spinWheel());
                     } else if (space instanceof PropertySpace) {
                         cameToProperty((PropertySpace) space);
                     }
@@ -215,6 +216,7 @@ public class Game extends Observer {
             System.out.println(space.getName() + " belongs to " + space.getAssociatedProperty().getOwner());
         } else { //owned by another player
             //pay rent
+            System.out.println("burasi");
             //int rentAmount = currentPlayer.payRent(((PropertySpace) space).getOwner(), dice);
             int rentAmount = space.calculateRent(currentPlayer);
             currentPlayer.payPlayer(space.getAssociatedProperty().getOwner(), rentAmount);

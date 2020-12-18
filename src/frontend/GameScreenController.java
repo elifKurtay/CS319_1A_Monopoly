@@ -20,10 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -32,6 +29,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lombok.Getter;
 import lombok.Setter;
+import sun.plugin.javascript.navig.Anchor;
 
 import java.util.*;
 import java.util.stream.IntStream;
@@ -421,16 +419,26 @@ public class GameScreenController {
         return false;
     }
 
-    public int showGif(){
+    public void spinWheelOfFortune(String result){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.initOwner(stage);
 
+        AnchorPane wheel = new AnchorPane();
+
         Image image = new Image("assets\\img\\gifFiles\\wheelOfFortune.gif");
         ImageView view = new ImageView(image);
 
-        return 0;
+        Button spinButton = new Button("Spin");
+        spinButton.setOnAction(event -> {
+            wheel.getChildren().add(view);
+            wheel.getChildren().add(new Label("result"));
+            wheel.getChildren().remove(spinButton);
+        });
+        wheel.getChildren().add(spinButton);
+
+        alert.getDialogPane().setContent(wheel);
     }
 
     private boolean twoChoiceDialog(String message, String ok, String cancel) {
