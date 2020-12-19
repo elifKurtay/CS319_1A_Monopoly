@@ -20,12 +20,13 @@
             <TableView fx:id="loadTable" layoutX="35.0" layoutY="28.0" prefHeight="200.0" prefWidth="227.0">
                 <columns>
                     <TableColumn prefWidth="110.0" text="Game Number" fx:id="noColumn"/>
-                    <TableColumn prefWidth="220.0" text="Date" fx:id="dateColumn"/>
-                    <TableColumn prefWidth="220.0" text="Time" fx:id="timeColumn"/>
-                    <TableColumn prefWidth="220.0" text="Player 1" fx:id="player1"/>
-                    <TableColumn prefWidth="220.0" text="Player 2" fx:id="player2"/>
-                    <TableColumn prefWidth="220.0" text="Player 3" fx:id="player3"/>
-                    <TableColumn prefWidth="220.0" text="Player 4" fx:id="player4"/>
+                    <TableColumn prefWidth="200.0" text="Date" fx:id="dateColumn"/>
+                    <TableColumn prefWidth="200.0" text="Time" fx:id="timeColumn"/>
+                    <TableColumn prefWidth="200.0" text="Player 1" fx:id="player1"/>
+                    <TableColumn prefWidth="200.0" text="Player 2" fx:id="player2"/>
+                    <TableColumn prefWidth="200.0" text="Player 3" fx:id="player3"/>
+                    <TableColumn prefWidth="200.0" text="Player 4" fx:id="player4"/>
+                    <TableColumn prefWidth="110.0" text="Delete" fx:id="delete"/>
                 </columns>
             </TableView>
             <Button styleClass="back-button-style" text="BACK" onAction="#backButtonAction"/>

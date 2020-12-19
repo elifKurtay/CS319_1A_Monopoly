@@ -20,6 +20,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -76,12 +77,7 @@ public class GameScreenController {
     @FXML
     protected void exitButtonAction(ActionEvent event) throws Exception{
         // Scoreboard ?
-        if (twoChoiceDialog("Do you really want to exit?", "Yes", "No")) {
-            if (twoChoiceDialog("Do you want to save the game?", "Yes", "No")) {
-                saveButtonAction(null);
-            }
-            Platform.exit();
-        }
+        showScoreboard();
     }
 
     @FXML
@@ -891,6 +887,106 @@ public class GameScreenController {
                 textFields[((bidNum + 1) % 4)].setText(String.valueOf(digitalBid));
                 bids[((bidNum + 1) % 4)].fire();
             }
+        }
+    }
+
+
+    private void showScoreboard(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(stage);
+        Player[] players = game.getPlayers();
+        VBox box = new VBox();
+        TableView scoreBoard;
+        TableColumn rank, name, netWorth;
+
+        scoreBoard = new TableView();
+        scoreBoard.setEditable(true);
+
+        rank = new TableColumn("Rank");
+        name = new TableColumn("Name");
+        netWorth = new TableColumn("Net Worth");
+        rank.setPrefWidth(60);
+        name.setPrefWidth(100);
+        netWorth.setPrefWidth(100);
+
+        rank.setStyle(  "-fx-alignment: CENTER;");
+        name.setStyle(  "-fx-alignment: CENTER;");
+        netWorth.setStyle(  "-fx-alignment: CENTER;");
+
+
+        scoreBoard.getColumns().addAll(rank, name, netWorth);
+
+        rank.setCellValueFactory(new PropertyValueFactory<>("rank"));
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        netWorth.setCellValueFactory(new PropertyValueFactory<>("netWorth"));
+
+
+        Score[] scores = new Score[4];
+        for(int i = 0; i < 4; i++)
+        scores[i] = new Score("" + (i+1), players[i].getPlayerName(),
+                "" + players[i].getNetWorth() );
+
+        Player playerWithHighestScore;
+        for(int i = 0; i < 4; i++) {
+            playerWithHighestScore = players[i];
+            for(int j = i + 1; j < 4; j++){
+                if(players[j].getNetWorth() > playerWithHighestScore.getNetWorth()){
+                    Score temp = scores[i];
+                    scores[i] = scores[j];
+                    scores[j] = temp;
+                }
+            }
+            scores[i].setRank((i + 1)+ "");
+        }
+
+
+        scoreBoard.getItems().addAll(scores);
+
+
+        HBox hBox = new HBox();
+        hBox.setStyle("-fx-alignment: center");
+        hBox.setSpacing(20);
+        Button cancel = new Button("Cancel");
+        Button endGame = new Button("End Game");
+
+        endGame.setOnAction(event -> {
+            if (twoChoiceDialog("Do you really want to exit?", "Yes", "No")) {
+                if (twoChoiceDialog("Do you want to save the game?", "Yes", "No")) {
+                    try {
+                        saveButtonAction(null);
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+                Platform.exit();
+            }
+        });
+
+        cancel.setOnAction(event -> {
+            alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
+            alert.close();
+        });
+
+        hBox.getChildren().add(cancel);
+        hBox.getChildren().add(endGame);
+
+        box.getChildren().add(scoreBoard);
+        box.getChildren().add(hBox);
+
+
+        alert.getDialogPane().setContent(box);
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setVisible(false);
+        alert.showAndWait();
+    }
+
+    public class Score{
+        @Getter @Setter private String rank, name, netWorth;
+        public Score(String rank, String name, String netWorth){
+            this.rank = rank;
+            this.name = name;
+            this.netWorth = netWorth;
         }
     }
 }

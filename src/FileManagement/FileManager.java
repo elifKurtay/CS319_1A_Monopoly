@@ -225,4 +225,15 @@ public class FileManager {
         }
         catch (Exception exception) {}
     }
+
+    public void delete(String folderName){
+        File folder = new File(folderName);
+        File[] listOfFiles = folder.listFiles();
+        if(listOfFiles != null) {
+            for (File f : listOfFiles) {
+                f.delete();
+            }
+            folder.delete();
+        }
+    }
 }
