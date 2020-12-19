@@ -148,4 +148,8 @@ public class MediumStrategy implements PlayStrategy, Serializable {
         loss += trade.getWantedMoney() + trade.getWantedGOOJC() * 10;
         return gain >= loss * decoratorOffset;
     }
+
+    public String toString(){
+        return " Medium Strategy ";
+    }
 }

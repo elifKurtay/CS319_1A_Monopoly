@@ -69,4 +69,8 @@ public class GenerousDecorator implements PlayStrategy, Serializable {
     public boolean getTradeAnswer(Trade trade, DigitalPlayer player, double decoratorOffset) {
         return strategy.getTradeAnswer(trade, player, LOWER);
     }
+
+    public String toString(){
+        return " Generous Decorator with " + strategy;
+    }
 }

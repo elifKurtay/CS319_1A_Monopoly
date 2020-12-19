@@ -69,4 +69,8 @@ public class StingyDecorator implements PlayStrategy, Serializable {
     public boolean getTradeAnswer(Trade trade, DigitalPlayer player, double decoratorOffset) {
         return strategy.getTradeAnswer(trade, player, HIGHER);
     }
+
+    public String toString(){
+        return " Stingy Decorator with " + strategy;
+    }
 }

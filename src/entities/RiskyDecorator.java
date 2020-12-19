@@ -75,4 +75,8 @@ public class RiskyDecorator implements PlayStrategy, Serializable {
     public boolean getTradeAnswer(Trade trade, DigitalPlayer player, double decoratorOffset) {
         return strategy.getTradeAnswer(trade, player, randomMultiplier());
     }
+
+    public String toString(){
+        return " Risky Decorator with " + strategy;
+    }
 }

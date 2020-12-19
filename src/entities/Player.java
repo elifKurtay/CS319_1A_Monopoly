@@ -19,7 +19,7 @@ public class Player implements Serializable {
     private String playerName;
     private int money;
     private Space currentSpace;
-    private boolean bankrupt;
+    private boolean bankrupt; //or forfeit
     private ArrayList<Property> properties;
     private int getOutOfJailFreeCount;
     private ArrayList<Card> postponedCards;
@@ -40,7 +40,7 @@ public class Player implements Serializable {
         jailed = false;
         token = null;
         jailedLapCount = 0;
-        currentDiceSum = 0; //what?
+        currentDiceSum = 0;
     }
 
     //methods
@@ -52,15 +52,19 @@ public class Player implements Serializable {
         return netWorth;
     }
 
-    /*
-    public int payRent(@NotNull Player receiver, int[] dice){
-        int amount = calculateRent(receiver, dice[0] + dice[1]);
-        receiver.setMoney(receiver.getMoney() + amount);
-        money = money - amount;
-        System.out.println("Your rent amount: " + amount);
-        return amount;
+    public void lost() {
+        money = 0;
+        bankrupt = true;
+        jailed = false;
+        currentSpace = null;
+        getOutOfJailFreeCount = 0;
+        postponedCards = null;
+        jailedLapCount = 0;
+        currentDiceSum = 0;
+        for(Property p: getProperties())
+            p.setOwner(null);
+        properties = null;
     }
-    */
 
     public void payPlayer(@NotNull Player receiver, int amount){
         receiver.setMoney(receiver.getMoney() + amount);

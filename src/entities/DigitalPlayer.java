@@ -30,6 +30,8 @@ public class DigitalPlayer extends Player{
         tradeTurn = 0;
         tradePlayer = null;
         tradeType = -1;
+
+        System.out.println(name + " has " + strategy);
     }
 
     //checks mortgage & redeem

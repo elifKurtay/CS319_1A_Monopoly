@@ -4,7 +4,6 @@ import bank.Auction;
 import bank.Trade;
 import board.Board;
 import board.PropertySpace;
-import board.Space;
 import entities.DigitalPlayer;
 import entities.LandProperty;
 import entities.Player;
@@ -20,7 +19,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -214,11 +212,11 @@ public class GameScreenController {
                     dialog.showAndWait();
                     LandProperty propertyToBuild = (LandProperty) dialog.getResult();
                     if (propertyToBuild.getNumOfHouses() == 5) {
-                        showMessage("Cannot build more buildings on this property!");
+                        showMessage("Cannot build more buildings on this property!", null);
                     }
                     else if (!propertyToBuild.canBuild()) {
                         showMessage("You must build evenly between properties," +
-                                "build on other properties in the same group before building here!");
+                                "build on other properties in the same group before building here!", null);
                     }
                     else {
                         String message;
@@ -241,15 +239,15 @@ public class GameScreenController {
                     }
                 }
                 else {
-                    showMessage("Cannot build, you don't own all properties from this group!");
+                    showMessage("Cannot build, you don't own all properties from this group!", null);
                 }
             }
             else {
-                showMessage("Cannot build, you don't own this property");
+                showMessage("Cannot build, you don't own this property", null);
             }
         }
         else {
-            showMessage("Cannot build here, isn't a land property");
+            showMessage("Cannot build here, isn't a land property", null);
         }
     }
 
@@ -283,6 +281,29 @@ public class GameScreenController {
     }
 
     @FXML
+    public void playerForfeitButtonAction(ActionEvent actionEvent) {
+        String buttonID = ((Button) actionEvent.getSource()).getId();
+        int playerNo = Character.getNumericValue(buttonID.charAt(buttonID.length() - 1));
+        Player player = game.getPlayers()[playerNo];
+        //System.out.println("Player " + playerNo + " GOOJC count: " + player.getGetOutOfJailFreeCount());
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(stage);
+        alert.setX(420);
+        alert.setY(420);
+        alert.setHeaderText("Forfeit?");
+        alert.setContentText("Do you want to forfeit the game? If you click on \"Yes\", this action would " +
+                "mean that you will lose the game and no longer be able to play in this game. ");
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Yes");
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No");
+        alert.showAndWait();
+        if (alert.getResult() == ButtonType.OK) {
+            player.lost();
+        }
+    }
+
+    @FXML
     public void labelUpdate( int lapCount) {
         turn_count.setText("Turn Count: " + lapCount + " ");
     }
@@ -301,13 +322,12 @@ public class GameScreenController {
     public int[] rollDice(String name, boolean digital) {
         if (DEBUG && !digital) {
             Scanner scan = new Scanner(System.in);
-            //int dice1 = Integer.parseInt(scan.nextLine());
-            //int dice2 = Integer.parseInt(scan.nextLine());
             int dice1 = scan.nextInt();
             int dice2 = scan.nextInt();
             return new int[]{dice1, dice2};
         }
-        else {
+
+        obj.playPoliceSound();
         int[] dice = new int[2];
         Alert alert;
         System.out.println("turn of " + name);
@@ -355,10 +375,10 @@ public class GameScreenController {
         }
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Continue");
         alert.showAndWait();
-        return dice;}
+        return dice;
     }
 
-    private ArrayList<String> tokens = new ArrayList<>();
+    private final ArrayList<String> tokens = new ArrayList<>();
     private final String[] tokenNames = {"Thimble", "Wheel Barrow", "Boot", "Horse", "Race Car",
             "Iron", "Top Hat", "Battleship"};
     private boolean first = true;
@@ -378,7 +398,6 @@ public class GameScreenController {
             alert.initStyle(StageStyle.UNDECORATED);
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.setHeaderText(name + " has chosen: " + chosen);
-            alert.showAndWait();
             try {
                 Thread.sleep(500);
                 alert.close();
@@ -412,9 +431,19 @@ public class GameScreenController {
         dynamicBoardController.drawToken(playerNo, oldIndex, newIndex);
     }
 
-    public void showMessage(String message) {
+    public void showMessage(String message, Player currentPlayer) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText(message);
+        String msg;
+
+        if(currentPlayer == null)
+            msg = "";
+        else if(currentPlayer instanceof DigitalPlayer)
+            msg = currentPlayer.getPlayerName() + " is ";
+        else
+            msg = "You are ";
+        msg += message;
+
+        alert.setHeaderText(msg);
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.initOwner(stage);
@@ -525,10 +554,21 @@ public class GameScreenController {
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.NONE);
         alert.initOwner(stage);
-        //((Stage) alert.getDialogPane().getScene().getWindow()).setAlwaysOnTop(true);
-        alert.setHeaderText("Finish Turn");
         alert.setX(420);
         alert.setY(420);
+
+        if(digital) {
+            alert.setHeaderText("Player has finished their turn." );
+            try {
+                Thread.sleep(500);
+                alert.close();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            alert.setHeaderText("Finish Turn");
+        }
         alert.showAndWait();
     }
 
@@ -597,7 +637,15 @@ public class GameScreenController {
             assetsButton.getStyleClass().add("assetsButton");
             assetsButton.setOnAction(this::playerAssetsButtonAction);
 
-            hb.getChildren().addAll(vb, money, assetsButton);
+            if(! (player instanceof DigitalPlayer)) {
+                Button forfeitButton = new Button("Forfeit");
+                forfeitButton.setId("forfeitPlayer" + i);
+                forfeitButton.getStyleClass().add("forfeitButton");
+                forfeitButton.setOnAction(this::playerForfeitButtonAction);
+                hb.getChildren().addAll(vb, money, assetsButton, forfeitButton);
+            } else
+                hb.getChildren().addAll(vb, money, assetsButton);
+
             playerPane.getChildren().add(hb);
 
             playerBoxes.getChildren().add(playerPane);

@@ -178,4 +178,8 @@ public class HardStrategy implements PlayStrategy , Serializable {
 
         return gain >= loss * decoratorOffset;
     }
+
+    public String toString(){
+        return " Hard Strategy ";
+    }
 }
