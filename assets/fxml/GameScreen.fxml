@@ -17,7 +17,7 @@
 <fx:include source="DynamicBoard.fxml" fx:id="dynamicBoard"></fx:include>
 <VBox spacing="20">
     <HBox>
-        <Label fx:id="turn_count" text="Turn Count: "/>
+        <Label fx:id="turn_count" text="Turn Count: " style = "-fx-font-weight: bold; -fx-font-size: 18; -fx-background-color: coral"/>
         <HBox>
             <Button text="Settings" onAction="#settingsButtonAction"/>
             <Button text="Restart" onAction="#restartButtonAction"/>
