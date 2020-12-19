@@ -3,12 +3,13 @@ package frontend;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+import lombok.Getter;
 
 import java.io.File;
 
 public class Audio {
-    private MediaPlayer gameMusic;
-    private MediaPlayer cashSound;
+    @Getter private MediaPlayer gameMusic;
+    @Getter private MediaPlayer cashSound;
     private MediaPlayer diceSound;
     private MediaPlayer moveSound;
     private MediaPlayer policeSound;
