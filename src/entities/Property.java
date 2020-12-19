@@ -20,7 +20,7 @@ public abstract class Property implements Serializable {
     protected int[] rents;
     protected int propertyGroup;
     private PropertySpace associatedPropertySpace;
-    @Getter protected static int[] numberOfPropertiesInGroups;
+    @Getter public static int[] numberOfPropertiesInGroups;
 
     //constructors
     public Property(String propertyName, int value, int mortgageValue, int[] rents, int propertyGroup){

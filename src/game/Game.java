@@ -157,7 +157,12 @@ public class Game extends Observer {
                         controller.drawPlayerBoxes(players);
                         controller.showMessage("You paid " + payment + "M for tax.");
                     } else if (space instanceof WheelOfFortuneSpace) {
-                        ((WheelOfFortuneSpace) space).spinWheel();
+                        try{
+                            controller.spinWheelOfFortune(((WheelOfFortuneSpace) space).spinWheel(), digitalPlayer);
+                            controller.drawPlayerBoxes(players);
+                        } catch(Exception e){
+
+                        }
                     } else if (space instanceof PropertySpace) {
                         cameToProperty((PropertySpace) space);
                     }

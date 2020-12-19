@@ -4,6 +4,7 @@ package FileManagement;
 import board.Board;
 import entities.DigitalPlayer;
 import entities.Player;
+import entities.Property;
 import frontend.GameScreenController;
 import game.Game;
 
@@ -12,20 +13,37 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
+//This class is to save and load game and log exceptions
 public class FileManager {
-    private static FileManager instance;
-    private String name;
 
+    //This instance is static in order to apply singleton pattern.
+    private static FileManager instance;
+
+    //Constructor is private and it can only be called from the getInstance method
     private FileManager(){
 
     }
 
+    /**
+     * This method is static so that the instance attribute will be created only once.
+     * This method checks if the instance is null and if it is null it constructs a
+     * FileManager object, otherwise it returns the instance.
+     * @return the instance which is a FileManager object
+     */
     public static FileManager getInstance () {
         if(instance == null)
             instance = new FileManager();
         return instance;
     }
 
+    /**
+     * This method saves the player and board objects in the game in serialized form together
+     * with other game information written into a text file. The files are saved into a folder
+     * named as the player names and the date of the game.
+     * @param game
+     * @return true if the game is saved succesfully, otherwise false
+     * @throws Exception
+     */
     public boolean saveGame(Game game) throws Exception{
         try {
             new File("savedGames").mkdir();
@@ -63,7 +81,7 @@ public class FileManager {
             out.writeObject(game.getBoard());
 
             //other game information
-            //written in the form: lapLimit|playerCount|currentPlayerName|lapCount|Player1ISdigital|Player2ISdigital|Player3ISdigital|Player4ISdigital
+            //written in the form: lapLimit|playerCount|currentPlayerName|lapCount|Player1ISdigital|Player2ISdigital|Player3ISdigital|Player4ISdigital|groupArray
             String otherGameInfo = "" + game.getLapLimit() + "|" + game.getPlayerCount() + "|" +
                     game.getCurrentPlayer().getPlayerName() + "|" + game.getLapCount();
             for(int i = 0; i < 4; i++)
@@ -71,6 +89,12 @@ public class FileManager {
                     otherGameInfo += "|true";
                 else
                     otherGameInfo += "|false";
+
+            int[] noOfPropertiesInGroups = Property.numberOfPropertiesInGroups;
+            for(int i = 0; i < noOfPropertiesInGroups.length; i++){
+                otherGameInfo += "|" + noOfPropertiesInGroups[i];
+            }
+
             FileWriter gameInfoWriter = new FileWriter(folderName + "\\other_game_info.txt");
             gameInfoWriter.write(otherGameInfo);
             gameInfoWriter.close();
@@ -86,6 +110,15 @@ public class FileManager {
         }
     }
 
+
+    /**
+     * This method loads the game with the given folder name. It deserializes the files inside that folder
+     * and creates a new game.
+     * @param folderName
+     * @param controller
+     * @return the constructed game
+     * @throws Exception
+     */
     public Game loadGame(String folderName, GameScreenController controller) throws Exception{
         Game g = null;
         try {
@@ -112,6 +145,12 @@ public class FileManager {
             p2Dig = Boolean.parseBoolean(sArray[5]);
             p3Dig = Boolean.parseBoolean(sArray[6]);
             p4Dig = Boolean.parseBoolean(sArray[7]);
+
+            int[] arr = new int[sArray.length - 8];
+            for(int i = 8; i < sArray.length; i++)
+                arr[i-8] = Integer.parseInt(sArray[i]);
+
+            Property.setNumberOfPropertiesInGroups(arr);
 
             FileInputStream fileIn;
             ObjectInputStream in;
@@ -165,5 +204,28 @@ public class FileManager {
             e.printStackTrace();
             return g;
         }
+    }
+
+    /**
+     * This method writes the exceptions into a text file for usage in the future. The exceptions
+     * are written into a folder named Exceptions. The name of the text files are combination of the exception name
+     * and the date of the exception.
+     * @param e
+     * @throws Exception
+     */
+    public void log(Exception e) throws Exception{
+        try{
+            StringWriter sw = new StringWriter();
+            e.printStackTrace(new PrintWriter(sw));
+            String exceptionAsString = sw.toString();
+            new File("Exceptions").mkdir();
+
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH.mm");
+            FileWriter exceptionWriter = new FileWriter("Exceptions\\" + e.getClass().getCanonicalName() +
+                    dtf.format(LocalDateTime.now()) + ".txt");
+            exceptionWriter.write(exceptionAsString);
+            exceptionWriter.close();
+        }
+        catch (Exception exception) {}
     }
 }
