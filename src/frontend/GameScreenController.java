@@ -546,14 +546,7 @@ public class GameScreenController {
                 }
                 else {
                     auc.bid(players[0], bid, 0);
-                    for (int i = 0; i < 4; i++) {
-                        bids[i].setDisable(true);
-                        folds[i].setDisable(true);
-                        textFields[i].setDisable(true);
-                    }
-                    bids[1].setDisable(false);
-                    folds[1].setDisable(false);
-                    textFields[1].setDisable(false);
+                    disableExcept(1, bids, folds, textFields);
                     if(players[1] instanceof DigitalPlayer){
                         int digitalBid = ((DigitalPlayer) players[1]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
                         System.out.println("Digital Player bids: " + digitalBid);
@@ -583,14 +576,8 @@ public class GameScreenController {
                 alert.close();
                 System.out.println("Auction closed");
             }
-            for (int i = 0; i < 4; i++) {
-                bids[i].setDisable(true);
-                folds[i].setDisable(true);
-                textFields[i].setDisable(true);
-            }
-            bids[1].setDisable(false);
-            folds[1].setDisable(false);
-            textFields[1].setDisable(false);
+            disableExcept(1, bids, folds, textFields);
+
             if(players[1] instanceof DigitalPlayer){
                 int digitalBid = ((DigitalPlayer) players[1]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
                 System.out.println("Digital Player bids: " + digitalBid);
@@ -623,14 +610,7 @@ public class GameScreenController {
                 }
                 else {
                     auc.bid(players[1], bid, 1);
-                    for (int i = 0; i < 4; i++) {
-                        bids[i].setDisable(true);
-                        folds[i].setDisable(true);
-                        textFields[i].setDisable(true);
-                    }
-                    bids[2].setDisable(false);
-                    folds[2].setDisable(false);
-                    textFields[2].setDisable(false);
+                    disableExcept(2, bids, folds, textFields);
                     if(players[2] instanceof DigitalPlayer){
                         System.err.println("Player 2 firing");
                         int digitalBid = ((DigitalPlayer) players[2]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
@@ -661,25 +641,19 @@ public class GameScreenController {
                 alert.close();
                 System.out.println("Auction closed");
             }
-            for (int i = 0; i < 4; i++) {
-                bids[i].setDisable(true);
-                folds[i].setDisable(true);
-                textFields[i].setDisable(true);
-                if(players[2] instanceof DigitalPlayer){
-                    int digitalBid = ((DigitalPlayer) players[2]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
-                    System.out.println("Digital Player bids: " + digitalBid);
-                    if(digitalBid < 0){
-                        folds[2].fire();
-                    }
-                    else {
-                        textFields[2].setText(String.valueOf(digitalBid));
-                        bids[2].fire();
-                    }
+            disableExcept(2, bids, folds, textFields);
+
+            if(players[2] instanceof DigitalPlayer){
+                int digitalBid = ((DigitalPlayer) players[2]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+                System.out.println("Digital Player bids: " + digitalBid);
+                if(digitalBid < 0){
+                    folds[2].fire();
+                }
+                else {
+                    textFields[2].setText(String.valueOf(digitalBid));
+                    bids[2].fire();
                 }
             }
-            bids[2].setDisable(false);
-            folds[2].setDisable(false);
-            textFields[2].setDisable(false);
         });
 
         HBox hBox1 = new HBox(4);
@@ -701,14 +675,7 @@ public class GameScreenController {
                 }
                 else {
                     auc.bid(players[2], bid, 2);
-                    for (int i = 0; i < 4; i++) {
-                        bids[i].setDisable(true);
-                        folds[i].setDisable(true);
-                        textFields[i].setDisable(true);
-                    }
-                    bids[3].setDisable(false);
-                    folds[3].setDisable(false);
-                    textFields[3].setDisable(false);
+                    disableExcept(3, bids, folds, textFields);
                     if(players[3] instanceof DigitalPlayer){
                         int digitalBid = ((DigitalPlayer) players[3]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
                         System.out.println("Digital Player bids: " + digitalBid);
@@ -738,14 +705,7 @@ public class GameScreenController {
                 alert.close();
                 System.out.println("Auction closed");
             }
-            for (int i = 0; i < 4; i++) {
-                bids[i].setDisable(true);
-                folds[i].setDisable(true);
-                textFields[i].setDisable(true);
-            }
-            bids[3].setDisable(false);
-            folds[3].setDisable(false);
-            textFields[3].setDisable(false);
+            disableExcept(3, bids, folds, textFields);
             if(players[3] instanceof DigitalPlayer){
                 int digitalBid = ((DigitalPlayer) players[3]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
                 System.out.println("Digital Player bids: " + digitalBid);
@@ -778,14 +738,7 @@ public class GameScreenController {
                 }
                 else {
                     auc.bid(players[3], bid, 3);
-                    for (int i = 0; i < 4; i++) {
-                        bids[i].setDisable(true);
-                        folds[i].setDisable(true);
-                        textFields[i].setDisable(true);
-                    }
-                    bids[0].setDisable(false);
-                    folds[0].setDisable(false);
-                    textFields[0].setDisable(false);
+                    disableExcept(0, bids, folds, textFields);
                     if(players[0] instanceof DigitalPlayer){
                         int digitalBid = ((DigitalPlayer) players[0]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
                         System.out.println("Digital Player bids: " + digitalBid);
@@ -815,14 +768,7 @@ public class GameScreenController {
                 alert.close();
                 System.out.println("Auction closed");
             }
-            for (int i = 0; i < 4; i++) {
-                bids[i].setDisable(true);
-                folds[i].setDisable(true);
-                textFields[i].setDisable(true);
-            }
-            bids[0].setDisable(false);
-            folds[0].setDisable(false);
-            textFields[0].setDisable(false);
+            disableExcept(0, bids, folds, textFields);
             if(players[0] instanceof DigitalPlayer){
                 int digitalBid = ((DigitalPlayer) players[0]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
                 System.out.println("Digital Player bids: " + digitalBid);
@@ -840,11 +786,7 @@ public class GameScreenController {
         hBox3.getChildren().addAll(label3, textFields[3], bids[3], folds[3]);
         gp.add(hBox3, 0, 4);
 
-        for (int i = 1; i < 4; i++) {
-            bids[i].setDisable(true);
-            folds[i].setDisable(true);
-            textFields[i].setDisable(true);
-        }
+        disableExcept(0, bids, folds, textFields);
 
         if(players[0] instanceof DigitalPlayer){
             int digitalBid = ((DigitalPlayer) players[0]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
@@ -865,5 +807,42 @@ public class GameScreenController {
         alert.showAndWait();
 
 
+    }
+
+    private void disableExcept(int exception, Button[] bids, Button[] folds, TextField[] textFields){
+        for (int i = 0; i < 4; i++) {
+            bids[i].setDisable(true);
+            folds[i].setDisable(true);
+            textFields[i].setDisable(true);
+        }
+        bids[exception].setDisable(false);
+        folds[exception].setDisable(false);
+        textFields[exception].setDisable(false);
+    }
+
+    private void bidEvent(int bidNum, Auction auc, Player[] players, Button[] bids, Button[] folds, TextField[] textFields){
+        int bid = Integer.parseInt(textFields[bidNum].getText());
+
+        if(bid <= auc.getHighestBid()){
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText("Input not valid");
+            errorAlert.setContentText("You must either raise the bid or fold");
+            errorAlert.showAndWait();
+        }
+        else {
+            auc.bid(players[bidNum], bid, bidNum);
+            disableExcept(bidNum + 1, bids, folds, textFields);
+            if(players[bidNum + 1] instanceof DigitalPlayer){
+                int digitalBid = ((DigitalPlayer) players[bidNum + 1]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+                System.out.println("Digital Player bids: " + digitalBid);
+                if(digitalBid < 0){
+                    folds[bidNum + 1].fire();
+                }
+                else {
+                    textFields[bidNum + 1].setText(String.valueOf(digitalBid));
+                    bids[bidNum + 1].fire();
+                }
+            }
+        }
     }
 }
