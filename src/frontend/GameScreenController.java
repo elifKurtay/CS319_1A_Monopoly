@@ -502,7 +502,7 @@ public class GameScreenController {
     }
 
     //TODO -Take players out of the game
-    //TODO-Give error when non-integer bid
+    //TODO -Digital Player
     public void startAuction() {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.initStyle(StageStyle.UNDECORATED);
@@ -526,24 +526,43 @@ public class GameScreenController {
 
         Button[] bids = new Button[4];
         Button[] folds = new Button[4];
+        TextField[] textFields = new TextField[4];
         for (int i = 0; i < 4; i++) {
             bids[i] = new Button(" Bid ");
             folds[i] = new Button(" Fold ");
+            textFields[i] = new TextField();
         }
         //For player 0
         Label label0 = new Label(players[0].getPlayerName());
-        TextField tf0 = new TextField();
-
 
         bids[0].setOnAction((ActionEvent e) -> {
-            int bid = Integer.parseInt(tf0.getText());
-            auc.bid(players[0], bid, 0);
-            for (int i = 0; i < 4; i++) {
-                bids[i].setDisable(true);
-                folds[i].setDisable(true);
+            try {
+                int bid = Integer.parseInt(textFields[0].getText());
+
+                if(bid <= auc.getHighestBid()){
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                    errorAlert.setHeaderText("Input not valid");
+                    errorAlert.setContentText("You must either raise the bid or fold");
+                    errorAlert.showAndWait();
+                }
+                else {
+                    auc.bid(players[0], bid, 0);
+                    for (int i = 0; i < 4; i++) {
+                        bids[i].setDisable(true);
+                        folds[i].setDisable(true);
+                        textFields[i].setDisable(true);
+                    }
+                    bids[1].setDisable(false);
+                    folds[1].setDisable(false);
+                    textFields[1].setDisable(false);
+                }
             }
-            bids[1].setDisable(false);
-            folds[1].setDisable(false);
+            catch (NumberFormatException nfe){
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setHeaderText("Input not valid");
+                errorAlert.setContentText("You must enter a number as your bid");
+                errorAlert.showAndWait();
+            }
         });
 
         folds[0].setOnAction((ActionEvent e) -> {
@@ -556,28 +575,48 @@ public class GameScreenController {
             for (int i = 0; i < 4; i++) {
                 bids[i].setDisable(true);
                 folds[i].setDisable(true);
+                textFields[i].setDisable(true);
             }
             bids[1].setDisable(false);
             folds[1].setDisable(false);
+            textFields[1].setDisable(false);
         });
 
         HBox hBox0 = new HBox(4);
-        hBox0.getChildren().addAll(label0, tf0, bids[0], folds[0]);
+        hBox0.getChildren().addAll(label0, textFields[0], bids[0], folds[0]);
         gp.add(hBox0, 0, 1);
 
         //For player 1
         Label label1 = new Label(players[1].getPlayerName());
-        TextField tf1 = new TextField();
 
         bids[1].setOnAction((ActionEvent e) -> {
-            int bid = Integer.parseInt(tf1.getText());
-            auc.bid(players[1], bid, 1);
-            for (int i = 0; i < 4; i++) {
-                bids[i].setDisable(true);
-                folds[i].setDisable(true);
+            try {
+                int bid = Integer.parseInt(textFields[1].getText());
+
+                if(bid <= auc.getHighestBid()){
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                    errorAlert.setHeaderText("Input not valid");
+                    errorAlert.setContentText("You must either raise the bid or fold");
+                    errorAlert.showAndWait();
+                }
+                else {
+                    auc.bid(players[1], bid, 1);
+                    for (int i = 0; i < 4; i++) {
+                        bids[i].setDisable(true);
+                        folds[i].setDisable(true);
+                        textFields[i].setDisable(true);
+                    }
+                    bids[2].setDisable(false);
+                    folds[2].setDisable(false);
+                    textFields[2].setDisable(false);
+                }
             }
-            bids[2].setDisable(false);
-            folds[2].setDisable(false);
+            catch (NumberFormatException nfe){
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setHeaderText("Input not valid");
+                errorAlert.setContentText("You must enter a number as your bid");
+                errorAlert.showAndWait();
+            }
         });
 
         folds[1].setOnAction((ActionEvent e) -> {
@@ -590,28 +629,48 @@ public class GameScreenController {
             for (int i = 0; i < 4; i++) {
                 bids[i].setDisable(true);
                 folds[i].setDisable(true);
+                textFields[i].setDisable(true);
             }
             bids[2].setDisable(false);
             folds[2].setDisable(false);
+            textFields[2].setDisable(false);
         });
 
         HBox hBox1 = new HBox(4);
-        hBox1.getChildren().addAll(label1, tf1, bids[1], folds[1]);
+        hBox1.getChildren().addAll(label1, textFields[1], bids[1], folds[1]);
         gp.add(hBox1, 0, 2);
 
         //For player 2
         Label label2 = new Label(players[2].getPlayerName());
-        TextField tf2 = new TextField();
 
         bids[2].setOnAction((ActionEvent e) -> {
-            int bid = Integer.parseInt(tf2.getText());
-            auc.bid(players[2], bid, 2);
-            for (int i = 0; i < 4; i++) {
-                bids[i].setDisable(true);
-                folds[i].setDisable(true);
+            try {
+                int bid = Integer.parseInt(textFields[2].getText());
+
+                if(bid <= auc.getHighestBid()){
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                    errorAlert.setHeaderText("Input not valid");
+                    errorAlert.setContentText("You must either raise the bid or fold");
+                    errorAlert.showAndWait();
+                }
+                else {
+                    auc.bid(players[2], bid, 2);
+                    for (int i = 0; i < 4; i++) {
+                        bids[i].setDisable(true);
+                        folds[i].setDisable(true);
+                        textFields[i].setDisable(true);
+                    }
+                    bids[3].setDisable(false);
+                    folds[3].setDisable(false);
+                    textFields[3].setDisable(false);
+                }
             }
-            bids[3].setDisable(false);
-            folds[3].setDisable(false);
+            catch (NumberFormatException nfe){
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setHeaderText("Input not valid");
+                errorAlert.setContentText("You must enter a number as your bid");
+                errorAlert.showAndWait();
+            }
         });
 
         folds[2].setOnAction((ActionEvent e) -> {
@@ -624,28 +683,48 @@ public class GameScreenController {
             for (int i = 0; i < 4; i++) {
                 bids[i].setDisable(true);
                 folds[i].setDisable(true);
+                textFields[i].setDisable(true);
             }
             bids[3].setDisable(false);
             folds[3].setDisable(false);
+            textFields[3].setDisable(false);
         });
 
         HBox hBox2 = new HBox(4);
-        hBox2.getChildren().addAll(label2, tf2, bids[2], folds[2]);
+        hBox2.getChildren().addAll(label2, textFields[2], bids[2], folds[2]);
         gp.add(hBox2, 0, 3);
 
         //For player 3
         Label label3 = new Label(players[3].getPlayerName());
-        TextField tf3 = new TextField();
 
         bids[3].setOnAction((ActionEvent e) -> {
-            int bid = Integer.parseInt(tf3.getText());
-            auc.bid(players[3], bid, 3);
-            for (int i = 0; i < 4; i++) {
-                bids[i].setDisable(true);
-                folds[i].setDisable(true);
+            try {
+                int bid = Integer.parseInt(textFields[3].getText());
+
+                if(bid <= auc.getHighestBid()){
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                    errorAlert.setHeaderText("Input not valid");
+                    errorAlert.setContentText("You must either raise the bid or fold");
+                    errorAlert.showAndWait();
+                }
+                else {
+                    auc.bid(players[3], bid, 3);
+                    for (int i = 0; i < 4; i++) {
+                        bids[i].setDisable(true);
+                        folds[i].setDisable(true);
+                        textFields[i].setDisable(true);
+                    }
+                    bids[0].setDisable(false);
+                    folds[0].setDisable(false);
+                    textFields[0].setDisable(false);
+                }
             }
-            bids[0].setDisable(false);
-            folds[0].setDisable(false);
+            catch (NumberFormatException nfe){
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setHeaderText("Input not valid");
+                errorAlert.setContentText("You must enter a number as your bid");
+                errorAlert.showAndWait();
+            }
         });
 
         folds[3].setOnAction((ActionEvent e) -> {
@@ -658,18 +737,21 @@ public class GameScreenController {
             for (int i = 0; i < 4; i++) {
                 bids[i].setDisable(true);
                 folds[i].setDisable(true);
+                textFields[i].setDisable(true);
             }
             bids[0].setDisable(false);
             folds[0].setDisable(false);
+            textFields[0].setDisable(false);
         });
 
         HBox hBox3 = new HBox(4);
-        hBox3.getChildren().addAll(label3, tf3, bids[3], folds[3]);
+        hBox3.getChildren().addAll(label3, textFields[3], bids[3], folds[3]);
         gp.add(hBox3, 0, 4);
 
         for (int i = 1; i < 4; i++) {
             bids[i].setDisable(true);
             folds[i].setDisable(true);
+            textFields[i].setDisable(true);
         }
 
         alert.setX(300);
