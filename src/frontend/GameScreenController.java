@@ -333,7 +333,7 @@ public class GameScreenController {
                 Button openButton = new Button("Open");
                 openButton.setOnAction((ActionEvent e) -> {
                     openButton.setDisable(true);
-                    showMessage(c.getCardText());
+                    showMessage(c.getCardText(), null);
                     int oldIndex = game.getCurrentPlayer().getCurrentSpace().getIndex();
                     c.getCardEvent().handleEvent(game.getCurrentPlayer(), game.getPlayers(), game.getBoard());
                     drawToken(playerNo, oldIndex, game.getCurrentPlayer().getCurrentSpace().getIndex());
