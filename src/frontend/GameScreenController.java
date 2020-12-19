@@ -748,8 +748,6 @@ public class GameScreenController {
             textFields[i] = new TextField();
         }
 
-        disableExcept(0, bids, folds, textFields);
-
         for (int j = 0; j < 4; j++) {
             labels[j] = new Label(players[j].getPlayerName());
             labels[j].setPrefSize(100, 30);
@@ -768,13 +766,19 @@ public class GameScreenController {
             });
 
             folds[j].setOnAction((ActionEvent e) -> {
-                foldEvent(finalJ, auc, alert, players, bids, folds, textFields);
+                foldEvent(finalJ, auc, alert, players, labels, bids, folds, textFields);
             });
 
             HBox hBox = new HBox(4);
             hBox.getChildren().addAll(labels[j], textFields[j], bids[j], folds[j]);
             gp.add(hBox, 0, j + 1);
         }
+
+        for (int i = 0; i < 4; i++) {
+            if (players[i].isBankrupt()) folds[i].fire();
+        }
+
+        disableExcept(0, bids, folds, textFields);
 
         if(players[0] instanceof DigitalPlayer){
             int digitalBid = ((DigitalPlayer) players[0]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
@@ -854,7 +858,7 @@ public class GameScreenController {
         }
     }
 
-    private void foldEvent(int bidNum, Auction auc, Alert alert, Player[] players, Button[] bids, Button[] folds, TextField[] textFields){
+    private void foldEvent(int bidNum, Auction auc, Alert alert, Player[] players, Label[] labels, Button[] bids, Button[] folds, TextField[] textFields){
         auc.fold(players[bidNum], bidNum);
         if (auc.getState() == 0 &&
                 !alert.getDialogPane().getButtonTypes().contains(ButtonType.CANCEL)) {
@@ -865,6 +869,8 @@ public class GameScreenController {
                     + auc.getHighestBidder().getPlayerName() + " with a bid of " + auc.getHighestBid(), null);
             return;
         }
+
+        labels[bidNum].setDisable(true);
 
         while (auc.getBids()[((bidNum + 1) % 4)] == -1) {
             bidNum = (bidNum + 1) % 4;
