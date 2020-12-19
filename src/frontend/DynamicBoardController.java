@@ -158,7 +158,9 @@ public class DynamicBoardController {
 
             // draw the token at the new index
             //getTokenBox(newIndex).getChildren().add(iv);
-            ((HBox) getSpaceBox(newIndex).lookup("#tokenBox")).getChildren().add(iv);
+            if (newIndex != -1) {
+                ((HBox) getSpaceBox(newIndex).lookup("#tokenBox")).getChildren().add(iv);
+            }
         }
     }
 

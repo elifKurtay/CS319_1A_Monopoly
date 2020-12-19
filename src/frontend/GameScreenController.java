@@ -88,7 +88,13 @@ public class GameScreenController {
 
     @FXML
     protected void exitButtonAction(ActionEvent event) throws Exception{
-        Platform.exit();
+        // Scoreboard ?
+        if (twoChoiceDialog("Do you really want to exit?", "Yes", "No")) {
+            if (twoChoiceDialog("Do you want to save the game?", "Yes", "No")) {
+                saveButtonAction(null);
+            }
+            Platform.exit();
+        }
     }
 
     @FXML
@@ -104,7 +110,12 @@ public class GameScreenController {
 
     @FXML
     protected void restartButtonAction(ActionEvent event) {
-        Platform.exit();
+        Player[] players = game.getPlayers();
+        game.restartGame();
+        drawPlayerBoxes(players);
+        for (int i = 0; i <players.length; i++) {
+            dynamicBoardController.drawToken(i, players[i].getCurrentSpace().getIndex(), -1);
+        }
     }
 
     @FXML
