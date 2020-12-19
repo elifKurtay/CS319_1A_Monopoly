@@ -219,7 +219,7 @@ public class Game extends Observer {
                 controller.finishTurn(digitalPlayer);
             }
 
-            if(board.getThief() != null) {
+            if(!restarted && board.getThief() != null) {
                 thief = board.getThief();
                 if(thief.getCurrentSpace() == null) {
                     //controller.drawThief();
@@ -408,7 +408,6 @@ public class Game extends Observer {
             System.out.println(players[i] + " is computer: " + digital);
             dice = controller.rollDice(players[i].getPlayerName(), digital);
             diceSums[i] = dice[0] + dice[1];
-            //change player turn
         }
         //calculate player turn order
         Player[] order = new Player[LAP];
@@ -430,10 +429,13 @@ public class Game extends Observer {
         //token choose
         for(int i = 0; i < LAP; i++) {
             players[i].setToken(new Token(controller.chooseToken(players[i].getPlayerName(),
-                        players[i] instanceof DigitalPlayer)));
+                        players[i] instanceof DigitalPlayer, restarted)));
 
             controller.setTokenImage(i, players[i].getToken().getTokenName());
-            controller.drawToken(i, -1, 0);
+            if(!restarted)
+                controller.drawToken(i, -1, 0);
+            else
+                controller.drawToken(i, 0, 0);
             //change player turn
         }
         controller.drawPlayerBoxes(players);
@@ -501,9 +503,17 @@ public class Game extends Observer {
     //input from UI
     public void restartGame() {
         lapCount = 0;
-        for ( Player p : players ) {
-            p.reset();
+        int oldIndex = 0;
+        for ( int i = 0; i < LAP; i++ ) {
+            players[i].reset();
+
+            //move on board
+            oldIndex = players[i].getCurrentSpace().getIndex();
+
+            controller.drawToken(i, oldIndex, -1);
         }
+        controller.drawPlayerBoxes(players);
+        controller.labelUpdate(lapCount);
         restarted = true;
     }
 

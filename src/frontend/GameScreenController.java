@@ -42,13 +42,13 @@ import java.util.stream.IntStream;
 public class GameScreenController {
     @FXML
     private VBox playerBoxes;
+
     @Getter
     @Setter
     private Game game;
 
     @FXML
     private DynamicBoardController dynamicBoardController;
-
 
     @FXML
     private Label turn_count;
@@ -106,16 +106,7 @@ public class GameScreenController {
         ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No");
         alert.showAndWait();
         if (alert.getResult() == ButtonType.OK) {
-
-            setMap(null);
-            labelUpdate(0);
-            Player[] players = game.getPlayers();
-            for (int i = 0; i <players.length; i++) {
-                dynamicBoardController.drawToken(i, players[i].getCurrentSpace().getIndex(), 0);
-            }
             game.restartGame();
-            drawPlayerBoxes(players);
-            game.startGame();
         }
 
     }
@@ -458,13 +449,14 @@ public class GameScreenController {
         return dice;
     }
 
-    private final ArrayList<String> tokens = new ArrayList<>();
+    private ArrayList<String> tokens;
     private final String[] tokenNames = {"Thimble", "Wheel Barrow", "Boot", "Horse", "Race Car",
             "Iron", "Top Hat", "Battleship"};
     private boolean first = true;
 
-    public int chooseToken(String name, boolean digital) {
-        if(first) {
+    public int chooseToken(String name, boolean digital, boolean restart) {
+        if(first || restart) {
+            tokens = new ArrayList<>();
             tokens.addAll(Arrays.asList(tokenNames));
             first = false;
         }
@@ -636,17 +628,6 @@ public class GameScreenController {
         alert.initOwner(stage);
         alert.setX(420);
         alert.setY(420);
-        Thread thread = new Thread(() -> {
-            try {
-                // Wait for 1 secs
-                Thread.sleep(1000);
-                if (alert.isShowing() && restart) {
-                    Platform.runLater(alert::close);
-                }
-            } catch (Exception exp) {
-                exp.printStackTrace();
-            }
-        });
 
         if(digital) {
             alert.setHeaderText("Player has finished their turn." );
@@ -660,9 +641,8 @@ public class GameScreenController {
         else {
             alert.setHeaderText("Finish Turn");
         }
-        thread.setDaemon(true);
-        thread.start();
         alert.showAndWait();
+        System.out.println("done with finish turn");
     }
 
     public boolean postponeCard() {
