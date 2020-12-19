@@ -713,6 +713,7 @@ public class GameScreenController {
         }
     }
 
+    //TODO if first 3 players fold in the first round BUG
     public void startAuction() {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.initStyle(StageStyle.UNDECORATED);
