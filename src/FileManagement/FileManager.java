@@ -13,20 +13,37 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
+//This class is to save and load game and log exceptions
 public class FileManager {
-    private static FileManager instance;
-    private String name;
 
+    //This instance is static in order to apply singleton pattern.
+    private static FileManager instance;
+
+    //Constructor is private and it can only be called from the getInstance method
     private FileManager(){
 
     }
 
+    /**
+     * This method is static so that the instance attribute will be created only once.
+     * This method checks if the instance is null and if it is null it constructs a
+     * FileManager object, otherwise it returns the instance.
+     * @return the instance which is a FileManager object
+     */
     public static FileManager getInstance () {
         if(instance == null)
             instance = new FileManager();
         return instance;
     }
 
+    /**
+     * This method saves the player and board objects in the game in serialized form together
+     * with other game information written into a text file. The files are saved into a folder
+     * named as the player names and the date of the game.
+     * @param game
+     * @return true if the game is saved succesfully, otherwise false
+     * @throws Exception
+     */
     public boolean saveGame(Game game) throws Exception{
         try {
             new File("savedGames").mkdir();
@@ -93,6 +110,15 @@ public class FileManager {
         }
     }
 
+
+    /**
+     * This method loads the game with the given folder name. It deserializes the files inside that folder
+     * and creates a new game.
+     * @param folderName
+     * @param controller
+     * @return the constructed game
+     * @throws Exception
+     */
     public Game loadGame(String folderName, GameScreenController controller) throws Exception{
         Game g = null;
         try {
@@ -180,6 +206,13 @@ public class FileManager {
         }
     }
 
+    /**
+     * This method writes the exceptions into a text file for usage in the future. The exceptions
+     * are written into a folder named Exceptions. The name of the text files are combination of the exception name
+     * and the date of the exception.
+     * @param e
+     * @throws Exception
+     */
     public void log(Exception e) throws Exception{
         try{
             StringWriter sw = new StringWriter();

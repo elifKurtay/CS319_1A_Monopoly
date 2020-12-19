@@ -53,7 +53,7 @@ public class GameScreenController {
     private Stage stage;
 
     private Audio obj = Audio.getInstance();
-    private final static boolean DEBUG = true;
+    private final static boolean DEBUG = false;
 
     public void initialize() {
 
@@ -422,7 +422,6 @@ public class GameScreenController {
     }
 
     public void spinWheelOfFortune(String result) throws Exception{
-        System.out.println(result);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.APPLICATION_MODAL);
@@ -450,9 +449,6 @@ public class GameScreenController {
             //closing previous alert
             alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
             alert.close();
-
-
-
         });
         alert.getDialogPane().setContent(spinButton);
         alert.showAndWait();

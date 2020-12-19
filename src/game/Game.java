@@ -220,7 +220,6 @@ public class Game extends Observer {
             System.out.println(space.getName() + " belongs to " + space.getAssociatedProperty().getOwner());
         } else { //owned by another player
             //pay rent
-            System.out.println("burasi");
             //int rentAmount = currentPlayer.payRent(((PropertySpace) space).getOwner(), dice);
             int rentAmount = space.calculateRent(currentPlayer);
             currentPlayer.payPlayer(space.getAssociatedProperty().getOwner(), rentAmount);

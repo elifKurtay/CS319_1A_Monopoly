@@ -17,12 +17,12 @@ public class WheelOfFortuneSpace extends Space {
             System.out.println("deneme2d");
             random = (int) (Math.random() * 100);
             ArrayList<Property> properties = getLatestPlayer().getProperties();
-            if (random < 5 && !properties.isEmpty()) {
+            if (random < 15 && !properties.isEmpty()) {
                 //Lose property
                 return "You lost this property" +
                         properties.remove((int) (properties.size() * Math.random())).getPropertyName();
             }
-            else if (random < 15) {
+            else if (random < 30) {
                 // Lose building on a property if possible
                 for(Property p: properties){
                     if(p instanceof LandProperty){
@@ -34,13 +34,13 @@ public class WheelOfFortuneSpace extends Space {
                     }
                 }
             }
-            else if (random < 30) {
+            else if (random < 45) {
                 // Lose some amount of money
                 int lostMoney = (int) (200 * Math.random());
                 getLatestPlayer().setMoney((int) (getLatestPlayer().getMoney() - lostMoney));
                 return "You lost M" + lostMoney;
             }
-            else if (random < 55) {
+            else if (random < 60) {
                 // Gain a get out of jail free card
                 getLatestPlayer().setGetOutOfJailFreeCount(getLatestPlayer().getGetOutOfJailFreeCount() + 1);
             }
@@ -50,7 +50,7 @@ public class WheelOfFortuneSpace extends Space {
                 getLatestPlayer().setMoney((getLatestPlayer().getMoney() + gainMoney));
                 return "You won M" + gainMoney;
             }
-            else if (random < 90) {
+            else if (random < 95) {
                 // Gain a building on a property if possible
                 for(Property p: properties) {
                     if(p instanceof LandProperty)
@@ -61,7 +61,9 @@ public class WheelOfFortuneSpace extends Space {
                 }
             }
             else {
-                System.out.println("Spin again");
+                // Gain some amount of money
+                getLatestPlayer().setMoney((getLatestPlayer().getMoney() + 250));
+                return "You won M" + 250;
             }
         }
     }

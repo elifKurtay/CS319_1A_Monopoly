@@ -1,7 +1,14 @@
-java.lang.NullPointerException
-	at frontend.GameScreenController.spinWheelOfFortune(GameScreenController.java:434)
-	at game.Game.gameLoop(Game.java:163)
-	at game.Game.startGame(Game.java:454)
+java.lang.IllegalStateException: This operation is permitted on the event thread only; currentThread = JavaFX Application Thread
+	at com.sun.glass.ui.Application.checkEventThread(Application.java:443)
+	at com.sun.glass.ui.Application.isNestedLoopRunning(Application.java:544)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.isNestedLoopRunning(QuantumToolkit.java:1146)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.enterNestedEventLoop(QuantumToolkit.java:592)
+	at javafx.stage.Stage.showAndWait(Stage.java:474)
+	at javafx.scene.control.HeavyweightDialog.showAndWait(HeavyweightDialog.java:162)
+	at javafx.scene.control.Dialog.showAndWait(Dialog.java:341)
+	at frontend.GameScreenController.finishTurn(GameScreenController.java:479)
+	at game.Game.gameLoop(Game.java:186)
+	at game.Game.startGame(Game.java:457)
 	at frontend.NewGameMenuController.startButtonAction(NewGameMenuController.java:74)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
