@@ -93,12 +93,31 @@ public class GameScreenController {
 
     @FXML
     protected void restartButtonAction(ActionEvent event) {
-        Player[] players = game.getPlayers();
-        game.restartGame();
-        drawPlayerBoxes(players);
-        for (int i = 0; i <players.length; i++) {
-            dynamicBoardController.drawToken(i, players[i].getCurrentSpace().getIndex(), -1);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(stage);
+        alert.setX(420);
+        alert.setY(420);
+        alert.setHeaderText("Restart?");
+        alert.setContentText("Do you want to restart the game? If you click on \"Yes\", this action would " +
+                "mean that the progress of the game will be deleted and players will have to start from the initializing lap. ");
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Yes");
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No");
+        alert.showAndWait();
+        if (alert.getResult() == ButtonType.OK) {
+
+            setMap(null);
+            labelUpdate(0);
+            Player[] players = game.getPlayers();
+            for (int i = 0; i <players.length; i++) {
+                dynamicBoardController.drawToken(i, players[i].getCurrentSpace().getIndex(), 0);
+            }
+            game.restartGame();
+            drawPlayerBoxes(players);
+            game.startGame();
         }
+
     }
 
     @FXML
@@ -608,6 +627,7 @@ public class GameScreenController {
         alert.showAndWait();
         return alert.getResult() == ButtonType.OK;
     }
+    private boolean restart = false;
 
     public void finishTurn(Boolean digital) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -616,6 +636,17 @@ public class GameScreenController {
         alert.initOwner(stage);
         alert.setX(420);
         alert.setY(420);
+        Thread thread = new Thread(() -> {
+            try {
+                // Wait for 1 secs
+                Thread.sleep(1000);
+                if (alert.isShowing() && restart) {
+                    Platform.runLater(alert::close);
+                }
+            } catch (Exception exp) {
+                exp.printStackTrace();
+            }
+        });
 
         if(digital) {
             alert.setHeaderText("Player has finished their turn." );
@@ -629,6 +660,8 @@ public class GameScreenController {
         else {
             alert.setHeaderText("Finish Turn");
         }
+        thread.setDaemon(true);
+        thread.start();
         alert.showAndWait();
     }
 
