@@ -42,9 +42,8 @@ public class FileManager {
      * named as the player names and the date of the game.
      * @param game
      * @return true if the game is saved succesfully, otherwise false
-     * @throws Exception
      */
-    public boolean saveGame(Game game) throws Exception{
+    public boolean saveGame(Game game) {
         try {
             new File("savedGames").mkdir();
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH.mm");
@@ -117,9 +116,8 @@ public class FileManager {
      * @param folderName
      * @param controller
      * @return the constructed game
-     * @throws Exception
      */
-    public Game loadGame(String folderName, GameScreenController controller) throws Exception{
+    public Game loadGame(String folderName, GameScreenController controller){
         Game g = null;
         try {
             int lapLimit, playerCount, lapCount;
@@ -211,9 +209,8 @@ public class FileManager {
      * are written into a folder named Exceptions. The name of the text files are combination of the exception name
      * and the date of the exception.
      * @param e
-     * @throws Exception
      */
-    public void log(Exception e) throws Exception{
+    public void log(Exception e) {
         try{
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));

@@ -20,6 +20,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -307,7 +308,6 @@ public class GameScreenController {
             return new int[]{dice1, dice2};
         }
         else {
-        obj.playPoliceSound();
         int[] dice = new int[2];
         Alert alert;
         System.out.println("turn of " + name);
@@ -338,7 +338,21 @@ public class GameScreenController {
         else {
             alert.setHeaderText(name + " has rolled: " + dice[0] + " " + dice[1]);
         }
+        try {
+            obj.playDiceSound();
+            FileInputStream f = new FileInputStream("assets/img/gifFiles/dice.gif");
+            Image image = new Image(f);
+            ImageView view = new ImageView(image);
+            view.setFitHeight(225);
+            view.setFitWidth(300);
 
+            HBox diceBox = new HBox();
+            diceBox.setAlignment(Pos.CENTER);
+            diceBox.getChildren().add(view);
+            alert.getDialogPane().setContent(diceBox);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Continue");
         alert.showAndWait();
         return dice;}
@@ -394,6 +408,7 @@ public class GameScreenController {
     }
 
     public void drawToken(int playerNo,int oldIndex, int newIndex) {
+        obj.playMoveSound();
         dynamicBoardController.drawToken(playerNo, oldIndex, newIndex);
     }
 
@@ -405,6 +420,23 @@ public class GameScreenController {
         alert.initOwner(stage);
         alert.setX(420);
         alert.setY(420);
+        if(message.equals("You are sent to jail!")) {
+            obj.playPoliceSound();
+            try{
+                FileInputStream f = new FileInputStream("assets/img/gifFiles/handcuff.gif");
+                Image image = new Image(f);
+                ImageView view = new ImageView(image);
+                view.setFitHeight(300);
+                view.setFitWidth(300);
+
+                HBox diceBox = new HBox();
+                diceBox.setAlignment(Pos.CENTER);
+                diceBox.getChildren().add(view);
+                alert.getDialogPane().setContent(diceBox);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
         alert.showAndWait();
     }
 
@@ -424,6 +456,7 @@ public class GameScreenController {
 
         alert.showAndWait();
         if (alert.getResult() == ButtonType.OK) {
+            obj.playCashSound();
             return true;
         }
         return false;
@@ -448,6 +481,7 @@ public class GameScreenController {
         Button spinButton = new Button("Spin");
         spinButton.setStyle("-fx-background-color: burlywood");
         spinButton.setOnAction(event -> {
+            obj.playWheelSound();
             VBox wheel = new VBox();
             wheel.setAlignment(Pos.CENTER);
             wheel.getChildren().add(view);

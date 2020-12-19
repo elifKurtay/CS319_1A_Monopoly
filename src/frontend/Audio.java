@@ -94,23 +94,30 @@ public class Audio {
     }
 
     public void playCashSound () {
+        cashSound.seek(Duration.ZERO);
         cashSound.setAutoPlay(true);
     }
 
     public void playDiceSound () {
-        diceSound.setAutoPlay(true);
+        diceSound.seek(Duration.ZERO);
+        diceSound.play();
     }
 
     public void playMoveSound () {
+        moveSound.seek(Duration.ZERO);
         moveSound.setAutoPlay(true);
     }
 
     public void playPoliceSound () {
-        policeSound.setAutoPlay(true);
+        policeSound.seek(Duration.ZERO);
+        policeSound.setRate(2);
+        policeSound.play();
     }
 
     public void playWheelSound () {
-        wheelSound.setAutoPlay(true);
+        wheelSound.seek(Duration.ZERO);
+        wheelSound.setRate(2);
+        wheelSound.play();
     }
 
 }
