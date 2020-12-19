@@ -54,6 +54,9 @@ public class Auction extends Observable{
         if(highestBid == 0)
             return false;
 
+        if (getState() == 0)
+            System.err.println("Same state");
+
         setState(0);
         return true;
     }
