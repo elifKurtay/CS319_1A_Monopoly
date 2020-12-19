@@ -4,7 +4,6 @@ import bank.Auction;
 import bank.Trade;
 import board.Board;
 import board.PropertySpace;
-import board.Space;
 import card.Card;
 import entities.DigitalPlayer;
 import entities.LandProperty;
@@ -464,7 +463,6 @@ public class GameScreenController {
             alert.initStyle(StageStyle.UNDECORATED);
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.setHeaderText(name + " has chosen: " + chosen);
-            alert.showAndWait();
             try {
                 Thread.sleep(500);
                 alert.close();
