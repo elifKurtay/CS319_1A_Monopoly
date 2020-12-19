@@ -856,6 +856,8 @@ public class GameScreenController {
             alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
             alert.close();
             System.out.println("Auction closed");
+            this.showMessage("The auction for " + auc.getAuctionedProperty().getPropertyName() + " is won by "
+                    + auc.getHighestBidder().getPlayerName() + " with a bid of " + auc.getHighestBid(), null);
             return;
         }
 
