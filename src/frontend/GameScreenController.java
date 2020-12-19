@@ -5,6 +5,7 @@ import board.Board;
 import board.PropertySpace;
 import board.Space;
 import com.google.gwt.dev.shell.CloseButton;
+import entities.DigitalPlayer;
 import entities.LandProperty;
 import entities.Player;
 import entities.Property;
@@ -421,7 +422,7 @@ public class GameScreenController {
         return false;
     }
 
-    public void spinWheelOfFortune(String result) throws Exception{
+    public void spinWheelOfFortune(String result, boolean digitalPlayer) throws Exception{
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.APPLICATION_MODAL);
@@ -451,6 +452,9 @@ public class GameScreenController {
             alert.close();
         });
         alert.getDialogPane().setContent(spinButton);
+        if(digitalPlayer){
+            spinButton.fire();
+        }
         alert.showAndWait();
     }
 
