@@ -37,6 +37,7 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 public class GameScreenController {
@@ -445,46 +446,107 @@ public class GameScreenController {
     private boolean first = true;
 
     public int chooseToken(String name, boolean digital) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(stage);
+        alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
+
         if(first) {
             tokens.addAll(Arrays.asList(tokenNames));
             first = false;
         }
-        String chosen;
+
+        VBox chooseTokenBox = new VBox();
+        Label info = new Label("Choose");
+        chooseTokenBox.getChildren().add(info);
+        HBox[] rows = new HBox[2];
+        VBox[] pieceBox = new VBox[8];
+
+        Image[] images = new Image[8];
+        images[0] = new Image("img\\token\\cropped\\thimble.png");
+        images[1] = new Image("img\\token\\cropped\\wheelbarrow.png");
+        images[2] = new Image("img\\token\\cropped\\boot.png");
+        images[3] = new Image("img\\token\\cropped\\horse.png");
+        images[4] = new Image("img\\token\\cropped\\racecar.png");
+        images[5] = new Image("img\\token\\cropped\\iron.png");
+        images[6] = new Image("img\\token\\cropped\\tophat.png");
+        images[7] = new Image("img\\token\\cropped\\battleship.png");
+
+        Label[] tokenInfo = new Label[8];
+        tokenInfo[0] = new Label("+ Tax multiplier \n" +
+                "    of 0.8\n" +
+                "-  Rent collect \n" +
+                "    multiplier of 0.8\n");
+        tokenInfo[1] = new Label("+ Building cost is half\n" +
+                "\t- Salary change \n" +
+                "    of -M50\n" +
+                "  (Total salary is M150)\n");
+        tokenInfo[2] = new Label("+ Property cost \n" +
+                "    multiplier 0.8\n" +
+                "-  Salary change  \n" +
+                "    of -M100 \n" +
+                " (Total salary is M100)\n");
+        tokenInfo[3] = new Label("+ Rent collect \n" +
+                "    multiplier of 1.3\n" +
+                "- Property cost \n" +
+                "   multiplier of 1.1\n");
+        tokenInfo[4] = new Label("+ Bonus salary \n" +
+                "    is M200 \n" +
+                " (Total salary is M400)\n" +
+                "- Jail Time of \n" +
+                "   4 rounds\n");
+        tokenInfo[5] = new Label("+ Building cost \n" +
+                "   multiplier of 0.8\n" +
+                "- Rent pay \n" +
+                "   multiplier of 1.2\n");
+        tokenInfo[6] = new Label("+ Jail Time of \n" +
+                "    2 rounds\n" +
+                "-  Tax Multiplier \n" +
+                "     of 1.2\n");
+        tokenInfo[7] = new Label("+ Rent pay \n" +
+                "    multiplier of 0.7\n" +
+                "-  Building cost \n" +
+                "    multiplier is 1.5\n");
+
+        ImageView view;
+        final int[] cnt = new int[1];
+        for(int i = 0; i < rows.length; i++){
+            rows[i] = new HBox();
+            for(int j = 0; j < 4; j++){
+                view = new ImageView(images[i*4+j]);
+                pieceBox[i*4+j] = new VBox();
+                pieceBox[i*4+j].getChildren().add(view);
+                int finalJ = j;
+                int finalI = i;
+                Button b = new Button(tokenNames[i*4+j]);
+                b.setOnAction(event -> {
+                    cnt[0] = (finalI + 1) * finalJ;
+                    alert.close();
+                });
+                pieceBox[i*4+j].getChildren().add(b);
+                pieceBox[i*4+j].getChildren().add(tokenInfo[i*4+j]);
+                rows[i].getChildren().add(pieceBox[i*4+j]);
+            }
+            chooseTokenBox.getChildren().add(rows[i]);
+        }
+
+
+
+        alert.getDialogPane().setContent(chooseTokenBox);
+        alert.showAndWait();
 
         if(digital) {
-            chosen = tokens.get(0);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setX(420);
-            alert.setY(420);
-            alert.initStyle(StageStyle.UNDECORATED);
-            alert.initModality(Modality.APPLICATION_MODAL);
-            alert.setHeaderText(name + " has chosen: " + chosen);
             try {
                 Thread.sleep(500);
                 alert.close();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            alert.showAndWait();
-
-            tokens.remove(chosen);
-            return IntStream.range(0, tokenNames.length).filter(i -> tokenNames[i].equals(chosen))
-                    .findFirst().orElse(-1) + 1;
         }
-        ChoiceDialog<String> dialog = new ChoiceDialog<>(tokens.get(0), tokens);
-        dialog.initStyle(StageStyle.UNDECORATED);
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(stage);
-        //((Stage) dialog.getDialogPane().getScene().getWindow()).setAlwaysOnTop(true);
-        dialog.setHeaderText(name + " is choosing token");
-        dialog.setX(420);
-        dialog.setY(420);
-        dialog.showAndWait();
 
-        chosen = dialog.getResult();
-        tokens.remove(chosen);
-        return IntStream.range(0, tokenNames.length).filter(i -> tokenNames[i].equals(chosen))
-                .findFirst().orElse(-1) + 1;
+        return cnt[0];
+
     }
 
     public void drawToken(int playerNo,int oldIndex, int newIndex) {
