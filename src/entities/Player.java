@@ -114,11 +114,13 @@ public class Player implements Serializable {
         money = 1500;
         currentSpace = null;
         bankrupt = false;
-        properties = null;
+        properties = new ArrayList<>();
         getOutOfJailFreeCount = 0;
-        postponedCards = null;
+        postponedCards = new ArrayList<>();
         jailed = false;
         token = null;
+        jailedLapCount = 0;
+        currentDiceSum = 0;
     }
 
     public ArrayList<Property> getProperties() {

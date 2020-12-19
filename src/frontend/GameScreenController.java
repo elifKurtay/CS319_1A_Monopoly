@@ -4,6 +4,8 @@ import bank.Auction;
 import bank.Trade;
 import board.Board;
 import board.PropertySpace;
+import board.Space;
+import card.Card;
 import entities.DigitalPlayer;
 import entities.LandProperty;
 import entities.Player;
@@ -72,19 +74,19 @@ public class GameScreenController {
 
     }
 
-    // UNUSED ???
     @FXML
-    protected void backButtonAction(ActionEvent event) {
-
+    protected void exitButtonAction(ActionEvent event) throws Exception{
+        // Scoreboard ?
+        if (twoChoiceDialog("Do you really want to exit?", "Yes", "No")) {
+            if (twoChoiceDialog("Do you want to save the game?", "Yes", "No")) {
+                saveButtonAction(null);
+            }
+            Platform.exit();
+        }
     }
 
     @FXML
-    protected void exitButtonAction(ActionEvent event) {
-        Platform.exit();
-    }
-
-    @FXML
-    protected void settingsButtonAction(ActionEvent event) throws Exception {
+    protected void settingsButtonAction(ActionEvent event) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/SettingsMenu.fxml"));
         Parent root = loader.load();
         SettingsMenuController controller = loader.getController();
@@ -96,7 +98,12 @@ public class GameScreenController {
 
     @FXML
     protected void restartButtonAction(ActionEvent event) {
-        Platform.exit();
+        Player[] players = game.getPlayers();
+        game.restartGame();
+        drawPlayerBoxes(players);
+        for (int i = 0; i <players.length; i++) {
+            dynamicBoardController.drawToken(i, players[i].getCurrentSpace().getIndex(), -1);
+        }
     }
 
     @FXML
@@ -169,25 +176,29 @@ public class GameScreenController {
 
         alert.showAndWait();
 
-        trade.offer(offeredProperties, 0, 0);
-        trade.want(wantedProperties, 0, 0);
+        boolean sentOffer = alert.getResult() == ButtonType.OK;
+        if (sentOffer) {
+            trade.offer(offeredProperties, 0 ,0);
+            trade.want(wantedProperties, 0, 0);
 
-        String message = playerToTrade + ", do you accept the offer?\n You Get: \n";
-        for (Property p : offeredProperties) {
-            message += p + "\n";
+            String message = playerToTrade + ", do you accept the offer?\n You Get: \n";
+            for (Property p : offeredProperties) {
+                message += p + "\n";
+            }
+            message += "offeredMoney\n";
+            message += "offeredGOOJC\n\n";
+
+            message += "You Give:\n";
+            for (Property p : wantedProperties) {
+                message += p + "\n";
+            }
+            message += "wantedMoney\n";
+            message += "wantedGOOJC";
+
+            trade.acceptOffer(twoChoiceDialog(message, "Accept", "Deny"));
+            trade.closeTrade();
         }
-        message += "offeredMoney\n";
-        message += "offeredGOOJC\n\n";
 
-        message += "You Give:\n";
-        for (Property p : wantedProperties) {
-            message += p + "\n";
-        }
-        message += "wantedMoney\n";
-        message += "wantedGOOJC";
-
-        trade.acceptOffer(twoChoiceDialog(message, "Accept", "Deny"));
-        trade.closeTrade();
 
         /*
         Bank bank = game.getBank();
@@ -253,12 +264,46 @@ public class GameScreenController {
 
     @FXML
     protected void mortgageButtonAction(ActionEvent event) {
-        Platform.exit();
+        Player currentPlayer = game.getCurrentPlayer();
+        Alert assetsDialog = new Alert(Alert.AlertType.INFORMATION);
+        HBox hb = new HBox();
+        assetsDialog.getDialogPane().setContent(hb);
+        for (Property p :currentPlayer.getProperties()) {
+            if (!p.isMortgaged()) {
+                VBox vb = new VBox();
+                Button mortgageButton = new Button("Mortgage");
+                mortgageButton.setOnAction((ActionEvent e) -> {
+                    p.mortgage();
+                    mortgageButton.setDisable(true);
+                    drawPlayerBoxes(game.getPlayers());
+                });
+                vb.getChildren().addAll(buildTitleDeedCard(p), mortgageButton);
+                hb.getChildren().add(vb);
+            }
+        }
+        assetsDialog.showAndWait();
     }
 
     @FXML
     protected void redeemButtonAction(ActionEvent event) {
-        Platform.exit();
+        Player currentPlayer = game.getCurrentPlayer();
+        Alert assetsDialog = new Alert(Alert.AlertType.INFORMATION);
+        HBox hb = new HBox();
+        assetsDialog.getDialogPane().setContent(hb);
+        for (Property p :currentPlayer.getProperties()) {
+            if (p.isMortgaged()) {
+                VBox vb = new VBox();
+                Button mortgageButton = new Button("Redeem");
+                mortgageButton.setOnAction((ActionEvent e) -> {
+                    p.liftMortgage();
+                    mortgageButton.setDisable(true);
+                    drawPlayerBoxes(game.getPlayers());
+                });
+                vb.getChildren().addAll(buildTitleDeedCard(p), mortgageButton);
+                hb.getChildren().add(vb);
+            }
+        }
+        assetsDialog.showAndWait();
     }
 
     @FXML
@@ -268,14 +313,36 @@ public class GameScreenController {
         Player player = game.getPlayers()[playerNo];
         //System.out.println("Player " + playerNo + " GOOJC count: " + player.getGetOutOfJailFreeCount());
         Alert assetsDialog = new Alert(Alert.AlertType.INFORMATION);
+        VBox vbTop = new VBox();
         HBox hb = new HBox();
-        assetsDialog.getDialogPane().setContent(hb);
+        vbTop.getChildren().add(hb);
+        assetsDialog.getDialogPane().setContent(vbTop);
         for (int i = 0; i < player.getProperties().size(); i++) {
             //hb.getChildren().add(new Label(player.getProperties().get(i).getPropertyName()));
             VBox vb = buildTitleDeedCard(player.getProperties().get(i));
             System.out.println("Style: " + vb.getStyle());
             hb.getChildren().add(vb);
             //hb.setContent(new Label(player.getProperties().get(i).getCard().getPropertyName()));
+        }
+        HBox hbCard = new HBox();
+        vbTop.getChildren().add(hbCard);
+        for (Card c : player.getPostponedCards()) {
+            VBox vb = new VBox();
+            vb.getChildren().add(new Label("Postponed Card"));
+            if (player == game.getCurrentPlayer()) {
+                Button openButton = new Button("Open");
+                openButton.setOnAction((ActionEvent e) -> {
+                    openButton.setDisable(true);
+                    showMessage(c.getCardText());
+                    int oldIndex = game.getCurrentPlayer().getCurrentSpace().getIndex();
+                    c.getCardEvent().handleEvent(game.getCurrentPlayer(), game.getPlayers(), game.getBoard());
+                    drawToken(playerNo, oldIndex, game.getCurrentPlayer().getCurrentSpace().getIndex());
+                    drawPlayerBoxes(game.getPlayers());
+                });
+                vb.getChildren().add(openButton);
+
+            }
+            hbCard.getChildren().add(vb);
         }
         assetsDialog.showAndWait();
     }
@@ -398,6 +465,7 @@ public class GameScreenController {
             alert.initStyle(StageStyle.UNDECORATED);
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.setHeaderText(name + " has chosen: " + chosen);
+            alert.showAndWait();
             try {
                 Thread.sleep(500);
                 alert.close();
@@ -427,7 +495,6 @@ public class GameScreenController {
     }
 
     public void drawToken(int playerNo,int oldIndex, int newIndex) {
-        obj.playMoveSound();
         dynamicBoardController.drawToken(playerNo, oldIndex, newIndex);
     }
 
