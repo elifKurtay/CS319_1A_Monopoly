@@ -506,6 +506,7 @@ public class Game extends Observer {
             ArrayList<Property> properties = highestBidder.getProperties();
             properties.add(((Auction) observable).getAuctionedProperty());
             highestBidder.setProperties(properties);
+            ((Auction) observable).getAuctionedProperty().setOwner(highestBidder);
 
             //get payment from highest bidder
             highestBidder.setMoney(highestBidder.getMoney() - ((Auction) observable).getHighestBid());

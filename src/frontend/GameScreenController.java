@@ -352,7 +352,7 @@ public class GameScreenController {
         int playerNo = Character.getNumericValue(buttonID.charAt(buttonID.length() - 1));
         Player player = game.getPlayers()[playerNo];
         //System.out.println("Player " + playerNo + " GOOJC count: " + player.getGetOutOfJailFreeCount());
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.initOwner(stage);
@@ -647,10 +647,7 @@ public class GameScreenController {
         alert.setX(420);
         alert.setY(420);
         alert.showAndWait();
-        if (alert.getResult() == ButtonType.CANCEL) {
-            return true;
-        }
-        return false;
+        return alert.getResult() == ButtonType.CANCEL;
     }
 
     //used when digital players open a card
@@ -692,7 +689,7 @@ public class GameScreenController {
             name.getStyleClass().add("namelabel");
             vb.getChildren().addAll(iv, name);
 
-            Label money = new Label("M" + Integer.toString(player.getMoney()));
+            Label money = new Label("M" + player.getMoney());
             money.getStyleClass().add("moneylabel");
             money.setPrefSize(150, 70);
 
@@ -706,7 +703,10 @@ public class GameScreenController {
                 forfeitButton.setId("forfeitPlayer" + i);
                 forfeitButton.getStyleClass().add("forfeitButton");
                 forfeitButton.setOnAction(this::playerForfeitButtonAction);
-                hb.getChildren().addAll(vb, money, assetsButton, forfeitButton);
+                VBox assetFF = new VBox(2);
+                assetFF.getChildren().addAll(assetsButton, forfeitButton);
+                assetFF.setAlignment(Pos.CENTER);
+                hb.getChildren().addAll(vb, money, assetFF);
             } else
                 hb.getChildren().addAll(vb, money, assetsButton);
 
@@ -748,10 +748,10 @@ public class GameScreenController {
             textFields[i] = new TextField();
         }
 
-        //test
         for (int j = 0; j < 4; j++) {
             labels[j] = new Label(players[j].getPlayerName());
             labels[j].setPrefSize(100, 30);
+            labels[j].setAlignment(Pos.CENTER);
 
             int finalJ = j;
             bids[j].setOnAction((ActionEvent e) -> {
@@ -767,12 +767,16 @@ public class GameScreenController {
             });
 
             folds[j].setOnAction((ActionEvent e) -> {
-                foldEvent(finalJ, auc, alert, players, bids, folds, textFields);
+                foldEvent(finalJ, auc, alert, players, labels, bids, folds, textFields);
             });
 
             HBox hBox = new HBox(4);
             hBox.getChildren().addAll(labels[j], textFields[j], bids[j], folds[j]);
             gp.add(hBox, 0, j + 1);
+        }
+
+        for (int i = 0; i < 4; i++) {
+            if (players[i].isBankrupt()) folds[i].fire();
         }
 
         disableExcept(0, bids, folds, textFields);
@@ -789,11 +793,19 @@ public class GameScreenController {
             }
         }
 
+        boolean allDigitalPlayers = true;
+        for (int i = 0; i < 4; i++) {
+            if (!(players[i] instanceof DigitalPlayer) ){
+                allDigitalPlayers = false;
+                break;
+            }
+        }
+
         alert.setX(300);
         alert.setY(300);
         gp.setHgap(30);
         gp.setVgap(30);
-        alert.showAndWait();
+        if (!allDigitalPlayers) alert.showAndWait();
 
 
     }
@@ -847,7 +859,7 @@ public class GameScreenController {
         }
     }
 
-    private void foldEvent(int bidNum, Auction auc, Alert alert, Player[] players, Button[] bids, Button[] folds, TextField[] textFields){
+    private void foldEvent(int bidNum, Auction auc, Alert alert, Player[] players, Label[] labels, Button[] bids, Button[] folds, TextField[] textFields){
         auc.fold(players[bidNum], bidNum);
         if (auc.getState() == 0 &&
                 !alert.getDialogPane().getButtonTypes().contains(ButtonType.CANCEL)) {
@@ -858,6 +870,11 @@ public class GameScreenController {
                     + auc.getHighestBidder().getPlayerName() + " with a bid of " + auc.getHighestBid(), null);
             return;
         }
+
+        labels[bidNum].setStyle("-fx-background-color: red; -fx-font-weight: bold");
+        System.out.println(labels[bidNum].getStyle());
+
+        //labels[bidNum].setDisable(true);
 
         while (auc.getBids()[((bidNum + 1) % 4)] == -1) {
             bidNum = (bidNum + 1) % 4;
