@@ -775,17 +775,25 @@ public class GameScreenController {
             if (players[i].isBankrupt()) folds[i].fire();
         }
 
-        disableExcept(0, bids, folds, textFields);
+        int firstPlayer = 0;
+        for (int i = 0; i < 4; i++) {
+            if (!players[i].isBankrupt()){
+                firstPlayer = i;
+                break;
+            }
+        }
 
-        if(players[0] instanceof DigitalPlayer){
-            int digitalBid = ((DigitalPlayer) players[0]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+        disableExcept(firstPlayer, bids, folds, textFields);
+
+        if(players[firstPlayer] instanceof DigitalPlayer){
+            int digitalBid = ((DigitalPlayer) players[firstPlayer]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
             System.out.println("Digital Player bids: " + digitalBid);
             if(digitalBid < 0){
-                folds[0].fire();
+                folds[firstPlayer].fire();
             }
             else {
-                textFields[0].setText(String.valueOf(digitalBid));
-                bids[0].fire();
+                textFields[firstPlayer].setText(String.valueOf(digitalBid));
+                bids[firstPlayer].fire();
             }
         }
 
