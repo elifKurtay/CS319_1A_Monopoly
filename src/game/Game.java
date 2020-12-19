@@ -246,10 +246,13 @@ public class Game extends Observer {
                             + space.getAssociatedProperty().getPropertyName(), null);
                 }
                 else {
-                    System.out.println("START AUCTION");
+                    // START AUCTION FOR PROPERTY
                     controller.showMessage(currentPlayer.getPlayerName() + " started an auction for the property: "
                             + space.getAssociatedProperty().getPropertyName(), null);
-                }
+                    observable = new Auction(space.getAssociatedProperty());
+                    observable.attach(this);
+                    controller.startAuction();
+                    }
             else if (controller.buyProperty(space)) {
                 currentPlayer.addProperty(space.getAssociatedProperty());
                 currentPlayer.setMoney(currentPlayer.getMoney() - (int) (space.getAssociatedProperty().getValue()
