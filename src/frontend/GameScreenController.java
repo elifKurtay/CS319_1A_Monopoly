@@ -502,7 +502,6 @@ public class GameScreenController {
         }
     }
 
-    //TODO -Take players out of the game
     public void startAuction() {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.initStyle(StageStyle.UNDECORATED);
@@ -557,6 +556,7 @@ public class GameScreenController {
                     textFields[1].setDisable(false);
                     if(players[1] instanceof DigitalPlayer){
                         int digitalBid = ((DigitalPlayer) players[1]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+                        System.out.println("Digital Player bids: " + digitalBid);
                         if(digitalBid < 0){
                             folds[1].fire();
                         }
@@ -577,7 +577,8 @@ public class GameScreenController {
 
         folds[0].setOnAction((ActionEvent e) -> {
             auc.fold(players[0], 0);
-            if (auc.getState() == 0) {
+            if (auc.getState() == 0 &&
+                    !alert.getDialogPane().getButtonTypes().contains(ButtonType.CANCEL)) {
                 alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
                 alert.close();
                 System.out.println("Auction closed");
@@ -592,6 +593,7 @@ public class GameScreenController {
             textFields[1].setDisable(false);
             if(players[1] instanceof DigitalPlayer){
                 int digitalBid = ((DigitalPlayer) players[1]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+                System.out.println("Digital Player bids: " + digitalBid);
                 if(digitalBid < 0){
                     folds[1].fire();
                 }
@@ -630,7 +632,9 @@ public class GameScreenController {
                     folds[2].setDisable(false);
                     textFields[2].setDisable(false);
                     if(players[2] instanceof DigitalPlayer){
+                        System.err.println("Player 2 firing");
                         int digitalBid = ((DigitalPlayer) players[2]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+                        System.out.println("Digital Player bids: " + digitalBid);
                         if(digitalBid < 0){
                             folds[2].fire();
                         }
@@ -651,7 +655,8 @@ public class GameScreenController {
 
         folds[1].setOnAction((ActionEvent e) -> {
             auc.fold(players[1], 1);
-            if (auc.getState() == 0) {
+            if (auc.getState() == 0 &&
+                !alert.getDialogPane().getButtonTypes().contains(ButtonType.CANCEL)) {
                 alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
                 alert.close();
                 System.out.println("Auction closed");
@@ -662,6 +667,7 @@ public class GameScreenController {
                 textFields[i].setDisable(true);
                 if(players[2] instanceof DigitalPlayer){
                     int digitalBid = ((DigitalPlayer) players[2]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+                    System.out.println("Digital Player bids: " + digitalBid);
                     if(digitalBid < 0){
                         folds[2].fire();
                     }
@@ -705,6 +711,7 @@ public class GameScreenController {
                     textFields[3].setDisable(false);
                     if(players[3] instanceof DigitalPlayer){
                         int digitalBid = ((DigitalPlayer) players[3]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+                        System.out.println("Digital Player bids: " + digitalBid);
                         if(digitalBid < 0){
                             folds[3].fire();
                         }
@@ -725,7 +732,8 @@ public class GameScreenController {
 
         folds[2].setOnAction((ActionEvent e) -> {
             auc.fold(players[2], 2);
-            if (auc.getState() == 0) {
+            if (auc.getState() == 0 &&
+                    !alert.getDialogPane().getButtonTypes().contains(ButtonType.CANCEL)) {
                 alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
                 alert.close();
                 System.out.println("Auction closed");
@@ -740,6 +748,7 @@ public class GameScreenController {
             textFields[3].setDisable(false);
             if(players[3] instanceof DigitalPlayer){
                 int digitalBid = ((DigitalPlayer) players[3]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+                System.out.println("Digital Player bids: " + digitalBid);
                 if(digitalBid < 0){
                     folds[3].fire();
                 }
@@ -779,6 +788,7 @@ public class GameScreenController {
                     textFields[0].setDisable(false);
                     if(players[0] instanceof DigitalPlayer){
                         int digitalBid = ((DigitalPlayer) players[0]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+                        System.out.println("Digital Player bids: " + digitalBid);
                         if(digitalBid < 0){
                             folds[0].fire();
                         }
@@ -799,7 +809,8 @@ public class GameScreenController {
 
         folds[3].setOnAction((ActionEvent e) -> {
             auc.fold(players[3], 3);
-            if (auc.getState() == 0) {
+            if (auc.getState() == 0 &&
+                    !alert.getDialogPane().getButtonTypes().contains(ButtonType.CANCEL)) {
                 alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
                 alert.close();
                 System.out.println("Auction closed");
@@ -814,6 +825,7 @@ public class GameScreenController {
             textFields[0].setDisable(false);
             if(players[0] instanceof DigitalPlayer){
                 int digitalBid = ((DigitalPlayer) players[0]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+                System.out.println("Digital Player bids: " + digitalBid);
                 if(digitalBid < 0){
                     folds[0].fire();
                 }
@@ -834,10 +846,24 @@ public class GameScreenController {
             textFields[i].setDisable(true);
         }
 
+        if(players[0] instanceof DigitalPlayer){
+            int digitalBid = ((DigitalPlayer) players[0]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+            System.out.println("Digital Player bids: " + digitalBid);
+            if(digitalBid < 0){
+                folds[0].fire();
+            }
+            else {
+                textFields[0].setText(String.valueOf(digitalBid));
+                bids[0].fire();
+            }
+        }
+
         alert.setX(300);
         alert.setY(300);
         gp.setHgap(30);
         gp.setVgap(30);
         alert.showAndWait();
+
+
     }
 }
