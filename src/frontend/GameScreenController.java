@@ -352,7 +352,7 @@ public class GameScreenController {
         int playerNo = Character.getNumericValue(buttonID.charAt(buttonID.length() - 1));
         Player player = game.getPlayers()[playerNo];
         //System.out.println("Player " + playerNo + " GOOJC count: " + player.getGetOutOfJailFreeCount());
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.initOwner(stage);
@@ -703,7 +703,10 @@ public class GameScreenController {
                 forfeitButton.setId("forfeitPlayer" + i);
                 forfeitButton.getStyleClass().add("forfeitButton");
                 forfeitButton.setOnAction(this::playerForfeitButtonAction);
-                hb.getChildren().addAll(vb, money, assetsButton, forfeitButton);
+                VBox assetFF = new VBox(2);
+                assetFF.getChildren().addAll(assetsButton, forfeitButton);
+                assetFF.setAlignment(Pos.CENTER);
+                hb.getChildren().addAll(vb, money, assetFF);
             } else
                 hb.getChildren().addAll(vb, money, assetsButton);
 
