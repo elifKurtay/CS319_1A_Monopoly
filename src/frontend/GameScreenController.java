@@ -5,6 +5,7 @@ import bank.Trade;
 import board.Board;
 import board.PropertySpace;
 import board.Space;
+import entities.DigitalPlayer;
 import entities.LandProperty;
 import entities.Player;
 import entities.Property;
@@ -502,7 +503,6 @@ public class GameScreenController {
     }
 
     //TODO -Take players out of the game
-    //TODO -Digital Player
     public void startAuction() {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.initStyle(StageStyle.UNDECORATED);
@@ -555,6 +555,16 @@ public class GameScreenController {
                     bids[1].setDisable(false);
                     folds[1].setDisable(false);
                     textFields[1].setDisable(false);
+                    if(players[1] instanceof DigitalPlayer){
+                        int digitalBid = ((DigitalPlayer) players[1]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+                        if(digitalBid < 0){
+                            folds[1].fire();
+                        }
+                        else {
+                            textFields[1].setText(String.valueOf(digitalBid));
+                            bids[1].fire();
+                        }
+                    }
                 }
             }
             catch (NumberFormatException nfe){
@@ -580,6 +590,16 @@ public class GameScreenController {
             bids[1].setDisable(false);
             folds[1].setDisable(false);
             textFields[1].setDisable(false);
+            if(players[1] instanceof DigitalPlayer){
+                int digitalBid = ((DigitalPlayer) players[1]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+                if(digitalBid < 0){
+                    folds[1].fire();
+                }
+                else {
+                    textFields[1].setText(String.valueOf(digitalBid));
+                    bids[1].fire();
+                }
+            }
         });
 
         HBox hBox0 = new HBox(4);
@@ -609,6 +629,16 @@ public class GameScreenController {
                     bids[2].setDisable(false);
                     folds[2].setDisable(false);
                     textFields[2].setDisable(false);
+                    if(players[2] instanceof DigitalPlayer){
+                        int digitalBid = ((DigitalPlayer) players[2]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+                        if(digitalBid < 0){
+                            folds[2].fire();
+                        }
+                        else {
+                            textFields[2].setText(String.valueOf(digitalBid));
+                            bids[2].fire();
+                        }
+                    }
                 }
             }
             catch (NumberFormatException nfe){
@@ -630,6 +660,16 @@ public class GameScreenController {
                 bids[i].setDisable(true);
                 folds[i].setDisable(true);
                 textFields[i].setDisable(true);
+                if(players[2] instanceof DigitalPlayer){
+                    int digitalBid = ((DigitalPlayer) players[2]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+                    if(digitalBid < 0){
+                        folds[2].fire();
+                    }
+                    else {
+                        textFields[2].setText(String.valueOf(digitalBid));
+                        bids[2].fire();
+                    }
+                }
             }
             bids[2].setDisable(false);
             folds[2].setDisable(false);
@@ -663,6 +703,16 @@ public class GameScreenController {
                     bids[3].setDisable(false);
                     folds[3].setDisable(false);
                     textFields[3].setDisable(false);
+                    if(players[3] instanceof DigitalPlayer){
+                        int digitalBid = ((DigitalPlayer) players[3]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+                        if(digitalBid < 0){
+                            folds[3].fire();
+                        }
+                        else {
+                            textFields[3].setText(String.valueOf(digitalBid));
+                            bids[3].fire();
+                        }
+                    }
                 }
             }
             catch (NumberFormatException nfe){
@@ -688,6 +738,16 @@ public class GameScreenController {
             bids[3].setDisable(false);
             folds[3].setDisable(false);
             textFields[3].setDisable(false);
+            if(players[3] instanceof DigitalPlayer){
+                int digitalBid = ((DigitalPlayer) players[3]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+                if(digitalBid < 0){
+                    folds[3].fire();
+                }
+                else {
+                    textFields[3].setText(String.valueOf(digitalBid));
+                    bids[3].fire();
+                }
+            }
         });
 
         HBox hBox2 = new HBox(4);
@@ -717,6 +777,16 @@ public class GameScreenController {
                     bids[0].setDisable(false);
                     folds[0].setDisable(false);
                     textFields[0].setDisable(false);
+                    if(players[0] instanceof DigitalPlayer){
+                        int digitalBid = ((DigitalPlayer) players[0]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+                        if(digitalBid < 0){
+                            folds[0].fire();
+                        }
+                        else {
+                            textFields[0].setText(String.valueOf(digitalBid));
+                            bids[0].fire();
+                        }
+                    }
                 }
             }
             catch (NumberFormatException nfe){
@@ -742,6 +812,16 @@ public class GameScreenController {
             bids[0].setDisable(false);
             folds[0].setDisable(false);
             textFields[0].setDisable(false);
+            if(players[0] instanceof DigitalPlayer){
+                int digitalBid = ((DigitalPlayer) players[0]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+                if(digitalBid < 0){
+                    folds[0].fire();
+                }
+                else {
+                    textFields[0].setText(String.valueOf(digitalBid));
+                    bids[0].fire();
+                }
+            }
         });
 
         HBox hBox3 = new HBox(4);
