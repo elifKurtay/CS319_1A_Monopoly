@@ -666,6 +666,13 @@ public class GameScreenController {
     private void bidEvent(int bidNum, Auction auc, Player[] players, Button[] bids, Button[] folds, TextField[] textFields){
         int bid = Integer.parseInt(textFields[bidNum].getText());
 
+        if(bid > players[bidNum].getMoney()){
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText("Input not valid");
+            errorAlert.setContentText("You cannot bid more money than you have");
+            errorAlert.showAndWait();
+        }
+
         if(bid <= auc.getHighestBid()){
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setHeaderText("Input not valid");
