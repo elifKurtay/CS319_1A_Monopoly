@@ -394,7 +394,6 @@ public class GameScreenController {
             return new int[]{dice1, dice2};
         }
 
-        obj.playPoliceSound();
         int[] dice = new int[2];
         Alert alert;
         System.out.println("turn of " + name);
