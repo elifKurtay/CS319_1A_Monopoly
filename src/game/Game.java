@@ -143,7 +143,6 @@ public class Game extends Observer {
                     controller.showMessage("Your salary is paid!");
                 } else */
                     if (space instanceof CardSpace) {
-                        //controller.spinWheelOfFortune(((WheelOfFortuneSpace) space).spinWheel());
                         System.out.println("Draw a card!");
                         drawCard(currentPlayer, (CardSpace) space);
                     } else if (space instanceof GoToJailSpace) {
@@ -160,7 +159,12 @@ public class Game extends Observer {
                         controller.drawPlayerBoxes(players);
                         controller.showMessage("You paid " + payment + "M for tax.");
                     } else if (space instanceof WheelOfFortuneSpace) {
-                        controller.spinWheelOfFortune(((WheelOfFortuneSpace) space).spinWheel());
+                        try{
+                            controller.spinWheelOfFortune(((WheelOfFortuneSpace) space).spinWheel());
+                            controller.drawPlayerBoxes(players);
+                        } catch(Exception e){
+
+                        }
                     } else if (space instanceof PropertySpace) {
                         cameToProperty((PropertySpace) space);
                     }

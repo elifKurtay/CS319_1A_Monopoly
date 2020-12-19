@@ -17,12 +17,12 @@ public class WheelOfFortuneSpace extends Space {
             System.out.println("deneme2d");
             random = (int) (Math.random() * 100);
             ArrayList<Property> properties = getLatestPlayer().getProperties();
-            if (random < 10 && !properties.isEmpty()) {
+            if (random < 5 && !properties.isEmpty()) {
                 //Lose property
                 return "You lost this property" +
                         properties.remove((int) (properties.size() * Math.random())).getPropertyName();
             }
-            else if (random < 25) {
+            else if (random < 15) {
                 // Lose building on a property if possible
                 for(Property p: properties){
                     if(p instanceof LandProperty){
@@ -34,35 +34,34 @@ public class WheelOfFortuneSpace extends Space {
                     }
                 }
             }
-            else if (random < 50) {
+            else if (random < 30) {
                 // Lose some amount of money
                 int lostMoney = (int) (200 * Math.random());
                 getLatestPlayer().setMoney((int) (getLatestPlayer().getMoney() - lostMoney));
-                return "You lost " + lostMoney + "M";
+                return "You lost M" + lostMoney;
             }
             else if (random < 55) {
                 // Gain a get out of jail free card
-
+                getLatestPlayer().setGetOutOfJailFreeCount(getLatestPlayer().getGetOutOfJailFreeCount() + 1);
             }
             else if (random < 75) {
                 // Gain some amount of money
                 int gainMoney = (int) (200 * Math.random());
-                getLatestPlayer().setMoney((int) (getLatestPlayer().getMoney() - gainMoney));
-                return "You won " + gainMoney + "M";
+                getLatestPlayer().setMoney((getLatestPlayer().getMoney() + gainMoney));
+                return "You won M" + gainMoney;
             }
             else if (random < 90) {
                 // Gain a building on a property if possible
                 for(Property p: properties) {
                     if(p instanceof LandProperty)
-                        if (getLatestPlayer().ownsAllPropertiesFromSameGroup(p)) {
+                        if (((LandProperty) p).canBuild()) {
                             ((LandProperty)p).buildHouse();
                             return "You won a house on " + p.getPropertyName();
                         }
                 }
             }
             else {
-                // Gain property
-                //?
+                System.out.println("Spin again");
             }
         }
     }

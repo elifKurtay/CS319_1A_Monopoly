@@ -4,6 +4,7 @@ import bank.Trade;
 import board.Board;
 import board.PropertySpace;
 import board.Space;
+import com.google.gwt.dev.shell.CloseButton;
 import entities.LandProperty;
 import entities.Player;
 import entities.Property;
@@ -31,6 +32,7 @@ import lombok.Getter;
 import lombok.Setter;
 import sun.plugin.javascript.navig.Anchor;
 
+import java.io.FileInputStream;
 import java.util.*;
 import java.util.stream.IntStream;
 import javax.swing.*;
@@ -51,7 +53,7 @@ public class GameScreenController {
     private Stage stage;
 
     private Audio obj = Audio.getInstance();
-    private final static boolean DEBUG = false;
+    private final static boolean DEBUG = true;
 
     public void initialize() {
 
@@ -419,26 +421,41 @@ public class GameScreenController {
         return false;
     }
 
-    public void spinWheelOfFortune(String result){
+    public void spinWheelOfFortune(String result) throws Exception{
+        System.out.println(result);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.initOwner(stage);
 
-        AnchorPane wheel = new AnchorPane();
-
-        Image image = new Image("assets\\img\\gifFiles\\wheelOfFortune.gif");
+        FileInputStream f = new FileInputStream("assets/img/gifFiles/wheelOfFortune.gif");
+        Image image = new Image(f);
         ImageView view = new ImageView(image);
+        Alert gifAlert = new Alert(Alert.AlertType.INFORMATION);
+        gifAlert.initStyle(StageStyle.UNDECORATED);
+        gifAlert.initModality(Modality.APPLICATION_MODAL);
+        gifAlert.initOwner(stage);
 
         Button spinButton = new Button("Spin");
         spinButton.setOnAction(event -> {
+            VBox wheel = new VBox();
+            wheel.setAlignment(Pos.CENTER);
             wheel.getChildren().add(view);
-            wheel.getChildren().add(new Label("result"));
-            wheel.getChildren().remove(spinButton);
-        });
-        wheel.getChildren().add(spinButton);
+            Label l = new Label(result);
+            l.setStyle("-fx-background-color: chartreuse; -fx-font-size: 48; -fx-font-weight: bold");
 
-        alert.getDialogPane().setContent(wheel);
+            wheel.getChildren().add(l);
+            gifAlert.getDialogPane().setContent(wheel);
+            gifAlert.showAndWait();
+            //closing previous alert
+            alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
+            alert.close();
+
+
+
+        });
+        alert.getDialogPane().setContent(spinButton);
+        alert.showAndWait();
     }
 
     private boolean twoChoiceDialog(String message, String ok, String cancel) {

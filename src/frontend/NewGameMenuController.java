@@ -74,6 +74,7 @@ public class NewGameMenuController extends MenuController {
             game.startGame();
         }
         catch (Exception e){
+            e.printStackTrace();
             FileManager.getInstance().log(e);
         }
     }
