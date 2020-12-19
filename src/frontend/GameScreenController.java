@@ -502,7 +502,6 @@ public class GameScreenController {
         }
     }
 
-    //TODO Eliminate folded player
     public void startAuction() {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.initStyle(StageStyle.UNDECORATED);
@@ -606,6 +605,11 @@ public class GameScreenController {
         }
         else {
             auc.bid(players[bidNum], bid, bidNum);
+
+            while (auc.getBids()[((bidNum + 1) % 4)] == -1) {
+                bidNum = (bidNum + 1) % 4;
+            }
+
             disableExcept(((bidNum + 1) % 4), bids, folds, textFields);
             if(players[((bidNum + 1) % 4)] instanceof DigitalPlayer){
                 int digitalBid = ((DigitalPlayer) players[((bidNum + 1) % 4)]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
@@ -629,6 +633,11 @@ public class GameScreenController {
             alert.close();
             System.out.println("Auction closed");
         }
+
+        while (auc.getBids()[((bidNum + 1) % 4)] == -1) {
+            bidNum = (bidNum + 1) % 4;
+        }
+
         disableExcept(((bidNum + 1) % 4), bids, folds, textFields);
         if(players[((bidNum + 1) % 4)] instanceof DigitalPlayer){
             int digitalBid = ((DigitalPlayer) players[((bidNum + 1) % 4)]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
