@@ -751,6 +751,7 @@ public class GameScreenController {
         for (int j = 0; j < 4; j++) {
             labels[j] = new Label(players[j].getPlayerName());
             labels[j].setPrefSize(100, 30);
+            labels[j].setAlignment(Pos.CENTER);
 
             int finalJ = j;
             bids[j].setOnAction((ActionEvent e) -> {
@@ -870,7 +871,10 @@ public class GameScreenController {
             return;
         }
 
-        labels[bidNum].setDisable(true);
+        labels[bidNum].setStyle("-fx-background-color: red; -fx-font-weight: bold");
+        System.out.println(labels[bidNum].getStyle());
+
+        //labels[bidNum].setDisable(true);
 
         while (auc.getBids()[((bidNum + 1) % 4)] == -1) {
             bidNum = (bidNum + 1) % 4;
