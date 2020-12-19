@@ -32,6 +32,7 @@ public class Token implements Serializable {
         propertyCostMultiplier = 1;
         rentPayMultiplier = 1;
         rentCollectMultiplier = 1;
+        mortgageInterest = 1.1;
 
         if(number == 1) {
             tokenName = "thimble";
