@@ -1,0 +1,14 @@
+
+  
+Classic monopoly rules are as follows [“Monopoly Rules.” Hasbro, www.hasbro.com/common/instruct/00009.pdf. Accessed at Sep 29 2020.]
+
+The aim of the game is to become the richest player by performing actions like buying, renting, and selling property.
+To start the game, each player should have $1500. 
+There will be a bank for handling several actions. The bank stores the Title Deed cards until someone purchases them. 
+The bank pays salaries and bonuses to the players. The bank also has the right to loan money in cases such as mortgages. 
+The bank collects all taxes, fines, loans, and interests.
+Each player will roll the dice to determine his or her turn. The player that has the highest total after rolling the 
+dice will have the first turn, the player that has the highest total after rolling the dice will have the second turn, and so on.
+To start the game, the player will choose a token and throw the dice. The player will move the token the number of spaces s/he rolled. 
+After the player completes his or her turn the next player will choose a token and roll the dice. The game will continue like this: 
+each player will roll the dice when it’s their turn and perform an action. If a player throws doubles, they move their token as
