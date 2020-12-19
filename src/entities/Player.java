@@ -106,6 +106,9 @@ public class Player implements Serializable {
     public void reset() {
         money = 1500;
         bankrupt = false;
+        for(Property p: properties) {
+            p.setOwner(null);
+        }
         properties = new ArrayList<>();
         getOutOfJailFreeCount = 0;
         postponedCards = new ArrayList<>();
