@@ -647,10 +647,7 @@ public class GameScreenController {
         alert.setX(420);
         alert.setY(420);
         alert.showAndWait();
-        if (alert.getResult() == ButtonType.CANCEL) {
-            return true;
-        }
-        return false;
+        return alert.getResult() == ButtonType.CANCEL;
     }
 
     //used when digital players open a card
@@ -692,7 +689,7 @@ public class GameScreenController {
             name.getStyleClass().add("namelabel");
             vb.getChildren().addAll(iv, name);
 
-            Label money = new Label("M" + Integer.toString(player.getMoney()));
+            Label money = new Label("M" + player.getMoney());
             money.getStyleClass().add("moneylabel");
             money.setPrefSize(150, 70);
 
@@ -748,7 +745,8 @@ public class GameScreenController {
             textFields[i] = new TextField();
         }
 
-        //test
+        disableExcept(0, bids, folds, textFields);
+
         for (int j = 0; j < 4; j++) {
             labels[j] = new Label(players[j].getPlayerName());
             labels[j].setPrefSize(100, 30);
@@ -775,8 +773,6 @@ public class GameScreenController {
             gp.add(hBox, 0, j + 1);
         }
 
-        disableExcept(0, bids, folds, textFields);
-
         if(players[0] instanceof DigitalPlayer){
             int digitalBid = ((DigitalPlayer) players[0]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
             System.out.println("Digital Player bids: " + digitalBid);
@@ -789,11 +785,19 @@ public class GameScreenController {
             }
         }
 
+        boolean allDigitalPlayers = true;
+        for (int i = 0; i < 4; i++) {
+            if (!(players[i] instanceof DigitalPlayer) ){
+                allDigitalPlayers = false;
+                break;
+            }
+        }
+
         alert.setX(300);
         alert.setY(300);
         gp.setHgap(30);
         gp.setVgap(30);
-        alert.showAndWait();
+        if (!allDigitalPlayers) alert.showAndWait();
 
 
     }
