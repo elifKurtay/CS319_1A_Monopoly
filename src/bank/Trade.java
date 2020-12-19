@@ -61,6 +61,10 @@ public class Trade {
         oldProperties.removeAll(offeredProperties);
         offerer.setProperties(oldProperties);
 
+        for (Property p : wantedProperties) {
+            p.setOwner(offerer);
+        }
+
         offerer.setMoney(offerer.getMoney() + wantedMoney - offeredMoney);
         offerer.setGetOutOfJailFreeCount(offerer.getGetOutOfJailFreeCount()
                + wantedGOOJC - offeredGOOJC);
@@ -70,6 +74,10 @@ public class Trade {
         oldProperties.removeAll(wantedProperties);
         oldProperties.addAll(offeredProperties);
         target.setProperties(oldProperties);
+
+        for (Property p : offeredProperties) {
+            p.setOwner(target);
+        }
 
         target.setMoney(target.getMoney() - wantedMoney + offeredMoney);
         target.setGetOutOfJailFreeCount(target.getGetOutOfJailFreeCount()
