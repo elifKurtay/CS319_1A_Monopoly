@@ -39,10 +39,12 @@ public abstract class Property implements Serializable {
     //methods
     public void mortgage () {
         mortgaged = true;
+        owner.setMoney(owner.getMoney() + mortgageValue);
     }
 
     public void liftMortgage () {
         mortgaged = false;
+        owner.setMoney(owner.getMoney() - (int) (mortgageValue * owner.getToken().getMortgageInterest()));
     }
 
     public int getWorth() {
