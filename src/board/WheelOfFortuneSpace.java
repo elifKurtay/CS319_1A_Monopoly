@@ -19,7 +19,7 @@ public class WheelOfFortuneSpace extends Space {
             ArrayList<Property> properties = getLatestPlayer().getProperties();
             if (random < 15 && !properties.isEmpty()) {
                 //Lose property
-                return "You lost this property" +
+                return "You lost this property " +
                         properties.remove((int) (properties.size() * Math.random())).getPropertyName();
             }
             else if (random < 30) {

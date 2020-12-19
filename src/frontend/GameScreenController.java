@@ -61,7 +61,7 @@ public class GameScreenController {
     private Stage stage;
 
     private Audio obj = Audio.getInstance();
-    private final static boolean DEBUG = false;
+    private final static boolean DEBUG = true;
 
     public void initialize() {
 
@@ -439,6 +439,8 @@ public class GameScreenController {
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.initOwner(stage);
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setVisible(false);
+
 
         FileInputStream f = new FileInputStream("assets/img/gifFiles/wheelOfFortune.gif");
         Image image = new Image(f);
@@ -449,25 +451,31 @@ public class GameScreenController {
         gifAlert.initOwner(stage);
 
         Button spinButton = new Button("Spin");
+        spinButton.setStyle("-fx-background-color: burlywood");
         spinButton.setOnAction(event -> {
             VBox wheel = new VBox();
             wheel.setAlignment(Pos.CENTER);
             wheel.getChildren().add(view);
             Label l = new Label(result);
-            l.setStyle("-fx-background-color: chartreuse; -fx-font-size: 48; -fx-font-weight: bold");
+            l.setStyle("-fx-background-color: chartreuse; -fx-font-size: 32; -fx-font-weight: bold");
 
             wheel.getChildren().add(l);
             gifAlert.getDialogPane().setContent(wheel);
             gifAlert.showAndWait();
             //closing previous alert
-            alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
-            alert.close();
+            if(!digitalPlayer) {
+                alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
+                alert.close();
+            }
         });
         alert.getDialogPane().setContent(spinButton);
         if(digitalPlayer){
+            System.out.println("Fire button");
             spinButton.fire();
         }
-        alert.showAndWait();
+        else {
+            alert.showAndWait();
+        }
     }
 
     private boolean twoChoiceDialog(String message, String ok, String cancel) {
