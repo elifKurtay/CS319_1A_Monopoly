@@ -856,6 +856,7 @@ public class GameScreenController {
             alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
             alert.close();
             System.out.println("Auction closed");
+            return;
         }
 
         while (auc.getBids()[((bidNum + 1) % 4)] == -1) {
