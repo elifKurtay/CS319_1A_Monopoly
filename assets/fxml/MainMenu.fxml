@@ -17,6 +17,6 @@
     <Button text="Load Game" onAction="#loadGameButtonAction"/>
     <Button text="Settings" onAction="#settingsButtonAction"/>
     <Button text="Credits" onAction="#creditsButtonAction"/>
-    <Button text="Quit" onAction="#quitButtonAction"/>
     <Button text="Help" onAction="#helpButtonAction"/>
+    <Button text="Quit" onAction="#quitButtonAction"/>
 </VBox>
