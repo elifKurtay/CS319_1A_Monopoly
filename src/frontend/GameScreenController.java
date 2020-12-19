@@ -1,8 +1,11 @@
 package frontend;
 
+import bank.Auction;
 import bank.Trade;
 import board.Board;
 import board.PropertySpace;
+import board.Space;
+import entities.DigitalPlayer;
 import entities.LandProperty;
 import entities.Player;
 import entities.Property;
@@ -52,13 +55,13 @@ public class GameScreenController {
     private Stage stage;
 
     private Audio obj = Audio.getInstance();
-    private final static boolean DEBUG = true;
+    private final static boolean DEBUG = false;
 
     public void initialize() {
 
     }
 
-    public void setStage(Stage stage){
+    public void setStage(Stage stage) {
         this.stage = stage;
     }
 
@@ -82,7 +85,7 @@ public class GameScreenController {
     }
 
     @FXML
-    protected void settingsButtonAction(ActionEvent event) throws Exception{
+    protected void settingsButtonAction(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/SettingsMenu.fxml"));
         Parent root = loader.load();
         SettingsMenuController controller = loader.getController();
@@ -98,7 +101,7 @@ public class GameScreenController {
     }
 
     @FXML
-    protected void saveButtonAction(ActionEvent event) throws Exception{
+    protected void saveButtonAction(ActionEvent event) throws Exception {
         game.saveGame();
     }
 
@@ -167,7 +170,7 @@ public class GameScreenController {
 
         alert.showAndWait();
 
-        trade.offer(offeredProperties, 0 ,0);
+        trade.offer(offeredProperties, 0, 0);
         trade.want(wantedProperties, 0, 0);
 
         String message = playerToTrade + ", do you accept the offer?\n You Get: \n";
@@ -361,6 +364,7 @@ public class GameScreenController {
             alert.initStyle(StageStyle.UNDECORATED);
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.setHeaderText(name + " has chosen: " + chosen);
+            alert.showAndWait();
             try {
                 Thread.sleep(500);
                 alert.close();
@@ -564,6 +568,156 @@ public class GameScreenController {
 
             playerBoxes.getChildren().add(playerPane);
 
+        }
+    }
+
+    public void startAuction() {
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(stage);
+        alert.setHeaderText("Auction");
+
+        GridPane gp = new GridPane();
+        alert.getDialogPane().setContent(gp);
+
+        Player[] players = game.getPlayers();
+        Auction auc = (Auction) (game.getObservable());
+        System.out.println("Auction for: " + auc.getAuctionedProperty().getPropertyName());
+
+        HBox hb = new HBox();
+        hb.setAlignment(Pos.CENTER);
+        VBox vb = buildTitleDeedCard(auc.getAuctionedProperty());
+        hb.getChildren().add(vb);
+
+        gp.add(hb, 0, 0);
+
+        Button[] bids = new Button[4];
+        Button[] folds = new Button[4];
+        TextField[] textFields = new TextField[4];
+        Label[] labels = new Label[4];
+        for (int i = 0; i < 4; i++) {
+            bids[i] = new Button(" Bid ");
+            folds[i] = new Button(" Fold ");
+            textFields[i] = new TextField();
+        }
+
+        //test
+        for (int j = 0; j < 4; j++) {
+            labels[j] = new Label(players[j].getPlayerName());
+            labels[j].setPrefSize(100, 30);
+
+            int finalJ = j;
+            bids[j].setOnAction((ActionEvent e) -> {
+                try {
+                    bidEvent(finalJ, auc, players, bids, folds, textFields);
+                }
+                catch (NumberFormatException nfe){
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                    errorAlert.setHeaderText("Input not valid");
+                    errorAlert.setContentText("You must enter a number as your bid");
+                    errorAlert.showAndWait();
+                }
+            });
+
+            folds[j].setOnAction((ActionEvent e) -> {
+                foldEvent(finalJ, auc, alert, players, bids, folds, textFields);
+            });
+
+            HBox hBox = new HBox(4);
+            hBox.getChildren().addAll(labels[j], textFields[j], bids[j], folds[j]);
+            gp.add(hBox, 0, j + 1);
+        }
+
+        disableExcept(0, bids, folds, textFields);
+
+        if(players[0] instanceof DigitalPlayer){
+            int digitalBid = ((DigitalPlayer) players[0]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+            System.out.println("Digital Player bids: " + digitalBid);
+            if(digitalBid < 0){
+                folds[0].fire();
+            }
+            else {
+                textFields[0].setText(String.valueOf(digitalBid));
+                bids[0].fire();
+            }
+        }
+
+        alert.setX(300);
+        alert.setY(300);
+        gp.setHgap(30);
+        gp.setVgap(30);
+        alert.showAndWait();
+
+
+    }
+
+    private void disableExcept(int exception, Button[] bids, Button[] folds, TextField[] textFields){
+        for (int i = 0; i < 4; i++) {
+            bids[i].setDisable(true);
+            folds[i].setDisable(true);
+            textFields[i].setDisable(true);
+        }
+        bids[exception].setDisable(false);
+        folds[exception].setDisable(false);
+        textFields[exception].setDisable(false);
+    }
+
+    private void bidEvent(int bidNum, Auction auc, Player[] players, Button[] bids, Button[] folds, TextField[] textFields){
+        int bid = Integer.parseInt(textFields[bidNum].getText());
+
+        if(bid <= auc.getHighestBid()){
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText("Input not valid");
+            errorAlert.setContentText("You must either raise the bid or fold");
+            errorAlert.showAndWait();
+        }
+        else {
+            auc.bid(players[bidNum], bid, bidNum);
+
+            while (auc.getBids()[((bidNum + 1) % 4)] == -1) {
+                bidNum = (bidNum + 1) % 4;
+            }
+
+            disableExcept(((bidNum + 1) % 4), bids, folds, textFields);
+            if(players[((bidNum + 1) % 4)] instanceof DigitalPlayer){
+                int digitalBid = ((DigitalPlayer) players[((bidNum + 1) % 4)]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+                System.out.println("Digital Player bids: " + digitalBid);
+                if(digitalBid < 0){
+                    folds[((bidNum + 1) % 4)].fire();
+                }
+                else {
+                    textFields[((bidNum + 1) % 4)].setText(String.valueOf(digitalBid));
+                    bids[((bidNum + 1) % 4)].fire();
+                }
+            }
+        }
+    }
+
+    private void foldEvent(int bidNum, Auction auc, Alert alert, Player[] players, Button[] bids, Button[] folds, TextField[] textFields){
+        auc.fold(players[bidNum], bidNum);
+        if (auc.getState() == 0 &&
+                !alert.getDialogPane().getButtonTypes().contains(ButtonType.CANCEL)) {
+            alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
+            alert.close();
+            System.out.println("Auction closed");
+        }
+
+        while (auc.getBids()[((bidNum + 1) % 4)] == -1) {
+            bidNum = (bidNum + 1) % 4;
+        }
+
+        disableExcept(((bidNum + 1) % 4), bids, folds, textFields);
+        if(players[((bidNum + 1) % 4)] instanceof DigitalPlayer){
+            int digitalBid = ((DigitalPlayer) players[((bidNum + 1) % 4)]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+            System.out.println("Digital Player bids: " + digitalBid);
+            if(digitalBid < 0){
+                folds[((bidNum + 1) % 4)].fire();
+            }
+            else {
+                textFields[((bidNum + 1) % 4)].setText(String.valueOf(digitalBid));
+                bids[((bidNum + 1) % 4)].fire();
+            }
         }
     }
 }
