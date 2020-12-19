@@ -111,6 +111,7 @@ public class DigitalPlayer extends Player{
         if (strategy.shouldBuy(property, getMoney(), getAllPropertiesFromSameGroup(property))) {
             this.addProperty(property);
             setMoney(getMoney() - property.getValue());
+            property.setOwner(this);
             return true;
         }
         return false;

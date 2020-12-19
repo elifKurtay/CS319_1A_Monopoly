@@ -26,7 +26,7 @@ public class Game extends Observer {
     @Getter @Setter private Player currentPlayer;
 
     @Getter private int lapCount;
-
+    private boolean loadedGame;
     private final GameScreenController controller;
 
     public Game(File map, int playerCount, String[] playerNames, int turnLimit, GameScreenController controller) {
@@ -34,6 +34,7 @@ public class Game extends Observer {
         this.lapLimit = turnLimit;
         board = new Board(map);
         lapCount = 0;
+        loadedGame = false;
 
         observable = null;
         this.controller = controller;
@@ -62,6 +63,7 @@ public class Game extends Observer {
         this.lapCount = lapCount;
         System.out.println("GAME LOADED WITH lap count " +lapCount);
         this.controller = controller;
+        loadedGame = true;
     }
 
     public Game(Game loadedGame) {
@@ -72,11 +74,11 @@ public class Game extends Observer {
         this.lapLimit = loadedGame.lapLimit;
         this.board = loadedGame.board;
         this.currentPlayer = loadedGame.currentPlayer;
+        this.loadedGame = loadedGame.loadedGame;
     }
 
     void gameLoop(int playerCount) {
         //player count is the offset for loaded games
-        boolean loadedGame = false;
         int[] dice;
         int doublesCount = 0;
         boolean digitalPlayer = false;
@@ -90,9 +92,9 @@ public class Game extends Observer {
             lapCount++;
             controller.labelUpdate(lapCount);
             for(int i = 0; i < LAP &&  !isGameEnd(); i++) {
-                if(!loadedGame){
+                if(loadedGame){
                     i += playerCount;
-                    loadedGame = true;
+                    loadedGame = false;
                 }
                 else {
                     currentPlayer = players[i];

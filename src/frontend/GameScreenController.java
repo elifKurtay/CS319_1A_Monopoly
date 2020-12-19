@@ -3,9 +3,6 @@ package frontend;
 import bank.Trade;
 import board.Board;
 import board.PropertySpace;
-import board.Space;
-import com.google.gwt.dev.shell.CloseButton;
-import entities.DigitalPlayer;
 import entities.LandProperty;
 import entities.Player;
 import entities.Property;
@@ -26,22 +23,16 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.*;
-import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lombok.Getter;
 import lombok.Setter;
-import sun.plugin.javascript.navig.Anchor;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
-import java.io.FileInputStream;
-import java.util.*;
 import java.util.stream.IntStream;
 
 public class GameScreenController {
@@ -370,13 +361,13 @@ public class GameScreenController {
             alert.initStyle(StageStyle.UNDECORATED);
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.setHeaderText(name + " has chosen: " + chosen);
-            alert.showAndWait();
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
                 alert.close();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            alert.showAndWait();
 
             tokens.remove(chosen);
             return IntStream.range(0, tokenNames.length).filter(i -> tokenNames[i].equals(chosen))
