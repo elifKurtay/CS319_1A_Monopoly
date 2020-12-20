@@ -18,7 +18,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 
 import javafx.stage.StageStyle;
@@ -84,34 +86,9 @@ public class MainMenuController {
     }
 
     @FXML private void helpButtonAction(ActionEvent event) {
-        System.out.println("burasi");
-
-        //alert.showAndWait();
-
-
-        String textToDisplay = "";
         try {
-            System.out.println("burasi");
-            File myObj = new File("help.txt");
-            Scanner scanner = new Scanner(myObj);
-            while (scanner.hasNextLine())
-                textToDisplay += scanner.nextLine() + "\n";
-            scanner.close();
-        } catch(Exception e){
-            System.out.println("burasi");
-            FileManager.getInstance().log(e);
+            Desktop.getDesktop().open(new File("1A feedback.pdf"));
+        } catch (IOException ex) {
         }
-        System.out.println(textToDisplay);
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.initStyle(StageStyle.UNDECORATED);
-        alert.initModality(Modality.APPLICATION_MODAL);
-        alert.initOwner(stage);
-        alert.setWidth(300);
-
-        Label label = new Label(textToDisplay);
-        label.setWrapText(true);
-        alert.getDialogPane().setContent(label);
-        alert.showAndWait();
     }
 }
