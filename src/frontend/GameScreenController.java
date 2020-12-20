@@ -23,10 +23,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -97,12 +94,31 @@ public class GameScreenController {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.APPLICATION_MODAL);
+        alert.setHeaderText("");
+        alert.setGraphic(null);
+        alert.getDialogPane().getStylesheets().add("fxml/style.css");
+        alert.getDialogPane().getStyleClass().add("alertDialogue");
         alert.initOwner(stage);
         alert.setX(420);
         alert.setY(420);
-        alert.setHeaderText("Restart?");
-        alert.setContentText("Do you want to restart the game? If you click on \"Yes\", this action would " +
-                "mean that the progress of the game will be deleted and players will have to start from the initializing lap. ");
+
+        Label l1 = new Label("Restart?");
+        l1.setStyle("-fx-font-size: 14px; -fx-font-weight: bold");
+        l1.setAlignment(Pos.CENTER);
+
+        Label l2 = new Label("Do you want to restart the game? \nIf you click on \"Yes\", this action would " +
+                "\nmean that the progress of the game will \nbe deleted and players will have \nto start from the initializing lap. ");
+        l2.setStyle("-fx-font-size: 12px;");
+        l2.setAlignment(Pos.CENTER);
+
+        VBox v = new VBox();
+        v.setAlignment(Pos.CENTER);
+        v.setSpacing(15);
+        v.getChildren().add(l1);
+        v.getChildren().add(l2);
+
+        alert.getDialogPane().setContent(v);
+
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Yes");
         ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No");
         alert.showAndWait();
@@ -140,7 +156,12 @@ public class GameScreenController {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.APPLICATION_MODAL);
+        alert.setHeaderText("");
+        alert.setGraphic(null);
+        alert.getDialogPane().getStylesheets().add("fxml/style.css");
+        alert.getDialogPane().getStyleClass().add("alertDialogue");
         alert.initOwner(stage);
+
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Send Offer");
         ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("Cancel Trade");
 
@@ -413,6 +434,16 @@ public class GameScreenController {
     protected void mortgageButtonAction(ActionEvent event) {
         Player currentPlayer = game.getCurrentPlayer();
         Alert assetsDialog = new Alert(Alert.AlertType.INFORMATION);
+
+        assetsDialog.initStyle(StageStyle.UNDECORATED);
+        assetsDialog.initModality(Modality.APPLICATION_MODAL);
+
+        assetsDialog.setHeaderText(currentPlayer.getPlayerName() + ", choose to mortgage");
+        assetsDialog.setGraphic(null);
+        assetsDialog.getDialogPane().getStylesheets().add("fxml/style.css");
+        assetsDialog.getDialogPane().getStyleClass().add("alertDialogue");
+
+
         HBox hb = new HBox();
         assetsDialog.getDialogPane().setContent(hb);
         for (Property p :currentPlayer.getProperties()) {
@@ -425,6 +456,8 @@ public class GameScreenController {
                     drawPlayerBoxes(game.getPlayers());
                 });
                 vb.getChildren().addAll(buildTitleDeedCard(p), mortgageButton);
+                vb.setAlignment(Pos.CENTER);
+                vb.setSpacing(15);
                 hb.getChildren().add(vb);
             }
         }
@@ -435,6 +468,15 @@ public class GameScreenController {
     protected void redeemButtonAction(ActionEvent event) {
         Player currentPlayer = game.getCurrentPlayer();
         Alert assetsDialog = new Alert(Alert.AlertType.INFORMATION);
+
+        assetsDialog.initStyle(StageStyle.UNDECORATED);
+        assetsDialog.initModality(Modality.APPLICATION_MODAL);
+
+        assetsDialog.setHeaderText(currentPlayer.getPlayerName() + ", choose to redeem");
+        assetsDialog.setGraphic(null);
+        assetsDialog.getDialogPane().getStylesheets().add("fxml/style.css");
+        assetsDialog.getDialogPane().getStyleClass().add("alertDialogue");
+
         HBox hb = new HBox();
         assetsDialog.getDialogPane().setContent(hb);
         for (Property p :currentPlayer.getProperties()) {
@@ -460,6 +502,15 @@ public class GameScreenController {
         Player player = game.getPlayers()[playerNo];
         //System.out.println("Player " + playerNo + " GOOJC count: " + player.getGetOutOfJailFreeCount());
         Alert assetsDialog = new Alert(Alert.AlertType.INFORMATION);
+
+        assetsDialog.initStyle(StageStyle.UNDECORATED);
+        assetsDialog.initModality(Modality.APPLICATION_MODAL);
+
+        assetsDialog.setHeaderText(player.getPlayerName() + "'s" + " Assets");
+        assetsDialog.setGraphic(null);
+        assetsDialog.getDialogPane().getStylesheets().add("fxml/style.css");
+        assetsDialog.getDialogPane().getStyleClass().add("alertDialogue");
+
         VBox vbTop = new VBox();
         HBox hb = new HBox();
         vbTop.getChildren().add(hb);
@@ -586,6 +637,7 @@ public class GameScreenController {
             ImageView view = new ImageView(image);
             view.setFitHeight(225);
             view.setFitWidth(300);
+
 
             diceBox.getChildren().remove(label);
             diceBox.getChildren().add(label);
@@ -761,13 +813,23 @@ public class GameScreenController {
             msg = "You are ";
         msg += message;
 
-        alert.setHeaderText(msg);
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.initOwner(stage);
-        alert.setX(420);
-        alert.setY(420);
-        if(message.equals("You are sent to jail!")) {
+        alert.setHeaderText("");
+        alert.setGraphic(null);
+        alert.getDialogPane().getStylesheets().add("fxml/style.css");
+        alert.getDialogPane().getStyleClass().add("alertDialogue");
+        Label l = new Label(msg);
+        l.setStyle("-fx-font-size: 14px; -fx-font-weight: bold");
+        VBox vbox = new VBox();
+        vbox.setSpacing(15);
+        vbox.setAlignment(Pos.CENTER);
+        vbox.getChildren().add(l);
+
+        System.out.println(message);
+
+        if(message.equals("sent to jail!")) {
             obj.playPoliceSound();
             try{
                 FileInputStream f = new FileInputStream("assets/img/gifFiles/handcuff.gif");
@@ -775,15 +837,16 @@ public class GameScreenController {
                 ImageView view = new ImageView(image);
                 view.setFitHeight(300);
                 view.setFitWidth(300);
-
-                HBox diceBox = new HBox();
-                diceBox.setAlignment(Pos.CENTER);
-                diceBox.getChildren().add(view);
-                alert.getDialogPane().setContent(diceBox);
+                vbox.getChildren().add(view);
+                alert.getDialogPane().setContent(vbox);
+                System.out.println("sajksda");
             }catch(Exception e){
                 e.printStackTrace();
             }
         }
+        alert.getDialogPane().setContent(vbox);
+        alert.setX(420);
+        alert.setY(420);
         alert.showAndWait();
     }
 
@@ -792,9 +855,26 @@ public class GameScreenController {
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.initOwner(stage);
-        alert.setHeaderText(property.getName() + " is unowned");
+        alert.setHeaderText("");
+        alert.setGraphic(null);
+        alert.getDialogPane().getStylesheets().add("fxml/style.css");
+        alert.getDialogPane().getStyleClass().add("alertDialogue");
+
+        VBox vbox = new VBox();
+        vbox.setSpacing(10);
+        vbox.setAlignment(Pos.CENTER);
+
+        Label l1 = new Label(property.getName() + " is unowned");
         int value = property.getAssociatedProperty().getValue();
-        alert.setContentText("Do you want to buy it for M" + value +"? Otherwise it will be auctioned");
+        Label l2 = new Label("Do you want to buy it for M" + value +"? Otherwise it will be auctioned");
+        l1.setStyle("-fx-font-weight: bold; -fx-font-size: 16px");
+        l2.setStyle("-fx-font-size: 12px");
+
+        vbox.getChildren().add(l1);
+        vbox.getChildren().add(l2);
+        alert.getDialogPane().setContent(vbox);
+
+
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Yes");
         ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No");
 
@@ -888,11 +968,19 @@ public class GameScreenController {
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.NONE);
         alert.initOwner(stage);
+        alert.setHeaderText("");
+        alert.setGraphic(null);
+        alert.getDialogPane().getStylesheets().add("fxml/style.css");
+        alert.getDialogPane().getStyleClass().add("alertDialogue");
+
         alert.setX(420);
         alert.setY(420);
+        Label l = new Label();
+        l.setStyle("-fx-font-size: 14px; -fx-font-weight: bold");
+        l.setAlignment(Pos.CENTER);
 
         if(digital) {
-            alert.setHeaderText("Player has finished their turn." );
+            l.setText("Player has finished their turn." );
             try {
                 Thread.sleep(500);
                 alert.close();
@@ -901,8 +989,9 @@ public class GameScreenController {
             }
         }
         else {
-            alert.setHeaderText("Finish Turn");
+            l.setText("Finish Turn");
         }
+        alert.getDialogPane().setContent(l);
         alert.showAndWait();
     }
 
@@ -910,8 +999,16 @@ public class GameScreenController {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.APPLICATION_MODAL);
+        alert.setHeaderText("");
+        alert.setGraphic(null);
+        alert.getDialogPane().getStylesheets().add("fxml/style.css");
+        alert.getDialogPane().getStyleClass().add("alertDialogue");
         alert.initOwner(stage);
-        alert.setHeaderText("Do you want to open the card now?");
+
+        Label l = new Label("Do you want to open the card now?");
+        l.setStyle("-fx-font-size: 14px; -fx-font-weight: bold");
+        l.setAlignment(Pos.CENTER);
+        alert.getDialogPane().setContent(l);
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Open Now");
         ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("Postpone");
         alert.setX(420);
@@ -1189,6 +1286,11 @@ public class GameScreenController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.APPLICATION_MODAL);
+        alert.setHeaderText("");
+        alert.setGraphic(null);
+        alert.getDialogPane().getStylesheets().add("fxml/style.css");
+        alert.getDialogPane().getStyleClass().add("alertDialogue");
+
         alert.initOwner(stage);
         Player[] players = game.getPlayers();
         VBox box = new VBox();
@@ -1267,6 +1369,13 @@ public class GameScreenController {
         hBox.getChildren().add(cancel);
         hBox.getChildren().add(endGame);
 
+        Label scoreBoardLabel = new Label("Scoreboard");
+        scoreBoardLabel.setStyle("-fx-alignment: center; -fx-text-fill: red; " +
+                "-fx-font-weight: bold; -fx-font-size: 14");
+
+        box.setAlignment(Pos.CENTER);
+        box.setSpacing(15);
+        box.getChildren().add(scoreBoardLabel);
         box.getChildren().add(scoreBoard);
         box.getChildren().add(hBox);
 

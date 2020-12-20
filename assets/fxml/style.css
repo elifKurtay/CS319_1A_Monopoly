@@ -138,9 +138,10 @@
 }
 
 .alertDialogue{
-    -fx-border-width: 6;
+    -fx-border-width: 5;
     -fx-border-style: solid;
     -fx-alignment: center;
+    -fx-padding: 0 8 0 0;
 }
 
 #playerList {
