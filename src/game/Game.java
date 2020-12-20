@@ -27,7 +27,7 @@ public class Game extends Observer {
     @Getter @Setter private Player currentPlayer;
 
     @Getter private int lapCount;
-    private boolean loadedGame;
+    @Setter private boolean loadedGame;
     private boolean restarted;
     private final GameScreenController controller;
     @Getter private final String gameName;
@@ -86,7 +86,7 @@ public class Game extends Observer {
         this.restarted = copyGame.restarted;
     }
 
-    void gameLoop(int playerCount) {
+    public void gameLoop(int playerCount) {
         //player count is the offset for loaded games
         int[] dice;
         int doublesCount = 0;
@@ -378,48 +378,6 @@ public class Game extends Observer {
         controller.drawToken(i, oldIndex, currentPlayer.getCurrentSpace().getIndex());
     }
 
-    /*
-    private void build(Scanner scan, PropertySpace space) {
-        if(space.getAssociatedProperty().getCard() instanceof LandTitleDeedCard &&
-                ownsAllTitlesFromSameGroup(currentPlayer, space.getAssociatedProperty()) ) {
-            System.out.println("Would you like to build on your property? (1-yes, 0-no)");
-            int prop = scan.nextInt();
-            if(prop == 1) {
-                //show suitable properties
-                ArrayList<Property> options = currentPlayer.getAllTitlesFromSameGroup(space.getAssociatedProperty());
-                for(int i = 0; i < options.size(); i++)
-                    System.out.println(i + ": " + options.get(i).getCard().getPropertyName());
-                System.out.println("Select property: ");
-                prop = scan.nextInt();
-                boolean canBuild = true;
-                for(int i = 0; i < options.size(); i++) {
-                    if( i != prop && options.get(prop).getNumOfHouses() - options.get(i).getNumOfHouses() >= 1)
-                        canBuild = false;
-                }
-                if(canBuild) {
-                    options.get(prop).buildHouse();
-                    int amount;
-                    if(options.get(prop).isHotel())
-                        amount = ((LandTitleDeedCard)options.get(prop).getCard()).getHouseCost();
-                    else
-                        amount = ((LandTitleDeedCard)options.get(prop).getCard()).getHotelCost();
-                    currentPlayer.payBank((int)(amount * currentPlayer.getToken().getBuildingCostMultiplier()));
-                    System.out.println("You upgraded your property.");
-                } else {
-                    System.out.println("You cannot build on this property before " +
-                            "increasing the houses of the other properties.");
-                }
-            }
-        } else
-            System.out.println("Sorry, you have no property to build on. ");
-    }
-     */
-
-    //input from UI
-    private boolean finishTurn() {
-        return false;
-    }
-
     private void initializingLap() {
 
         for (int i = 0; i < LAP; i++) {
@@ -468,7 +426,7 @@ public class Game extends Observer {
         controller.drawPlayerBoxes(players);
     }
 
-    private boolean isGameEnd() {
+    public boolean isGameEnd() {
         int count = 0;
         for (Player p: players ) {
             if(p.isBankrupt() )

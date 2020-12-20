@@ -126,9 +126,15 @@ public class GameScreenController {
         ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No");
         alert.showAndWait();
         if (alert.getResult() == ButtonType.OK) {
-            game.restartGame();
-        }
+            if(game.isGameEnd())
+            {
+                game.restartGame();
+                game.setLoadedGame(false);
+                game.gameLoop(0);
+            } else
+                game.restartGame();
 
+        }
     }
 
     @FXML
