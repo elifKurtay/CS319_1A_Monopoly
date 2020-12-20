@@ -19,20 +19,20 @@
     <HBox>
         <Label fx:id="turn_count" text="Turn Count: " style = "-fx-font-weight: bold; -fx-font-size: 18; -fx-background-color: coral"/>
         <HBox>
-            <Button text="Settings" style = "-fx-background-color: #55FA70; -fx-font-weight: bold" onAction="#settingsButtonAction"/>
-            <Button text="Restart" style = "-fx-background-color: #55FA70; -fx-font-weight: bold" onAction="#restartButtonAction"/>
-            <Button text="Save" style = "-fx-background-color: #55FA70; -fx-font-weight: bold" onAction="#saveButtonAction"/>
-            <Button text="Exit" style = "-fx-background-color: #55FA70; -fx-font-weight: bold" onAction="#exitButtonAction"/>
+            <Button text="Settings" styleClass="gameButton" onAction="#settingsButtonAction"/>
+            <Button text="Restart" styleClass="gameButton" onAction="#restartButtonAction"/>
+            <Button text="Save" styleClass="gameButton" onAction="#saveButtonAction"/>
+            <Button text="Exit" styleClass="gameButton" onAction="#exitButtonAction"/>
         </HBox>
     </HBox>
     <VBox spacing="30" fx:id="playerBoxes">
 
     </VBox>
     <HBox>
-        <Button text="Trade" style = "-fx-background-color: #F5FA09; -fx-font-weight: bold" onAction="#tradeButtonAction"/>
-        <Button text="Build" style = "-fx-background-color: #F5FA09; -fx-font-weight: bold" onAction="#buildButtonAction"/>
-        <Button text="Mortgage" style = "-fx-background-color: #F5FA09; -fx-font-weight: bold" onAction="#mortgageButtonAction"/>
-        <Button text="Redeem" style = "-fx-background-color: #F5FA09; -fx-font-weight: bold" onAction="#redeemButtonAction"/>
+        <Button text="Trade" styleClass="gameButton" onAction="#tradeButtonAction"/>
+        <Button text="Build" styleClass="gameButton" onAction="#buildButtonAction"/>
+        <Button text="Mortgage" styleClass="gameButton" onAction="#mortgageButtonAction"/>
+        <Button text="Redeem" styleClass="gameButton" onAction="#redeemButtonAction"/>
     </HBox>
 </VBox>
 </HBox>

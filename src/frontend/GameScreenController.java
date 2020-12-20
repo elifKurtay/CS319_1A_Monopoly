@@ -121,6 +121,8 @@ public class GameScreenController {
         alert.getDialogPane().setContent(v);
 
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Yes");
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).getStyleClass().add("alertButton");
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).getStyleClass().add("alertButton");
         ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No");
         alert.showAndWait();
         if (alert.getResult() == ButtonType.OK) {
@@ -1401,8 +1403,8 @@ public class GameScreenController {
         hBox.setSpacing(20);
         Button cancel = new Button("Cancel");
         Button endGame = new Button("End Game");
-        cancel.setStyle("-fx-background-color: #FF4848; -fx-font-size: 14px");
-        endGame.setStyle("-fx-background-color: #FF4848; -fx-font-size: 14px");
+        cancel.getStyleClass().add("scoreBoard");
+        endGame.getStyleClass().add("scoreBoard");
 
         endGame.setOnAction(event -> {
             if (twoChoiceDialog("Do you really want to exit?", "Yes", "No")) {

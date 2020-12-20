@@ -18,6 +18,53 @@
      */
 }
 
+.button:hover {
+    -fx-background-color: blue;
+}
+.gameButton{
+    -fx-background-color: #FEF285;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-color: rgb(0, 89, 23);
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-font-weight: bold;
+}
+
+.gameButton:hover{
+    -fx-background-color: darkgray;
+}
+
+.menuButton{
+    -fx-background-color: #85BB65;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-color: rgb(0, 89, 23);
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-font-weight: bold;
+}
+
+.menuButton:hover{
+    -fx-background-color: darkslategrey;
+}
+
+.scoreBoard{
+    -fx-background-color: #FF4848;
+    -fx-font-size: 14px;
+}
+
+.scoreBoard:hover{
+    -fx-background-color: #FEF285;
+}
+
+.alertButton{
+    -fx-background-color: antiquewhite;
+}
+
+.alertButton:hover{
+    -fx-background-color: grey;
+}
 
 .abc {
     -fx-alignment: center-right;
@@ -37,9 +84,7 @@
     -fx-background-color: rgb(59, 171, 195);
 }
 
-.button:hover {
-    -fx-background-color: blue;
-}
+
 
 .moneylabel {
     -fx-alignment: center;
