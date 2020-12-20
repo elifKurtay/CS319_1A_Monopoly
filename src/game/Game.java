@@ -3,6 +3,7 @@ package game;
 import FileManagement.FileManager;
 import bank.Auction;
 import bank.Observer;
+import bank.Trade;
 import board.*;
 import card.Card;
 import entities.*;
@@ -203,6 +204,16 @@ public class Game extends Observer {
                             System.out.println("START TRADE");
                             int[] tradeProposal = ((DigitalPlayer) currentPlayer).getTradeProposal();
                             //sent trade to controller?
+                            Trade digitalPlayerTrade = new Trade(currentPlayer, tradePlayer);
+                            ArrayList<Property> offeredProperty = new ArrayList<>();
+                            offeredProperty.add(currentPlayer.getProperties().get(tradeProposal[0]));
+                            digitalPlayerTrade.offer(offeredProperty , tradeProposal[1], tradeProposal[2]);
+
+                            ArrayList<Property> requestedProperty = new ArrayList<>();
+                            requestedProperty.add(tradePlayer.getProperties().get(tradeProposal[3]));
+                            digitalPlayerTrade.want(requestedProperty, tradeProposal[4], tradeProposal[5]);
+
+                            controller.tradeProposalDialog(digitalPlayerTrade);
                         }
 
                     }

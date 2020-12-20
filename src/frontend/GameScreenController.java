@@ -320,40 +320,36 @@ public class GameScreenController {
         if (sentOffer) {
             trade.offer(offeredProperties, given[0], given[1]);
             trade.want(wantedProperties,requested[0], requested[1]);
+            tradeProposalDialog(trade);
+        }
+    }
 
-            String message = playerToTrade + ", do you accept the offer?\n You Get: \n";
-            for (Property p : offeredProperties) {
-                message += p + "\n";
-            }
-            if (given[0] != 0) {
-                message += "M" + given[0] + "\n";
-            }
-            if (given[1] != 0) {
-                message += given[1] + " GOOJ cards\n\n";
-            }
-
-            message += "You Give:\n";
-            for (Property p : wantedProperties) {
-                message += p + "\n";
-            }
-            if (requested[0] != 0) {
-                message += "M" + requested[0] + "\n";
-            }
-            if (requested[1] != 0) {
-                message += requested[1] + " GOOJ cards";
-            }
-
-            trade.acceptOffer(twoChoiceDialog(message, "Accept", "Deny"));
-            trade.closeTrade();
+    public void tradeProposalDialog(Trade t) {
+        ;
+        String message = t.getTarget() + ", do you accept the offer  from " + t.getOfferer() + "?\n\nYou Get: \n\n";
+        for (Property p : t.getOfferedProperties()) {
+            message += p + "\n";
+        }
+        if (t.getOfferedMoney() != 0) {
+            message += "M" + t.getOfferedMoney() + "\n";
+        }
+        if (t.getOfferedGOOJC() != 0) {
+            message += t.getOfferedGOOJC() + " GOOJ cards\n";
         }
 
+        message += "\nYou Give:\n";
+        for (Property p : t.getWantedProperties()) {
+            message += p + "\n";
+        }
+        if (t.getWantedMoney() != 0) {
+            message += "M" + t.getWantedMoney() + "\n";
+        }
+        if (t.getWantedGOOJC() != 0) {
+            message += t.getWantedGOOJC() + " GOOJ cards";
+        }
 
-        /*
-        Bank bank = game.getBank();
-        // Player targetPlayer = Playerları listele seçtir
-        Trade t = bank.startTrade(targetPlayer);
-        bank.finishTrade();
-         */
+        t.acceptOffer(twoChoiceDialog(message, "Accept", "Deny"));
+        t.closeTrade();
     }
 
     @FXML

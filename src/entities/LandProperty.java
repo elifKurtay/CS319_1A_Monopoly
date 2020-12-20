@@ -56,21 +56,27 @@ public class LandProperty extends Property {
 
     public boolean canBuild() {
         ArrayList<Property> properties = owner.getAllPropertiesFromSameGroup(this);
-        int houseSum = 0;
-        for (Property p : properties) {
-            houseSum += ((LandProperty) p).getNumOfHouses();
+        if (properties.size() != Property.numberOfPropertiesInGroups[propertyGroup]) {
+            int houseSum = 0;
+            for (Property p : properties) {
+                houseSum += ((LandProperty) p).getNumOfHouses();
+            }
+            // subtract the floor of the average number of houses from the number of houses on this property
+            // if the result is 0 a house can be built on this property
+            return (numOfHouses - houseSum/Property.numberOfPropertiesInGroups[propertyGroup]) == 0;
         }
-        // subtract the floor of the average number of houses from the number of houses on this property
-        // if the result is 0 a house can be built on this property
-        return (numOfHouses - houseSum/Property.numberOfPropertiesInGroups[propertyGroup]) == 0;
+        return false;
     }
 
     public boolean canSellHouse() {
         ArrayList<Property> properties = owner.getAllPropertiesFromSameGroup(this);
-        int houseSum = 0;
-        for (Property p : properties) {
-            houseSum += ((LandProperty) p).getNumOfHouses();
+        if (properties.size() != Property.numberOfPropertiesInGroups[propertyGroup]) {
+            int houseSum = 0;
+            for (Property p : properties) {
+                houseSum += ((LandProperty) p).getNumOfHouses();
+            }
+            return (numOfHouses - 1 - houseSum/Property.numberOfPropertiesInGroups[propertyGroup]) == 0;
         }
-        return (numOfHouses - 1 - houseSum/Property.numberOfPropertiesInGroups[propertyGroup]) == 0;
+        return false;
     }
 }
