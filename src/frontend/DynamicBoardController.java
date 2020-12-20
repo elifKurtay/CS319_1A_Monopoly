@@ -77,27 +77,32 @@ public class DynamicBoardController {
                 vb.getChildren().addAll(propertyName, price);
 
                 if (currentSpace.getType() == PropertySpace.PropertyType.LAND) {
-                    Pane colorPane = new Pane();
+                    Pane colorPane;
                     // Get the color specified for this property group, read from the json file
-                    colorPane.setStyle("-fx-background-color: #"
-                            + colors[currentSpace.getAssociatedProperty().getPropertyGroup()]);
-                    colorPane.setId("colorPane");
+
                     if (i < 10) {
+                        colorPane = new HBox();
                         colorPane.getStyleClass().add("colortop");
                         spacePane.setTop(colorPane);
                     }
                     else if (i < 20) {
+                        colorPane = new VBox();
                         colorPane.getStyleClass().add("colorside");
                         spacePane.setRight(colorPane);
                     }
                     else if (i < 30) {
+                        colorPane = new HBox();
                         colorPane.getStyleClass().add("colortop");
                         spacePane.setBottom(colorPane);
                     }
                     else {
+                        colorPane = new VBox();
                         colorPane.getStyleClass().add("colorside");
                         spacePane.setLeft(colorPane);
                     }
+                    colorPane.setStyle("-fx-background-color: #"
+                            + colors[currentSpace.getAssociatedProperty().getPropertyGroup()]);
+                    colorPane.setId("colorPane");
                 }
             }
             else {
@@ -178,11 +183,17 @@ public class DynamicBoardController {
     public void drawHouse(int index, int numOfHouses) {
         ((Pane) getSpaceBox(index).lookup("#colorPane")).getChildren().clear();
         if (numOfHouses == 5) {
-            ((Pane) getSpaceBox(index).lookup("#colorPane")).getChildren().add(new Label("HOTEL"));
+            Pane hotelPane = new Pane();
+            hotelPane.setStyle("-fx-background-color: red; -fx-max-height: 15px; -fx-max-width: 15px");
+            //((Pane) getSpaceBox(index).lookup("#colorPane")).getChildren().add(new Label("HOTEL"));
+            ((Pane) getSpaceBox(index).lookup("#colorPane")).getChildren().add(hotelPane);
         }
         else {
             for (int i = 0; i < numOfHouses; i++) {
-                ((Pane) getSpaceBox(index).lookup("#colorPane")).getChildren().add(new Label("HOUSE"));
+                Pane housePane = new Pane();
+                housePane.setStyle("-fx-background-color: red; -fx-min-height: 15px; -fx-min-width: 15px; -fx-max-height: 15px; -fx-max-width: 15px");
+                //((Pane) getSpaceBox(index).lookup("#colorPane")).getChildren().add(new Label("HOUSE"));
+                ((Pane) getSpaceBox(index).lookup("#colorPane")).getChildren().add(housePane);
             }
         }
     }
