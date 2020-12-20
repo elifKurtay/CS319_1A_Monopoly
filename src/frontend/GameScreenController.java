@@ -369,30 +369,61 @@ public class GameScreenController {
                     dialog.setHeaderText("Choose a property to build on");
                     dialog.showAndWait();
                     LandProperty propertyToBuild = (LandProperty) dialog.getResult();
-                    if (propertyToBuild.getNumOfHouses() == 5) {
-                        showMessage("Cannot build more buildings on this property!", null);
-                    }
-                    else if (!propertyToBuild.canBuild()) {
-                        showMessage("You must build evenly between properties," +
-                                "build on other properties in the same group before building here!", null);
-                    }
-                    else {
-                        String message;
-                        double cost = 1 * currentPlayer.getToken().getBuildingCostMultiplier();
-                        if (propertyToBuild.getNumOfHouses() == 4) {
-                            message = "Do you want to build a hotel for " + propertyToBuild.getHotelCost() + " on " + propertyToBuild.getPropertyName() + "?";
-                            cost *= propertyToBuild.getHotelCost();
+                    boolean build = twoChoiceDialog("Do you want to build or sell a house?", "Build", "Sell");
+                    if (build) {
+                        if (propertyToBuild.getNumOfHouses() == 5) {
+                            showMessage("Cannot build more buildings on this property!", null);
+                        }
+                        else if (!propertyToBuild.canBuild()) {
+                            showMessage("You must build evenly between properties," +
+                                    "build on other properties in the same group before building here!", null);
                         }
                         else {
-                            message = "Do you want to build a house for " + propertyToBuild.getHotelCost() + " on " + propertyToBuild.getPropertyName() + "?";
-                            cost *= propertyToBuild.getHouseCost();
-                        }
+                            String message;
+                            double cost = 1 * currentPlayer.getToken().getBuildingCostMultiplier();
+                            if (propertyToBuild.getNumOfHouses() == 4) {
+                                message = "Do you want to build a hotel for " + propertyToBuild.getHotelCost() * (game.getCurrentPlayer().getToken().getBuildingCostMultiplier()) / 2 + " on " + propertyToBuild.getPropertyName() + "?";
+                                cost *= propertyToBuild.getHotelCost();
+                            }
+                            else {
+                                message = "Do you want to build a house for " + propertyToBuild.getHouseCost() * (game.getCurrentPlayer().getToken().getBuildingCostMultiplier()) / 2 + " on " + propertyToBuild.getPropertyName() + "?";
+                                cost *= propertyToBuild.getHouseCost();
+                            }
 
-                        if (twoChoiceDialog(message, "Yes", "No")) {
-                            propertyToBuild.buildHouse();
-                            currentPlayer.setMoney(currentPlayer.getMoney() - (int) cost);
-                            drawPlayerBoxes(game.getPlayers());
-                            dynamicBoardController.drawHouse(propertyToBuild.getAssociatedPropertySpace().getIndex(), propertyToBuild.getNumOfHouses());
+                            if (twoChoiceDialog(message, "Yes", "No")) {
+                                propertyToBuild.buildHouse();
+                                currentPlayer.setMoney(currentPlayer.getMoney() - (int) cost);
+                                drawPlayerBoxes(game.getPlayers());
+                                dynamicBoardController.drawHouse(propertyToBuild.getAssociatedPropertySpace().getIndex(), propertyToBuild.getNumOfHouses());
+                            }
+                        }
+                    }
+                    else {
+                        if (propertyToBuild.getNumOfHouses() == 0) {
+                            showMessage("Cannot sell, there isn't a house on this property!", null);
+                        }
+                        else if (!propertyToBuild.canSellHouse()) {
+                            showMessage("You must sell evenly between properties," +
+                                    "sell on other properties in the same group before selling here!", null);
+                        }
+                        else {
+                            String message;
+                            double sellAmount = 0.5 * currentPlayer.getToken().getBuildingCostMultiplier();
+                            if (propertyToBuild.getNumOfHouses() == 5) {
+                                sellAmount *= propertyToBuild.getHotelCost();
+                                message = "Do you want to sell the hotel for " + sellAmount + " on " + propertyToBuild.getPropertyName() + "?";
+                            }
+                            else {
+                                sellAmount *= propertyToBuild.getHouseCost();
+                                message = "Do you want to sell a house for " + sellAmount + " on " + propertyToBuild.getPropertyName() + "?";
+                            }
+
+                            if (twoChoiceDialog(message, "Yes", "No")) {
+                                propertyToBuild.sellHouse();
+                                currentPlayer.setMoney(currentPlayer.getMoney() - (int) sellAmount);
+                                drawPlayerBoxes(game.getPlayers());
+                                dynamicBoardController.drawHouse(propertyToBuild.getAssociatedPropertySpace().getIndex(), propertyToBuild.getNumOfHouses());
+                            }
                         }
                     }
                 }
