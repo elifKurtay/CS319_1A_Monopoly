@@ -18,10 +18,17 @@ public class DynamicBoardController {
 
     private ImageView[] tokenImages;
 
+    /**
+     * Creates the array of tokenImages
+     */
     public void initialize() {
         tokenImages = new ImageView[5];
     }
 
+    /**
+     * Creates the Dynamic Board
+     * @param gameBoard Board instance with the properties and spaces
+     */
     public void setDynamicBoard(Board gameBoard) {
         System.out.println(gameBoard);
 
@@ -149,6 +156,11 @@ public class DynamicBoardController {
 
     }
 
+    /**
+     * Sets the image of a token by the player's number
+     * @param playerNo Number of the player
+     * @param tokenName Name of the selected token
+     */
     public void setTokenImage(int playerNo, String tokenName) {
         Image token = new Image("img/token/cropped/" + tokenName + ".png");
         ImageView iv = new ImageView(token);
@@ -158,6 +170,12 @@ public class DynamicBoardController {
         tokenImages[playerNo] = iv;
     }
 
+    /**
+     * Draws the token on the board and removes its predecessor
+     * @param playerNo Number of the player
+     * @param oldIndex Previous position
+     * @param newIndex New position
+     */
     public void drawToken(int playerNo, int oldIndex, int newIndex) {
         ImageView iv = tokenImages[playerNo];
 
@@ -187,6 +205,11 @@ public class DynamicBoardController {
         }
     }
 
+    /**
+     * Draws the houses or hotels on a property
+     * @param index Index of the property
+     * @param numOfHouses Number of houses on the propert. 5 if a hotel
+     */
     public void drawHouse(int index, int numOfHouses) {
         ((Pane) getSpaceBox(index).lookup("#colorPane")).getChildren().clear();
         if (numOfHouses == 5) {
@@ -205,7 +228,11 @@ public class DynamicBoardController {
         }
     }
 
-    // returns the tokenBox for the space with given index
+    /**
+     * Returns the tokenBox for the space with given index
+     * @param index Index of the space
+     * @return The tokenBox of the space
+     */
     private Node getSpaceBox(int index) {
         Pane[] corners = {bottomRightBoard, bottomLeftBoard, topLeftBoard, topRightBoard};
         Pane[] sides = {bottomBoard, leftBoard, topBoard, rightBoard};

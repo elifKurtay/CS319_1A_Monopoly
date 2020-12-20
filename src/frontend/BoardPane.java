@@ -15,6 +15,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 public class BoardPane extends Pane {
 
+    /**
+     * Default constructor of the board pane
+     * @throws FileNotFoundException The file does not exist, is a directory rather than a regular file, or for some other reason cannot be opened for reading.
+     */
     BoardPane() throws FileNotFoundException {
         System.out.println("abc");
         this.setStyle("-fx-background-color: #D8FBF5;");

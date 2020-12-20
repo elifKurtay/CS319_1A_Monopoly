@@ -59,28 +59,39 @@ public class GameScreenController {
     private Audio obj = Audio.getInstance();
     private final static boolean DEBUG = false;
 
-    public void initialize() {
-
-    }
-
+    /**
+     * Sets the stage
+     * @param stage The stage
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     * Sets the map
+     * @param board The map
+     */
     public void setMap(Board board) {
         dynamicBoardController.setDynamicBoard(board);
     }
 
-    public void resetMap(Board board) {
 
-    }
-
+    /**
+     * Shows the scoreboard
+     * @param event Action event that triggers the action
+     * @throws Exception
+     */
     @FXML
     protected void exitButtonAction(ActionEvent event) throws Exception{
         // Scoreboard ?
         showScoreboard();
     }
 
+    /**
+     * Shows the settings
+     * @param event Action event that triggers the action
+     * @throws Exception
+     */
     @FXML
     protected void settingsButtonAction(ActionEvent event) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/SettingsMenu.fxml"));
@@ -92,6 +103,10 @@ public class GameScreenController {
         stage.setScene(s);
     }
 
+    /**
+     * Restarts the game
+     * @param event Action event that triggers the action
+     */
     @FXML
     protected void restartButtonAction(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -139,11 +154,20 @@ public class GameScreenController {
         }
     }
 
+    /**
+     * Saves the game
+     * @param event Action event that triggers the action
+     * @throws Exception
+     */
     @FXML
     protected void saveButtonAction(ActionEvent event) throws Exception {
         game.saveGame();
     }
 
+    /**
+     * Starts a trade
+     * @param event Action event that triggers the action
+     */
     @FXML
     protected void tradeButtonAction(ActionEvent event) {
         Player currentPlayer = game.getCurrentPlayer();
@@ -355,6 +379,10 @@ public class GameScreenController {
         }
     }
 
+    /**
+     * Shows a dialog for an offer
+     * @param t The offer
+     */
     public void tradeProposalDialog(Trade t) {
         ;
         String message = t.getTarget() + ", do you accept the offer  from " + t.getOfferer() + "?\n\nYou Get: \n\n";
@@ -383,6 +411,10 @@ public class GameScreenController {
         t.closeTrade();
     }
 
+    /**
+     * Shows the building dialog
+     * @param event Action event that triggers the action
+     */
     @FXML
     protected void buildButtonAction(ActionEvent event) {
         Player currentPlayer = game.getCurrentPlayer();
@@ -468,6 +500,10 @@ public class GameScreenController {
         }
     }
 
+    /**
+     * Shows the mortgage dialog
+     * @param event Action event that triggers the action
+     */
     @FXML
     protected void mortgageButtonAction(ActionEvent event) {
         Player currentPlayer = game.getCurrentPlayer();
@@ -504,6 +540,10 @@ public class GameScreenController {
         assetsDialog.showAndWait();
     }
 
+    /**
+     * Shows the redeem dialog
+     * @param event Action event that triggers the action
+     */
     @FXML
     protected void redeemButtonAction(ActionEvent event) {
         Player currentPlayer = game.getCurrentPlayer();
@@ -541,6 +581,10 @@ public class GameScreenController {
         assetsDialog.showAndWait();
     }
 
+    /**
+     * Shows a players' assets
+     * @param actionEvent Action event that triggers the action
+     */
     @FXML
     public void playerAssetsButtonAction(ActionEvent actionEvent) {
         String buttonID = ((Button) actionEvent.getSource()).getId();
@@ -598,6 +642,10 @@ public class GameScreenController {
         assetsDialog.showAndWait();
     }
 
+    /**
+     * Allows the player to forfeit the game
+     * @param actionEvent Action event that triggers the action
+     */
     @FXML
     public void playerForfeitButtonAction(ActionEvent actionEvent) {
         String buttonID = ((Button) actionEvent.getSource()).getId();
@@ -621,11 +669,20 @@ public class GameScreenController {
         }
     }
 
+    /**
+     * Updates the turn count
+     * @param lapCount
+     */
     @FXML
     public void labelUpdate( int lapCount) {
         turn_count.setText("Turn Count: " + lapCount + " ");
     }
 
+    /**
+     * Displays the title deed card of a property
+     * @param p The property
+     * @return The title deed card
+     */
     public VBox buildTitleDeedCard(Property p) {
         VBox vb = new VBox();
         vb.getChildren().add(new Label("Title Deed Card"));
@@ -637,6 +694,12 @@ public class GameScreenController {
         return vb;
     }
 
+    /**
+     * Rolls a pair of dice
+     * @param name name of the player rolling
+     * @param digital if the player is digital
+     * @return Results of the rolls
+     */
     public int[] rollDice(String name, boolean digital) {
         if (DEBUG && !digital) {
             Scanner scan = new Scanner(System.in);
@@ -709,6 +772,13 @@ public class GameScreenController {
             "Iron", "Top Hat", "Battleship"};
     private boolean first = true;
 
+    /**
+     * Displays the tokens to the users to choose from
+     * @param name Name of the player
+     * @param digital If the player is digital
+     * @param restart If the game is restarted
+     * @return Index of the chosen token
+     */
     public int chooseToken(String name, boolean digital, boolean restart) {
         if(first || restart) {
             tokens = new ArrayList<>();
@@ -853,10 +923,21 @@ public class GameScreenController {
         return cnt[0] + 1;
     }
 
+    /**
+     * Draws a token
+     * @param playerNo The number of the player
+     * @param oldIndex Previous position of the player
+     * @param newIndex New position of the player
+     */
     public void drawToken(int playerNo,int oldIndex, int newIndex) {
         dynamicBoardController.drawToken(playerNo, oldIndex, newIndex);
     }
 
+    /**
+     * Displays a message
+     * @param message The message
+     * @param currentPlayer Which player the message is displayed to
+     */
     public void showMessage(String message, Player currentPlayer) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         String msg;
@@ -906,6 +987,11 @@ public class GameScreenController {
         alert.showAndWait();
     }
 
+    /**
+     * Alerts the player to buy the property
+     * @param property The property
+     * @return If the property is bought
+     */
     public boolean buyProperty(PropertySpace property) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initStyle(StageStyle.UNDECORATED);
@@ -945,6 +1031,12 @@ public class GameScreenController {
         return false;
     }
 
+    /**
+     * Spins the wheel of fortune
+     * @param result Result of the spin
+     * @param digitalPlayer If the player is digital
+     * @throws Exception
+     */
     public void spinWheelOfFortune(String result, boolean digitalPlayer) throws Exception{
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.initStyle(StageStyle.UNDECORATED);
@@ -1013,6 +1105,13 @@ public class GameScreenController {
         }
     }
 
+    /**
+     * Shows a two choice optioned dialogue
+     * @param message The messeage of the dialog
+     * @param ok The text of the ok button
+     * @param cancel The text of the cancel button
+     * @return The choice
+     */
     private boolean twoChoiceDialog(String message, String ok, String cancel) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initStyle(StageStyle.UNDECORATED);
@@ -1027,6 +1126,10 @@ public class GameScreenController {
     }
     private boolean restart = false;
 
+    /**
+     * Finishes the turn of a player
+     * @param digital If the player is digital
+     */
     public void finishTurn(Boolean digital) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.initStyle(StageStyle.UNDECORATED);
@@ -1059,6 +1162,10 @@ public class GameScreenController {
         alert.showAndWait();
     }
 
+    /**
+     * Postpones a card for later use
+     * @return If the card is postponed
+     */
     public boolean postponeCard() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initStyle(StageStyle.UNDECORATED);
@@ -1082,6 +1189,11 @@ public class GameScreenController {
     }
 
     //used when digital players open a card
+
+    /**
+     * Opens a card
+     * @param message The text of the card
+     */
     public void openCard(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(message);
@@ -1096,10 +1208,19 @@ public class GameScreenController {
         alert.showAndWait();
     }
 
+    /**
+     * Sets a player's token
+     * @param playerNo The number of the player
+     * @param tokenName The name of the token file
+     */
     public void setTokenImage(int playerNo, String tokenName) {
         dynamicBoardController.setTokenImage(playerNo, tokenName);
     }
 
+    /**
+     * Draws the players' boxes
+     * @param players The array of players
+     */
     public void drawPlayerBoxes(Player[] players) {
         playerBoxes.getChildren().clear();
         for (int i = 0; i < players.length; i++) {
@@ -1151,7 +1272,9 @@ public class GameScreenController {
         }
     }
 
-
+    /**
+     * Starts an auction
+     */
     public void startAuction() {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.initStyle(StageStyle.UNDECORATED);
@@ -1255,6 +1378,13 @@ public class GameScreenController {
         drawPlayerBoxes(players);
     }
 
+    /**
+     * Disables all players' auction operations except one
+     * @param exception The number of the exception player
+     * @param bids The array of bid buttons
+     * @param folds The array of fold buttons
+     * @param textFields The array of bid textfields
+     */
     private void disableExcept(int exception, Button[] bids, Button[] folds, TextField[] textFields){
         for (int i = 0; i < 4; i++) {
             bids[i].setDisable(true);
@@ -1266,6 +1396,15 @@ public class GameScreenController {
         textFields[exception].setDisable(false);
     }
 
+    /**
+     * Bids a certain amount
+     * @param bidNum The number of the bidder player
+     * @param auc A reference to the auction
+     * @param players The array of players
+     * @param bids The array of bid buttons
+     * @param folds The array of fold buttons
+     * @param textFields The array of bid textfields
+     */
     private void bidEvent(int bidNum, Auction auc, Player[] players, Button[] bids, Button[] folds, TextField[] textFields){
         int bid = Integer.parseInt(textFields[bidNum].getText());
 
@@ -1304,6 +1443,17 @@ public class GameScreenController {
         }
     }
 
+    /**
+     * Folds the auction for a player
+     * @param bidNum The number of the bidder player
+     * @param auc A reference to the auction
+     * @param alert The auction alert
+     * @param players The array of players
+     * @param labels The array of labels
+     * @param bids The array of bid buttons
+     * @param folds The array of fold buttons
+     * @param textFields The array of bid textfields
+     */
     private void foldEvent(int bidNum, Auction auc, Alert alert, Player[] players, Label[] labels, Button[] bids, Button[] folds, TextField[] textFields){
         int leftBidders = 0;
         int lastBidder = -1;
@@ -1351,7 +1501,9 @@ public class GameScreenController {
         }
     }
 
-
+    /**
+     * Shows the scoreboard
+     */
     public void showScoreboard() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.initStyle(StageStyle.UNDECORATED);

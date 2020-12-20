@@ -21,6 +21,9 @@ public class LoadGameMenuController extends MenuController {
     @FXML private TableColumn<Object, String> noColumn, dateColumn, timeColumn, player1, player2, player3, player4, delete;
     private final FileManager fileManager = FileManager.getInstance();
 
+    /**
+     * Initializes the controller
+     */
     public void initialize() {
         //find all files in savedGames directory
         File folder = new File("savedGames");
@@ -63,6 +66,17 @@ public class LoadGameMenuController extends MenuController {
         @FXML @Getter private final Button gameNo, delete;
         private final String gameName;
 
+        /**
+         * Constructor for the save data
+         * @param gameNo Game id
+         * @param date Date of the game
+         * @param time Time of the game
+         * @param player1 Player 1
+         * @param player2 Player 2
+         * @param player3 Player 3
+         * @param player4 Player 4
+         * @param gameName Name of the game
+         */
         public SaveData(int gameNo, String date, String time, String player1, String player2, String player3, String player4, String gameName) {
             this.gameName = gameName;
             this.gameNo = new Button("" + gameNo);
@@ -91,6 +105,10 @@ public class LoadGameMenuController extends MenuController {
             });
         }
 
+        /**
+         * Save action
+         * @throws Exception
+         */
         public void action() throws Exception{
             String folderName = "savedGames\\" + player1 + "_" + player2 + "_" + player3 + "_" + player4 + "_" + date + " " + time + "_" + gameName ;
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameScreen.fxml"));
@@ -104,6 +122,9 @@ public class LoadGameMenuController extends MenuController {
             g.continueGame();
         }
 
+        /**
+         * Delete action
+         */
         public void delete() {
             String folderName = "savedGames\\" + player1 + "_" + player2 + "_" + player3 + "_" + player4 + "_" + date + " " + time + "_" + gameName;
             fileManager.delete(folderName);

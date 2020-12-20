@@ -32,6 +32,9 @@ public class NewGameMenuController extends MenuController {
     @FXML
     private ComboBox<Integer> turnLimitCombo;
 
+    /**
+     * Initializes the controller
+     */
     public void initialize() {
         players = new String[PLAYER_COUNT];
         currentHumanPlayers = 0;
@@ -55,6 +58,11 @@ public class NewGameMenuController extends MenuController {
     }
 
 
+    /**
+     * Starts the game
+     * @param event Action event that triggers the action
+     * @throws Exception
+     */
     @FXML protected void startButtonAction(ActionEvent event) throws Exception {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameScreen.fxml"));
@@ -82,7 +90,10 @@ public class NewGameMenuController extends MenuController {
     }
 
 
-
+    /**
+     * Adds a human player to the game
+     * @param event Action event that triggers the action
+     */
     @FXML protected void addPlayerButtonAction(ActionEvent event) {
         // check if there are already the max amount of players allowed
         if (currentHumanPlayers < PLAYER_COUNT) {
@@ -149,6 +160,11 @@ public class NewGameMenuController extends MenuController {
         }
     }
 
+    /**
+     * Fills the rest with computer players
+     * @param playerNo The number of the player
+     * @return The Computer player box
+     */
     private BorderPane createComputerPlayerBox(int playerNo) {
         BorderPane playerBox = new BorderPane();
         Label l = new Label("Player " + playerNo + ": Computer");
@@ -158,7 +174,12 @@ public class NewGameMenuController extends MenuController {
         return playerBox;
     }
 
-    //private HBox createHumanPlayerBox(int playerNo, String name) {
+    /**
+     * Creates a human player box
+     * @param playerNo Number of the player
+     * @param name The name of the player
+     * @return The human player box
+     */
     private BorderPane createHumanPlayerBox(int playerNo, String name) {
         //HBox playerBox = new HBox();
         BorderPane playerBox = new BorderPane();
@@ -178,6 +199,10 @@ public class NewGameMenuController extends MenuController {
         return playerBox;
     }
 
+    /**
+     * Removes a human player from the game
+     * @param event Action event that triggers the action
+     */
     private void removePlayerButtonAction(ActionEvent event) {
         // get the index of the player box to remove in VBox playerList
         Button b = (Button) event.getSource();

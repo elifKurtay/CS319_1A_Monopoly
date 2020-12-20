@@ -14,6 +14,11 @@ public abstract class MenuController {
     @Setter
     private Scene previousScene;
 
+    /**
+     * Goes back to the previous page
+     * @param actionEvent Action event that triggers the action
+     * @throws Exception
+     */
     @FXML
     public void backButtonAction(ActionEvent actionEvent) throws Exception{
         double height = getStage().getHeight();

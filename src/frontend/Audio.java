@@ -17,6 +17,9 @@ public class Audio {
 
     private static Audio obj;
 
+    /**
+     * Default Constructor of Audio initializes the sound effects
+     */
     private Audio(){
 
         //initialization of game music
@@ -72,16 +75,28 @@ public class Audio {
         wheelSound.setVolume(0.5);
     }
 
+    /**
+     * Audio is a singleton and this method allows access to it
+     * @return The singleton instance of Audio
+     */
     public static Audio getInstance () {
         if(obj == null)
             obj = new Audio();
         return obj;
     }
 
+    /**
+     * Sets the volume of game music. Its effect will be clamped to the range [0.0, 1.0].
+     * @param volume Volume percentage denoted as [0.0, 1.0]
+     */
     public void setVolumeOfGameMusic (double volume){
         gameMusic.setVolume(volume);
     }
 
+    /**
+     * Sets the volume of all sound effects. Its effect will be clamped to the range [0.0, 1.0].
+     * @param volume Volume percentage denoted as [0.0, 1.0]
+     */
     public void setVolumeOfGameSound (double volume) {
         cashSound.setVolume(volume);
         diceSound.setVolume(volume);
@@ -90,31 +105,49 @@ public class Audio {
         wheelSound.setVolume(volume);
     }
 
+    /**
+     * Auto-plays the music
+     */
     public void playGameMusic () {
         gameMusic.setAutoPlay(true);
     }
 
+    /**
+     * Plays the cash sound
+     */
     public void playCashSound () {
         cashSound.seek(Duration.ZERO);
         cashSound.setAutoPlay(true);
     }
 
+    /**
+     * Plays the dice sound
+     */
     public void playDiceSound () {
         diceSound.seek(Duration.ZERO);
         diceSound.play();
     }
 
+    /**
+     * Plays the move sound
+     */
     public void playMoveSound () {
         moveSound.seek(Duration.ZERO);
         moveSound.setAutoPlay(true);
     }
 
+    /**
+     * Plays the police sound
+     */
     public void playPoliceSound () {
         policeSound.seek(Duration.ZERO);
         policeSound.setRate(2);
         policeSound.play();
     }
 
+    /**
+     * Plays the wheel of fortune sound
+     */
     public void playWheelSound () {
         wheelSound.seek(Duration.ZERO);
         wheelSound.setRate(2);
