@@ -95,6 +95,13 @@ public class Player implements Serializable {
     public boolean ownsAllPropertiesFromSameGroup(Property propertyToCheck) {
         return numberOfPropertiesFromSameGroup(propertyToCheck) == Property.numberOfPropertiesInGroups[propertyToCheck.getPropertyGroup()];
     }
+    /*
+    //what should happen if there is not enough money
+    public boolean payBank(int amount) {
+        money = money - amount;
+        return true;
+    }
+     */
 
     public boolean addProperty(Property property) {
         if(properties.contains(property))
@@ -105,6 +112,7 @@ public class Player implements Serializable {
 
     public void reset() {
         money = 1500;
+        currentSpace = null;
         bankrupt = false;
         for(Property p: properties) {
             p.setOwner(null);
@@ -113,6 +121,7 @@ public class Player implements Serializable {
         getOutOfJailFreeCount = 0;
         postponedCards = new ArrayList<>();
         jailed = false;
+        token = null;
         jailedLapCount = 0;
         currentDiceSum = 0;
     }

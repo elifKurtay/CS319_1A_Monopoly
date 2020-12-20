@@ -25,18 +25,7 @@ public class DynamicBoardController {
     public void setDynamicBoard(Board gameBoard) {
         System.out.println(gameBoard);
 
-        if(gameBoard == null) {
-            dynamicBoard = new AnchorPane();
-            bottomBoard = new Pane();
-            rightBoard = new Pane();
-            leftBoard = new Pane();
-            topBoard = new Pane();
-            bottomLeftBoard = new Pane();
-            bottomRightBoard = new Pane();
-            topLeftBoard = new Pane();
-            topRightBoard = new Pane();
-            return;
-        }
+
         // Need to reverse the non-corner spaces on the left and bottom sides of the map,
         // because the index 0 corresponds to the lower right space of the map
         // and the insertion to GUI elements happen from left to right or top to bottom

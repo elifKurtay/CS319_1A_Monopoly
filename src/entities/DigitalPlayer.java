@@ -74,10 +74,6 @@ public class DigitalPlayer extends Player{
     //for build action
     //build on all
     public boolean decideOnBuildAction() {
-        if(! ownsAllPropertiesFromSameGroup(((PropertySpace) getCurrentSpace())
-                .getAssociatedProperty())) {
-            return false;
-        }
         ArrayList<Property> propertyArrayList = getAllPropertiesFromSameGroup(((PropertySpace) getCurrentSpace())
                 .getAssociatedProperty() );
         int totalCost = 0;
@@ -194,13 +190,5 @@ public class DigitalPlayer extends Player{
                 return true;
         }
         return false;
-    }
-
-    @Override
-    public void reset() {
-        super.reset();
-        tradeTurn = 0;
-        tradePlayer = null;
-        tradeType = 0;
     }
 }

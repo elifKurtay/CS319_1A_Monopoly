@@ -18,7 +18,7 @@ public class Game extends Observer {
 
     private final FileManager fileManager = FileManager.getInstance();
     @Getter private static final int LAP = 4;
-    @Getter @Setter private Board board;
+    @Getter private final Board board;
     @Getter private final int lapLimit; //given -1 if game mod is survival
     @Getter private final int playerCount;
 
@@ -27,7 +27,6 @@ public class Game extends Observer {
 
     @Getter private int lapCount;
     private boolean loadedGame;
-    private boolean restarted;
     private final GameScreenController controller;
 
     public Game(File map, int playerCount, String[] playerNames, int turnLimit, GameScreenController controller) {
@@ -36,7 +35,6 @@ public class Game extends Observer {
         board = new Board(map);
         lapCount = 0;
         loadedGame = false;
-        restarted = false;
 
         observable = null;
         this.controller = controller;
@@ -66,7 +64,6 @@ public class Game extends Observer {
         System.out.println("GAME LOADED WITH lap count " +lapCount);
         this.controller = controller;
         loadedGame = true;
-        restarted = false;
     }
 
     public Game(Game loadedGame) {
@@ -78,7 +75,6 @@ public class Game extends Observer {
         this.board = loadedGame.board;
         this.currentPlayer = loadedGame.currentPlayer;
         this.loadedGame = loadedGame.loadedGame;
-        this.restarted = loadedGame.restarted;
     }
 
     void gameLoop(int playerCount) {
@@ -93,12 +89,10 @@ public class Game extends Observer {
         while( ! isGameEnd() ) {
             if(lapCount == 0)
                 initializingLap();
-            if(restarted)
-                restarted = false;
 
             lapCount++;
             controller.labelUpdate(lapCount);
-            for(int i = 0; i < LAP &&  !isGameEnd() && !restarted; i++) {
+            for(int i = 0; i < LAP &&  !isGameEnd(); i++) {
                 if(loadedGame){
                     i += playerCount;
                     loadedGame = false;
@@ -120,7 +114,6 @@ public class Game extends Observer {
 
                     //checking jail conditions
                     if (!currentPlayer.isJailed() && doublesCount == 3) {
-                        doublesCount = 0;
                         sendToJail(currentPlayer);
                         controller.showMessage("sent to jail!", currentPlayer);
                         continue;
@@ -156,12 +149,7 @@ public class Game extends Observer {
                     if (space instanceof CardSpace) {
                         System.out.println("Draw a card!");
                         drawCard(currentPlayer, (CardSpace) space);
-                        if(currentPlayer.isJailed()) {
-                            doublesCount = 0;
-                            continue;
-                        }
                     } else if (space instanceof GoToJailSpace) {
-                        doublesCount = 0;
                         sendToJail(currentPlayer);
                         controller.drawToken(i, boardIndex, 10);
                         controller.showMessage("sent to jail!", currentPlayer);
@@ -219,7 +207,7 @@ public class Game extends Observer {
                 controller.finishTurn(digitalPlayer);
             }
 
-            if(!restarted && board.getThief() != null) {
+            if(board.getThief() != null) {
                 thief = board.getThief();
                 if(thief.getCurrentSpace() == null) {
                     //controller.drawThief();
@@ -243,8 +231,7 @@ public class Game extends Observer {
         if(currentPlayer == space.getAssociatedProperty().getOwner()) { //own property
             controller.showMessage("Current player is on their own property.", null);
             //can build on if they choose so
-            if (currentPlayer instanceof DigitalPlayer && space.getAssociatedProperty() instanceof LandProperty
-                    && ((DigitalPlayer) currentPlayer).decideOnBuildAction()) {
+            if (currentPlayer instanceof DigitalPlayer && ((DigitalPlayer) currentPlayer).decideOnBuildAction()) {
                 System.out.println("COMPUTER DOES BUILD");
                 controller.showMessage(currentPlayer.getPlayerName() + " build on top of their property. ", null);
                 ((DigitalPlayer) currentPlayer).doBuild();
@@ -396,7 +383,6 @@ public class Game extends Observer {
     }
 
     private void initializingLap() {
-
         for (int i = 0; i < LAP; i++) {
             players[i].setCurrentSpace(board.getSpace(0));
         }
@@ -408,6 +394,7 @@ public class Game extends Observer {
             System.out.println(players[i] + " is computer: " + digital);
             dice = controller.rollDice(players[i].getPlayerName(), digital);
             diceSums[i] = dice[0] + dice[1];
+            //change player turn
         }
         //calculate player turn order
         Player[] order = new Player[LAP];
@@ -429,13 +416,10 @@ public class Game extends Observer {
         //token choose
         for(int i = 0; i < LAP; i++) {
             players[i].setToken(new Token(controller.chooseToken(players[i].getPlayerName(),
-                        players[i] instanceof DigitalPlayer, restarted)));
+                        players[i] instanceof DigitalPlayer)));
 
             controller.setTokenImage(i, players[i].getToken().getTokenName());
-            if(!restarted)
-                controller.drawToken(i, -1, 0);
-            else
-                controller.drawToken(i, 0, 0);
+            controller.drawToken(i, -1, 0);
             //change player turn
         }
         controller.drawPlayerBoxes(players);
@@ -503,18 +487,10 @@ public class Game extends Observer {
     //input from UI
     public void restartGame() {
         lapCount = 0;
-        int oldIndex = 0;
-        for ( int i = 0; i < LAP; i++ ) {
-            players[i].reset();
-
-            //move on board
-            oldIndex = players[i].getCurrentSpace().getIndex();
-
-            controller.drawToken(i, oldIndex, -1);
+        for ( Player p : players ) {
+            p.reset();
         }
-        controller.drawPlayerBoxes(players);
-        controller.labelUpdate(lapCount);
-        restarted = true;
+        //gameLoop();
     }
 
     //input from UI
