@@ -19,7 +19,7 @@ public class DynamicBoardController {
     private ImageView[] tokenImages;
 
     public void initialize() {
-        tokenImages = new ImageView[4];
+        tokenImages = new ImageView[5];
     }
 
     public void setDynamicBoard(Board gameBoard) {
@@ -165,7 +165,14 @@ public class DynamicBoardController {
         if (oldIndex == -1) {
             // draw the token on the "go space"
            //getTokenBox(0).getChildren().add(iv);
-           ((HBox) getSpaceBox(0).lookup("#tokenBox")).getChildren().add(iv);
+            if (playerNo < 4) {
+                ((HBox) getSpaceBox(0).lookup("#tokenBox")).getChildren().add(iv);
+            }
+            else{
+                if (((HBox) getSpaceBox(newIndex).lookup("#tokenBox")).getChildren().contains(iv))
+                    ((HBox) getSpaceBox(newIndex).lookup("#tokenBox")).getChildren().remove(iv);
+                ((HBox) getSpaceBox(newIndex).lookup("#tokenBox")).getChildren().add(iv);
+            }
         }
         else {
             // remove the token from the old index before drawing it at the new index

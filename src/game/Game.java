@@ -240,15 +240,34 @@ public class Game extends Observer {
                 thief = board.getThief();
                 if(thief.getCurrentSpace() == null) {
                     //controller.drawThief();
-                    thief.setCurrentSpace(board.getSpace(0));
+                    thief.setCurrentSpace(board.getSpace(10));
                 }
-                int move = thief.rollDice() + thief.getCurrentSpace().getIndex() ;
-                controller.drawToken(5, thief.getCurrentSpace().getIndex(), move);
-                if(thief.move(board.getSpace(move))) {
-                    thief.steal();
+                int thiefDice = thief.rollDice();
+                if(thiefDice == -1){
+                    controller.drawToken(4, thief.getCurrentSpace().getIndex(), -1);
+                    controller.showMessage("Thief could not catch its target", null);
+                    controller.drawPlayerBoxes(players);
                     board.setThief(null);
                     thief = null;
-                    //controller delete token?
+                }
+                else{
+                    int move = thiefDice + thief.getCurrentSpace().getIndex() ;
+                    int targetSpace = thief.getTarget().getCurrentSpace().getIndex();
+                    if((targetSpace > thief.getCurrentSpace().getIndex() && targetSpace <= move)
+                            || (move > 40 && move % 40 > targetSpace ) ){
+                        move = thief.getTarget().getCurrentSpace().getIndex();
+                    }
+
+                    move = move % 40;
+                    controller.drawToken(4, thief.getCurrentSpace().getIndex(), move);
+                    if(thief.move(board.getSpace(move))) {
+                        thief.steal();
+                        controller.drawToken(4, thief.getCurrentSpace().getIndex(), -1);
+                        controller.showMessage("Thief stole " + Thief.STEAL_AMOUNT + " from " + thief.getTarget().getPlayerName(), null);
+                        controller.drawPlayerBoxes(players);
+                        board.setThief(null);
+                        thief = null;
+                    }
                 }
             }
             //auto-save game every lap
@@ -330,10 +349,15 @@ public class Game extends Observer {
         Card card = board.drawCard(space.getType());
 
         if(player instanceof DigitalPlayer) {
-            controller.openCard(player.getPlayerName() + " opened a card!\n" + card.getCardText());
             CardEvent ce = card.getCardEvent();
+            if(!(ce instanceof ThiefEvent))
+                controller.openCard(player.getPlayerName() + " opened a card!\n" + card.getCardText());
             int oldIndex = currentPlayer.getCurrentSpace().getIndex();
             ce.handleEvent(currentPlayer, players, board);
+            if(ce instanceof ThiefEvent){
+                controller.openCard(player.getPlayerName() + " opened a card!\n" + card.getCardText() + board.getThief().getTarget().getPlayerName());
+                controller.drawToken(4, -1, 10);
+            }
             int i = 0;
             for (; i < LAP; i++) {
                 if (players[i] == currentPlayer) {
@@ -365,10 +389,15 @@ public class Game extends Observer {
 
     private void openCard(Card card){
         System.out.println(card.getCardText());
-        controller.showMessage(card.getCardText(), null);
         CardEvent ce = card.getCardEvent();
+        if(!(ce instanceof ThiefEvent))
+            controller.showMessage(card.getCardText(), null);
         int oldIndex = currentPlayer.getCurrentSpace().getIndex();
         ce.handleEvent(currentPlayer, players, board);
+        if(ce instanceof ThiefEvent){
+            controller.drawToken(4, -1, 10);
+            controller.showMessage(card.getCardText() + board.getThief().getTarget().getPlayerName(), null);
+        }
         int i = 0;
         for (; i < 4; i++) {
             if (players[i] == currentPlayer) {
@@ -465,6 +494,7 @@ public class Game extends Observer {
             //change player turn
             restart = false;
         }
+        controller.setTokenImage(4, "thief");
         controller.drawPlayerBoxes(players);
     }
 
@@ -506,6 +536,7 @@ public class Game extends Observer {
             if(players[i].getPlayerName().equals(currentPlayer.getPlayerName()))
                 playerTurn = i;
         }
+        controller.setTokenImage(4, "thief");
         gameLoop(playerTurn);
     }
 

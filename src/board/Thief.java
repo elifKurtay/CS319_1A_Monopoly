@@ -10,7 +10,7 @@ public class Thief {
     private Player target;
     private Space currentSpace;
     private int lapCount; //out in 5 laps?
-    private final static int STEAL_AMOUNT = 1000;
+    public final static int STEAL_AMOUNT = 1000;
     //steal a specific amount or all the money ?
 
     public Thief(Player target) {
@@ -20,11 +20,13 @@ public class Thief {
     }
 
     public void steal() {
+        System.out.println("Stole" + STEAL_AMOUNT + " from " + target.getPlayerName());
         target.setMoney(target.getMoney() - STEAL_AMOUNT);
     }
 
     public boolean move(Space space) {
         currentSpace = space;
+
         return currentSpace == target.getCurrentSpace();
     }
 
@@ -34,6 +36,8 @@ public class Thief {
 
         int dice = 0;
         int difference = target.getCurrentSpace().getIndex() - currentSpace.getIndex();
+        if (difference < 0)
+            difference = 40 - difference;
         if(difference > 12) {
             dice = (int) (Math.random() * 5 + 8); //[8,12]
         } else if (difference > 6)
