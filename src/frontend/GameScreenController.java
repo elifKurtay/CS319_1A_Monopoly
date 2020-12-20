@@ -1186,29 +1186,31 @@ public class GameScreenController {
     }
 
 
-    private void showScoreboard(){
+    private void showScoreboard() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.initOwner(stage);
         Player[] players = game.getPlayers();
         VBox box = new VBox();
-        TableView scoreBoard;
-        TableColumn rank, name, netWorth;
+        TableView<Object> scoreBoard;
+        TableColumn<Object, Integer> rank;
+        TableColumn<Object, String> name;
+        TableColumn<Object, Integer> netWorth;
 
-        scoreBoard = new TableView();
+        scoreBoard = new TableView<>();
         scoreBoard.setEditable(true);
 
-        rank = new TableColumn("Rank");
-        name = new TableColumn("Name");
-        netWorth = new TableColumn("Net Worth");
+        rank = new TableColumn<Object, Integer>("Rank");
+        name = new TableColumn<Object, String>("Name");
+        netWorth = new TableColumn<Object, Integer>("Net Worth");
         rank.setPrefWidth(60);
         name.setPrefWidth(100);
         netWorth.setPrefWidth(100);
 
-        rank.setStyle(  "-fx-alignment: CENTER;");
-        name.setStyle(  "-fx-alignment: CENTER;");
-        netWorth.setStyle(  "-fx-alignment: CENTER;");
+        rank.setStyle("-fx-alignment: CENTER;");
+        name.setStyle("-fx-alignment: CENTER;");
+        netWorth.setStyle("-fx-alignment: CENTER;");
 
 
         scoreBoard.getColumns().addAll(rank, name, netWorth);
@@ -1219,21 +1221,23 @@ public class GameScreenController {
 
 
         Score[] scores = new Score[4];
-        for(int i = 0; i < 4; i++)
-        scores[i] = new Score("" + (i+1), players[i].getPlayerName(),
-                "" + players[i].getNetWorth() );
+        for (int i = 0; i < 4; i++) {
+            scores[i] = new Score((i + 1), players[i].getPlayerName(),
+                    players[i].getNetWorth());
+            System.out.println(scores[i].getName() + " is " + scores[i].getRank());
+        }
 
-        Player playerWithHighestScore;
         for(int i = 0; i < 4; i++) {
-            playerWithHighestScore = players[i];
             for(int j = i + 1; j < 4; j++){
-                if(players[j].getNetWorth() > playerWithHighestScore.getNetWorth()){
+                if(scores[j].getNetWorth() > scores[i].getNetWorth()){
                     Score temp = scores[i];
                     scores[i] = scores[j];
                     scores[j] = temp;
+                    System.out.println("PUT: "+ scores[j].getName() + " in " + scores[i].getName());
                 }
             }
-            scores[i].setRank((i + 1)+ "");
+            scores[i].setRank(i + 1);
+            System.out.println(scores[i].getName() + " is " + scores[i].getRank());
         }
 
 
@@ -1275,10 +1279,12 @@ public class GameScreenController {
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setVisible(false);
         alert.showAndWait();
     }
-
+    @Getter
+    @Setter
     public class Score{
-        @Getter @Setter private String rank, name, netWorth;
-        public Score(String rank, String name, String netWorth){
+        private String name;
+        private int rank, netWorth;
+        public Score(int rank, String name, int netWorth){
             this.rank = rank;
             this.name = name;
             this.netWorth = netWorth;
