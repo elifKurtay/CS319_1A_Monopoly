@@ -1,0 +1,675 @@
+{
+    "propertyGroupCount": 10,
+    "numberOfPropertiesInGroups": [2,3,3,3,3,3,3,2,4,2],
+    "propertyGroupColors" : [
+        "955500",
+        "5feef8",
+        "dd20b3",
+        "ff7f08",
+        "fa0909",
+        "f5fa09",
+        "40ba21",
+        "27397b"
+    ],
+    "spaces":[
+        {
+            "type": "GoSpace",
+            "name": "Go"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Kasımpaşa",
+            "value": "60",
+            "propertyGroup": 0,
+            "titleDeedCard": {
+                "rents": [2, 10, 30, 90, 160, 250],
+                "houseCost": 50,
+                "hotelCost": 50,
+                "mortgageValue": 30
+            }
+        },
+        {
+            "type": "CardSpace",
+            "name": "Community Chest",
+            "cardType": "COMMUNITY_CHEST"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Dolapdere",
+            "value": "60",
+            "propertyGroup": 0,
+            "titleDeedCard": {
+                "rents": [4, 20, 60, 180, 320, 450],
+                "houseCost": 50,
+                "hotelCost": 50,
+                "mortgageValue": 30
+            }
+        },
+        {
+            "type": "TaxSpace",
+            "name": "Income Tax",
+            "taxType": "INCOME"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "TRANSPORT",
+            "name": "Haydarpasa",
+            "value": "200",
+            "propertyGroup": 8,
+            "titleDeedCard": {
+                "rents": [25, 50, 100, 200],
+                "mortgageValue": 100
+            }
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Sultanahmet",
+            "value": "100",
+            "propertyGroup": 1,
+            "titleDeedCard": {
+                "rents": [6, 30, 90, 270, 400, 550],
+                "houseCost": 50,
+                "hotelCost": 50,
+                "mortgageValue": 50
+            }
+        },
+        {
+            "type": "CardSpace",
+            "name": "Chance",
+            "cardType": "CHANCE"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Karakoy",
+            "value": "100",
+            "propertyGroup": 1,
+            "titleDeedCard": {
+                "rents": [6, 30, 90, 270, 400, 550],
+                "houseCost": 50,
+                "hotelCost": 50,
+                "mortgageValue": 50
+            }
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Sirkeci",
+            "value": "120",
+            "propertyGroup": 1,
+            "titleDeedCard": {
+                "rents": [8, 40, 100, 300, 450, 600],
+                "houseCost": 50,
+                "hotelCost": 50,
+                "mortgageValue": 60
+            }
+        },
+        {
+            "type": "JailSpace",
+            "name": "Jail"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Beyoglu",
+            "value": "140",
+            "propertyGroup": 2,
+            "titleDeedCard": {
+                "rents": [10, 50, 150, 450, 625, 750],
+                "houseCost": 100,
+                "hotelCost": 100,
+                "mortgageValue": 70
+            }
+        },
+        {
+            "type": "PropertySpace",
+            "name": "Elektrik Idaresi",
+            "propertyType": "UTILITY",
+            "propertyGroup": 9,
+            "value": "150",
+            "titleDeedCard": {
+                "multipliers": [4, 10],
+                "mortgageValue": 75
+            }
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Besiktas",
+            "value": "140",
+            "propertyGroup": 2,
+            "titleDeedCard": {
+                "rents": [10, 50, 150, 450, 625, 750],
+                "houseCost": 100,
+                "hotelCost": 100,
+                "mortgageValue": 70
+            }
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Taksim",
+            "value": "140",
+            "propertyGroup": 2,
+            "titleDeedCard": {
+                "rents": [12, 60, 180, 500, 700, 900],
+                "houseCost": 100,
+                "hotelCost": 100,
+                "mortgageValue": 80
+            }
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "TRANSPORT",
+            "name": "Kadikoy Iskelesi",
+            "value": "200",
+            "propertyGroup": 8,
+            "titleDeedCard": {
+                "rents": [25, 50, 100, 200],
+                "mortgageValue": 100
+            }
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Harbiye",
+            "value": "180",
+            "propertyGroup": 3,
+            "titleDeedCard": {
+                "rents": [14, 70, 200, 550, 750, 950],
+                "houseCost": 100,
+                "hotelCost": 100,
+                "mortgageValue": 90
+            }
+        },
+        {
+            "type": "CardSpace",
+            "name": "Community Chest",
+            "cardType": "COMMUNITY_CHEST"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Sisli",
+            "value": "180",
+            "propertyGroup": 3,
+            "titleDeedCard": {
+                "rents": [14, 70, 200, 550, 750, 950],
+                "houseCost": 100,
+                "hotelCost": 100,
+                "mortgageValue": 90
+            }
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Mecidiyekoy",
+            "value": "200",
+            "propertyGroup": 3,
+            "titleDeedCard": {
+                "rents": [16, 80, 220, 600, 800, 1000],
+                "houseCost": 100,
+                "hotelCost": 100,
+                "mortgageValue": 100
+            }
+        },
+        {
+            "type": "WheelOfFortuneSpace",
+            "name": "Wheel Of Fortune"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Bostanci",
+            "value": "220",
+            "propertyGroup": 4,
+            "titleDeedCard": {
+                "rents": [18, 90, 250, 700, 875, 1050],
+                "houseCost": 150,
+                "hotelCost": 150,
+                "mortgageValue": 110
+            }
+        },
+        {
+            "type": "CardSpace",
+            "name": "Chance",
+            "cardType": "CHANCE"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Erenkoy",
+            "value": "220",
+            "propertyGroup": 4,
+            "titleDeedCard": {
+                "rents": [18, 90, 250, 700, 875, 1050],
+                "houseCost": 150,
+                "hotelCost": 150,
+                "mortgageValue": 110
+            }
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Caddebostan",
+            "value": "240",
+            "propertyGroup": 4,
+            "titleDeedCard": {
+                "rents": [20, 100, 300, 750, 925, 1100],
+                "houseCost": 150,
+                "hotelCost": 150,
+                "mortgageValue": 120
+            }
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "TRANSPORT",
+            "name": "Kabatas Vapur Iskelesi",
+            "value": "200",
+            "propertyGroup": 8,
+            "titleDeedCard": {
+                "rents": [25, 50, 100, 200],
+                "mortgageValue": 100
+            }
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Nisantasi",
+            "value": "260",
+            "propertyGroup": 5,
+            "titleDeedCard": {
+                "rents": [22, 110, 330, 800, 975, 1150],
+                "houseCost": 150,
+                "hotelCost": 150,
+                "mortgageValue": 130
+            }
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Tesvikiye",
+            "value": "260",
+            "propertyGroup": 5,
+            "titleDeedCard": {
+                "rents": [22, 110, 330, 800, 975, 1150],
+                "houseCost": 150,
+                "hotelCost": 150,
+                "mortgageValue": 130
+            }
+        },
+        {
+            "type": "PropertySpace",
+            "name": "Sular Idaresi",
+            "propertyType": "UTILITY",
+            "propertyGroup": 9,
+            "value": "150",
+            "titleDeedCard" : {
+                "multipliers": [4, 10],
+                "mortgageValue": 75
+            }
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Macka",
+            "value": "260",
+            "propertyGroup": 5,
+            "titleDeedCard": {
+                "rents": [24, 120, 360, 850, 1025, 1200],
+                "houseCost": 150,
+                "hotelCost": 150,
+                "mortgageValue": 140
+            }
+        },
+        {
+            "type": "GoToJailSpace",
+            "name": "Go To Jail"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Levent",
+            "value": "300",
+            "propertyGroup": 6,
+            "titleDeedCard": {
+                "rents": [26, 130, 390, 900, 1100, 1275],
+                "houseCost": 200,
+                "hotelCost": 200,
+                "mortgageValue": 150
+            }
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Etiler",
+            "value": "300",
+            "propertyGroup": 6,
+            "titleDeedCard": {
+                "rents": [26, 130, 390, 900, 1100, 1275],
+                "houseCost": 200,
+                "hotelCost": 200,
+                "mortgageValue": 150
+            }
+        },
+        {
+            "type": "CardSpace",
+            "name": "Community Chest",
+            "cardType": "COMMUNITY_CHEST"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Bebek",
+            "value": "320",
+            "propertyGroup": 6,
+            "titleDeedCard": {
+                "rents": [28, 150, 450, 1000, 1200, 1400],
+                "houseCost": 200,
+                "hotelCost": 200,
+                "mortgageValue": 160
+            }
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "TRANSPORT",
+            "name": "Sirkeci Tren Istasyonu",
+            "value": "200",
+            "propertyGroup": 8,
+            "titleDeedCard": {
+                "rents": [25, 50, 100, 200],
+                "mortgageValue": 100
+            }
+        },
+        {
+            "type": "CardSpace",
+            "name": "Chance",
+            "cardType": "CHANCE"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Tarabya",
+            "value": "350",
+            "propertyGroup": 7,
+            "titleDeedCard": {
+                "rents": [35, 175, 500, 1100, 1300, 1500],
+                "houseCost": 200,
+                "hotelCost": 200,
+                "mortgageValue": 175
+            }
+        },
+        {
+            "type": "TaxSpace",
+            "name": "Luxury Tax",
+            "taxType": "LUXURY"
+        },
+        {
+            "type": "PropertySpace",
+            "propertyType": "LAND",
+            "name": "Yenikoy",
+            "value": "400",
+            "propertyGroup": 7,
+            "titleDeedCard": {
+                "rents": [50, 200, 600, 1400, 1700, 2000],
+                "houseCost": 200,
+                "hotelCost": 200,
+                "mortgageValue": 200
+            }
+        }
+    ],
+    "cards":{
+        "chanceCards": [
+            {
+                "cardEvent": {
+                    "type": "ADVANCE",
+                    "targetSpace": "Go",
+                    "canCollectSalary": true
+                },
+                "cardText": "Advance to \"Go\" (Collect M200)"
+            },
+            {
+                "cardEvent": {
+                    "type": "ADVANCE",
+                    "targetSpace": "Beyoglu",
+                    "canCollectSalary": true
+                },
+                "cardText": "Advance to Beyoglu, if you pass Go, collect M200"
+            },
+            {
+                "cardEvent": {
+                    "type": "ADVANCE",
+                    "targetSpace": "Caddebostan",
+                    "canCollectSalary": true
+                },
+                "cardText": "Advance to Trafalgar Square, if you pass Go, collect M200"
+            },
+            {
+                "cardEvent": {
+                    "type": "ADVANCE",
+                    "targetSpace": "Yenikoy",
+                    "canCollectSalary": true
+                },
+                "cardText": "Take a walk on the board walk. Advance token to Yenikoy"
+            },
+            {
+                "cardEvent": {
+                    "type": "ADVANCE",
+                    "targetSpace": "Haydarpasa",
+                    "canCollectSalary": true
+                },
+                "cardText": "Take a ride to Haydarpasa Station. If you pass Go, collect M200."
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "BANK",
+                    "amount": 50
+                },
+                "cardText": "Take a ride to King’s Cross Station. If you pass Go, collect M200."
+            },
+            {
+                "cardEvent": {
+                    "type": "RECEIVE_GET_OUT_OF_JAIL_CARD"
+                },
+                "cardText": "Get out of Jail Free. This card may be kept until needed, or traded/sold."
+            },
+            {
+                "cardEvent": {
+                    "type": "ADVANCE_SPACES",
+                    "moveAmount": -3,
+                    "canCollectSalary": true
+                },
+                "cardText": "Go Back Three Spaces."
+            },
+            {
+                "cardEvent": {
+                    "type": "GO_TO_JAIL",
+                    "targetSpace": "Jail",
+                    "canCollectSalary": false
+                },
+                "cardText": "Go to Jail. Go directly to Jail. Do not pass GO, do not collect M200."
+            },
+            {
+                "cardEvent": {
+                    "type": "PAY_PER_BUILDING",
+                    "to": "BANK",
+                    "amount": [25, 100]
+                },
+                "cardText": "Make general repairs on all your property: For each house pay M25, For each hotel pay M100."
+            },
+            {
+                "cardEvent": {
+                    "type": "PAY",
+                    "to": "BANK",
+                    "amount": 15
+                },
+                "cardText": "Pay poor tax of M15 "
+            },
+            {
+                "cardEvent": {
+                    "type": "PAY",
+                    "to": "PLAYERS",
+                    "amount": 50
+                },
+                "cardText": "You have been elected Chairman of the Board. Pay each player M50"
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "BANK",
+                    "amount": 150
+                },
+                "cardText": "Your building and loan matures. Collect M150"
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "BANK",
+                    "amount": 100
+                },
+                "cardText": "You have won a crossword competition. Collect M100"
+            }
+
+        ],
+        "communityChestCards": [
+            {
+                "cardEvent": {
+                    "type": "ADVANCE",
+                    "targetSpace": "Go",
+                    "canCollectSalary": true
+                },
+                "cardText": "Advance to \"Go\" (Collect M200)"
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "BANK",
+                    "amount": 200
+                },
+                "cardText": "Bank error in your favor. Collect M200."
+            },
+            {
+                "cardEvent": {
+                    "type": "PAY",
+                    "to": "BANK",
+                    "amount": 50
+                },
+                "cardText": "Doctor's fees. Pay M50."
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "BANK",
+                    "amount": 50
+                },
+                "cardText": "From sale of stock you get M50."
+            },
+            {
+                "cardEvent": {
+                    "type": "RECEIVE_GET_OUT_OF_JAIL_CARD"
+                },
+                "cardText": "Get out of Jail Free. This card may be kept until needed, or traded/sold."
+            },
+            {
+                "cardEvent": {
+                    "type": "GO_TO_JAIL",
+                    "targetSpace": "Jail",
+                    "canCollectSalary": false
+                },
+                "cardText": "Go to Jail. Go directly to Jail. Do not pass GO, do not collect M200."
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "PLAYERS",
+                    "amount": 50
+                },
+                "cardText": "Grand Opera Night. Collect M50 from every player for opening night seats."
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "BANK",
+                    "amount": 100
+                },
+                "cardText": "Holiday Fund matures. Receive M100."
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "BANK",
+                    "amount": 20
+                },
+                "cardText": "Income tax refund. Collect M20."
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "PLAYERS",
+                    "amount": 10
+                },
+                "cardText": "It is your birthday. Collect M10 from every player."
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "BANK",
+                    "amount": 100
+                },
+                "cardText": "Life insurance matures – Collect M100"
+            },
+            {
+                "cardEvent": {
+                    "type": "PAY",
+                    "to": "BANK",
+                    "amount": 50
+                },
+                "cardText": "Hospital Fees. Pay M50."
+            },
+            {
+                "cardEvent": {
+                    "type": "PAY",
+                    "to": "BANK",
+                    "amount": 50
+                },
+                "cardText": "School fees. Pay M50."
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "BANK",
+                    "amount": 25
+                },
+                "cardText": "Receive M25 consultancy fee."
+            },
+            {
+                "cardEvent": {
+                    "type": "PAY_PER_BUILDING",
+                    "to": "BANK",
+                    "amount": [40, 115]
+                },
+                "cardText": "You are assessed for street repairs: Pay M40 per house and M115 per hotel you own."
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "BANK",
+                    "amount": 10
+                },
+                "cardText": "You have won second prize in a beauty contest. Collect M10."
+            },
+            {
+                "cardEvent": {
+                    "type": "COLLECT",
+                    "from": "BANK",
+                    "amount": 10
+                },
+                "cardText": "You inherit M100."
+            }
+        ]
+    }
+}
