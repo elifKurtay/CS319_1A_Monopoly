@@ -14,6 +14,12 @@ public class GoToJailEvent extends CardEvent{
     private Space targetSpace;
     private boolean canCollectSalary;
 
+    /**
+     * Handles the event and performs operations on the players and the board
+     * @param affectedPlayer
+     * @param players
+     * @param board
+     */
     @Override
     public void handleEvent(Player affectedPlayer, Player[] players, Board board) {
         // Current fixed implementation for salary 200, can change for a constant read from map

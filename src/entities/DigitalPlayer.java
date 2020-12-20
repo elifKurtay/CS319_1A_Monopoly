@@ -21,6 +21,11 @@ public class DigitalPlayer extends Player{
     private Player tradePlayer;
     private int tradeType;
 
+    /**
+     * Initializes the digital player with the given name and play strategy
+     * @param name
+     * @param strategy
+     */
     public DigitalPlayer(String name, PlayStrategy strategy) {
         super(name);
         this.strategy = strategy;
@@ -34,8 +39,12 @@ public class DigitalPlayer extends Player{
         System.out.println(name + " has " + strategy);
     }
 
-    //checks mortgage & redeem
-    //trade decision on turn actions
+    /**
+     * Checks mortgage and redeem.
+     * Decides to do turn actions
+     * @param players
+     * @return null
+     */
     public Player decideOnTradeAction(Player[] players ){
         tradeTurn++;
         if(tradeTurn % 3 != 0)
@@ -47,6 +56,11 @@ public class DigitalPlayer extends Player{
         return null;
     }
 
+
+    /**
+     * Decides on redeem action.
+     * @return true if done redeem, false if it did not
+     */
     public boolean decideOnRedeemAction() {
         boolean didRedeem = false;
         //redeem action
@@ -59,6 +73,10 @@ public class DigitalPlayer extends Player{
         return didRedeem;
     }
 
+    /**
+     * Decides on mortgage action.
+     * @return true if done mortgage, false if it did not
+     */
     public boolean decideOnMortgageAction() {
         boolean didMortgage = false;
         //mortgage action
@@ -71,8 +89,10 @@ public class DigitalPlayer extends Player{
         return didMortgage;
     }
 
-    //for build action
-    //build on all
+    /**
+     * Decides on build action.
+     * @return true if done build, false if it did not
+     */
     public boolean decideOnBuildAction() {
         if(! ownsAllPropertiesFromSameGroup(((PropertySpace) getCurrentSpace())
                 .getAssociatedProperty())) {
@@ -107,12 +127,20 @@ public class DigitalPlayer extends Player{
         return false;
     }
 
+    /**
+     * Does the build action
+     */
     public void doBuild(){
         ArrayList<Property> properties = getAllPropertiesFromSameGroup(((PropertySpace) getCurrentSpace()).getAssociatedProperty());
         for( Property p : properties)
             ((LandProperty) p).buildHouse();
     }
 
+
+    /**
+     * Decides on buy action.
+     * @return true if done buy, false if it did not
+     */
     public boolean decideOnBuy( Property property ) {
         if (strategy.shouldBuy(property, getMoney(), getAllPropertiesFromSameGroup(property))) {
             this.addProperty(property);
@@ -123,6 +151,10 @@ public class DigitalPlayer extends Player{
         return false;
     }
 
+    /**
+     * Prepares a trade proposal.
+     * @return trade information array
+     */
     public int[] getTradeProposal() {
         if(tradePlayer == null || tradeType < 1)
             return null;
@@ -132,6 +164,12 @@ public class DigitalPlayer extends Player{
 
     }
 
+    /**
+     * Prepares a bid on auction.
+     * @param property
+     * @param highestBid
+     * @return bid
+     */
     public int bidOnAuction(Property property, int highestBid){
         return strategy.getBid(property, highestBid, getMoney(), poorLimit, this);
     }
@@ -142,6 +180,12 @@ public class DigitalPlayer extends Player{
     // 2 -> needs money, has lots of property
     // 3 -> wants property
     // -1 -> do not need to trade
+
+    /**
+     * Decides on trade.
+     * @param players
+     * @return decision
+     */
     private int decideOnTrade(Player[] players){
         if(isJailed()) {
             for(Player p: players)
@@ -184,10 +228,19 @@ public class DigitalPlayer extends Player{
         return -1;
     }
 
+    /**
+     * Prepares a trade answer.
+     * @param trade
+     * @return true or false
+     */
     public boolean getTradeAnswer(Trade trade) {
         return strategy.getTradeAnswer(trade, this, 1.0);
     }
 
+    /**
+     * Returns true if there is mortgaged property, false otherwise
+     * @return true or false
+     */
     private boolean hasMortgagedProperty() {
         for (Property p: getProperties() ) {
             if(p.isMortgaged())
@@ -196,6 +249,9 @@ public class DigitalPlayer extends Player{
         return false;
     }
 
+    /**
+     * resets the digital player
+     */
     @Override
     public void reset() {
         super.reset();

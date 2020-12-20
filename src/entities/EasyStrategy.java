@@ -8,6 +8,13 @@ import java.util.ArrayList;
 public class EasyStrategy implements PlayStrategy, Serializable{
     private final int MULTIPLIER = 3;
 
+    /**
+     * Decided to buy a property
+     * @param property
+     * @param money
+     * @param properties
+     * @return true or false
+     */
     @Override
     public boolean shouldBuy(Property property, int money,
                              ArrayList<Property> properties) {
@@ -15,6 +22,15 @@ public class EasyStrategy implements PlayStrategy, Serializable{
         return property.getValue() * MULTIPLIER < money;
     }
 
+    /**
+     * Returns the bid value on a property
+     * @param property
+     * @param highestBid
+     * @param money
+     * @param poorLimit
+     * @param player
+     * @return bid
+     */
     @Override
     public int getBid(Property property, int highestBid, int money, int poorLimit, DigitalPlayer player) {
         //only looks at money
@@ -23,6 +39,11 @@ public class EasyStrategy implements PlayStrategy, Serializable{
         return -1; //fold
     }
 
+    /**
+     * Performs the mortgage
+     * @param player
+     * @return the property to be mortgaged
+     */
     @Override
     public Property doMortgage(DigitalPlayer player) {
         int highestValue = 0;
@@ -38,6 +59,11 @@ public class EasyStrategy implements PlayStrategy, Serializable{
         return properties.get(index);
     }
 
+    /**
+     * Performs the redeem
+     * @param player
+     * @return the property to be redeemed
+     */
     @Override
     public Property doRedeem(DigitalPlayer player) {
         int lowestValue = 0;
@@ -53,6 +79,13 @@ public class EasyStrategy implements PlayStrategy, Serializable{
         return properties.get(index);
     }
 
+    /**
+     * Performs the trade
+     * @param tradeType
+     * @param tradePlayer
+     * @param currentPlayer
+     * @return trade information
+     */
     @Override
     public int[] doTrade(int tradeType, Player tradePlayer, DigitalPlayer currentPlayer) {
         int[] proposal = {-1, 0, 0, -1, 0 , 0};
@@ -83,22 +116,43 @@ public class EasyStrategy implements PlayStrategy, Serializable{
         return proposal;
     }
 
+
     /* how to make these not constant ? */
+
+    /**
+     * Get mortgage limit
+     * @return mortgage limit
+     */
     @Override
     public int getMortgageLimit() {
         return 50;
     }
 
+    /**
+     * Get mortgage limit
+     * @return mortgage limit
+     */
     @Override
     public int getRedeemLimit() {
         return 300;
     }
 
+    /**
+     * Get poor limit
+     * @return poor limit
+     */
     @Override
     public int getPoorLimit() {
         return 200;
     }
 
+    /**
+     * Gets trade answer
+     * @param trade
+     * @param player
+     * @param decoratorOffset
+     * @return true if decides to perform the trade, false otherwise
+     */
     @Override
     public boolean getTradeAnswer(Trade trade, DigitalPlayer player, double decoratorOffset) {
         int gain = 0, loss = 0;
@@ -111,6 +165,10 @@ public class EasyStrategy implements PlayStrategy, Serializable{
         return gain >= loss * decoratorOffset;
     }
 
+    /**
+     * Overrided the toString function
+     * @return string
+     */
     public String toString(){
         return " Easy Strategy ";
     }
