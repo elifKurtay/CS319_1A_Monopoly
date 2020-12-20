@@ -1116,7 +1116,7 @@ public class GameScreenController {
      * @param cancel The text of the cancel button
      * @return The choice
      */
-    private boolean twoChoiceDialog(String message, String ok, String cancel) {
+    public boolean twoChoiceDialog(String message, String ok, String cancel) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.APPLICATION_MODAL);
@@ -1128,7 +1128,6 @@ public class GameScreenController {
         alert.showAndWait();
         return alert.getResult() == ButtonType.OK;
     }
-    private boolean restart = false;
 
     /**
      * Finishes the turn of a player

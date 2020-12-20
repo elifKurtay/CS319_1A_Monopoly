@@ -197,7 +197,7 @@ public class Game extends Observer {
                     }
 
                     //digital player turn actions
-                    if (digitalPlayer) {
+                    if (digitalPlayer && !(currentPlayer.isBankrupt())) {
                         //will it do mortgage?
                         if(((DigitalPlayer) currentPlayer).decideOnMortgageAction())
                             System.out.println("player did mortgage");
@@ -207,19 +207,21 @@ public class Game extends Observer {
                         //will it trade?
                         Player tradePlayer = ((DigitalPlayer) currentPlayer).decideOnTradeAction(players);
                         if (tradePlayer != null) {
-                            System.out.println("START TRADE");
                             int[] tradeProposal = ((DigitalPlayer) currentPlayer).getTradeProposal();
-                            //sent trade to controller?
-                            Trade digitalPlayerTrade = new Trade(currentPlayer, tradePlayer);
-                            ArrayList<Property> offeredProperty = new ArrayList<>();
-                            offeredProperty.add(currentPlayer.getProperties().get(tradeProposal[0]));
-                            digitalPlayerTrade.offer(offeredProperty , tradeProposal[1], tradeProposal[2]);
+                            if (tradeProposal != null && currentPlayer.getProperties().size() > tradeProposal[0] && tradeProposal[0] >= 0) {
+                                System.out.println("START TRADE");
+                                //sent trade to controller?
+                                Trade digitalPlayerTrade = new Trade(currentPlayer, tradePlayer);
+                                ArrayList<Property> offeredProperty = new ArrayList<>();
+                                offeredProperty.add(currentPlayer.getProperties().get(tradeProposal[0]));
+                                digitalPlayerTrade.offer(offeredProperty, tradeProposal[1], tradeProposal[2]);
 
-                            ArrayList<Property> requestedProperty = new ArrayList<>();
-                            requestedProperty.add(tradePlayer.getProperties().get(tradeProposal[3]));
-                            digitalPlayerTrade.want(requestedProperty, tradeProposal[4], tradeProposal[5]);
+                                ArrayList<Property> requestedProperty = new ArrayList<>();
+                                requestedProperty.add(tradePlayer.getProperties().get(tradeProposal[3]));
+                                digitalPlayerTrade.want(requestedProperty, tradeProposal[4], tradeProposal[5]);
 
-                            controller.tradeProposalDialog(digitalPlayerTrade);
+                                controller.tradeProposalDialog(digitalPlayerTrade);
+                            }
                         }
 
                     }

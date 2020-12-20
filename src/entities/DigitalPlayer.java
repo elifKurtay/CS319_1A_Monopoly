@@ -46,6 +46,8 @@ public class DigitalPlayer extends Player{
      * @return null
      */
     public Player decideOnTradeAction(Player[] players ){
+        if (getProperties().size() == 0)
+            return null;
         tradeTurn++;
         if(tradeTurn % 3 != 0)
             return null;
@@ -82,6 +84,10 @@ public class DigitalPlayer extends Player{
         //mortgage action
         while(getMoney() < mortgageLimit) {
             Property p = strategy.doMortgage(this);
+            if(p == null){
+                lost();
+                break;
+            }
             p.mortgage();
             setMoney(getMoney() + p.getMortgageValue());
             didMortgage = true;

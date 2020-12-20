@@ -170,6 +170,8 @@ public class HardStrategy implements PlayStrategy , Serializable {
                         && tradePlayer.numberOfPropertiesFromSameGroup(p) == 1)
                     proposal[3] = tradePlayer.getProperties().indexOf(p);
             }
+            if (proposal[3] < 0)
+                return null;
             proposal[1] = tradePlayer.getProperties().get(proposal[3]).getWorth() + 30;
         }
         return proposal;
