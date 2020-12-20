@@ -85,7 +85,7 @@ public class DigitalPlayer extends Player{
         while(getMoney() < mortgageLimit) {
             Property p = strategy.doMortgage(this);
             if(p == null){
-                lost();
+                lost(0);
                 break;
             }
             p.mortgage();
