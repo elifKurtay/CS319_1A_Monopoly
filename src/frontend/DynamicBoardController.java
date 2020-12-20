@@ -160,7 +160,12 @@ public class DynamicBoardController {
         if (oldIndex == -1) {
             // draw the token on the "go space"
            //getTokenBox(0).getChildren().add(iv);
-           ((HBox) getSpaceBox(0).lookup("#tokenBox")).getChildren().add(iv);
+            if (playerNo < 4) {
+                ((HBox) getSpaceBox(0).lookup("#tokenBox")).getChildren().add(iv);
+            }
+            else{
+                ((HBox) getSpaceBox(newIndex).lookup("#tokenBox")).getChildren().add(iv);
+            }
         }
         else {
             // remove the token from the old index before drawing it at the new index

@@ -35,6 +35,8 @@ public class Thief {
 
         int dice = 0;
         int difference = target.getCurrentSpace().getIndex() - currentSpace.getIndex();
+        if (difference < 0)
+            difference = 40 - difference;
         if(difference > 12) {
             dice = (int) (Math.random() * 5 + 8); //[8,12]
         } else if (difference > 6)

@@ -225,13 +225,14 @@ public class Game extends Observer {
                     //controller.drawThief();
                     thief.setCurrentSpace(board.getSpace(10));
                 }
-                if(thief.rollDice() == -1){
+                int thiefDice = thief.rollDice();
+                if(thiefDice == -1){
                     controller.drawToken(4, thief.getCurrentSpace().getIndex(), -1);
                     board.setThief(null);
                     thief = null;
                 }
                 else{
-                    int move = thief.rollDice() + thief.getCurrentSpace().getIndex() ;
+                    int move = thiefDice + thief.getCurrentSpace().getIndex() ;
                     int targetSpace = thief.getTarget().getCurrentSpace().getIndex();
                     if((targetSpace > thief.getCurrentSpace().getIndex() && targetSpace <= move)
                             || (move > 40 && move % 40 > targetSpace ) ){
@@ -241,9 +242,9 @@ public class Game extends Observer {
                     controller.drawToken(4, thief.getCurrentSpace().getIndex(), move);
                     if(thief.move(board.getSpace(move))) {
                         thief.steal();
+                        controller.drawToken(4, thief.getCurrentSpace().getIndex(), -1);
                         board.setThief(null);
                         thief = null;
-                        //controller delete token?
                     }
                 }
             }
@@ -322,6 +323,9 @@ public class Game extends Observer {
             CardEvent ce = card.getCardEvent();
             int oldIndex = currentPlayer.getCurrentSpace().getIndex();
             ce.handleEvent(currentPlayer, players, board);
+            if(ce instanceof ThiefEvent){
+                controller.drawToken(4, -1, 10);
+            }
             int i = 0;
             for (; i < LAP; i++) {
                 if (players[i] == currentPlayer) {
@@ -357,6 +361,9 @@ public class Game extends Observer {
         CardEvent ce = card.getCardEvent();
         int oldIndex = currentPlayer.getCurrentSpace().getIndex();
         ce.handleEvent(currentPlayer, players, board);
+        if(ce instanceof ThiefEvent){
+            controller.drawToken(4, -1, 10);
+        }
         int i = 0;
         for (; i < 4; i++) {
             if (players[i] == currentPlayer) {
