@@ -538,6 +538,12 @@
         "communityChestCards": [
             {
                 "cardEvent": {
+                    "type": "THIEF",
+                },
+                "cardText": "Deploy Thief"
+            },
+            {
+                "cardEvent": {
                     "type": "ADVANCE",
                     "targetSpace": "Go",
                     "canCollectSalary": true

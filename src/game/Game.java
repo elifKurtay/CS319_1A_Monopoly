@@ -453,7 +453,7 @@ public class Game extends Observer {
             //change player turn
             restart = false;
         }
-        controller.setTokenImage(4, "Thief");
+        controller.setTokenImage(4, "thief");
         controller.drawPlayerBoxes(players);
     }
 
@@ -495,7 +495,7 @@ public class Game extends Observer {
             if(players[i].getPlayerName().equals(currentPlayer.getPlayerName()))
                 playerTurn = i;
         }
-        controller.setTokenImage(4, "Thief");
+        controller.setTokenImage(4, "thief");
         gameLoop(playerTurn);
     }
 

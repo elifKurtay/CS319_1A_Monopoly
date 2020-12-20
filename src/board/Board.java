@@ -170,6 +170,9 @@ public class Board implements Serializable {
                         }
                         e = new PayPerBuildingEvent(cardEvent.getString("to"), amount);
                         break;
+                    case "THIEF":
+                        e = new ThiefEvent();
+                        break;
                 }
                 chanceCards.add(new Card(card.getString("cardText"), e));
             }
