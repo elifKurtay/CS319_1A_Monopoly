@@ -827,7 +827,7 @@ public class GameScreenController {
                 int finalJ = j;
                 int finalI = i;
                 Button b = new Button("Select");
-                b.setStyle("-fx-background-color: #9FFA09;");
+                b.getStyleClass().add("tokenButton");
                 if(tokens.contains(tokenNames[i*4+j])){
                     final String tokenToBeRemoved = tokenNames[i*4+j];
                     b.setOnAction(event -> {

@@ -66,6 +66,14 @@
     -fx-background-color: grey;
 }
 
+.tokenButton{
+    -fx-background-color: #9FFA09;
+}
+
+.tokenButton:hover{
+    -fx-background-color: forestgreen;
+}
+
 .abc {
     -fx-alignment: center-right;
     -fx-font-size: 32px;
