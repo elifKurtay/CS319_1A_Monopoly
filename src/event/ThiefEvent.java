@@ -13,7 +13,11 @@ public class ThiefEvent extends CardEvent{
      */
     @Override
     public void handleEvent(Player affectedPlayer, Player[] players, Board board) {
-        board.deployThief(players[(int)(Math.random()*4)]);
+        int target;
+        do {
+            target = (int)(Math.random()*4);
+        }while (players[target].isBankrupt());
+        board.deployThief(players[target]);
     }
 
 }
