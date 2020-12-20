@@ -811,8 +811,7 @@ public class GameScreenController {
         gp.setHgap(30);
         gp.setVgap(30);
         if (!allDigitalPlayers) alert.showAndWait();
-
-
+        drawPlayerBoxes(players);
     }
 
     private void disableExcept(int exception, Button[] bids, Button[] folds, TextField[] textFields){
@@ -865,6 +864,18 @@ public class GameScreenController {
     }
 
     private void foldEvent(int bidNum, Auction auc, Alert alert, Player[] players, Label[] labels, Button[] bids, Button[] folds, TextField[] textFields){
+        int leftBidders = 0;
+        int lastBidder = -1;
+        for (int i = 0; i < 4; i++) {
+            if(players[i] != players[bidNum] && auc.getBids()[i] > -1){
+                leftBidders++;
+                lastBidder = i;
+            }
+        }
+        if (leftBidders == 1 && auc.getHighestBid() == 0){
+            auc.bid(players[lastBidder], 1,lastBidder);
+        }
+
         auc.fold(players[bidNum], bidNum);
         if (auc.getState() == 0 &&
                 !alert.getDialogPane().getButtonTypes().contains(ButtonType.CANCEL)) {
