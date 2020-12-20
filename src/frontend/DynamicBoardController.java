@@ -164,6 +164,8 @@ public class DynamicBoardController {
                 ((HBox) getSpaceBox(0).lookup("#tokenBox")).getChildren().add(iv);
             }
             else{
+                if (((HBox) getSpaceBox(newIndex).lookup("#tokenBox")).getChildren().contains(iv))
+                    ((HBox) getSpaceBox(newIndex).lookup("#tokenBox")).getChildren().remove(iv);
                 ((HBox) getSpaceBox(newIndex).lookup("#tokenBox")).getChildren().add(iv);
             }
         }

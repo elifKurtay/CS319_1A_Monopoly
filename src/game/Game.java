@@ -239,6 +239,7 @@ public class Game extends Observer {
                         move = thief.getTarget().getCurrentSpace().getIndex();
                     }
 
+                    move = move % 40;
                     controller.drawToken(4, thief.getCurrentSpace().getIndex(), move);
                     if(thief.move(board.getSpace(move))) {
                         thief.steal();
@@ -319,11 +320,13 @@ public class Game extends Observer {
         Card card = board.drawCard(space.getType());
 
         if(player instanceof DigitalPlayer) {
-            controller.openCard(player.getPlayerName() + " opened a card!\n" + card.getCardText());
             CardEvent ce = card.getCardEvent();
+            if(!(ce instanceof ThiefEvent))
+                controller.openCard(player.getPlayerName() + " opened a card!\n" + card.getCardText());
             int oldIndex = currentPlayer.getCurrentSpace().getIndex();
             ce.handleEvent(currentPlayer, players, board);
             if(ce instanceof ThiefEvent){
+                controller.openCard(player.getPlayerName() + " opened a card!\n" + card.getCardText() + board.getThief().getTarget().getPlayerName());
                 controller.drawToken(4, -1, 10);
             }
             int i = 0;
@@ -357,12 +360,14 @@ public class Game extends Observer {
 
     private void openCard(Card card){
         System.out.println(card.getCardText());
-        controller.showMessage(card.getCardText(), null);
         CardEvent ce = card.getCardEvent();
+        if(!(ce instanceof ThiefEvent))
+            controller.showMessage(card.getCardText(), null);
         int oldIndex = currentPlayer.getCurrentSpace().getIndex();
         ce.handleEvent(currentPlayer, players, board);
         if(ce instanceof ThiefEvent){
             controller.drawToken(4, -1, 10);
+            controller.showMessage(card.getCardText() + board.getThief().getTarget().getPlayerName(), null);
         }
         int i = 0;
         for (; i < 4; i++) {

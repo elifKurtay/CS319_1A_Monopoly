@@ -9,6 +9,7 @@ import entities.DigitalPlayer;
 import entities.LandProperty;
 import entities.Player;
 import entities.Property;
+import event.CardEvent;
 import event.ThiefEvent;
 import game.Game;
 import javafx.application.Platform;
@@ -481,11 +482,14 @@ public class GameScreenController {
                 Button openButton = new Button("Open");
                 openButton.setOnAction((ActionEvent e) -> {
                     openButton.setDisable(true);
-                    showMessage(c.getCardText(), null);
                     int oldIndex = game.getCurrentPlayer().getCurrentSpace().getIndex();
-                    c.getCardEvent().handleEvent(game.getCurrentPlayer(), game.getPlayers(), game.getBoard());
+                    CardEvent ce = c.getCardEvent();
+                    if(!(ce instanceof ThiefEvent))
+                        showMessage(c.getCardText(), null);
+                    ce.handleEvent(game.getCurrentPlayer(), game.getPlayers(), game.getBoard());
                     if(c.getCardEvent() instanceof ThiefEvent){
                         drawToken(4, -1, 10);
+                        showMessage(c.getCardText() + game.getBoard().getThief().getTarget().getPlayerName(), null);
                     }
                     drawToken(playerNo, oldIndex, game.getCurrentPlayer().getCurrentSpace().getIndex());
                     drawPlayerBoxes(game.getPlayers());

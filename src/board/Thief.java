@@ -20,6 +20,7 @@ public class Thief {
     }
 
     public void steal() {
+        System.out.println("Stole" + STEAL_AMOUNT + " from " + target.getPlayerName());
         target.setMoney(target.getMoney() - STEAL_AMOUNT);
     }
 

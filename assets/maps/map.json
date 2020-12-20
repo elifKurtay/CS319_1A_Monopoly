@@ -427,7 +427,7 @@
                 "cardEvent": {
                     "type": "THIEF"
                 },
-                "cardText": "Deploy Thief"
+                "cardText": "Deploy Thief Targeting: "
             },
             {
                 "cardEvent": {
