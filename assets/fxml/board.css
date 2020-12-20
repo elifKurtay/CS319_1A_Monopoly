@@ -77,11 +77,3 @@ Label {
     -fx-border-color: black;
     -fx-border-width: 1px;
 }
-
-.titleCard {
-    -fx-pref-height: 200px;
-    -fx-pref-width: 150px;
-    -fx-border-color: black;
-    -fx-border-width: 2px;
-    -fx-background-color: white;
-}
