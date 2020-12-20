@@ -230,7 +230,11 @@ public class Game extends Observer {
                 }
                 if(currentPlayer.getMoney() < 0)
                 {
-                    currentPlayer.lost();
+                    int count = -3;
+                    for(Player p : players)
+                        if(!p.getPlayerName().equals(currentPlayer.getPlayerName()) &&  p.isBankrupt())
+                            count++;
+                    currentPlayer.lost(count);
                     controller.showMessage("bankrupt!!", currentPlayer);
                 }
                 controller.finishTurn(digitalPlayer);

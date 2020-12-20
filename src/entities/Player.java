@@ -68,9 +68,10 @@ public class Player implements Serializable {
 
     /**
      * Sets the attributes of the player when he is lost
+     * @param count
      */
-    public void lost() {
-        money = 0;
+    public void lost(int count) {
+        money = count;
         bankrupt = true;
         jailed = false;
         currentSpace = null;

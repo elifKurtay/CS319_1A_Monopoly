@@ -661,7 +661,11 @@ public class GameScreenController {
         ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No");
         alert.showAndWait();
         if (alert.getResult() == ButtonType.OK) {
-            player.lost();
+            int count = -3;
+            for(Player p : game.getPlayers())
+                if(!p.getPlayerName().equals(player.getPlayerName()) && p.isBankrupt())
+                    count++;
+            player.lost(count);
         }
     }
 
