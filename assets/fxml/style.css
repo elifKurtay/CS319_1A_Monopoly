@@ -134,3 +134,8 @@
     -fx-alignment: center;
 }
 
+.alertDialogue{
+    -fx-border-width: 6;
+    -fx-border-style: solid;
+}
+

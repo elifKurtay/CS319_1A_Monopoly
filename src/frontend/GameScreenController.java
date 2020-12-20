@@ -391,16 +391,21 @@ public class GameScreenController {
         }
 
         int[] dice = new int[2];
-        Alert alert;
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.setGraphic(null);
+        alert.getDialogPane().getStylesheets().add("fxml/style.css");
+        alert.getDialogPane().getStyleClass().add("alertDialogue");
+        alert.initOwner(stage);
+
+
         System.out.println("turn of " + name);
 
         if(!digital) {
-            alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText(name + " is rolling");
             ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Roll");
-            alert.initStyle(StageStyle.UNDECORATED);
-            alert.initModality(Modality.APPLICATION_MODAL);
-            alert.initOwner(stage);
+
             alert.setX(420);
             alert.setY(420);
             alert.showAndWait();
@@ -408,12 +413,8 @@ public class GameScreenController {
         dice[0] = (int) (Math.random() * 6 + 1);
         dice[1] = (int) (Math.random() * 6 + 1);
 
-        alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setX(420);
         alert.setY(420);
-        alert.initStyle(StageStyle.UNDECORATED);
-        alert.initModality(Modality.APPLICATION_MODAL);
-        alert.initOwner(stage);
         if (dice[0] == dice[1]) {
             alert.setHeaderText(name + " has rolled double: " + dice[0] + " " + dice[1]);
         }
@@ -450,15 +451,42 @@ public class GameScreenController {
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.initOwner(stage);
-        alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
+        alert.getDialogPane().getButtonTypes().remove(ButtonType.OK);
+        alert.setHeaderText("");
+        alert.setGraphic(null);
+        alert.getDialogPane().getStylesheets().add("fxml/style.css");
+        alert.getDialogPane().getStyleClass().add("alertDialogue");
 
         if(first) {
             tokens.addAll(Arrays.asList(tokenNames));
             first = false;
         }
+        if(digital) {
+            String chosen = tokens.get(0);
+            Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+            alert2.setX(420);
+            alert2.setY(420);
+            alert2.initStyle(StageStyle.UNDECORATED);
+            alert2.initModality(Modality.APPLICATION_MODAL);
+            alert2.setHeaderText(name + " has chosen: " + chosen);
+            try {
+                Thread.sleep(500);
+                alert2.close();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            alert2.showAndWait();
+
+            tokens.remove(chosen);
+            return IntStream.range(0, tokenNames.length).filter(i -> tokenNames[i].equals(chosen))
+                    .findFirst().orElse(-1) + 1;
+        }
 
         VBox chooseTokenBox = new VBox();
-        Label info = new Label("Choose");
+        chooseTokenBox.setStyle("-fx-alignment: center");
+        chooseTokenBox.setSpacing(20);
+        Label info = new Label(name + " CHOOSE YOUR PIECE!");
+        info.setStyle("-fx-font-size: 16px; -fx-font-weight: bold");
         chooseTokenBox.getChildren().add(info);
         HBox[] rows = new HBox[2];
         VBox[] pieceBox = new VBox[8];
@@ -479,13 +507,13 @@ public class GameScreenController {
                 "-  Rent collect \n" +
                 "    multiplier of 0.8\n");
         tokenInfo[1] = new Label("+ Building cost is half\n" +
-                "\t- Salary change \n" +
+                "- Salary change \n" +
                 "    of -M50\n" +
                 "  (Total salary is M150)\n");
         tokenInfo[2] = new Label("+ Property cost \n" +
                 "    multiplier 0.8\n" +
-                "-  Salary change  \n" +
-                "    of -M100 \n" +
+                "-  Salary change of \n" +
+                "    -M100 " +
                 " (Total salary is M100)\n");
         tokenInfo[3] = new Label("+ Rent collect \n" +
                 "    multiplier of 1.3\n" +
@@ -494,7 +522,7 @@ public class GameScreenController {
         tokenInfo[4] = new Label("+ Bonus salary \n" +
                 "    is M200 \n" +
                 " (Total salary is M400)\n" +
-                "- Jail Time of \n" +
+                "- Jail Time of " +
                 "   4 rounds\n");
         tokenInfo[5] = new Label("+ Building cost \n" +
                 "   multiplier of 0.8\n" +
@@ -513,17 +541,37 @@ public class GameScreenController {
         final int[] cnt = new int[1];
         for(int i = 0; i < rows.length; i++){
             rows[i] = new HBox();
+            rows[i].setAlignment(Pos.CENTER);
+            rows[i].setSpacing(10);
             for(int j = 0; j < 4; j++){
+                HBox frame = new HBox();
+                frame.setStyle("-fx-border-width: 3; -fx-border-style: solid;");
                 view = new ImageView(images[i*4+j]);
+                frame.getChildren().add(view);
                 pieceBox[i*4+j] = new VBox();
-                pieceBox[i*4+j].getChildren().add(view);
+                pieceBox[i*4+j].setSpacing(5);
+                pieceBox[i*4+j].setStyle("-fx-background-color: #F8E6C5");
+                pieceBox[i*4+j].setAlignment(Pos.CENTER);
+                Label pieceName = new Label(tokenNames[i*4+j]);
+                pieceName.setStyle("-fx-font-size: 16px; -fx-font-weight: bold");
+                pieceBox[i*4+j].getChildren().add(pieceName);
+                pieceBox[i*4+j].getChildren().add(frame);
                 int finalJ = j;
                 int finalI = i;
-                Button b = new Button(tokenNames[i*4+j]);
-                b.setOnAction(event -> {
-                    cnt[0] = (finalI + 1) * finalJ;
-                    alert.close();
-                });
+                Button b = new Button("Select");
+                b.setStyle("-fx-background-color: #9FFA09;");
+                if(tokens.contains(tokenNames[i*4+j])){
+                    final String tokenToBeRemoved = tokenNames[i*4+j];
+                    b.setOnAction(event -> {
+                        tokens.remove(tokenToBeRemoved);
+                        cnt[0] = (finalI + 1) * finalJ;
+                        alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
+                        alert.close();
+                    });
+                }
+                else
+                    b.setDisable(true);
+
                 pieceBox[i*4+j].getChildren().add(b);
                 pieceBox[i*4+j].getChildren().add(tokenInfo[i*4+j]);
                 rows[i].getChildren().add(pieceBox[i*4+j]);
@@ -531,20 +579,9 @@ public class GameScreenController {
             chooseTokenBox.getChildren().add(rows[i]);
         }
 
-
-
         alert.getDialogPane().setContent(chooseTokenBox);
+
         alert.showAndWait();
-
-        if(digital) {
-            try {
-                Thread.sleep(500);
-                alert.close();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
         return cnt[0];
 
     }
