@@ -2,24 +2,27 @@ package frontend;
 
 import FileManagement.FileManager;
 import board.Board;
+import board.PropertySpace;
+import board.Space;
 import entities.Player;
 import game.Game;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.eclipse.jetty.util.IO;
 
 import java.io.File;
+import java.io.IOException;
 
 public class NewGameMenuController extends MenuController {
     private static final int PLAYER_COUNT = 4;
@@ -32,6 +35,15 @@ public class NewGameMenuController extends MenuController {
     private ComboBox<String> mapCombo;
     @FXML
     private ComboBox<Integer> turnLimitCombo;
+    @FXML
+    private AnchorPane dynamicBoard;
+    @FXML
+    private DynamicBoardController dynamicBoardController;
+
+    @FunctionalInterface
+    public interface IOExceptionActionEvent {
+        void a() throws IOException;
+    }
 
     public void initialize() {
         players = new String[PLAYER_COUNT];
@@ -50,6 +62,17 @@ public class NewGameMenuController extends MenuController {
             }
         }
         mapCombo.getSelectionModel().select(mapCombo.getItems().get(0));
+
+        dynamicBoard.getStylesheets().clear();
+        dynamicBoard.getStylesheets().add("fxml/mapPreview.css");
+        dynamicBoard.applyCss();
+
+        setMapPreview(new File("./assets/maps/" + mapCombo.getValue()));
+
+        mapCombo.setOnAction(event -> {
+            dynamicBoardController.clearMap();
+            setMapPreview(new File("./assets/maps/" + mapCombo.getValue()));
+        });
 
         turnLimitCombo.getItems().addAll(-1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50);
         turnLimitCombo.getSelectionModel().select(turnLimitCombo.getItems().get(0));
@@ -170,4 +193,11 @@ public class NewGameMenuController extends MenuController {
             }
         }
     }
+
+    private void setMapPreview(File map) {
+        Board board = new Board(map);
+        dynamicBoardController.setDynamicBoard(board);
+
+    }
+
 }
