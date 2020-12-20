@@ -236,6 +236,7 @@ public class Game extends Observer {
             }
         }
         endGame();
+        controller.showScoreboard();
         System.out.println("Game Over!");
     }
 

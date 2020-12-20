@@ -1282,7 +1282,7 @@ public class GameScreenController {
     }
 
 
-    private void showScoreboard() {
+    public void showScoreboard() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.APPLICATION_MODAL);
@@ -1384,6 +1384,7 @@ public class GameScreenController {
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setVisible(false);
         alert.showAndWait();
     }
+
     @Getter
     @Setter
     public class Score{
