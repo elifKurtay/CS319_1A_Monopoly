@@ -37,7 +37,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
-            "name": "White Chapel Road",
+            "name": "Dolapdere",
             "value": "60",
             "propertyGroup": 0,
             "titleDeedCard": {
@@ -55,7 +55,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "TRANSPORT",
-            "name": "King's Cross Station",
+            "name": "Haydarpasa",
             "value": "200",
             "propertyGroup": 8,
             "titleDeedCard": {
@@ -66,7 +66,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
-            "name": "The Angel Islington",
+            "name": "Sultanahmet",
             "value": "100",
             "propertyGroup": 1,
             "titleDeedCard": {
@@ -84,7 +84,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
-            "name": "Euston Road",
+            "name": "Karakoy",
             "value": "100",
             "propertyGroup": 1,
             "titleDeedCard": {
@@ -97,7 +97,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
-            "name": "Pentonville Road",
+            "name": "Sirkeci",
             "value": "120",
             "propertyGroup": 1,
             "titleDeedCard": {
@@ -114,7 +114,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
-            "name": "Pall Mall",
+            "name": "Beyoglu",
             "value": "140",
             "propertyGroup": 2,
             "titleDeedCard": {
@@ -126,7 +126,7 @@
         },
         {
             "type": "PropertySpace",
-            "name": "Electric Company",
+            "name": "Elektrik Idaresi",
             "propertyType": "UTILITY",
             "propertyGroup": 9,
             "value": "150",
@@ -138,7 +138,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
-            "name": "Whitehall",
+            "name": "Besiktas",
             "value": "140",
             "propertyGroup": 2,
             "titleDeedCard": {
@@ -151,7 +151,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
-            "name": "Northumberland Avenue",
+            "name": "Taksim",
             "value": "140",
             "propertyGroup": 2,
             "titleDeedCard": {
@@ -164,7 +164,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "TRANSPORT",
-            "name": "Marblebone Station",
+            "name": "Kadikoy Iskelesi",
             "value": "200",
             "propertyGroup": 8,
             "titleDeedCard": {
@@ -175,7 +175,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
-            "name": "Bow Street",
+            "name": "Harbiye",
             "value": "180",
             "propertyGroup": 3,
             "titleDeedCard": {
@@ -193,7 +193,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
-            "name": "Marlborough Street",
+            "name": "Sisli",
             "value": "180",
             "propertyGroup": 3,
             "titleDeedCard": {
@@ -206,7 +206,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
-            "name": "Vine Street",
+            "name": "Mecidiyekoy",
             "value": "200",
             "propertyGroup": 3,
             "titleDeedCard": {
@@ -223,7 +223,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
-            "name": "Strand",
+            "name": "Bostanci",
             "value": "220",
             "propertyGroup": 4,
             "titleDeedCard": {
@@ -241,7 +241,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
-            "name": "Fleet Street",
+            "name": "Erenkoy",
             "value": "220",
             "propertyGroup": 4,
             "titleDeedCard": {
@@ -254,7 +254,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
-            "name": "Trafalgar Square",
+            "name": "Caddebostan",
             "value": "240",
             "propertyGroup": 4,
             "titleDeedCard": {
@@ -267,7 +267,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "TRANSPORT",
-            "name": "Fenchurch St. Station",
+            "name": "Kabatas Vapur Iskelesi",
             "value": "200",
             "propertyGroup": 8,
             "titleDeedCard": {
@@ -278,7 +278,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
-            "name": "Liecester Square",
+            "name": "Nisantasi",
             "value": "260",
             "propertyGroup": 5,
             "titleDeedCard": {
@@ -291,7 +291,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
-            "name": "Coventry Square",
+            "name": "Tesvikiye",
             "value": "260",
             "propertyGroup": 5,
             "titleDeedCard": {
@@ -303,7 +303,7 @@
         },
         {
             "type": "PropertySpace",
-            "name": "Water Works",
+            "name": "Sular Idaresi",
             "propertyType": "UTILITY",
             "propertyGroup": 9,
             "value": "150",
@@ -315,7 +315,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
-            "name": "Piccadilly",
+            "name": "Macka",
             "value": "260",
             "propertyGroup": 5,
             "titleDeedCard": {
@@ -332,7 +332,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
-            "name": "Regent Street",
+            "name": "Levent",
             "value": "300",
             "propertyGroup": 6,
             "titleDeedCard": {
@@ -345,7 +345,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
-            "name": "Oxford Street",
+            "name": "Etiler",
             "value": "300",
             "propertyGroup": 6,
             "titleDeedCard": {
@@ -363,7 +363,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
-            "name": "Bond Street",
+            "name": "Bebek",
             "value": "320",
             "propertyGroup": 6,
             "titleDeedCard": {
@@ -376,7 +376,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "TRANSPORT",
-            "name": "Liverpool St. Station",
+            "name": "Sirkeci Tren Istasyonu",
             "value": "200",
             "propertyGroup": 8,
             "titleDeedCard": {
@@ -392,7 +392,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
-            "name": "Park Lane",
+            "name": "Tarabya",
             "value": "350",
             "propertyGroup": 7,
             "titleDeedCard": {
@@ -410,7 +410,7 @@
         {
             "type": "PropertySpace",
             "propertyType": "LAND",
-            "name": "Mayfair",
+            "name": "Yenikoy",
             "value": "400",
             "propertyGroup": 7,
             "titleDeedCard": {
@@ -434,15 +434,15 @@
             {
                 "cardEvent": {
                     "type": "ADVANCE",
-                    "targetSpace": "Pall Mall",
+                    "targetSpace": "Beyoglu",
                     "canCollectSalary": true
                 },
-                "cardText": "Advance to Pall Mall, if you pass Go, collect M200"
+                "cardText": "Advance to Beyoglu, if you pass Go, collect M200"
             },
             {
                 "cardEvent": {
                     "type": "ADVANCE",
-                    "targetSpace": "Trafalgar Square",
+                    "targetSpace": "Caddebostan",
                     "canCollectSalary": true
                 },
                 "cardText": "Advance to Trafalgar Square, if you pass Go, collect M200"
@@ -450,18 +450,18 @@
             {
                 "cardEvent": {
                     "type": "ADVANCE",
-                    "targetSpace": "Mayfair",
+                    "targetSpace": "Yenikoy",
                     "canCollectSalary": true
                 },
-                "cardText": "Take a walk on the board walk. Advance token to Mayfair"
+                "cardText": "Take a walk on the board walk. Advance token to Yenikoy"
             },
             {
                 "cardEvent": {
                     "type": "ADVANCE",
-                    "targetSpace": "King's Cross Station",
+                    "targetSpace": "Haydarpasa",
                     "canCollectSalary": true
                 },
-                "cardText": "Take a ride to King’s Cross Station. If you pass Go, collect M200."
+                "cardText": "Take a ride to Haydarpasa Station. If you pass Go, collect M200."
             },
             {
                 "cardEvent": {
