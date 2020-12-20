@@ -228,6 +228,8 @@ public class Game extends Observer {
                 int thiefDice = thief.rollDice();
                 if(thiefDice == -1){
                     controller.drawToken(4, thief.getCurrentSpace().getIndex(), -1);
+                    controller.showMessage("Thief could not catch its target", null);
+                    controller.drawPlayerBoxes(players);
                     board.setThief(null);
                     thief = null;
                 }
@@ -244,6 +246,8 @@ public class Game extends Observer {
                     if(thief.move(board.getSpace(move))) {
                         thief.steal();
                         controller.drawToken(4, thief.getCurrentSpace().getIndex(), -1);
+                        controller.showMessage("Thief stole " + Thief.STEAL_AMOUNT + " from " + thief.getTarget().getPlayerName(), null);
+                        controller.drawPlayerBoxes(players);
                         board.setThief(null);
                         thief = null;
                     }

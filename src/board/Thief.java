@@ -10,7 +10,7 @@ public class Thief {
     private Player target;
     private Space currentSpace;
     private int lapCount; //out in 5 laps?
-    private final static int STEAL_AMOUNT = 1000;
+    public final static int STEAL_AMOUNT = 1000;
     //steal a specific amount or all the money ?
 
     public Thief(Player target) {

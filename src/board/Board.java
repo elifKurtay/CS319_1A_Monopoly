@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 @Getter
@@ -176,6 +177,8 @@ public class Board implements Serializable {
                 }
                 chanceCards.add(new Card(card.getString("cardText"), e));
             }
+            Collections.shuffle(chanceCards);
+
             communityChestCards = new ArrayList<>();
             JSONArray communityChestCardsJSON = cardsJSON.getJSONArray("communityChestCards");
             for (int i = 0; i < communityChestCardsJSON.length(); i++) {
@@ -227,6 +230,7 @@ public class Board implements Serializable {
                 }
                 communityChestCards.add(new Card(card.getString("cardText"), e));
             }
+            Collections.shuffle(communityChestCards);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

@@ -431,6 +431,12 @@
             },
             {
                 "cardEvent": {
+                    "type": "THIEF"
+                },
+                "cardText": "Deploy Thief Targeting: "
+            },
+            {
+                "cardEvent": {
                     "type": "ADVANCE",
                     "targetSpace": "Go",
                     "canCollectSalary": true
@@ -546,7 +552,13 @@
                 "cardEvent": {
                     "type": "THIEF"
                 },
-                "cardText": "Deploy Thief"
+                "cardText": "Deploy Thief Targeting: "
+            },
+            {
+                "cardEvent": {
+                    "type": "THIEF"
+                },
+                "cardText": "Deploy Thief Targeting: "
             },
             {
                 "cardEvent": {
