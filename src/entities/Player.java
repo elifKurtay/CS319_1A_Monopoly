@@ -55,6 +55,10 @@ public class Player implements Serializable {
      * @return net worth
      */
     public int getNetWorth(){
+        if (bankrupt) {
+            return 0;
+        }
+
         int netWorth = money;
         for(Property property: properties){
             netWorth += property.getWorth();
@@ -71,12 +75,12 @@ public class Player implements Serializable {
         jailed = false;
         currentSpace = null;
         getOutOfJailFreeCount = 0;
-        postponedCards = null;
+        postponedCards = new ArrayList<>();
         jailedLapCount = 0;
         currentDiceSum = 0;
-        for(Property p: getProperties())
+        for(Property p: properties)
             p.setOwner(null);
-        properties = null;
+        properties = new ArrayList<>();
     }
 
     /**
