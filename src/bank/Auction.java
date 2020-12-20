@@ -15,6 +15,10 @@ public class Auction extends Observable{
     private int highestBid;
     private Player highestBidder;
 
+    /**
+     * Initalizes by setting the auctioned property
+     * @param auctionedProperty
+     */
     public Auction(@NotNull Property auctionedProperty) {
         this.auctionedProperty = auctionedProperty;
 
@@ -27,6 +31,12 @@ public class Auction extends Observable{
         }
     }
 
+    /**
+     * The player bids the given amount in the auction
+     * @param bidder
+     * @param bid
+     * @param playerNum
+     */
     public void bid(@NotNull Player bidder, int bid, int playerNum) {
         bids[playerNum] = bid;
         if(bid > highestBid) {
@@ -35,6 +45,11 @@ public class Auction extends Observable{
         }
     }
 
+    /**
+     * The player folds
+     * @param bidder
+     * @param playerNum
+     */
     public void fold(@NotNull Player bidder, int playerNum){
         bids[playerNum] = -1;
         int activeBidders = 0;
@@ -50,6 +65,10 @@ public class Auction extends Observable{
         }
     }
 
+    /**
+     * Closes the auction
+     * @return
+     */
     public boolean closeAuction() {
         if(highestBid == 0)
             return false;

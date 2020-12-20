@@ -11,6 +11,10 @@ public class WheelOfFortuneSpace extends Space {
         super("Wheel of Fortune", index);
     }
 
+    /**
+     * Spins the wheel of fortune and returns a result
+     * @return the result of wheel of fortune
+     */
     public String spinWheel() {
         int random;
         while(true){

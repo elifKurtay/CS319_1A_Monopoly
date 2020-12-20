@@ -24,6 +24,11 @@ public class Token implements Serializable {
     private double mortgageInterest;
 
     //constructors
+
+    /**
+     * Initializes the token using the number corresponding on the UI
+     * @param number
+     */
     public Token(int number) {
         jailTime = 3;
         taxMultiplier = 1;
@@ -69,6 +74,9 @@ public class Token implements Serializable {
         }
     }
 
+    /**
+     * Default constructor
+     */
     public Token() {
         tokenName = "no-name";
         jailTime = 3;
