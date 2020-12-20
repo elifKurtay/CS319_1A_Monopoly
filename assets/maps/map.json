@@ -482,7 +482,7 @@
                     "from": "BANK",
                     "amount": 50
                 },
-                "cardText": "Take a ride to King’s Cross Station. If you pass Go, collect M200."
+                "cardText": "Collect M50 from the bank."
             },
             {
                 "cardEvent": {
