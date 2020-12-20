@@ -1,8 +1,6 @@
 package frontend;
 
 import FileManagement.FileManager;
-import board.Board;
-import entities.Player;
 import game.Game;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,14 +10,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 public class NewGameMenuController extends MenuController {
     private static final int PLAYER_COUNT = 4;
@@ -84,20 +81,45 @@ public class NewGameMenuController extends MenuController {
     @FXML protected void addPlayerButtonAction(ActionEvent event) {
         // check if there are already the max amount of players allowed
         if (currentHumanPlayers < PLAYER_COUNT) {
+            String name = "";
+            List<String> names;
             TextInputDialog td = new TextInputDialog();
             td.setHeaderText("Please enter the player name");
             td.initStyle(StageStyle.UNDECORATED);
             td.initModality(Modality.APPLICATION_MODAL);
             td.initOwner(getStage());
             td.setGraphic(null);
-            td.showAndWait();
+            td.getDialogPane().getStylesheets().add("fxml/style.css");
+            td.getDialogPane().getStyleClass().add("alertDialogue");
+            do {
+                td.showAndWait();
 
-            // if the user presses cancel on the dialog, getResult() returns null
-            if (td.getResult() != null) {
-                String name = td.getEditor().getText();
+                // if the user presses cancel on the dialog, getResult() returns null
+                if (td.getResult() != null) {
+                    name = td.getEditor().getText();
+                    names = Arrays.asList(players);
+                    if(names.contains(name)) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.initStyle(StageStyle.UNDECORATED);
+                        alert.initModality(Modality.APPLICATION_MODAL);
+                        alert.setHeaderText("Name is not accepted.");
+                        alert.setContentText("Players cannot have the same names. Please enter another name.");
+                        alert.setGraphic(null);
+                        alert.getDialogPane().getStylesheets().add("fxml/style.css");
+                        alert.getDialogPane().getStyleClass().add("alertDialogue");
+                        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("OK");
+                        alert.showAndWait();
+                    }
+                } else {
+                    name = "";
+                    break;
+                }
+            } while ( names.contains(name) );
+
+            if(!name.equals("")) {
                 players[currentHumanPlayers] = name;
                 playerList.getChildren().remove(currentHumanPlayers);
-                playerList.getChildren().add(currentHumanPlayers, createHumanPlayerBox(currentHumanPlayers+1, name));
+                playerList.getChildren().add(currentHumanPlayers, createHumanPlayerBox(currentHumanPlayers + 1, name));
                 currentHumanPlayers++;
             }
         }
