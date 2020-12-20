@@ -538,7 +538,7 @@
         "communityChestCards": [
             {
                 "cardEvent": {
-                    "type": "THIEF",
+                    "type": "THIEF"
                 },
                 "cardText": "Deploy Thief"
             },

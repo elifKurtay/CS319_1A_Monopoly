@@ -57,7 +57,7 @@ public class GameScreenController {
     private Stage stage;
 
     private Audio obj = Audio.getInstance();
-    private final static boolean DEBUG = true;
+    private final static boolean DEBUG = false;
 
     public void initialize() {
 
