@@ -112,8 +112,14 @@ public class GameScreenController {
 
     @FXML
     protected void tradeButtonAction(ActionEvent event) {
+        Player currentPlayer = game.getCurrentPlayer();
         ArrayList<Player> players = new ArrayList<>(Arrays.asList(game.getPlayers()));
         players.remove(game.getCurrentPlayer());
+        for (Player p : game.getPlayers()) {
+            if (p.isBankrupt()) {
+                players.remove(p);
+            }
+        }
         ChoiceDialog<Player> dialog = new ChoiceDialog<>(players.get(0), players);
         dialog.setHeaderText("Choose a player to trade with");
         dialog.showAndWait();
@@ -134,6 +140,7 @@ public class GameScreenController {
         // http://www.java2s.com/Tutorials/Java/JavaFX/0640__JavaFX_ListView.htm GOT MOST OF THE CODE FROM HERE
         GridPane gp = new GridPane();
         alert.getDialogPane().setContent(gp);
+        //game.getCurrentPlayer() -> currentPlayer
         ObservableList<Property> currentPlayerProperties = FXCollections.observableArrayList(game.getCurrentPlayer().getProperties());
         ListView<Property> currentPlayerLW = new ListView<Property>(currentPlayerProperties);
         gp.add(currentPlayerLW, 0, 1);
@@ -173,26 +180,160 @@ public class GameScreenController {
         vbox.getChildren().addAll(sendRightButton, sendLeftButton);
         gp.add(vbox, 1, 1);
 
+        int moneyOfferer = currentPlayer.getMoney();
+        int goojcOfferer = currentPlayer.getGetOutOfJailFreeCount();
+        Label moneyLabelOfferer = new Label(Integer.toString(moneyOfferer));
+        Label goojcLabelOfferer = new Label(Integer.toString(goojcOfferer));
+
+        gp.add(moneyLabelOfferer, 0, 2);
+        gp.add(goojcLabelOfferer, 0, 3);
+
+        int moneyTarget = playerToTrade.getMoney();
+        int goojcTarget = playerToTrade.getGetOutOfJailFreeCount();
+        Label moneyLabelTarget = new Label(Integer.toString(moneyTarget));
+        Label goojcLabelTarget = new Label(Integer.toString(goojcTarget));
+
+        gp.add(moneyLabelTarget, 2, 2);
+        gp.add(goojcLabelTarget, 2, 3);
+
+        Label errorLabel = new Label();
+        gp.add(errorLabel, 1, 4);
+        errorLabel.setStyle("-fx-text-fill: red");
+
+
+        int[] given = new int[2];
+        int[] requested = new int[2];
+        // make this a placeholder, then set it again to placeholder when a value is processed
+        TextField moneyField = new TextField();
+        moneyField.setPromptText("Money");
+
+        Button giveMoney = new Button(" Give ");
+        giveMoney.setOnAction((ActionEvent e) -> {
+            String t = moneyField.getText();
+            try {
+                int amount = Integer.parseInt(t);
+                if (amount > 0 && amount > currentPlayer.getMoney()) {
+                    //enter a valid amount of money
+                    errorLabel.setText("Please enter a valid amount of money");
+                }
+                else {
+                    //add/subtract money to player labels
+                    moneyLabelOfferer.setText(moneyOfferer + "(-" + amount + ")");
+                    moneyLabelTarget.setText(moneyTarget + "(+" + amount + ")");
+                    given[0] = amount;
+                    requested[0] = 0;
+                    errorLabel.setText("");
+                }
+            } catch (NumberFormatException nfe) {
+                errorLabel.setText("Please enter a valid number");
+            }
+        });
+
+        Button requestMoney = new Button(" Request ");
+        requestMoney.setOnAction((ActionEvent e) -> {
+            String t = moneyField.getText();
+            try {
+                int amount = Integer.parseInt(t);
+                if (amount > 0 && amount > playerToTrade.getMoney()) {
+                    //enter a valid amount of money
+                    errorLabel.setText("Please enter a valid amount of money");
+                }
+                else {
+                    //add/subtract money to player labels
+                    moneyLabelOfferer.setText(moneyOfferer + "(+" + amount + ")");
+                    moneyLabelTarget.setText(moneyTarget + "(-" + amount + ")");
+                    requested[0] = amount;
+                    given[0] = amount;
+                    errorLabel.setText("");
+                }
+            } catch (NumberFormatException nfe) {
+                errorLabel.setText("Please enter a valid number");
+            }
+        });
+        HBox moneyHB = new HBox();
+        moneyHB.getChildren().addAll(giveMoney, moneyField, requestMoney);
+
+        gp.add(moneyHB,1, 2);
+
+        TextField goojcField = new TextField();
+        goojcField.setPromptText("Goojc");
+
+        Button giveGoojc = new Button(" Give ");
+        giveGoojc.setOnAction((ActionEvent e) -> {
+            String t = goojcField.getText();
+            try {
+                int amount = Integer.parseInt(t);
+                if (amount > 0 && amount > currentPlayer.getGetOutOfJailFreeCount()) {
+                    //enter a valid amount of money
+                    errorLabel.setText("Please enter a valid amount of goojc");
+                }
+                else {
+                    //add/subtract money to player labels
+                    goojcLabelOfferer.setText(goojcOfferer + "(-" + amount + ")");
+                    goojcLabelTarget.setText(goojcTarget + "(+" + amount + ")");
+                    given[1] = amount;
+                    requested[1] = 0;
+                    errorLabel.setText("");
+                }
+            } catch (NumberFormatException nfe) {
+                errorLabel.setText("Please enter a valid number");
+            }
+        });
+
+        Button requestGoojc = new Button(" Request ");
+        requestGoojc.setOnAction((ActionEvent e) -> {
+            String t = goojcField.getText();
+            try {
+                int amount = Integer.parseInt(t);
+                if (amount > 0 && amount > playerToTrade.getGetOutOfJailFreeCount()) {
+                    //enter a valid amount of money
+                    errorLabel.setText("Please enter a valid amount of goojc");
+                }
+                else {
+                    //add/subtract money to player labels
+                    goojcLabelTarget.setText(goojcTarget + "(-" + amount + ")");
+                    goojcLabelOfferer.setText(goojcOfferer + "(+" + amount + ")");
+                    requested[1] = -amount;
+                    given[0] = 0;
+                    errorLabel.setText("");
+                }
+            } catch (NumberFormatException nfe) {
+                errorLabel.setText("Please enter a valid number");
+            }
+        });
+        HBox goojcHB = new HBox();
+        goojcHB.getChildren().addAll(giveGoojc, goojcField, requestGoojc);
+
+        gp.add(goojcHB, 1, 3);
+
         alert.showAndWait();
 
         boolean sentOffer = alert.getResult() == ButtonType.OK;
         if (sentOffer) {
-            trade.offer(offeredProperties, 0 ,0);
-            trade.want(wantedProperties, 0, 0);
+            trade.offer(offeredProperties, given[0], given[1]);
+            trade.want(wantedProperties,requested[0], requested[1]);
 
             String message = playerToTrade + ", do you accept the offer?\n You Get: \n";
             for (Property p : offeredProperties) {
                 message += p + "\n";
             }
-            message += "offeredMoney\n";
-            message += "offeredGOOJC\n\n";
+            if (given[0] != 0) {
+                message += "M" + given[0] + "\n";
+            }
+            if (given[1] != 0) {
+                message += given[1] + " GOOJ cards\n\n";
+            }
 
             message += "You Give:\n";
             for (Property p : wantedProperties) {
                 message += p + "\n";
             }
-            message += "wantedMoney\n";
-            message += "wantedGOOJC";
+            if (requested[0] != 0) {
+                message += "M" + requested[0] + "\n";
+            }
+            if (requested[1] != 0) {
+                message += requested[1] + " GOOJ cards";
+            }
 
             trade.acceptOffer(twoChoiceDialog(message, "Accept", "Deny"));
             trade.closeTrade();
