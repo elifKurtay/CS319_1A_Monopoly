@@ -86,7 +86,7 @@ public class LandProperty extends Property {
      */
     public boolean canBuild() {
         ArrayList<Property> properties = owner.getAllPropertiesFromSameGroup(this);
-        if (properties.size() != Property.numberOfPropertiesInGroups[propertyGroup]) {
+        if (properties.size() == Property.numberOfPropertiesInGroups[propertyGroup]) {
             int houseSum = 0;
             for (Property p : properties) {
                 houseSum += ((LandProperty) p).getNumOfHouses();
