@@ -401,34 +401,42 @@ public class GameScreenController {
         }
 
         int[] dice = new int[2];
-        Alert alert;
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.setHeaderText("");
+        alert.setGraphic(null);
+        alert.getDialogPane().getStylesheets().add("fxml/style.css");
+        alert.getDialogPane().getStyleClass().add("alertDialogue");
+        alert.initOwner(stage);
+
+        Label label = new Label();
+        label.setStyle("-fx-font-size: 18px;");
+        VBox diceBox = new VBox();
+        diceBox.setSpacing(10);
+        diceBox.setAlignment(Pos.CENTER);
+
         System.out.println("turn of " + name);
 
         if(!digital) {
-            alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText(name + " is rolling");
+            label.setText(name + " is rolling");
+            diceBox.getChildren().add(label);
             ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Roll");
-            alert.initStyle(StageStyle.UNDECORATED);
-            alert.initModality(Modality.APPLICATION_MODAL);
-            alert.initOwner(stage);
             alert.setX(420);
             alert.setY(420);
+            alert.getDialogPane().setContent(diceBox);
             alert.showAndWait();
         }
         dice[0] = (int) (Math.random() * 6 + 1);
         dice[1] = (int) (Math.random() * 6 + 1);
 
-        alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setX(420);
         alert.setY(420);
-        alert.initStyle(StageStyle.UNDECORATED);
-        alert.initModality(Modality.APPLICATION_MODAL);
-        alert.initOwner(stage);
         if (dice[0] == dice[1]) {
-            alert.setHeaderText(name + " has rolled double: " + dice[0] + " " + dice[1]);
+            label.setText(name + " has rolled double: " + dice[0] + " " + dice[1]);
         }
         else {
-            alert.setHeaderText(name + " has rolled: " + dice[0] + " " + dice[1]);
+            label.setText(name + " has rolled: " + dice[0] + " " + dice[1]);
         }
         try {
             obj.playDiceSound();
@@ -438,8 +446,8 @@ public class GameScreenController {
             view.setFitHeight(225);
             view.setFitWidth(300);
 
-            HBox diceBox = new HBox();
-            diceBox.setAlignment(Pos.CENTER);
+            diceBox.getChildren().remove(label);
+            diceBox.getChildren().add(label);
             diceBox.getChildren().add(view);
             alert.getDialogPane().setContent(diceBox);
         } catch(Exception e){
@@ -461,42 +469,140 @@ public class GameScreenController {
             tokens.addAll(Arrays.asList(tokenNames));
             first = false;
         }
-        String chosen;
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(stage);
+        alert.getDialogPane().getButtonTypes().remove(ButtonType.OK);
+        alert.setHeaderText("");
+        alert.setGraphic(null);
+        alert.getDialogPane().getStylesheets().add("fxml/style.css");
+        alert.getDialogPane().getStyleClass().add("alertDialogue");
+
 
         if(digital) {
-            chosen = tokens.get(0);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setX(420);
-            alert.setY(420);
-            alert.initStyle(StageStyle.UNDECORATED);
-            alert.initModality(Modality.APPLICATION_MODAL);
-            alert.setHeaderText(name + " has chosen: " + chosen);
+            String chosen = tokens.get(0);
+            Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+            alert2.setX(420);
+            alert2.setY(420);
+            alert2.initStyle(StageStyle.UNDECORATED);
+            alert2.initModality(Modality.APPLICATION_MODAL);
+            alert2.setHeaderText(name + " has chosen: " + chosen);
             try {
                 Thread.sleep(500);
-                alert.close();
+                alert2.close();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            alert.showAndWait();
+            alert2.showAndWait();
 
             tokens.remove(chosen);
             return IntStream.range(0, tokenNames.length).filter(i -> tokenNames[i].equals(chosen))
                     .findFirst().orElse(-1) + 1;
         }
-        ChoiceDialog<String> dialog = new ChoiceDialog<>(tokens.get(0), tokens);
-        dialog.initStyle(StageStyle.UNDECORATED);
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(stage);
-        //((Stage) dialog.getDialogPane().getScene().getWindow()).setAlwaysOnTop(true);
-        dialog.setHeaderText(name + " is choosing token");
-        dialog.setX(420);
-        dialog.setY(420);
-        dialog.showAndWait();
 
-        chosen = dialog.getResult();
-        tokens.remove(chosen);
-        return IntStream.range(0, tokenNames.length).filter(i -> tokenNames[i].equals(chosen))
-                .findFirst().orElse(-1) + 1;
+        VBox chooseTokenBox = new VBox();
+        chooseTokenBox.setStyle("-fx-alignment: center");
+        chooseTokenBox.setSpacing(20);
+        Label info = new Label(name + " CHOOSE YOUR PIECE!");
+        info.setStyle("-fx-font-size: 16px; -fx-font-weight: bold");
+        chooseTokenBox.getChildren().add(info);
+        HBox[] rows = new HBox[2];
+        VBox[] pieceBox = new VBox[8];
+
+        Image[] images = new Image[8];
+        images[0] = new Image("img\\token\\cropped\\thimble.png");
+        images[1] = new Image("img\\token\\cropped\\wheelbarrow.png");
+        images[2] = new Image("img\\token\\cropped\\boot.png");
+        images[3] = new Image("img\\token\\cropped\\horse.png");
+        images[4] = new Image("img\\token\\cropped\\racecar.png");
+        images[5] = new Image("img\\token\\cropped\\iron.png");
+        images[6] = new Image("img\\token\\cropped\\tophat.png");
+        images[7] = new Image("img\\token\\cropped\\battleship.png");
+
+        Label[] tokenInfo = new Label[8];
+        tokenInfo[0] = new Label("+ Tax multiplier \n" +
+                "    of 0.8\n" +
+                "-  Rent collect \n" +
+                "    multiplier of 0.8\n");
+        tokenInfo[1] = new Label("+ Building cost is half\n" +
+                "- Salary change \n" +
+                "    of -M50\n" +
+                "  (Total salary is M150)\n");
+        tokenInfo[2] = new Label("+ Property cost \n" +
+                "    multiplier 0.8\n" +
+                "-  Salary change of \n" +
+                "    -M100 " +
+                " (Total salary is M100)\n");
+        tokenInfo[3] = new Label("+ Rent collect \n" +
+                "    multiplier of 1.3\n" +
+                "- Property cost \n" +
+                "   multiplier of 1.1\n");
+        tokenInfo[4] = new Label("+ Bonus salary \n" +
+                "    is M200 \n" +
+                " (Total salary is M400)\n" +
+                "- Jail Time of " +
+                "   4 rounds\n");
+        tokenInfo[5] = new Label("+ Building cost \n" +
+                "   multiplier of 0.8\n" +
+                "- Rent pay \n" +
+                "   multiplier of 1.2\n");
+        tokenInfo[6] = new Label("+ Jail Time of \n" +
+                "    2 rounds\n" +
+                "-  Tax Multiplier \n" +
+                "     of 1.2\n");
+        tokenInfo[7] = new Label("+ Rent pay \n" +
+                "    multiplier of 0.7\n" +
+                "-  Building cost \n" +
+                "    multiplier is 1.5\n");
+
+        ImageView view;
+        final int[] cnt = new int[1];
+        for(int i = 0; i < rows.length; i++){
+            rows[i] = new HBox();
+            rows[i].setAlignment(Pos.CENTER);
+            rows[i].setSpacing(10);
+            for(int j = 0; j < 4; j++){
+                HBox frame = new HBox();
+                frame.setStyle("-fx-border-width: 3; -fx-border-style: solid;");
+                view = new ImageView(images[i*4+j]);
+                frame.getChildren().add(view);
+                pieceBox[i*4+j] = new VBox();
+                pieceBox[i*4+j].setSpacing(5);
+                pieceBox[i*4+j].setStyle("-fx-background-color: #F8E6C5");
+                pieceBox[i*4+j].setAlignment(Pos.CENTER);
+                Label pieceName = new Label(tokenNames[i*4+j]);
+                pieceName.setStyle("-fx-font-size: 16px; -fx-font-weight: bold");
+                pieceBox[i*4+j].getChildren().add(pieceName);
+                pieceBox[i*4+j].getChildren().add(frame);
+                int finalJ = j;
+                int finalI = i;
+                Button b = new Button("Select");
+                b.setStyle("-fx-background-color: #9FFA09;");
+                if(tokens.contains(tokenNames[i*4+j])){
+                    final String tokenToBeRemoved = tokenNames[i*4+j];
+                    b.setOnAction(event -> {
+                        tokens.remove(tokenToBeRemoved);
+                        cnt[0] = (finalI + 1) * finalJ;
+                        alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
+                        alert.close();
+                    });
+                }
+                else
+                    b.setDisable(true);
+
+                pieceBox[i*4+j].getChildren().add(b);
+                pieceBox[i*4+j].getChildren().add(tokenInfo[i*4+j]);
+                rows[i].getChildren().add(pieceBox[i*4+j]);
+            }
+            chooseTokenBox.getChildren().add(rows[i]);
+        }
+
+        alert.getDialogPane().setContent(chooseTokenBox);
+
+        alert.showAndWait();
+        return cnt[0];
+
     }
 
     public void drawToken(int playerNo,int oldIndex, int newIndex) {
@@ -569,6 +675,10 @@ public class GameScreenController {
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.initOwner(stage);
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setVisible(false);
+        alert.setHeaderText("");
+        alert.setGraphic(null);
+        alert.getDialogPane().getStylesheets().add("fxml/style.css");
+        alert.getDialogPane().getStyleClass().add("alertDialogue");
 
 
         FileInputStream f = new FileInputStream("assets/img/gifFiles/wheelOfFortune.gif");
@@ -578,9 +688,17 @@ public class GameScreenController {
         gifAlert.initStyle(StageStyle.UNDECORATED);
         gifAlert.initModality(Modality.APPLICATION_MODAL);
         gifAlert.initOwner(stage);
+        gifAlert.setHeaderText("");
+        gifAlert.setGraphic(null);
+        gifAlert.getDialogPane().getStylesheets().add("fxml/style.css");
+        gifAlert.getDialogPane().getStyleClass().add("alertDialogue");
 
+        VBox vbox = new VBox();
+        vbox.setSpacing(20);
+        vbox.setAlignment(Pos.CENTER);
         Button spinButton = new Button("Spin");
         spinButton.setStyle("-fx-background-color: burlywood");
+
         spinButton.setOnAction(event -> {
             obj.playWheelSound();
             VBox wheel = new VBox();
@@ -598,7 +716,10 @@ public class GameScreenController {
                 alert.close();
             }
         });
-        alert.getDialogPane().setContent(spinButton);
+        Label l = new Label("Welcome to Wheel of Fortune!");
+        vbox.getChildren().add(l);
+        vbox.getChildren().add(spinButton);
+        alert.getDialogPane().setContent(vbox);
         if(digitalPlayer){
             System.out.println("Fire button");
             spinButton.fire();
