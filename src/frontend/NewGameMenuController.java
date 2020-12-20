@@ -15,6 +15,8 @@ import javafx.stage.Modality;
 import javafx.stage.StageStyle;
 
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -66,7 +68,10 @@ public class NewGameMenuController extends MenuController {
             //controller.startGame(map, currentHumanPlayers, players, turnLimitCombo.getValue());
             Scene s = new Scene(root, getStage().getWidth(), getStage().getHeight());
             getStage().setScene(s);
-            Game game = new Game(map, currentHumanPlayers, players, turnLimitCombo.getValue(), controller);
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH.mm");
+            String gameName = dtf.format(LocalDateTime.now()) + "$" + Arrays.hashCode(players);
+            System.out.println("GAME NAME: " + gameName);
+            Game game = new Game(gameName, map, currentHumanPlayers, players, turnLimitCombo.getValue(), controller);
             controller.setGame(game);
             game.startGame();
         }
@@ -110,11 +115,23 @@ public class NewGameMenuController extends MenuController {
                         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("OK");
                         alert.showAndWait();
                     }
+                    else if(name.contains("_")){
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.initStyle(StageStyle.UNDECORATED);
+                        alert.initModality(Modality.APPLICATION_MODAL);
+                        alert.setHeaderText("Name is not accepted.");
+                        alert.setContentText("Underscore character is not accepted in player names. Please enter another name.");
+                        alert.setGraphic(null);
+                        alert.getDialogPane().getStylesheets().add("fxml/style.css");
+                        alert.getDialogPane().getStyleClass().add("alertDialogue");
+                        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("OK");
+                        alert.showAndWait();
+                    }
                 } else {
                     name = "";
                     break;
                 }
-            } while ( names.contains(name) );
+            } while ( names.contains(name) || name.contains("_") );
 
             if(!name.equals("")) {
                 players[currentHumanPlayers] = name;

@@ -11,6 +11,7 @@ import game.Game;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 //This class is to save and load game and log exceptions
@@ -30,7 +31,7 @@ public class FileManager {
      * FileManager object, otherwise it returns the instance.
      * @return the instance which is a FileManager object
      */
-    public static FileManager getInstance () {
+    public static FileManager getInstance() {
         if(instance == null)
             instance = new FileManager();
         return instance;
@@ -40,17 +41,37 @@ public class FileManager {
      * This method saves the player and board objects in the game in serialized form together
      * with other game information written into a text file. The files are saved into a folder
      * named as the player names and the date of the game.
-     * @param game
+     * @param game current serialized game object
      * @return true if the game is saved succesfully, otherwise false
      */
     public boolean saveGame(Game game) {
         try {
-            new File("savedGames").mkdir();
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH.mm");
-            String folderName = "savedGames\\" + game.getPlayers()[0].getPlayerName() + "_" + game.getPlayers()[1].getPlayerName() + "_" +
-                    game.getPlayers()[2].getPlayerName() + "_" + game.getPlayers()[3].getPlayerName() + "_" +
-                    dtf.format(LocalDateTime.now());
-            new File(folderName).mkdir();
+            if( ! new File("savedGames").mkdir())
+                System.out.println("SAVE DIR CANNOT BE CREATED or ALREADY CREATED");
+
+            //check for existing save
+            File folder = new File("savedGames");
+            File[] listOfFiles = folder.listFiles();
+            ArrayList<String> fileNames = new ArrayList<>();
+            String folderName = "savedGames\\";
+            if(listOfFiles != null) {
+                for (File listOfFile : listOfFiles) {
+                    fileNames.add(listOfFile.getName());
+                    if( listOfFile.getName().contains(game.getGameName()) ) {
+                        folderName += listOfFile.getName();
+                        break;
+                    }
+                }
+            }
+            //creating new folder, a new save
+            if(! folderName.contains(game.getGameName())) {
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH.mm");
+                folderName += game.getPlayers()[0].getPlayerName() + "_" + game.getPlayers()[1].getPlayerName() + "_" +
+                        game.getPlayers()[2].getPlayerName() + "_" + game.getPlayers()[3].getPlayerName() + "_" +
+                        dtf.format(LocalDateTime.now()) + "_" + game.getGameName();
+            }
+            if( ! new File(folderName).mkdir())
+                System.out.println("SAVE DIR CANNOT BE CREATED");
             FileOutputStream fileOut;
             ObjectOutputStream out;
 
@@ -101,7 +122,7 @@ public class FileManager {
             //closing file input stream and object output stream
             out.close();
             fileOut.close();
-            System.out.printf("Serialized data is saved");
+            System.out.println("Serialized data is saved");
             return true;
         } catch (IOException i) {
             i.printStackTrace();
@@ -194,7 +215,8 @@ public class FileManager {
             players[2] = p3;
             players[3] = p4;
 
-            g = new Game(board, players, lapLimit, playerCount, currentPlayerName, lapCount, controller);
+            String gameName = folderName.split("_")[5];
+            g = new Game(gameName, board, players, lapLimit, playerCount, currentPlayerName, lapCount, controller);
             in.close();
             fileIn.close();
             return g;

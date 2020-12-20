@@ -30,15 +30,16 @@ public class Game extends Observer {
     private boolean loadedGame;
     private boolean restarted;
     private final GameScreenController controller;
+    @Getter private final String gameName;
 
-    public Game(File map, int playerCount, String[] playerNames, int turnLimit, GameScreenController controller) {
+    public Game(String gameName, File map, int playerCount, String[] playerNames, int turnLimit, GameScreenController controller) {
         this.playerCount = playerCount;
         this.lapLimit = turnLimit;
         board = new Board(map);
         lapCount = 0;
         loadedGame = false;
         restarted = false;
-
+        this.gameName = gameName;
         observable = null;
         this.controller = controller;
 
@@ -51,12 +52,13 @@ public class Game extends Observer {
     }
 
     //for loading the game, to be called by the file manager
-    public Game(Board board, Player[] players, int lapLimit, int playerCount, String currentPlayer, int lapCount,
+    public Game(String gameName, Board board, Player[] players, int lapLimit, int playerCount, String currentPlayer, int lapCount,
                 GameScreenController controller){
         this.board = board;
         this.players = players;
         this.lapLimit = lapLimit;
         this.playerCount = playerCount;
+        this.gameName = gameName;
         for(Player p: players)
             if(p.getPlayerName().equals(currentPlayer)){
                 this.currentPlayer = p;
@@ -70,16 +72,18 @@ public class Game extends Observer {
         restarted = false;
     }
 
-    public Game(Game loadedGame) {
-        this.controller = loadedGame.controller;
-        this.playerCount = loadedGame.playerCount;
-        this.players = loadedGame.players;
-        this.lapCount = loadedGame.lapCount;
-        this.lapLimit = loadedGame.lapLimit;
-        this.board = loadedGame.board;
-        this.currentPlayer = loadedGame.currentPlayer;
-        this.loadedGame = loadedGame.loadedGame;
-        this.restarted = loadedGame.restarted;
+    //copy constructor
+    public Game(Game copyGame) {
+        this.gameName = copyGame.gameName;
+        this.controller = copyGame.controller;
+        this.playerCount = copyGame.playerCount;
+        this.players = copyGame.players;
+        this.lapCount = copyGame.lapCount;
+        this.lapLimit = copyGame.lapLimit;
+        this.board = copyGame.board;
+        this.currentPlayer = copyGame.currentPlayer;
+        this.loadedGame = copyGame.loadedGame;
+        this.restarted = copyGame.restarted;
     }
 
     void gameLoop(int playerCount) {
@@ -97,7 +101,9 @@ public class Game extends Observer {
             if(restarted)
                 restarted = false;
 
-            lapCount++;
+            if(! loadedGame) {
+                lapCount++;
+            }
             controller.labelUpdate(lapCount);
             for(int i = 0; i < LAP &&  !isGameEnd() && !restarted; i++) {
                 if(loadedGame){
@@ -244,6 +250,13 @@ public class Game extends Observer {
                     thief = null;
                     //controller delete token?
                 }
+            }
+            //auto-save game every lap
+            try {
+                saveGame();
+            } catch (Exception e) {
+                fileManager.log(e);
+                System.out.println(e.getMessage());
             }
         }
         endGame();

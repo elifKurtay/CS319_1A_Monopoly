@@ -12,15 +12,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lombok.Getter;
 
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
 
 public class LoadGameMenuController extends MenuController {
 
-    @FXML private TableView loadTable;
-    @FXML private TableColumn noColumn, dateColumn, timeColumn, player1, player2, player3, player4, delete;
-    private FileManager fileManager = FileManager.getInstance();
+    @FXML private TableView<SaveData> loadTable;
+    @FXML private TableColumn<Object, String> noColumn, dateColumn, timeColumn, player1, player2, player3, player4, delete;
+    private final FileManager fileManager = FileManager.getInstance();
 
     public void initialize() {
         //find all files in savedGames directory
@@ -28,12 +27,12 @@ public class LoadGameMenuController extends MenuController {
         File[] listOfFiles = folder.listFiles();
 
         //file Names
-        ArrayList<String> fileNames = new ArrayList<String>();
+        ArrayList<String> fileNames = new ArrayList<>();
 
         if(listOfFiles != null) {
-            for (int i = 0; i < listOfFiles.length; i++) {
-                fileNames.add(listOfFiles[i].getName());
-                System.out.print(listOfFiles[i].getName());
+            for (File listOfFile : listOfFiles) {
+                fileNames.add(listOfFile.getName());
+                System.out.print(listOfFile.getName());
             }
 
             noColumn.setCellValueFactory(new PropertyValueFactory<>("gameNo"));
@@ -53,17 +52,19 @@ public class LoadGameMenuController extends MenuController {
             for (int i = 0; i < fileNames.size(); i++) {
                 info = fileNames.get(i).split("_");
                 s = new SaveData(i, info[4].split(" ")[0], info[4].split(" ")[1],
-                        info[0], info[1], info[2], info[3]);
+                        info[0], info[1], info[2], info[3], info[5] );
                 loadTable.getItems().add(s);
             }
         }
     }
 
     public class SaveData {
-        @Getter private String date, time, player1, player2, player3, player4;
-        @FXML @Getter private Button gameNo, delete;
+        @Getter private final String date, time, player1, player2, player3, player4;
+        @FXML @Getter private final Button gameNo, delete;
+        private final String gameName;
 
-        public SaveData(int gameNo, String date, String time, String player1, String player2, String player3, String player4) {
+        public SaveData(int gameNo, String date, String time, String player1, String player2, String player3, String player4, String gameName) {
+            this.gameName = gameName;
             this.gameNo = new Button("" + gameNo);
             this.gameNo.setOnAction(event -> {
                 try {
@@ -91,7 +92,7 @@ public class LoadGameMenuController extends MenuController {
         }
 
         public void action() throws Exception{
-            String folderName = "savedGames\\" + player1 + "_" + player2 + "_" + player3 + "_" + player4 + "_" + date + " " + time;
+            String folderName = "savedGames\\" + player1 + "_" + player2 + "_" + player3 + "_" + player4 + "_" + date + " " + time + "_" + gameName ;
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameScreen.fxml"));
             Parent root = loader.load();
             GameScreenController controller = loader.getController();
@@ -104,7 +105,7 @@ public class LoadGameMenuController extends MenuController {
         }
 
         public void delete() {
-            String folderName = "savedGames\\" + player1 + "_" + player2 + "_" + player3 + "_" + player4 + "_" + date + " " + time;
+            String folderName = "savedGames\\" + player1 + "_" + player2 + "_" + player3 + "_" + player4 + "_" + date + " " + time + "_" + gameName;
             fileManager.delete(folderName);
             loadTable.getItems().remove(this);
             loadTable.refresh();
