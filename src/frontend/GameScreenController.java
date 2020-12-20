@@ -4,6 +4,7 @@ import bank.Auction;
 import bank.Trade;
 import board.Board;
 import board.PropertySpace;
+import board.Space;
 import card.Card;
 import entities.DigitalPlayer;
 import entities.LandProperty;
@@ -897,6 +898,14 @@ public class GameScreenController {
             spinButton.fire();
         }
         else {
+            if (result.contains("house")) {
+                String[] propertyName = result.split("a house on ", 0);
+                for (Space s : game.getBoard().getSpaces()) {
+                    if (s.getName().equals(propertyName)) {
+                        dynamicBoardController.drawHouse(s.getIndex(), ((LandProperty)((PropertySpace) s).getAssociatedProperty()).getNumOfHouses());
+                    }
+                }
+            }
             alert.showAndWait();
         }
     }
