@@ -42,6 +42,7 @@ import java.util.stream.IntStream;
 public class GameScreenController {
     @FXML
     private VBox playerBoxes;
+
     @Getter
     @Setter
     private Game game;
@@ -93,12 +94,22 @@ public class GameScreenController {
 
     @FXML
     protected void restartButtonAction(ActionEvent event) {
-        Player[] players = game.getPlayers();
-        game.restartGame();
-        drawPlayerBoxes(players);
-        for (int i = 0; i <players.length; i++) {
-            dynamicBoardController.drawToken(i, players[i].getCurrentSpace().getIndex(), -1);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(stage);
+        alert.setX(420);
+        alert.setY(420);
+        alert.setHeaderText("Restart?");
+        alert.setContentText("Do you want to restart the game? If you click on \"Yes\", this action would " +
+                "mean that the progress of the game will be deleted and players will have to start from the initializing lap. ");
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Yes");
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No");
+        alert.showAndWait();
+        if (alert.getResult() == ButtonType.OK) {
+            game.restartGame();
         }
+
     }
 
     @FXML
@@ -439,13 +450,14 @@ public class GameScreenController {
         return dice;
     }
 
-    private final ArrayList<String> tokens = new ArrayList<>();
+    private ArrayList<String> tokens;
     private final String[] tokenNames = {"Thimble", "Wheel Barrow", "Boot", "Horse", "Race Car",
             "Iron", "Top Hat", "Battleship"};
     private boolean first = true;
 
-    public int chooseToken(String name, boolean digital) {
-        if(first) {
+    public int chooseToken(String name, boolean digital, boolean restart) {
+        if(first || restart) {
+            tokens = new ArrayList<>();
             tokens.addAll(Arrays.asList(tokenNames));
             first = false;
         }
@@ -608,6 +620,7 @@ public class GameScreenController {
         alert.showAndWait();
         return alert.getResult() == ButtonType.OK;
     }
+    private boolean restart = false;
 
     public void finishTurn(Boolean digital) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
