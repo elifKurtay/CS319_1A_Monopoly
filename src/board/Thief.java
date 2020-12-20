@@ -4,9 +4,11 @@ import entities.Player;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
-public class Thief {
+public class Thief implements Serializable {
     private Player target;
     private Space currentSpace;
     private int lapCount; //out in 5 laps?
