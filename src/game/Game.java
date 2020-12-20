@@ -246,7 +246,6 @@ public class Game extends Observer {
                 }
             }
         }
-        endGame();
         controller.showScoreboard();
         System.out.println("Game Over!");
     }
@@ -494,24 +493,6 @@ public class Game extends Observer {
                 playerTurn = i;
         }
         gameLoop(playerTurn);
-    }
-
-    public void endGame() {
-        int money = players[0].getMoney();
-        int richest = 0;
-        for (int i = 1; i < playerCount; i++ ) {
-            if( money < players[i].getMoney() ) {
-                money = players[i].getMoney();
-                richest = i;
-            } else if( money == players[i].getMoney() ) {
-                if(players[richest].getProperties().size() < players[i].getProperties().size())
-                    richest = i;
-                money = players[i].getMoney();
-                richest = i;
-            }
-        }
-        //go to scoreboard with richest player as the winner
-        System.out.println("Winner is: " + players[richest].getPlayerName());
     }
 
     //input from UI

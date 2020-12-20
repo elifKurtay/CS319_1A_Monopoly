@@ -272,7 +272,7 @@ public class GameScreenController {
                     moneyLabelOfferer.setText(moneyOfferer + "(+" + amount + ")");
                     moneyLabelTarget.setText(moneyTarget + "(-" + amount + ")");
                     requested[0] = amount;
-                    given[0] = amount;
+                    given[0] = 0;
                     errorLabel.setText("");
                 }
             } catch (NumberFormatException nfe) {
@@ -322,8 +322,8 @@ public class GameScreenController {
                     //add/subtract money to player labels
                     goojcLabelTarget.setText(goojcTarget + "(-" + amount + ")");
                     goojcLabelOfferer.setText(goojcOfferer + "(+" + amount + ")");
-                    requested[1] = -amount;
-                    given[0] = 0;
+                    requested[1] = amount;
+                    given[1] = 0;
                     errorLabel.setText("");
                 }
             } catch (NumberFormatException nfe) {
@@ -371,6 +371,7 @@ public class GameScreenController {
 
         t.acceptOffer(twoChoiceDialog(message, "Accept", "Deny"));
         t.closeTrade();
+        drawPlayerBoxes(game.getPlayers());
     }
 
     @FXML
@@ -598,17 +599,25 @@ public class GameScreenController {
 
     @FXML
     public void labelUpdate( int lapCount) {
-        turn_count.setText("Turn Count: " + lapCount + " ");
+        turn_count.setText("Lap Count: " + lapCount + " ");
     }
 
     public VBox buildTitleDeedCard(Property p) {
+        String[] colors = game.getBoard().getPropertyGroupColors();
+        // Property is a land property
         VBox vb = new VBox();
+        if (p.getPropertyGroup() < colors.length) {
+            Pane colorPane = new Pane();
+            colorPane.setStyle("-fx-background-color: #" + colors[p.getPropertyGroup()]);
+            colorPane.getStyleClass().add("titleCardColorPane");
+            vb.getChildren().add(colorPane);
+        }
         vb.getChildren().add(new Label("Title Deed Card"));
         vb.getChildren().add(new Label(p.getPropertyName()));
         vb.setAlignment(Pos.CENTER);
         vb.getStyleClass().clear();
         vb.getStyleClass().add("titleCard");
-        vb.getStylesheets().add("fxml/board.css");
+        vb.getStylesheets().add("fxml/style.css");
         return vb;
     }
 
@@ -1092,7 +1101,14 @@ public class GameScreenController {
             name.getStyleClass().add("namelabel");
             vb.getChildren().addAll(iv, name);
 
-            Label money = new Label("M" + player.getMoney());
+            int playerMoney;
+            if (player.isBankrupt()) {
+                playerMoney = 0;
+            }
+            else {
+                playerMoney= player.getMoney();
+            }
+            Label money = new Label("M" + playerMoney);
             money.getStyleClass().add("moneylabel");
             money.setPrefSize(150, 70);
 
@@ -1100,12 +1116,19 @@ public class GameScreenController {
             assetsButton.setId("playerAssets" + i);
             assetsButton.getStyleClass().add("assetsButton");
             assetsButton.setOnAction(this::playerAssetsButtonAction);
+            if (player.isBankrupt()) {
+                assetsButton.setDisable(true);
+            }
 
             if(! (player instanceof DigitalPlayer)) {
+
                 Button forfeitButton = new Button("Forfeit");
                 forfeitButton.setId("forfeitPlayer" + i);
                 forfeitButton.getStyleClass().add("forfeitButton");
                 forfeitButton.setOnAction(this::playerForfeitButtonAction);
+                if (player.isBankrupt()) {
+                    forfeitButton.setDisable(true);
+                }
                 VBox assetFF = new VBox(2);
                 assetFF.getChildren().addAll(assetsButton, forfeitButton);
                 assetFF.setAlignment(Pos.CENTER);
@@ -1393,7 +1416,9 @@ public class GameScreenController {
                         e.printStackTrace();
                     }
                 }
-                Platform.exit();
+                try {
+                    Platform.exit();
+                } catch (Exception e) {}
             }
         });
 
