@@ -13,10 +13,10 @@
             styleClass="mainMenu"
             alignment="BOTTOM_RIGHT"
             spacing="20">
-    <Button text="New Game" onAction="#newGameButtonAction"/>
-    <Button text="Load Game" onAction="#loadGameButtonAction"/>
-    <Button text="Settings" onAction="#settingsButtonAction"/>
-    <Button text="Credits" onAction="#creditsButtonAction"/>
-    <Button text="Help" onAction="#helpButtonAction"/>
-    <Button text="Quit" onAction="#quitButtonAction"/>
+    <Button text="New Game" style="-fx-background-color: #85BB65" onAction="#newGameButtonAction"/>
+    <Button text="Load Game" style="-fx-background-color: #85BB65" onAction="#loadGameButtonAction"/>
+    <Button text="Settings" style="-fx-background-color: #85BB65" onAction="#settingsButtonAction"/>
+    <Button text="Credits" style="-fx-background-color: #85BB65" onAction="#creditsButtonAction"/>
+    <Button text="Help" style="-fx-background-color: #85BB65" onAction="#helpButtonAction"/>
+    <Button text="Quit" style="-fx-background-color: #85BB65" onAction="#quitButtonAction"/>
 </VBox>

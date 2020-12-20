@@ -17,7 +17,7 @@
             <Label BorderPane.alignment="TOP_CENTER" style="-fx-alignment: center; -fx-font-size: 64px; -fx-pref-width: 600px; -fx-text-fill: red;">LOAD GAME</Label>
         </VBox>
         <VBox style="-fx-alignment: center; -fx-spacing: 50">
-            <TableView fx:id="loadTable" layoutX="35.0" layoutY="28.0" prefHeight="200.0" prefWidth="227.0">
+            <TableView fx:id="loadTable" layoutX="35.0" layoutY="28.0" prefHeight="200.0" prefWidth="227.0" style="-fx-background-color: #E9E9E9">
                 <columns>
                     <TableColumn prefWidth="110.0" text="Game Number" fx:id="noColumn"/>
                     <TableColumn prefWidth="200.0" text="Date" fx:id="dateColumn"/>
