@@ -21,7 +21,7 @@
         <Button text="Start" onAction="#startButtonAction"/>
     </VBox>
     <HBox>
-
+        <Button text="Start" onAction="#startButtonAction"/>
         <VBox id="newGamePlayersSection">
             <VBox fx:id="playerList" id="playerList" spacing="20">
             </VBox>

@@ -89,6 +89,7 @@ public class NewGameMenuController extends MenuController {
             td.initStyle(StageStyle.UNDECORATED);
             td.initModality(Modality.APPLICATION_MODAL);
             td.initOwner(getStage());
+            td.setGraphic(null);
             td.showAndWait();
 
             // if the user presses cancel on the dialog, getResult() returns null
