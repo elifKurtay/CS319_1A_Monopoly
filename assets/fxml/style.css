@@ -137,6 +137,12 @@
     -fx-alignment: center;
 }
 
+.alertDialogue{
+    -fx-border-width: 6;
+    -fx-border-style: solid;
+    -fx-alignment: center;
+}
+
 #playerList {
     -fx-spacing: 75px;
 }
