@@ -19,7 +19,7 @@ public class DynamicBoardController {
     private ImageView[] tokenImages;
 
     public void initialize() {
-        tokenImages = new ImageView[4];
+        tokenImages = new ImageView[5];
     }
 
     public void setDynamicBoard(Board gameBoard) {
