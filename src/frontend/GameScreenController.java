@@ -6,10 +6,7 @@ import board.Board;
 import board.PropertySpace;
 import board.Space;
 import card.Card;
-import entities.DigitalPlayer;
-import entities.LandProperty;
-import entities.Player;
-import entities.Property;
+import entities.*;
 import event.CardEvent;
 import event.ThiefEvent;
 import game.Game;
@@ -598,16 +595,19 @@ public class GameScreenController {
         assetsDialog.getDialogPane().getStyleClass().add("alertDialogue");
 
         VBox vbTop = new VBox();
-        HBox hb = new HBox();
-        vbTop.getChildren().add(hb);
+        vbTop.setSpacing(5);
         vbTop.setStyle("-fx-background-color:  #FF8A00");
         assetsDialog.getDialogPane().setContent(vbTop);
-        for (int i = 0; i < player.getProperties().size(); i++) {
-            //hb.getChildren().add(new Label(player.getProperties().get(i).getPropertyName()));
-            VBox vb = buildTitleDeedCard(player.getProperties().get(i));
-            System.out.println("Style: " + vb.getStyle());
-            hb.getChildren().add(vb);
-            //hb.setContent(new Label(player.getProperties().get(i).getCard().getPropertyName()));
+        for (int i = 0; i < (player.getProperties().size()/5) + 1; i++) {
+            HBox hb = new HBox();
+            hb.setSpacing(5);
+            for (int j = 0; j < 5; j++) {
+                if (player.getProperties().size() > (i*5 + j)) {
+                    VBox vb = buildTitleDeedCard(player.getProperties().get(i*5 + j));
+                    hb.getChildren().add(vb);
+                }
+            }
+            vbTop.getChildren().add(hb);
         }
         HBox hbCard = new HBox();
         vbTop.getChildren().add(hbCard);
@@ -695,6 +695,59 @@ public class GameScreenController {
         }
         vb.getChildren().add(new Label("Title Deed Card"));
         vb.getChildren().add(new Label(p.getPropertyName()));
+        VBox rentVb = new VBox();
+        int[] rents = p.getRents();
+        if (p instanceof LandProperty) {
+            for (int i = 0; i < 6; i++) {
+                BorderPane rentBP;
+                if (i == 0) {
+                    rentBP = new BorderPane();
+                    rentBP.setLeft(new Label("Rent"));
+                    rentBP.setRight(new Label("M" + rents[i]));
+                    rentVb.getChildren().add(rentBP);
+
+                    rentBP = new BorderPane();
+                    rentBP.setLeft(new Label("Rent with color set"));
+                    rentBP.setRight(new Label("M" + rents[i] * 2));
+                }
+                else if (i == 5) {
+                    rentBP = new BorderPane();
+                    rentBP.setLeft(new Label("Rent with hotel"));
+                    rentBP.setRight(new Label("M" + rents[i]));
+                }
+                else {
+                    rentBP = new BorderPane();
+                    rentBP.setLeft(new Label("Rent with " + i + " house"));
+                    rentBP.setRight(new Label("M" + rents[i]));
+                }
+                rentVb.getChildren().add(rentBP);
+            }
+        }
+        else if (p instanceof TransportProperty) {
+            for (int i = 0; i < 4; i++) {
+                BorderPane rentBP = new BorderPane();
+                if (i == 0) {
+                    rentBP.setLeft(new Label("Rent"));
+                    rentBP.setRight(new Label("M" + rents[i]));
+                }
+                else {
+                    rentBP = new BorderPane();
+                    rentBP.setLeft(new Label("Rent with " + (i+1) + " transport properties owned"));
+                    rentBP.setRight(new Label("M" + rents[i]));
+                }
+                rentVb.getChildren().add(rentBP);
+            }
+        }
+        else {
+            rentVb.getChildren().add(new Label("If one \"Utility\" is owned rent is 4 times the dice sum."));
+            rentVb.getChildren().add(new Label("If two \"Utilities\" are owned rent is 10 times the dice sum."));
+        }
+        BorderPane rentBP = new BorderPane();
+        rentBP.setLeft(new Label("Mortgage Value"));
+        rentBP.setRight(new Label("M" + p.getMortgageValue()));
+        rentVb.setStyle("-fx-border-color: black; -fx-border-width:  0 0 1px 0");
+        vb.getChildren().add(rentVb);
+
         vb.setAlignment(Pos.CENTER);
         vb.getStyleClass().clear();
         vb.getStyleClass().add("titleCard");
