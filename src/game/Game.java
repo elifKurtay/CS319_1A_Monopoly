@@ -427,9 +427,10 @@ public class Game extends Observer {
         players = order;
 
         //token choose
+        boolean restart = restarted;
         for(int i = 0; i < LAP; i++) {
             players[i].setToken(new Token(controller.chooseToken(players[i].getPlayerName(),
-                        players[i] instanceof DigitalPlayer, restarted)));
+                        players[i] instanceof DigitalPlayer, restart)));
 
             controller.setTokenImage(i, players[i].getToken().getTokenName());
             if(!restarted)
@@ -437,6 +438,7 @@ public class Game extends Observer {
             else
                 controller.drawToken(i, 0, 0);
             //change player turn
+            restart = false;
         }
         controller.drawPlayerBoxes(players);
     }
