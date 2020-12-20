@@ -425,6 +425,18 @@
         "chanceCards": [
             {
                 "cardEvent": {
+                    "type": "THIEF"
+                },
+                "cardText": "Deploy Thief Targeting: "
+            },
+            {
+                "cardEvent": {
+                    "type": "THIEF"
+                },
+                "cardText": "Deploy Thief Targeting: "
+            },
+            {
+                "cardEvent": {
                     "type": "ADVANCE",
                     "targetSpace": "Go",
                     "canCollectSalary": true
@@ -536,6 +548,18 @@
 
         ],
         "communityChestCards": [
+            {
+                "cardEvent": {
+                    "type": "THIEF"
+                },
+                "cardText": "Deploy Thief Targeting: "
+            },
+            {
+                "cardEvent": {
+                    "type": "THIEF"
+                },
+                "cardText": "Deploy Thief Targeting: "
+            },
             {
                 "cardEvent": {
                     "type": "ADVANCE",
