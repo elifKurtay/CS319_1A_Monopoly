@@ -20,6 +20,7 @@ public class Main extends Application {
 
         primaryStage.setOnCloseRequest(event -> Platform.exit());
         primaryStage.setScene(s);
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 
