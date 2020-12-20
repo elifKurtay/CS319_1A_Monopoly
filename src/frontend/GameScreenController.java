@@ -681,6 +681,9 @@ public class GameScreenController {
             alert2.initStyle(StageStyle.UNDECORATED);
             alert2.initModality(Modality.APPLICATION_MODAL);
             alert2.setHeaderText(name + " has chosen: " + chosen);
+            alert2.setGraphic(null);
+            alert2.getDialogPane().getStylesheets().add("fxml/style.css");
+            alert2.getDialogPane().getStyleClass().add("alertDialogue");
             try {
                 Thread.sleep(500);
                 alert2.close();
@@ -1024,6 +1027,9 @@ public class GameScreenController {
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.initOwner(stage);
+        alert.setGraphic(null);
+        alert.getDialogPane().getStylesheets().add("fxml/style.css");
+        alert.getDialogPane().getStyleClass().add("alertDialogue");
         alert.setX(420);
         alert.setY(420);
         alert.showAndWait();
