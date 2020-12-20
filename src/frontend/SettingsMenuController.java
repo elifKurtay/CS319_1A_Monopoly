@@ -26,8 +26,8 @@ public class SettingsMenuController extends MenuController {
     private Audio obj =  Audio.getInstance();
 
     public void initialize(){
-        musicSlider.setValue(50);
-        gameSoundSlider.setValue(50);
+        musicSlider.setValue(obj.getGameMusic().getVolume()*100);
+        gameSoundSlider.setValue(obj.getCashSound().getVolume()*100);
     }
 
     @FXML

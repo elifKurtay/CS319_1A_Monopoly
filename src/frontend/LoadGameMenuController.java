@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class LoadGameMenuController extends MenuController {
 
     @FXML private TableView loadTable;
-    @FXML private TableColumn noColumn, dateColumn, timeColumn, player1, player2, player3, player4;
+    @FXML private TableColumn noColumn, dateColumn, timeColumn, player1, player2, player3, player4, delete;
     private FileManager fileManager = FileManager.getInstance();
 
     public void initialize() {
@@ -43,6 +43,7 @@ public class LoadGameMenuController extends MenuController {
             player2.setCellValueFactory(new PropertyValueFactory<>("player2"));
             player3.setCellValueFactory(new PropertyValueFactory<>("player3"));
             player4.setCellValueFactory(new PropertyValueFactory<>("player4"));
+            delete.setCellValueFactory(new PropertyValueFactory<>("delete"));
 
 
             //table input
@@ -60,7 +61,7 @@ public class LoadGameMenuController extends MenuController {
 
     public class SaveData {
         @Getter private String date, time, player1, player2, player3, player4;
-        @FXML @Getter private Button gameNo;
+        @FXML @Getter private Button gameNo, delete;
 
         public SaveData(int gameNo, String date, String time, String player1, String player2, String player3, String player4) {
             this.gameNo = new Button("" + gameNo);
@@ -78,10 +79,17 @@ public class LoadGameMenuController extends MenuController {
             this.player2 = player2;
             this.player3 = player3;
             this.player4 = player4;
+            this.delete = new Button("X");
+            this.delete.setOnAction(event -> {
+                try {
+                    delete();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
         }
 
         public void action() throws Exception{
-
             String folderName = "savedGames\\" + player1 + "_" + player2 + "_" + player3 + "_" + player4 + "_" + date + " " + time;
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameScreen.fxml"));
             Parent root = loader.load();
@@ -92,6 +100,13 @@ public class LoadGameMenuController extends MenuController {
             Game g = fileManager.loadGame(folderName, controller);
             controller.setGame(g);
             g.continueGame();
+        }
+
+        public void delete() {
+            String folderName = "savedGames\\" + player1 + "_" + player2 + "_" + player3 + "_" + player4 + "_" + date + " " + time;
+            fileManager.delete(folderName);
+            loadTable.getItems().remove(this);
+            loadTable.refresh();
         }
     }
 }

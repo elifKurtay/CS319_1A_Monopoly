@@ -20,6 +20,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -41,6 +42,7 @@ import java.util.stream.IntStream;
 public class GameScreenController {
     @FXML
     private VBox playerBoxes;
+
     @Getter
     @Setter
     private Game game;
@@ -76,12 +78,7 @@ public class GameScreenController {
     @FXML
     protected void exitButtonAction(ActionEvent event) throws Exception{
         // Scoreboard ?
-        if (twoChoiceDialog("Do you really want to exit?", "Yes", "No")) {
-            if (twoChoiceDialog("Do you want to save the game?", "Yes", "No")) {
-                saveButtonAction(null);
-            }
-            Platform.exit();
-        }
+        showScoreboard();
     }
 
     @FXML
@@ -97,12 +94,22 @@ public class GameScreenController {
 
     @FXML
     protected void restartButtonAction(ActionEvent event) {
-        Player[] players = game.getPlayers();
-        game.restartGame();
-        drawPlayerBoxes(players);
-        for (int i = 0; i <players.length; i++) {
-            dynamicBoardController.drawToken(i, players[i].getCurrentSpace().getIndex(), -1);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(stage);
+        alert.setX(420);
+        alert.setY(420);
+        alert.setHeaderText("Restart?");
+        alert.setContentText("Do you want to restart the game? If you click on \"Yes\", this action would " +
+                "mean that the progress of the game will be deleted and players will have to start from the initializing lap. ");
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Yes");
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No");
+        alert.showAndWait();
+        if (alert.getResult() == ButtonType.OK) {
+            game.restartGame();
         }
+
     }
 
     @FXML
@@ -493,7 +500,7 @@ public class GameScreenController {
         int playerNo = Character.getNumericValue(buttonID.charAt(buttonID.length() - 1));
         Player player = game.getPlayers()[playerNo];
         //System.out.println("Player " + playerNo + " GOOJC count: " + player.getGetOutOfJailFreeCount());
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.initOwner(stage);
@@ -584,13 +591,14 @@ public class GameScreenController {
         return dice;
     }
 
-    private final ArrayList<String> tokens = new ArrayList<>();
+    private ArrayList<String> tokens;
     private final String[] tokenNames = {"Thimble", "Wheel Barrow", "Boot", "Horse", "Race Car",
             "Iron", "Top Hat", "Battleship"};
     private boolean first = true;
 
-    public int chooseToken(String name, boolean digital) {
-        if(first) {
+    public int chooseToken(String name, boolean digital, boolean restart) {
+        if(first || restart) {
+            tokens = new ArrayList<>();
             tokens.addAll(Arrays.asList(tokenNames));
             first = false;
         }
@@ -753,6 +761,7 @@ public class GameScreenController {
         alert.showAndWait();
         return alert.getResult() == ButtonType.OK;
     }
+    private boolean restart = false;
 
     public void finishTurn(Boolean digital) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -788,10 +797,7 @@ public class GameScreenController {
         alert.setX(420);
         alert.setY(420);
         alert.showAndWait();
-        if (alert.getResult() == ButtonType.CANCEL) {
-            return true;
-        }
-        return false;
+        return alert.getResult() == ButtonType.CANCEL;
     }
 
     //used when digital players open a card
@@ -833,7 +839,7 @@ public class GameScreenController {
             name.getStyleClass().add("namelabel");
             vb.getChildren().addAll(iv, name);
 
-            Label money = new Label("M" + Integer.toString(player.getMoney()));
+            Label money = new Label("M" + player.getMoney());
             money.getStyleClass().add("moneylabel");
             money.setPrefSize(150, 70);
 
@@ -847,7 +853,10 @@ public class GameScreenController {
                 forfeitButton.setId("forfeitPlayer" + i);
                 forfeitButton.getStyleClass().add("forfeitButton");
                 forfeitButton.setOnAction(this::playerForfeitButtonAction);
-                hb.getChildren().addAll(vb, money, assetsButton, forfeitButton);
+                VBox assetFF = new VBox(2);
+                assetFF.getChildren().addAll(assetsButton, forfeitButton);
+                assetFF.setAlignment(Pos.CENTER);
+                hb.getChildren().addAll(vb, money, assetFF);
             } else
                 hb.getChildren().addAll(vb, money, assetsButton);
 
@@ -889,10 +898,10 @@ public class GameScreenController {
             textFields[i] = new TextField();
         }
 
-        //test
         for (int j = 0; j < 4; j++) {
             labels[j] = new Label(players[j].getPlayerName());
             labels[j].setPrefSize(100, 30);
+            labels[j].setAlignment(Pos.CENTER);
 
             int finalJ = j;
             bids[j].setOnAction((ActionEvent e) -> {
@@ -908,7 +917,7 @@ public class GameScreenController {
             });
 
             folds[j].setOnAction((ActionEvent e) -> {
-                foldEvent(finalJ, auc, alert, players, bids, folds, textFields);
+                foldEvent(finalJ, auc, alert, players, labels, bids, folds, textFields);
             });
 
             HBox hBox = new HBox(4);
@@ -916,17 +925,37 @@ public class GameScreenController {
             gp.add(hBox, 0, j + 1);
         }
 
-        disableExcept(0, bids, folds, textFields);
+        for (int i = 0; i < 4; i++) {
+            if (players[i].isBankrupt()) folds[i].fire();
+        }
 
-        if(players[0] instanceof DigitalPlayer){
-            int digitalBid = ((DigitalPlayer) players[0]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
+        int firstPlayer = 0;
+        for (int i = 0; i < 4; i++) {
+            if (!players[i].isBankrupt()){
+                firstPlayer = i;
+                break;
+            }
+        }
+
+        disableExcept(firstPlayer, bids, folds, textFields);
+
+        if(players[firstPlayer] instanceof DigitalPlayer){
+            int digitalBid = ((DigitalPlayer) players[firstPlayer]).bidOnAuction(auc.getAuctionedProperty(), auc.getHighestBid());
             System.out.println("Digital Player bids: " + digitalBid);
             if(digitalBid < 0){
-                folds[0].fire();
+                folds[firstPlayer].fire();
             }
             else {
-                textFields[0].setText(String.valueOf(digitalBid));
-                bids[0].fire();
+                textFields[firstPlayer].setText(String.valueOf(digitalBid));
+                bids[firstPlayer].fire();
+            }
+        }
+
+        boolean allDigitalPlayers = true;
+        for (int i = 0; i < 4; i++) {
+            if (!(players[i] instanceof DigitalPlayer) ){
+                allDigitalPlayers = false;
+                break;
             }
         }
 
@@ -934,7 +963,7 @@ public class GameScreenController {
         alert.setY(300);
         gp.setHgap(30);
         gp.setVgap(30);
-        alert.showAndWait();
+        if (!allDigitalPlayers) alert.showAndWait();
 
 
     }
@@ -988,7 +1017,7 @@ public class GameScreenController {
         }
     }
 
-    private void foldEvent(int bidNum, Auction auc, Alert alert, Player[] players, Button[] bids, Button[] folds, TextField[] textFields){
+    private void foldEvent(int bidNum, Auction auc, Alert alert, Player[] players, Label[] labels, Button[] bids, Button[] folds, TextField[] textFields){
         auc.fold(players[bidNum], bidNum);
         if (auc.getState() == 0 &&
                 !alert.getDialogPane().getButtonTypes().contains(ButtonType.CANCEL)) {
@@ -999,6 +1028,11 @@ public class GameScreenController {
                     + auc.getHighestBidder().getPlayerName() + " with a bid of " + auc.getHighestBid(), null);
             return;
         }
+
+        labels[bidNum].setStyle("-fx-background-color: red; -fx-font-weight: bold");
+        System.out.println(labels[bidNum].getStyle());
+
+        //labels[bidNum].setDisable(true);
 
         while (auc.getBids()[((bidNum + 1) % 4)] == -1) {
             bidNum = (bidNum + 1) % 4;
@@ -1015,6 +1049,106 @@ public class GameScreenController {
                 textFields[((bidNum + 1) % 4)].setText(String.valueOf(digitalBid));
                 bids[((bidNum + 1) % 4)].fire();
             }
+        }
+    }
+
+
+    private void showScoreboard(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(stage);
+        Player[] players = game.getPlayers();
+        VBox box = new VBox();
+        TableView scoreBoard;
+        TableColumn rank, name, netWorth;
+
+        scoreBoard = new TableView();
+        scoreBoard.setEditable(true);
+
+        rank = new TableColumn("Rank");
+        name = new TableColumn("Name");
+        netWorth = new TableColumn("Net Worth");
+        rank.setPrefWidth(60);
+        name.setPrefWidth(100);
+        netWorth.setPrefWidth(100);
+
+        rank.setStyle(  "-fx-alignment: CENTER;");
+        name.setStyle(  "-fx-alignment: CENTER;");
+        netWorth.setStyle(  "-fx-alignment: CENTER;");
+
+
+        scoreBoard.getColumns().addAll(rank, name, netWorth);
+
+        rank.setCellValueFactory(new PropertyValueFactory<>("rank"));
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        netWorth.setCellValueFactory(new PropertyValueFactory<>("netWorth"));
+
+
+        Score[] scores = new Score[4];
+        for(int i = 0; i < 4; i++)
+        scores[i] = new Score("" + (i+1), players[i].getPlayerName(),
+                "" + players[i].getNetWorth() );
+
+        Player playerWithHighestScore;
+        for(int i = 0; i < 4; i++) {
+            playerWithHighestScore = players[i];
+            for(int j = i + 1; j < 4; j++){
+                if(players[j].getNetWorth() > playerWithHighestScore.getNetWorth()){
+                    Score temp = scores[i];
+                    scores[i] = scores[j];
+                    scores[j] = temp;
+                }
+            }
+            scores[i].setRank((i + 1)+ "");
+        }
+
+
+        scoreBoard.getItems().addAll(scores);
+
+
+        HBox hBox = new HBox();
+        hBox.setStyle("-fx-alignment: center");
+        hBox.setSpacing(20);
+        Button cancel = new Button("Cancel");
+        Button endGame = new Button("End Game");
+
+        endGame.setOnAction(event -> {
+            if (twoChoiceDialog("Do you really want to exit?", "Yes", "No")) {
+                if (twoChoiceDialog("Do you want to save the game?", "Yes", "No")) {
+                    try {
+                        saveButtonAction(null);
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+                Platform.exit();
+            }
+        });
+
+        cancel.setOnAction(event -> {
+            alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
+            alert.close();
+        });
+
+        hBox.getChildren().add(cancel);
+        hBox.getChildren().add(endGame);
+
+        box.getChildren().add(scoreBoard);
+        box.getChildren().add(hBox);
+
+
+        alert.getDialogPane().setContent(box);
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setVisible(false);
+        alert.showAndWait();
+    }
+
+    public class Score{
+        @Getter @Setter private String rank, name, netWorth;
+        public Score(String rank, String name, String netWorth){
+            this.rank = rank;
+            this.name = name;
+            this.netWorth = netWorth;
         }
     }
 }

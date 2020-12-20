@@ -67,6 +67,13 @@
     -fx-border-width: 2px;
 }
 
+.forfeitButton{
+    -fx-background-color: #b33a3a;
+    -fx-border-color:black;
+    -fx-border-style: solid;
+    -fx-border-width: 2px;
+}
+
 .imageView-style {
     -fx-blend-mode: multiply;
 }
