@@ -473,6 +473,8 @@ public class GameScreenController {
 
 
         HBox hb = new HBox();
+        hb.setStyle("-fx-background-color: #FF8A00; -fx-alignment: center");
+        ((Button) assetsDialog.getDialogPane().lookupButton(ButtonType.OK)).setStyle("-fx-background-color: #BB55FA");
         assetsDialog.getDialogPane().setContent(hb);
         for (Property p :currentPlayer.getProperties()) {
             if (!p.isMortgaged()) {
@@ -505,7 +507,11 @@ public class GameScreenController {
         assetsDialog.getDialogPane().getStylesheets().add("fxml/style.css");
         assetsDialog.getDialogPane().getStyleClass().add("alertDialogue");
 
+        ((Button) assetsDialog.getDialogPane().lookupButton(ButtonType.OK)).setStyle("-fx-background-color: #BB55FA");
+
         HBox hb = new HBox();
+        hb.setAlignment(Pos.CENTER);
+        hb.setStyle("-fx-background-color: #FF8A00");
         assetsDialog.getDialogPane().setContent(hb);
         for (Property p :currentPlayer.getProperties()) {
             if (p.isMortgaged()) {
@@ -516,6 +522,8 @@ public class GameScreenController {
                     mortgageButton.setDisable(true);
                     drawPlayerBoxes(game.getPlayers());
                 });
+                vb.setAlignment(Pos.CENTER);
+                vb.setSpacing(15);
                 vb.getChildren().addAll(buildTitleDeedCard(p), mortgageButton);
                 hb.getChildren().add(vb);
             }
@@ -542,6 +550,7 @@ public class GameScreenController {
         VBox vbTop = new VBox();
         HBox hb = new HBox();
         vbTop.getChildren().add(hb);
+        vbTop.setStyle("-fx-background-color:  #FF8A00");
         assetsDialog.getDialogPane().setContent(vbTop);
         for (int i = 0; i < player.getProperties().size(); i++) {
             //hb.getChildren().add(new Label(player.getProperties().get(i).getPropertyName()));
@@ -1135,6 +1144,7 @@ public class GameScreenController {
         alert.setHeaderText("Auction");
 
         GridPane gp = new GridPane();
+        gp.setStyle("-fx-background-color: #FF8A00");
         alert.getDialogPane().setContent(gp);
 
         Player[] players = game.getPlayers();
@@ -1154,7 +1164,9 @@ public class GameScreenController {
         Label[] labels = new Label[4];
         for (int i = 0; i < 4; i++) {
             bids[i] = new Button(" Bid ");
+            bids[i].setStyle("-fx-background-color: #E5F900; -fx-font-weight: bold;");
             folds[i] = new Button(" Fold ");
+            folds[i].setStyle("-fx-background-color: #E5F900; -fx-font-weight: bold;");
             textFields[i] = new TextField();
         }
 
@@ -1389,6 +1401,8 @@ public class GameScreenController {
         hBox.setSpacing(20);
         Button cancel = new Button("Cancel");
         Button endGame = new Button("End Game");
+        cancel.setStyle("-fx-background-color: #FF4848; -fx-font-size: 14px");
+        endGame.setStyle("-fx-background-color: #FF4848; -fx-font-size: 14px");
 
         endGame.setOnAction(event -> {
             if (twoChoiceDialog("Do you really want to exit?", "Yes", "No")) {
@@ -1399,7 +1413,21 @@ public class GameScreenController {
                         e.printStackTrace();
                     }
                 }
-                Platform.exit();
+                try {
+                    /*stage.close();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainMenu.fxml"));
+                    Parent root = loader.load();
+                    MainMenuController controller = loader.getController();
+                    Scene s = new Scene(root, stage.getWidth(), stage.getHeight());
+                    stage.setScene(s);
+                    controller.setStage(stage);
+
+                     */
+                    Platform.exit();
+
+                } catch (Exception e){
+
+                }
             }
         });
 
@@ -1413,7 +1441,7 @@ public class GameScreenController {
 
         Label scoreBoardLabel = new Label("Scoreboard");
         scoreBoardLabel.setStyle("-fx-alignment: center; -fx-text-fill: red; " +
-                "-fx-font-weight: bold; -fx-font-size: 14");
+                "-fx-font-weight: bold; -fx-font-size: 28px");
 
         box.setAlignment(Pos.CENTER);
         box.setSpacing(15);

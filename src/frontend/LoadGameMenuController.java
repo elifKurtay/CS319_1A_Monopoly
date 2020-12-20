@@ -72,7 +72,7 @@ public class LoadGameMenuController extends MenuController {
                     e.printStackTrace();
                 }
             });
-            this.gameNo.setStyle("-fx-background-color: FFE55C");
+            this.gameNo.setStyle("-fx-background-color: #FFE55C");
             this.date = date;
             this.time = time;
             this.player1 = player1;
@@ -80,6 +80,7 @@ public class LoadGameMenuController extends MenuController {
             this.player3 = player3;
             this.player4 = player4;
             this.delete = new Button("X");
+            this.delete.setStyle("-fx-background-color: #FFE55C");
             this.delete.setOnAction(event -> {
                 try {
                     delete();
