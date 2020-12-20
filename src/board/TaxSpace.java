@@ -7,6 +7,12 @@ public class TaxSpace extends Space {
 
     private TaxType type;
 
+    /**
+     * This constructor initializes the object
+     * by setting the tax type and index of the space.
+     * @param taxType
+     * @param index
+     */
     public TaxSpace(String taxType, int index) {
         super(null, index);
         if (taxType.equals("LUXURY")) {
@@ -19,6 +25,10 @@ public class TaxSpace extends Space {
         }
     }
 
+    /**
+     * This method is to get the tax amount of the space.
+     * @return tax
+     */
     public int getTax() {
         if(type == TaxType.INCOME)
             return 100;

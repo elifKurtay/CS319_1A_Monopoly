@@ -15,7 +15,12 @@ public class CollectEvent extends CardEvent{
     private String from;
     private int amount;
 
-
+    /**
+     * Handles the event and performs operations on the players and the board
+     * @param affectedPlayer
+     * @param players
+     * @param board
+     */
     @Override
     public void handleEvent(Player affectedPlayer, Player[] players, Board board) {
         if (from.equals("BANK")) {

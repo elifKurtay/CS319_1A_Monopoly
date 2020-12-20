@@ -5,6 +5,12 @@ import entities.Player;
 
 public class ThiefEvent extends CardEvent{
 
+    /**
+     * Handles the event and performs operations on the players and the board
+     * @param affectedPlayer
+     * @param players
+     * @param board
+     */
     @Override
     public void handleEvent(Player affectedPlayer, Player[] players, Board board) {
         board.deployThief(players[(int)(Math.random()*4)]);

@@ -12,6 +12,11 @@ public class CardSpace extends Space {
 
     private CardType type;
 
+    /**
+     * Initalizes the card space by setting the card type and index
+     * @param cardType
+     * @param index
+     */
     public CardSpace(String cardType, int index) {
         super(null, index);
         if (cardType.equals("CHANCE")) {

@@ -12,6 +12,16 @@ public class LandProperty extends Property {
     private int houseCost;
     private int hotelCost;
 
+    /**
+     * Initializes the propertyname, value, mortgage value, rents, property group, house cost, hotel cost
+     * @param propertyName
+     * @param value
+     * @param mortgageValue
+     * @param rents
+     * @param propertyGroup
+     * @param houseCost
+     * @param hotelCost
+     */
     public LandProperty(String propertyName, int value, int mortgageValue, int[] rents, int propertyGroup, int houseCost, int hotelCost) {
         super(propertyName, value, mortgageValue, rents, propertyGroup);
         this.houseCost = houseCost;
@@ -19,6 +29,10 @@ public class LandProperty extends Property {
         numOfHouses = 0;
     }
 
+    /**
+     * Calculates net worth
+     * @return net worth
+     */
     @Override
     public int getWorth() {
         if (numOfHouses == 5) {
@@ -29,6 +43,9 @@ public class LandProperty extends Property {
         }
     }
 
+    /**
+     * Build house method
+     */
     public void buildHouse() {
         if (numOfHouses <= 5) {
             numOfHouses++;
@@ -36,10 +53,19 @@ public class LandProperty extends Property {
     }
 
     //do we have sell? is this to be used in mortgaging?
+
+    /**
+     * Sell house method
+     */
     public void sellHouse () {
         numOfHouses--;
     }
 
+    /**
+     * Returns the rent
+     * @param playerToPay
+     * @return rent
+     */
     @Override
     public int getRent(Player playerToPay) {
         int numberOfTitlesFromSameGroup = owner.numberOfPropertiesFromSameGroup(this);
@@ -54,6 +80,10 @@ public class LandProperty extends Property {
         return (int) (rent * playerToPay.getToken().getRentPayMultiplier() * owner.getToken().getRentCollectMultiplier());
     }
 
+    /**
+     * Checks if an house or an hotel can be build on the screen.
+     * @return boolean
+     */
     public boolean canBuild() {
         ArrayList<Property> properties = owner.getAllPropertiesFromSameGroup(this);
         if (properties.size() != Property.numberOfPropertiesInGroups[propertyGroup]) {
@@ -68,6 +98,10 @@ public class LandProperty extends Property {
         return false;
     }
 
+    /**
+     * Checks if the house can be selled
+     * @return boolean
+     */
     public boolean canSellHouse() {
         ArrayList<Property> properties = owner.getAllPropertiesFromSameGroup(this);
         if (properties.size() != Property.numberOfPropertiesInGroups[propertyGroup]) {

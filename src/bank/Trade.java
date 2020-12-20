@@ -20,6 +20,11 @@ public class Trade {
 
     private boolean accepted;
 
+    /**
+     * Initalizes the trade by setting the players, offerer and target
+     * @param offerer
+     * @param target
+     */
     public Trade( Player offerer, Player target ) {
         this.offerer = offerer;
         this.target = target;
@@ -34,12 +39,24 @@ public class Trade {
         accepted = false;
     }
 
+    /**
+     * Performs the offer by setting properties, money and goojc
+     * @param properties
+     * @param money
+     * @param goojc
+     */
     public void offer( ArrayList<Property> properties, int money, int goojc) {
         this.offeredGOOJC = goojc;
         this.offeredMoney = money;
         this.offeredProperties = properties;
     }
 
+    /**
+     * Performs the want by setting properties, money and goojc
+     * @param properties
+     * @param money
+     * @param goojc
+     */
     public void want( ArrayList<Property> properties, int money, int goojc) {
         this.wantedGOOJC = goojc;
         this.wantedMoney = money;
@@ -49,10 +66,18 @@ public class Trade {
     //UI functions
     void sendOffer() {} //?
 
+    /**
+     * Accepts the offer if the parameter is true
+     * @param accepted
+     */
     public void acceptOffer(boolean accepted) {
         this.accepted = accepted;
     }
 
+    /**
+     * Closes the trade
+     * @return
+     */
     public boolean closeTrade() {
         if(!accepted)
             return false;

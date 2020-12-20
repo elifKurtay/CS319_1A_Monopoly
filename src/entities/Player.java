@@ -29,6 +29,11 @@ public class Player implements Serializable {
     private int currentDiceSum;
 
     //constructor
+
+    /**
+     * Initializes the player
+     * @param playerName
+     */
     public Player(String playerName) {
         this.playerName = playerName;
         money = 1500;
@@ -44,6 +49,11 @@ public class Player implements Serializable {
     }
 
     //methods
+
+    /**
+     * Calculates net worth
+     * @return net worth
+     */
     public int getNetWorth(){
         int netWorth = money;
         for(Property property: properties){
@@ -52,6 +62,9 @@ public class Player implements Serializable {
         return netWorth;
     }
 
+    /**
+     * Sets the attributes of the player when he is lost
+     */
     public void lost() {
         money = 0;
         bankrupt = true;
@@ -66,11 +79,21 @@ public class Player implements Serializable {
         properties = null;
     }
 
+    /**
+     * Pays the player the amount given
+     * @param receiver
+     * @param amount
+     */
     public void payPlayer(@NotNull Player receiver, int amount){
         receiver.setMoney(receiver.getMoney() + amount);
         money = money - amount;
     }
 
+    /**
+     * Returns all properties from the same group of the given property
+     * @param propertyToCheck
+     * @return
+     */
     public ArrayList<Property> getAllPropertiesFromSameGroup( Property propertyToCheck) {
         ArrayList<Property> titles = new ArrayList<>();
 
@@ -83,6 +106,11 @@ public class Player implements Serializable {
         return titles;
     }
 
+    /**
+     *
+     * @param propertyToCheck
+     * @return
+     */
     public int numberOfPropertiesFromSameGroup( Property propertyToCheck) {
         int[] propertyGroupCounts = new int[10];
         for (Property p : properties) {
@@ -92,10 +120,20 @@ public class Player implements Serializable {
         return propertyGroupCounts[propertyToCheck.getPropertyGroup()];
     }
 
+    /**
+     * Checks if the player owns all the properties from that group
+     * @param propertyToCheck
+     * @return boolean
+     */
     public boolean ownsAllPropertiesFromSameGroup(Property propertyToCheck) {
         return numberOfPropertiesFromSameGroup(propertyToCheck) == Property.numberOfPropertiesInGroups[propertyToCheck.getPropertyGroup()];
     }
 
+    /**
+     * Adds the property to the property list
+     * @param property
+     * @return boolean
+     */
     public boolean addProperty(Property property) {
         if(properties.contains(property))
             return false;
@@ -103,6 +141,9 @@ public class Player implements Serializable {
         return true;
     }
 
+    /**
+     * Resets the attributes of the player
+     */
     public void reset() {
         money = 1500;
         bankrupt = false;
@@ -117,10 +158,18 @@ public class Player implements Serializable {
         currentDiceSum = 0;
     }
 
+    /**
+     * Returns the properties of the player
+     * @return properties
+     */
     public ArrayList<Property> getProperties() {
         return properties;
     }
 
+    /**
+     * Overrided toString method
+     * @return string
+     */
     @Override
     public String toString() {
         return playerName;

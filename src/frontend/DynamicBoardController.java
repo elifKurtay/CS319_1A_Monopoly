@@ -262,4 +262,14 @@ public class DynamicBoardController {
         return spaceBoxNode;
     }
 
+    public void clearMap() {
+        bottomBoard.getChildren().clear();
+        rightBoard.getChildren().clear();
+        leftBoard.getChildren().clear();
+        topBoard.getChildren().clear();
+        bottomLeftBoard.getChildren().clear();
+        bottomRightBoard.getChildren().clear();
+        topLeftBoard.getChildren().clear();
+        topRightBoard.getChildren().clear();
+    }
 }

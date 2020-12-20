@@ -14,6 +14,11 @@ public abstract class Space implements Serializable {
     private Player latestPlayer;
     private int index;
 
+    /**
+     * Initializes the object by setting the name and index of the space.
+     * @param name
+     * @param index
+     */
     public Space(String name, int index) {
         this.name = name;
         this.index = index;

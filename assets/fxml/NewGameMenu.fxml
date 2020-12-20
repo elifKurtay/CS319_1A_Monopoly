@@ -45,11 +45,7 @@
             </HBox>
             <Label styleClass="newGameMenuLabel">Map Preview: {MAP_NAME}</Label>
             <HBox>
-                <ImageView>
-                    <image>
-                        <Image requestedHeight="600" requestedWidth="600" url="/img/MapPreview.png"/>
-                    </image>
-                </ImageView>
+                <fx:include source="DynamicBoard.fxml" fx:id="dynamicBoard"/>
             </HBox>
         </VBox>
     </HBox>
