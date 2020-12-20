@@ -25,6 +25,7 @@ public class Thief {
 
     public boolean move(Space space) {
         currentSpace = space;
+
         return currentSpace == target.getCurrentSpace();
     }
 

@@ -223,9 +223,13 @@ public class Game extends Observer {
                 thief = board.getThief();
                 if(thief.getCurrentSpace() == null) {
                     //controller.drawThief();
-                    thief.setCurrentSpace(board.getSpace(0));
+                    thief.setCurrentSpace(board.getSpace(10));
                 }
                 int move = thief.rollDice() + thief.getCurrentSpace().getIndex() ;
+                if(thief.getTarget().getCurrentSpace().getIndex() > thief.getCurrentSpace().getIndex()
+                    && thief.getTarget().getCurrentSpace().getIndex() <= move){
+                    move = thief.getTarget().getCurrentSpace().getIndex();
+                }
                 controller.drawToken(5, thief.getCurrentSpace().getIndex(), move);
                 if(thief.move(board.getSpace(move))) {
                     thief.steal();
