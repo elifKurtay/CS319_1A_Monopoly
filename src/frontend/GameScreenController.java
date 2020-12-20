@@ -724,7 +724,7 @@ public class GameScreenController {
                     final String tokenToBeRemoved = tokenNames[i*4+j];
                     b.setOnAction(event -> {
                         tokens.remove(tokenToBeRemoved);
-                        cnt[0] = (finalI + 1) * finalJ;
+                        cnt[0] = (finalI * 4) + finalJ;
                         alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
                         alert.close();
                     });
@@ -742,8 +742,7 @@ public class GameScreenController {
         alert.getDialogPane().setContent(chooseTokenBox);
 
         alert.showAndWait();
-        return cnt[0];
-
+        return cnt[0] + 1;
     }
 
     public void drawToken(int playerNo,int oldIndex, int newIndex) {
@@ -1224,7 +1223,6 @@ public class GameScreenController {
         for (int i = 0; i < 4; i++) {
             scores[i] = new Score((i + 1), players[i].getPlayerName(),
                     players[i].getNetWorth());
-            System.out.println(scores[i].getName() + " is " + scores[i].getRank());
         }
 
         for(int i = 0; i < 4; i++) {
@@ -1233,11 +1231,9 @@ public class GameScreenController {
                     Score temp = scores[i];
                     scores[i] = scores[j];
                     scores[j] = temp;
-                    System.out.println("PUT: "+ scores[j].getName() + " in " + scores[i].getName());
                 }
             }
             scores[i].setRank(i + 1);
-            System.out.println(scores[i].getName() + " is " + scores[i].getRank());
         }
 
 
