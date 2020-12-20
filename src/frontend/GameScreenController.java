@@ -75,8 +75,6 @@ public class GameScreenController {
         dynamicBoardController.setDynamicBoard(board);
     }
 
-    public void resetMap(Board board) {
-
     /**
      * Shows the scoreboard
      * @param event Action event that triggers the action
