@@ -394,20 +394,27 @@ public class GameScreenController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.initStyle(StageStyle.UNDECORATED);
         alert.initModality(Modality.APPLICATION_MODAL);
+        alert.setHeaderText("");
         alert.setGraphic(null);
         alert.getDialogPane().getStylesheets().add("fxml/style.css");
         alert.getDialogPane().getStyleClass().add("alertDialogue");
         alert.initOwner(stage);
 
+        Label label = new Label();
+        label.setStyle("-fx-font-size: 18px;");
+        VBox diceBox = new VBox();
+        diceBox.setSpacing(10);
+        diceBox.setAlignment(Pos.CENTER);
 
         System.out.println("turn of " + name);
 
         if(!digital) {
-            alert.setHeaderText(name + " is rolling");
+            label.setText(name + " is rolling");
+            diceBox.getChildren().add(label);
             ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Roll");
-
             alert.setX(420);
             alert.setY(420);
+            alert.getDialogPane().setContent(diceBox);
             alert.showAndWait();
         }
         dice[0] = (int) (Math.random() * 6 + 1);
@@ -416,10 +423,10 @@ public class GameScreenController {
         alert.setX(420);
         alert.setY(420);
         if (dice[0] == dice[1]) {
-            alert.setHeaderText(name + " has rolled double: " + dice[0] + " " + dice[1]);
+            label.setText(name + " has rolled double: " + dice[0] + " " + dice[1]);
         }
         else {
-            alert.setHeaderText(name + " has rolled: " + dice[0] + " " + dice[1]);
+            label.setText(name + " has rolled: " + dice[0] + " " + dice[1]);
         }
         try {
             obj.playDiceSound();
@@ -429,8 +436,8 @@ public class GameScreenController {
             view.setFitHeight(225);
             view.setFitWidth(300);
 
-            HBox diceBox = new HBox();
-            diceBox.setAlignment(Pos.CENTER);
+            diceBox.getChildren().remove(label);
+            diceBox.getChildren().add(label);
             diceBox.getChildren().add(view);
             alert.getDialogPane().setContent(diceBox);
         } catch(Exception e){
@@ -656,6 +663,10 @@ public class GameScreenController {
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.initOwner(stage);
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setVisible(false);
+        alert.setHeaderText("");
+        alert.setGraphic(null);
+        alert.getDialogPane().getStylesheets().add("fxml/style.css");
+        alert.getDialogPane().getStyleClass().add("alertDialogue");
 
 
         FileInputStream f = new FileInputStream("assets/img/gifFiles/wheelOfFortune.gif");
@@ -665,9 +676,17 @@ public class GameScreenController {
         gifAlert.initStyle(StageStyle.UNDECORATED);
         gifAlert.initModality(Modality.APPLICATION_MODAL);
         gifAlert.initOwner(stage);
+        gifAlert.setHeaderText("");
+        gifAlert.setGraphic(null);
+        gifAlert.getDialogPane().getStylesheets().add("fxml/style.css");
+        gifAlert.getDialogPane().getStyleClass().add("alertDialogue");
 
+        VBox vbox = new VBox();
+        vbox.setSpacing(20);
+        vbox.setAlignment(Pos.CENTER);
         Button spinButton = new Button("Spin");
         spinButton.setStyle("-fx-background-color: burlywood");
+
         spinButton.setOnAction(event -> {
             obj.playWheelSound();
             VBox wheel = new VBox();
@@ -685,7 +704,10 @@ public class GameScreenController {
                 alert.close();
             }
         });
-        alert.getDialogPane().setContent(spinButton);
+        Label l = new Label("Welcome to Wheel of Fortune!");
+        vbox.getChildren().add(l);
+        vbox.getChildren().add(spinButton);
+        alert.getDialogPane().setContent(vbox);
         if(digitalPlayer){
             System.out.println("Fire button");
             spinButton.fire();
