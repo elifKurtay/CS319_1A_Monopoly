@@ -122,13 +122,14 @@ public class NewGameMenuController extends MenuController {
     private BorderPane createHumanPlayerBox(int playerNo, String name) {
         //HBox playerBox = new HBox();
         BorderPane playerBox = new BorderPane();
+        playerBox.setStyle("-fx-background-color: green");
         playerBox.getStyleClass().add("playerBox");
-
         Label l = new Label("Player " + playerNo + ": " + name);
         playerBox.setLeft(l);
         BorderPane.setAlignment(l, Pos.CENTER);
 
         Button b = new Button("X");
+        b.getStyleClass().add("playerRemoveButton");
         b.setMaxSize(25, 25);
         b.setOnAction(this::removePlayerButtonAction);
         playerBox.setRight(b);

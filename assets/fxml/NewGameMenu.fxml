@@ -8,39 +8,49 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<HBox xmlns="http://javafx.com/javafx"
+<AnchorPane xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="frontend.NewGameMenuController"
       stylesheets="/fxml/style.css"
       styleClass="newGameMenu"
       prefHeight="800.0" prefWidth="450.0">
-    <VBox>
-        <VBox fx:id="playerList" spacing="20">
+    <VBox AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" id="newGameBackButtonPane">
+        <Button text="Back" onAction="#backButtonAction"/>
+    </VBox>
+    <VBox AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="0" id="newGameStartButtonPane">
+        <Button text="Start" onAction="#startButtonAction"/>
+    </VBox>
+    <HBox>
+
+        <VBox id="newGamePlayersSection">
+            <VBox fx:id="playerList" id="playerList" spacing="20">
+            </VBox>
+            <HBox alignment="CENTER">
+                <Button text="Add Player" onAction="#addPlayerButtonAction"/>
+            </HBox>
         </VBox>
-        <HBox>
-            <Button text="Back" onAction="#backButtonAction"/>
-            <Button text="Add Player" onAction="#addPlayerButtonAction"/>
-        </HBox>
-    </VBox>
-    <VBox>
-        <HBox>
-            <HBox>
-                <Label>Map</Label>
-                <ComboBox fx:id="mapCombo"></ComboBox>
+        <VBox id="newGameMapSection" spacing="50">
+            <HBox spacing="50">
+                <VBox>
+                    <HBox alignment="CENTER" spacing="25">
+                        <Label styleClass="newGameMenuLabel">Map:</Label>
+                        <ComboBox fx:id="mapCombo"></ComboBox>
+                    </HBox>
+                    <Button text="Add Map" />
+                </VBox>
+                <HBox alignment="CENTER" spacing="25">
+                    <Label styleClass="newGameMenuLabel">Turn Limit:</Label>
+                    <ComboBox fx:id="turnLimitCombo"></ComboBox>
+                </HBox>
             </HBox>
+            <Label styleClass="newGameMenuLabel">Map Preview: {MAP_NAME}</Label>
             <HBox>
-                <Label>Turn Limit</Label>
-                <ComboBox fx:id="turnLimitCombo"></ComboBox>
+                <ImageView>
+                    <image>
+                        <Image requestedHeight="600" requestedWidth="600" url="/img/MapPreview.png"/>
+                    </image>
+                </ImageView>
             </HBox>
-        </HBox>
-        <Label>Map Preview: {MAP_NAME}</Label>
-        <HBox>
-            <ImageView>
-                <image>
-                    <Image requestedHeight="300" requestedWidth="300" url="/img/MapPreview.png"/>
-                </image>
-            </ImageView>
-            <Button text="Start" onAction="#startButtonAction"/>
-        </HBox>
-    </VBox>
-</HBox>
+        </VBox>
+    </HBox>
+</AnchorPane>
