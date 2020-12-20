@@ -22,12 +22,14 @@ public class CollectEvent extends CardEvent{
             affectedPlayer.setMoney(affectedPlayer.getMoney() + amount);
         }
         else if (from.equals("PLAYERS")) {
+            int total = 0;
             for (Player p : players) {
-                if (p != affectedPlayer) {
+                if (p != affectedPlayer && !p.isBankrupt()) {
                     p.setMoney(p.getMoney() - amount);
+                    total += amount;
                 }
             }
-            affectedPlayer.setMoney(affectedPlayer.getMoney() + 3 * amount);
+            affectedPlayer.setMoney(affectedPlayer.getMoney() + total);
         }
     }
 }
