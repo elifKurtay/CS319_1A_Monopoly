@@ -23,11 +23,13 @@ public class Board implements Serializable {
     private ArrayList<Card> chanceCards;
     private ArrayList<Card> communityChestCards;
     private Thief thief;
+    private String mapName;
 
     public Board(File map) {
         spaces = new Space[40];
         // Maybe also read the cards from a file and instantiate them here
         chanceCards = null;
+        mapName = null;
         communityChestCards = null;
         propertyGroupColors = null;
         thief = null;
@@ -38,6 +40,9 @@ public class Board implements Serializable {
 
             // Create a json object containing the map and then access the spaces
             JSONObject jsonMap = new JSONObject(json);
+
+            mapName = jsonMap.getString("mapName");
+
             int propertyGroupCount = jsonMap.getInt("propertyGroupCount");
             System.out.println("Prop group count: " + propertyGroupCount);
 

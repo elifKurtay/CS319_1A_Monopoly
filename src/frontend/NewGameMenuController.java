@@ -44,6 +44,8 @@ public class NewGameMenuController extends MenuController {
     private AnchorPane dynamicBoard;
     @FXML
     private DynamicBoardController dynamicBoardController;
+    @FXML
+    private Label mapNameLabel;
 
     @FunctionalInterface
     public interface IOExceptionActionEvent {
@@ -266,6 +268,7 @@ public class NewGameMenuController extends MenuController {
 
     private void setMapPreview(File map) {
         Board board = new Board(map);
+        mapNameLabel.setText(board.getMapName());
         dynamicBoardController.setDynamicBoard(board);
 
     }

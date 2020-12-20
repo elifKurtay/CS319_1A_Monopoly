@@ -21,7 +21,6 @@
         <Button text="Start" onAction="#startButtonAction"/>
     </VBox>
     <HBox>
-        <Button text="Start" onAction="#startButtonAction"/>
         <VBox id="newGamePlayersSection">
             <VBox fx:id="playerList" id="playerList" spacing="20">
             </VBox>
@@ -43,7 +42,10 @@
                     <ComboBox fx:id="turnLimitCombo"></ComboBox>
                 </HBox>
             </HBox>
-            <Label styleClass="newGameMenuLabel">Map Preview: {MAP_NAME}</Label>
+            <HBox spacing="10">
+                <Label styleClass="newGameMenuLabel">Map Preview: </Label>
+                <Label styleClass="newGameMenuLabel" fx:id="mapNameLabel"></Label>
+            </HBox>
             <HBox>
                 <fx:include source="DynamicBoard.fxml" fx:id="dynamicBoard"/>
             </HBox>
