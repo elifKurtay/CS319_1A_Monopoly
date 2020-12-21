@@ -1,30 +1,16 @@
 package frontend;
 
-import FileManagement.FileManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
-
-import javafx.stage.StageStyle;
-import javafx.util.Duration;
 
 public class MainMenuController {
 
@@ -121,8 +107,9 @@ public class MainMenuController {
      */
     @FXML private void helpButtonAction(ActionEvent event) {
         try {
-            Desktop.getDesktop().open(new File("1A feedback.pdf"));
+            Desktop.getDesktop().open(new File("CS319_1A_Final_Report_Version_2.pdf"));
         } catch (IOException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 }

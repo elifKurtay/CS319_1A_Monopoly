@@ -239,6 +239,7 @@ public class Board implements Serializable {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
     }
 
     public Space getSpace(int index) {return spaces[index];}

@@ -16,7 +16,7 @@ public class ThiefEvent extends CardEvent{
         int target;
         do {
             target = (int)(Math.random()*4);
-        }while (players[target].isBankrupt());
+        }while (players[target].isBankrupt() );
         board.deployThief(players[target]);
     }
 

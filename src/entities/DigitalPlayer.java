@@ -84,10 +84,8 @@ public class DigitalPlayer extends Player{
         //mortgage action
         while(getMoney() < mortgageLimit) {
             Property p = strategy.doMortgage(this);
-            if(p == null){
-                lost(0);
-                break;
-            }
+            if(p == null) break;
+
             p.mortgage();
             setMoney(getMoney() + p.getMortgageValue());
             didMortgage = true;
@@ -162,12 +160,16 @@ public class DigitalPlayer extends Player{
      * @return trade information array
      */
     public int[] getTradeProposal() {
-        if(tradePlayer == null || tradeType < 1)
+        if(tradePlayer == null || tradePlayer.isBankrupt() || tradeType < 1)
             return null;
-        return strategy.doTrade( tradeType, tradePlayer, this);
+        int[] proposal = strategy.doTrade( tradeType, tradePlayer, this);
         //0-2 offered, 3-5 requested
         //proposal[property index, money, card, property index, money, card]
-
+        if(proposal[0] > getProperties().size() || proposal[0] < 0
+                || proposal[3] > tradePlayer.getProperties().size() || proposal[3] < 0
+                || proposal[1] > getMoney() || proposal[4] > tradePlayer.getMoney())
+            return null;
+        return proposal;
     }
 
     /**
@@ -204,7 +206,7 @@ public class DigitalPlayer extends Player{
             //find the richest player
             int index = 0, i = 0, max = 0;
             for(Player p: players) {
-                if(p == this)
+                if(p == this || p.isBankrupt())
                     continue;
                 if(p.getMoney() > max)
                 {
@@ -216,14 +218,14 @@ public class DigitalPlayer extends Player{
             tradePlayer = players[index];
             return 2;
         }
-        ArrayList<Integer> propertyGroups = new ArrayList<Integer>();
+        ArrayList<Integer> propertyGroups = new ArrayList<>();
         for(Property prop: getProperties()){
             if(numberOfPropertiesFromSameGroup(prop) > 1)
                 propertyGroups.add(prop.getPropertyGroup());
         }
         if( ! propertyGroups.isEmpty())
             for(Player p: players) {
-                if(p == this)
+                if(p == this || p.isBankrupt())
                     continue;
                 for(Property property: p.getProperties())
                     if(propertyGroups.contains(property.getPropertyGroup())){

@@ -371,7 +371,7 @@ public class GameScreenController {
         if (sentOffer) {
             trade.offer(offeredProperties, given[0], given[1]);
             trade.want(wantedProperties,requested[0], requested[1]);
-            tradeProposalDialog(trade);
+            tradeProposalDialog(trade, playerToTrade instanceof DigitalPlayer);
         }
     }
 
@@ -379,8 +379,41 @@ public class GameScreenController {
      * Shows a dialog for an offer
      * @param t The offer
      */
-    public void tradeProposalDialog(Trade t) {
-        ;
+    public void tradeProposalDialog(Trade t, boolean digital) {
+        if(digital) {
+            boolean digitalAnswer = ((DigitalPlayer) t.getTarget()).getTradeAnswer(t);
+            String message;
+            if(digitalAnswer)
+                message = t.getTarget() + "accepted the offer from " + t.getOfferer() + " :\n\nOffered: \n\n";
+            else
+                message = t.getTarget() + "declined the offer from " + t.getOfferer() + " :\n\nOffered: \n\n";
+
+            for (Property p : t.getOfferedProperties()) {
+                message += p + "\n";
+            }
+            if (t.getOfferedMoney() != 0) {
+                message += "M" + t.getOfferedMoney() + "\n";
+            }
+            if (t.getOfferedGOOJC() != 0) {
+                message += t.getOfferedGOOJC() + " GOOJF cards\n";
+            }
+
+            message += "\nRequested:\n";
+            for (Property p : t.getWantedProperties()) {
+                message += p + "\n";
+            }
+            if (t.getWantedMoney() != 0) {
+                message += "M" + t.getWantedMoney() + "\n";
+            }
+            if (t.getWantedGOOJC() != 0) {
+                message += t.getWantedGOOJC() + " GOOJ cards";
+            }
+            showMessage(message,null);
+            t.acceptOffer(digital);
+            t.closeTrade();
+            drawPlayerBoxes(game.getPlayers());
+            return;
+        }
         String message = t.getTarget() + ", do you accept the offer  from " + t.getOfferer() + "?\n\nYou Get: \n\n";
         for (Property p : t.getOfferedProperties()) {
             message += p + "\n";
@@ -623,11 +656,18 @@ public class GameScreenController {
                     if(!(ce instanceof ThiefEvent))
                         showMessage(c.getCardText(), null);
                     ce.handleEvent(game.getCurrentPlayer(), game.getPlayers(), game.getBoard());
-                    if(c.getCardEvent() instanceof ThiefEvent){
+                    if(ce instanceof ThiefEvent){
                         drawToken(4, -1, 10);
                         showMessage(c.getCardText() + game.getBoard().getThief().getTarget().getPlayerName(), null);
                     }
                     drawToken(playerNo, oldIndex, game.getCurrentPlayer().getCurrentSpace().getIndex());
+
+                    //remove used card from postponed list
+                    ArrayList<Card> newList = player.getPostponedCards();
+                    newList.remove(c);
+                    player.setPostponedCards(newList);
+
+                    //update player boxes
                     drawPlayerBoxes(game.getPlayers());
                 });
                 vb.getChildren().add(openButton);

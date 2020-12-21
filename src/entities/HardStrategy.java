@@ -54,7 +54,7 @@ public class HardStrategy implements PlayStrategy , Serializable {
             if( number > 0)
                 return highestBid + 10;
         }
-        if(highestBid < property.getValue() || money > (highestBid + 10) * MULTIPLIER)
+        if(highestBid < property.getValue() && money > (highestBid + 10) * MULTIPLIER && highestBid < property.getValue()*1.5)
             return highestBid + 10; //increment bid a fixed amount
         return -1; //fold
     }

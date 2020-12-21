@@ -137,11 +137,22 @@ public class Game extends Observer {
                     } else if (currentPlayer.isJailed() &&
                             currentPlayer.getJailedLapCount() >= currentPlayer.getToken().getJailTime()) {
                         currentPlayer.setJailed(false);
-                        currentPlayer.setMoney(currentPlayer.getMoney() - 50);
+                        currentPlayer.setMoney(currentPlayer.getMoney() - 5);
                         controller.showMessage("released from jail and have lost 5 money!", currentPlayer);
                     } else if (currentPlayer.isJailed()) {
-                        //do wanna pay or use goojf ?
-                        continue;
+                        //get out of jail using GOOJF card
+                        if(currentPlayer.getGetOutOfJailFreeCount() > 0) {
+                            if(!digitalPlayer && controller.twoChoiceDialog("Do you wish to use your Get Out of Jail Free card?", "Yes", "No"))
+                            {
+                                currentPlayer.setJailed(false);
+                                currentPlayer.setGetOutOfJailFreeCount(currentPlayer.getGetOutOfJailFreeCount() - 1);
+                                controller.showMessage("released from jail!", currentPlayer);
+                            } else if (digitalPlayer) {
+                                currentPlayer.setJailed(false);
+                                currentPlayer.setGetOutOfJailFreeCount(currentPlayer.getGetOutOfJailFreeCount() - 1);
+                                controller.showMessage("released from jail!", currentPlayer);
+                            } else continue;
+                        } else continue;
                     }
 
                     //move on board
@@ -181,9 +192,9 @@ public class Game extends Observer {
                         currentPlayer.setMoney(currentPlayer.getMoney() - payment);
                         controller.drawPlayerBoxes(players);
                         if(digitalPlayer)
-                            controller.showMessage(currentPlayer.getPlayerName() + " paid " + payment + "M for tax.", null);
+                            controller.showMessage(currentPlayer.getPlayerName() + " paid M" + payment + " for tax.", null);
                         else
-                            controller.showMessage("You paid " + payment + "M for tax.", null);
+                            controller.showMessage("You paid M" + payment + " for tax.", null);
 
                     } else if (space instanceof WheelOfFortuneSpace) {
                         try{
@@ -201,14 +212,14 @@ public class Game extends Observer {
                         //will it do mortgage?
                         if(((DigitalPlayer) currentPlayer).decideOnMortgageAction())
                             System.out.println("player did mortgage");
-                        //will it do mortgage?
+                        //will it do redeem?
                         if(((DigitalPlayer) currentPlayer).decideOnRedeemAction())
                             System.out.println("player did redeem");
                         //will it trade?
                         Player tradePlayer = ((DigitalPlayer) currentPlayer).decideOnTradeAction(players);
                         if (tradePlayer != null) {
                             int[] tradeProposal = ((DigitalPlayer) currentPlayer).getTradeProposal();
-                            if (tradeProposal != null && currentPlayer.getProperties().size() > tradeProposal[0] && tradeProposal[0] >= 0) {
+                            if (tradeProposal != null ) {
                                 System.out.println("START TRADE");
                                 //sent trade to controller?
                                 Trade digitalPlayerTrade = new Trade(currentPlayer, tradePlayer);
@@ -220,7 +231,7 @@ public class Game extends Observer {
                                 requestedProperty.add(tradePlayer.getProperties().get(tradeProposal[3]));
                                 digitalPlayerTrade.want(requestedProperty, tradeProposal[4], tradeProposal[5]);
 
-                                controller.tradeProposalDialog(digitalPlayerTrade);
+                                controller.tradeProposalDialog(digitalPlayerTrade, tradePlayer instanceof DigitalPlayer);
                             }
                         }
 
@@ -238,10 +249,12 @@ public class Game extends Observer {
                             count++;
                     currentPlayer.lost(count);
                     controller.showMessage("bankrupt!!", currentPlayer);
+                    controller.drawPlayerBoxes(players); //update UI
                 }
                 controller.finishTurn(digitalPlayer);
             }
 
+            //THIEF TURN
             if(!restarted && board.getThief() != null) {
                 thief = board.getThief();
                 if(thief.getCurrentSpace() == null) {
@@ -492,7 +505,8 @@ public class Game extends Observer {
         controller.drawPlayerBoxes(players);
         for(int i = 0; i < LAP; i++) {
             controller.setTokenImage(i, players[i].getToken().getTokenName());
-            controller.drawToken(i, players[i].getCurrentSpace().getIndex(), players[i].getCurrentSpace().getIndex());
+            if(!players[i].isBankrupt())
+                controller.drawToken(i, players[i].getCurrentSpace().getIndex(), players[i].getCurrentSpace().getIndex());
         }
         int playerTurn = 0;
         for(int i = 0; i < players.length; i++){

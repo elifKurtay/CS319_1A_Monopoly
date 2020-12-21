@@ -34,7 +34,7 @@ public class EasyStrategy implements PlayStrategy, Serializable{
     @Override
     public int getBid(Property property, int highestBid, int money, int poorLimit, DigitalPlayer player) {
         //only looks at money
-        if(highestBid < property.getValue() && money > (highestBid + 20) * MULTIPLIER)
+        if(highestBid < property.getValue() && money > (highestBid + 20) * MULTIPLIER && highestBid < property.getValue()*1.5)
             return highestBid + 20; //increment bid a fixed amount
         return -1; //fold
     }
