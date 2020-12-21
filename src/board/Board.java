@@ -3,6 +3,7 @@ package board;
 import card.Card;
 import entities.*;
 import event.*;
+import frontend.GameScreenController;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONArray;
@@ -236,6 +237,16 @@ public class Board implements Serializable {
                 communityChestCards.add(new Card(card.getString("cardText"), e));
             }
             Collections.shuffle(communityChestCards);
+            if (GameScreenController.DEMO){
+                Card democ1 = new Card("", new ThiefEvent());
+                for(Card democ: communityChestCards){
+                    if (democ.getCardEvent() instanceof ThiefEvent){
+                        democ1 = democ;
+                    }
+                }
+                communityChestCards.remove(democ1);
+                communityChestCards.add(0, democ1);
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

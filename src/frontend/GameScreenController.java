@@ -55,6 +55,18 @@ public class GameScreenController {
 
     private Audio obj = Audio.getInstance();
     private final static boolean DEBUG = false;
+    public final static boolean DEMO = true;
+    private final int[] DEMO_D1 = new int[]{1,1,1,1,
+            6,8,9,6,
+            11,4,4,3,
+            1,11,7,7,9,
+            1,1,1,1,1,1,1,1,1,1,1,1};
+    private final int[] DEMO_D2 = new int[]{2,3,4,5,
+            0,0,0,0,
+            0 ,0,0,0,
+            1,0 ,0,0,0,
+            0,0,0,0,0,0,0,0,0,0,0,0};
+    private static int demoLap = 0;
 
     /**
      * Sets the stage
@@ -762,7 +774,13 @@ public class GameScreenController {
      * @return Results of the rolls
      */
     public int[] rollDice(String name, boolean digital) {
-        if (DEBUG && !digital) {
+        if(DEMO){
+            int dice1 = DEMO_D1[demoLap];
+            int dice2 = DEMO_D2[demoLap];
+            demoLap++;
+            return new int[]{dice1, dice2};
+        }
+        else if (DEBUG && !digital) {
             Scanner scan = new Scanner(System.in);
             int dice1 = scan.nextInt();
             int dice2 = scan.nextInt();

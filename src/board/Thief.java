@@ -1,6 +1,7 @@
 package board;
 
 import entities.Player;
+import frontend.GameScreenController;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -63,6 +64,10 @@ public class Thief implements Serializable {
             dice = (int) (Math.random() * 6 + 6); //[6,12]
         else
             dice = difference; //caught!
+
+        if (GameScreenController.DEMO){
+            return 6;
+        }
 
         lapCount++;
         return dice;

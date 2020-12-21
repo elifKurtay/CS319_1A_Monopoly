@@ -2,6 +2,7 @@ package event;
 
 import board.Board;
 import entities.Player;
+import frontend.GameScreenController;
 
 public class ThiefEvent extends CardEvent{
 
@@ -17,6 +18,10 @@ public class ThiefEvent extends CardEvent{
         do {
             target = (int)(Math.random()*4);
         }while (players[target].isBankrupt());
+        if (GameScreenController.DEMO){
+            board.deployThief(players[3]);
+            return;
+        }
         board.deployThief(players[target]);
     }
 
