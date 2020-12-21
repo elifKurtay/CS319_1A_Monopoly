@@ -71,6 +71,8 @@ Label {
 .corner {
     -fx-min-width: 60px;
     -fx-min-height: 60px;
+    -fx-max-height: 60px;
+    -fx-max-width: 60px;
     -fx-background-color: #d8fbf5;
 
     -fx-border-style: solid;

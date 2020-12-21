@@ -86,7 +86,7 @@ public class LandProperty extends Property {
      */
     public boolean canBuild() {
         ArrayList<Property> properties = owner.getAllPropertiesFromSameGroup(this);
-        if (properties.size() != Property.numberOfPropertiesInGroups[propertyGroup]) {
+        if (properties.size() == Property.numberOfPropertiesInGroups[propertyGroup]) {
             int houseSum = 0;
             for (Property p : properties) {
                 houseSum += ((LandProperty) p).getNumOfHouses();
@@ -104,12 +104,12 @@ public class LandProperty extends Property {
      */
     public boolean canSellHouse() {
         ArrayList<Property> properties = owner.getAllPropertiesFromSameGroup(this);
-        if (properties.size() != Property.numberOfPropertiesInGroups[propertyGroup]) {
+        if (properties.size() == Property.numberOfPropertiesInGroups[propertyGroup]) {
             int houseSum = 0;
             for (Property p : properties) {
                 houseSum += ((LandProperty) p).getNumOfHouses();
             }
-            return (numOfHouses - 1 - houseSum/Property.numberOfPropertiesInGroups[propertyGroup]) == 0;
+            return (numOfHouses - Math.ceil(((double)houseSum)/Property.numberOfPropertiesInGroups[propertyGroup])) == 0;
         }
         return false;
     }

@@ -176,6 +176,13 @@ public class GameScreenController {
         }
         ChoiceDialog<Player> dialog = new ChoiceDialog<>(players.get(0), players);
         dialog.setHeaderText("Choose a player to trade with");
+        dialog.setX(420);
+        dialog.setY(420);
+        dialog.getDialogPane().getStylesheets().add("fxml/style.css");
+        dialog.getDialogPane().getStyleClass().add("alertDialogue");
+        dialog.initStyle(StageStyle.UNDECORATED);
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setGraphic(null);
         dialog.showAndWait();
         Player playerToTrade = dialog.getResult();
         System.out.println(playerToTrade);
@@ -189,6 +196,8 @@ public class GameScreenController {
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.setHeaderText("");
         alert.setGraphic(null);
+        alert.setX(420);
+        alert.setY(420);
         alert.getDialogPane().getStylesheets().add("fxml/style.css");
         alert.getDialogPane().getStyleClass().add("alertDialogue");
         alert.initOwner(stage);
@@ -424,6 +433,8 @@ public class GameScreenController {
                     ChoiceDialog<Property> dialog = new ChoiceDialog<>();
                     dialog.getItems().addAll(currentPlayer.getAllPropertiesFromSameGroup(p));
                     dialog.setHeaderText("Choose a property to build on");
+                    dialog.setX(420);
+                    dialog.setY(420);
                     dialog.showAndWait();
                     LandProperty propertyToBuild = (LandProperty) dialog.getResult();
                     boolean build = twoChoiceDialog("Do you want to build or sell a house?", "Build", "Sell");
@@ -509,6 +520,9 @@ public class GameScreenController {
         assetsDialog.initStyle(StageStyle.UNDECORATED);
         assetsDialog.initModality(Modality.APPLICATION_MODAL);
 
+        assetsDialog.setX(420);
+        assetsDialog.setY(420);
+
         assetsDialog.setHeaderText(currentPlayer.getPlayerName() + ", choose to mortgage");
         assetsDialog.setGraphic(null);
         assetsDialog.getDialogPane().getStylesheets().add("fxml/style.css");
@@ -548,6 +562,9 @@ public class GameScreenController {
 
         assetsDialog.initStyle(StageStyle.UNDECORATED);
         assetsDialog.initModality(Modality.APPLICATION_MODAL);
+
+        assetsDialog.setX(420);
+        assetsDialog.setY(420);
 
         assetsDialog.setHeaderText(currentPlayer.getPlayerName() + ", choose to redeem");
         assetsDialog.setGraphic(null);
@@ -598,12 +615,12 @@ public class GameScreenController {
         vbTop.setSpacing(5);
         vbTop.setStyle("-fx-background-color:  #FF8A00");
         assetsDialog.getDialogPane().setContent(vbTop);
-        for (int i = 0; i < (player.getProperties().size()/5) + 1; i++) {
+        for (int i = 0; i < (player.getProperties().size()/7) + 1; i++) {
             HBox hb = new HBox();
             hb.setSpacing(5);
-            for (int j = 0; j < 5; j++) {
-                if (player.getProperties().size() > (i*5 + j)) {
-                    VBox vb = buildTitleDeedCard(player.getProperties().get(i*5 + j));
+            for (int j = 0; j < 7; j++) {
+                if (player.getProperties().size() > (i*7 + j)) {
+                    VBox vb = buildTitleDeedCard(player.getProperties().get(i*7 + j));
                     hb.getChildren().add(vb);
                 }
             }
@@ -667,6 +684,7 @@ public class GameScreenController {
                     count++;
             player.lost(count);
         }
+        drawPlayerBoxes(game.getPlayers());
     }
 
     /**
@@ -1108,6 +1126,8 @@ public class GameScreenController {
         alert.setGraphic(null);
         alert.getDialogPane().getStylesheets().add("fxml/style.css");
         alert.getDialogPane().getStyleClass().add("alertDialogue");
+        alert.setX(420);
+        alert.setY(420);
 
 
         FileInputStream f = new FileInputStream("assets/img/gifFiles/wheelOfFortune.gif");
@@ -1121,6 +1141,8 @@ public class GameScreenController {
         gifAlert.setGraphic(null);
         gifAlert.getDialogPane().getStylesheets().add("fxml/style.css");
         gifAlert.getDialogPane().getStyleClass().add("alertDialogue");
+        gifAlert.setX(210);
+        gifAlert.setY(210);
 
         VBox vbox = new VBox();
         vbox.setSpacing(20);
@@ -1181,6 +1203,11 @@ public class GameScreenController {
         alert.setContentText(message);
         ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText(ok);
         ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText(cancel);
+
+        alert.setX(420);
+        alert.setY(420);
+        alert.getDialogPane().getStylesheets().add("fxml/style.css");
+        alert.getDialogPane().getStyleClass().add("alertDialogue");
 
         alert.showAndWait();
         return alert.getResult() == ButtonType.OK;

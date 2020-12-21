@@ -23,6 +23,9 @@ public class UtilityProperty extends Property {
     @Override
     public int getRent(Player playerToPay) {
         int numberOfTitlesFromSameGroup = owner.numberOfPropertiesFromSameGroup(this);
+        if (numberOfTitlesFromSameGroup == 0) {
+            System.out.println("AB123");
+        }
         int rent = rents[numberOfTitlesFromSameGroup-1] * playerToPay.getCurrentDiceSum();
         return (int) (rent * playerToPay.getToken().getRentPayMultiplier() * owner.getToken().getRentCollectMultiplier());
     }

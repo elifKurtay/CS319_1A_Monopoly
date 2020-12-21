@@ -212,16 +212,19 @@ public class DynamicBoardController {
      */
     public void drawHouse(int index, int numOfHouses) {
         ((Pane) getSpaceBox(index).lookup("#colorPane")).getChildren().clear();
+        String style =  "-fx-max-height: 15px; -fx-max-width: 15px; " +
+                        "-fx-max-height: 15px; -fx-max-width: 15px;" +
+                        "-fx-border-width: 1px; -fx-border-style: solid";
         if (numOfHouses == 5) {
             Pane hotelPane = new Pane();
-            hotelPane.setStyle("-fx-background-color: red; -fx-max-height: 15px; -fx-max-width: 15px");
+            hotelPane.setStyle("-fx-background-color: red;" + style);
             //((Pane) getSpaceBox(index).lookup("#colorPane")).getChildren().add(new Label("HOTEL"));
             ((Pane) getSpaceBox(index).lookup("#colorPane")).getChildren().add(hotelPane);
         }
         else {
             for (int i = 0; i < numOfHouses; i++) {
                 Pane housePane = new Pane();
-                housePane.setStyle("-fx-background-color: red; -fx-min-height: 15px; -fx-min-width: 15px; -fx-max-height: 15px; -fx-max-width: 15px");
+                housePane.setStyle("-fx-background-color: green;" + style);
                 //((Pane) getSpaceBox(index).lookup("#colorPane")).getChildren().add(new Label("HOUSE"));
                 ((Pane) getSpaceBox(index).lookup("#colorPane")).getChildren().add(housePane);
             }
