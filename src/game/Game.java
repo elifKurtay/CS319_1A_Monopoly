@@ -133,26 +133,35 @@ public class Game extends Observer {
                         continue;
                     } else if (currentPlayer.isJailed() && doublesCount > 0) {
                         currentPlayer.setJailed(false);
+                        currentPlayer.setJailedLapCount( 0);
                         controller.showMessage("released from jail!", currentPlayer);
                     } else if (currentPlayer.isJailed() &&
                             currentPlayer.getJailedLapCount() >= currentPlayer.getToken().getJailTime()) {
                         currentPlayer.setJailed(false);
+                        currentPlayer.setJailedLapCount( 0);
                         currentPlayer.setMoney(currentPlayer.getMoney() - 5);
-                        controller.showMessage("released from jail and have lost 5 money!", currentPlayer);
+                        controller.showMessage("released from jail and have lost M5 money!", currentPlayer);
                     } else if (currentPlayer.isJailed()) {
                         //get out of jail using GOOJF card
                         if(currentPlayer.getGetOutOfJailFreeCount() > 0) {
                             if(!digitalPlayer && controller.twoChoiceDialog("Do you wish to use your Get Out of Jail Free card?", "Yes", "No"))
                             {
                                 currentPlayer.setJailed(false);
+                                currentPlayer.setJailedLapCount( 0);
                                 currentPlayer.setGetOutOfJailFreeCount(currentPlayer.getGetOutOfJailFreeCount() - 1);
                                 controller.showMessage("released from jail!", currentPlayer);
                             } else if (digitalPlayer) {
                                 currentPlayer.setJailed(false);
                                 currentPlayer.setGetOutOfJailFreeCount(currentPlayer.getGetOutOfJailFreeCount() - 1);
                                 controller.showMessage("released from jail!", currentPlayer);
-                            } else continue;
-                        } else continue;
+                            } else {
+                                currentPlayer.setJailedLapCount( currentPlayer.getJailedLapCount() + 1);
+                                continue;
+                            }
+                        } else {
+                            currentPlayer.setJailedLapCount( currentPlayer.getJailedLapCount() + 1);
+                            continue;
+                        }
                     }
 
                     //move on board
@@ -176,6 +185,7 @@ public class Game extends Observer {
                         drawCard(currentPlayer, (CardSpace) space);
                         if(currentPlayer.isJailed()) {
                             doublesCount = 0;
+                            currentPlayer.setJailedLapCount( currentPlayer.getJailedLapCount() + 1);
                             continue;
                         }
                     } else if (space instanceof GoToJailSpace) {
