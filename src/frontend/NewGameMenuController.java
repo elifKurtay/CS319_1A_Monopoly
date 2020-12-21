@@ -18,6 +18,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
 import org.eclipse.jetty.util.IO;
@@ -26,6 +27,7 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.io.IOException;
 
@@ -39,7 +41,7 @@ public class NewGameMenuController extends MenuController {
     @FXML
     private ComboBox<String> mapCombo;
     @FXML
-    private ComboBox<Integer> turnLimitCombo;
+    private ComboBox<String> turnLimitCombo;
     @FXML
     private AnchorPane dynamicBoard;
     @FXML
@@ -47,6 +49,7 @@ public class NewGameMenuController extends MenuController {
     @FXML
     private Label mapNameLabel;
 
+    private File selectedMap;
     @FunctionalInterface
     public interface IOExceptionActionEvent {
         void a() throws IOException;
@@ -66,9 +69,11 @@ public class NewGameMenuController extends MenuController {
         File mapFolder = new File("./assets/maps/");
         File[] maps = mapFolder.listFiles();
 
+
         for (File map: maps) {
             if (map.isFile()) {
-                mapCombo.getItems().add(map.getName());
+                String s = map.getName().split("(.json)", 0)[0];
+                mapCombo.getItems().add(s);
             }
         }
         mapCombo.getSelectionModel().select(mapCombo.getItems().get(0));
@@ -77,14 +82,13 @@ public class NewGameMenuController extends MenuController {
         dynamicBoard.getStylesheets().add("fxml/mapPreview.css");
         dynamicBoard.applyCss();
 
-        setMapPreview(new File("./assets/maps/" + mapCombo.getValue()));
+        setMapPreview(new File("./assets/maps/" + mapCombo.getValue() + ".json"));
 
         mapCombo.setOnAction(event -> {
-            dynamicBoardController.clearMap();
-            setMapPreview(new File("./assets/maps/" + mapCombo.getValue()));
+            setMapPreview(new File("./assets/maps/" + mapCombo.getValue() + ".json"));
         });
 
-        turnLimitCombo.getItems().addAll(-1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50);
+        turnLimitCombo.getItems().addAll("Unlimited", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "75", "100", "125", "150", "175", "200");
         turnLimitCombo.getSelectionModel().select(turnLimitCombo.getItems().get(0));
     }
 
@@ -102,7 +106,7 @@ public class NewGameMenuController extends MenuController {
             GameScreenController controller = loader.getController();
             controller.setStage(getStage());
 
-            File map = (new File("./assets/maps/" + mapCombo.getValue()));
+            //File map = (new File("./assets/maps/" + mapCombo.getValue()  + ".json"));
 
             //controller.startGame(map, currentHumanPlayers, players, turnLimitCombo.getValue());
             Scene s = new Scene(root, getStage().getWidth(), getStage().getHeight());
@@ -110,7 +114,14 @@ public class NewGameMenuController extends MenuController {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH.mm");
             String gameName = dtf.format(LocalDateTime.now()) + "$" + Arrays.hashCode(players);
             System.out.println("GAME NAME: " + gameName);
-            Game game = new Game(gameName, map, currentHumanPlayers, players, turnLimitCombo.getValue(), controller);
+            int turnLimit;
+            if (turnLimitCombo.getValue().equals("Unlimited")) {
+                turnLimit = -1;
+            }
+            else {
+                turnLimit = Integer.parseInt(turnLimitCombo.getValue());
+            }
+            Game game = new Game(gameName, selectedMap, currentHumanPlayers, players, turnLimit, controller);
             controller.setGame(game);
             game.startGame();
         }
@@ -266,9 +277,18 @@ public class NewGameMenuController extends MenuController {
         }
     }
 
+    @FXML
+    public void addMapButtonAction(ActionEvent e) {
+        FileChooser fileChooser = new FileChooser();
+        File map = fileChooser.showOpenDialog(getStage());
+        setMapPreview(map);
+    }
+
     private void setMapPreview(File map) {
         Board board = new Board(map);
+        selectedMap = map;
         mapNameLabel.setText(board.getMapName());
+        dynamicBoardController.clearMap();
         dynamicBoardController.setDynamicBoard(board);
 
     }

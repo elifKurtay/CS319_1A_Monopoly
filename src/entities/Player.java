@@ -117,7 +117,7 @@ public class Player implements Serializable {
      * @return
      */
     public int numberOfPropertiesFromSameGroup( Property propertyToCheck) {
-        int[] propertyGroupCounts = new int[10];
+        int[] propertyGroupCounts = new int[Property.getNumberOfPropertiesInGroups().length];
         for (Property p : properties) {
             propertyGroupCounts[p.getPropertyGroup()] += 1;
         }

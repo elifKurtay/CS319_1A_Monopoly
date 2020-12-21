@@ -28,6 +28,7 @@
                 <Button text="Add Player" onAction="#addPlayerButtonAction"/>
             </HBox>
         </VBox>
+        <VBox id="borderRed"></VBox>
         <VBox id="newGameMapSection" spacing="50">
             <HBox spacing="50">
                 <VBox>
@@ -35,7 +36,7 @@
                         <Label styleClass="newGameMenuLabel">Map:</Label>
                         <ComboBox fx:id="mapCombo"></ComboBox>
                     </HBox>
-                    <Button text="Add Map" />
+                    <Button text="Add Map"  onAction="#addMapButtonAction"/>
                 </VBox>
                 <HBox alignment="CENTER" spacing="25">
                     <Label styleClass="newGameMenuLabel">Turn Limit:</Label>
